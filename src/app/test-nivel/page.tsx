@@ -4,9 +4,9 @@ import LevelTestInteractive from "@/components/test/LevelTestInteractive";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Test de Nivel de Inglés Online Gratis | Test English A1-C2",
+  title: "Test de Nivel de Inglés Gratis Online (A1-C2) | Linguafly",
   description:
-    "Haz tu test de nivel inglés online gratis y descubre tu nivel de inglés en 15 minutos. Test inglés y test English con 24 preguntas CEFR (A1-C2). Resultados inmediatos sin registro.",
+    "Descubre tu nivel de inglés con este test online gratis de 25 preguntas. Evalúa gramática, vocabulario y comprensión del A1 al C2 según el MCER. Resultado inmediato y sin registro.",
   keywords: [
     "test ingles",
     "test English",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Test de Nivel de Inglés Online Gratis | Test English A1-C2",
     description:
-      "Test de nivel inglés online gratuito. Evalúa tu nivel de inglés con 24 preguntas CEFR y recibe tu resultado al instante.",
+      "Haz gratis el test de nivel de inglés de 25 preguntas. Evalúa tu nivel A1-C2 y consulta tu resultado orientativo al instante.",
     url: "https://linguafly.app/test-nivel",
     type: "website",
     locale: "es_ES",
@@ -59,7 +59,7 @@ export default async function DiagnosticoPage() {
               <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-slate-600">
                 <div className="flex items-center gap-2">
                   <span className="text-coral-600">✓</span>
-                  <span>15-20 minutos</span>
+                  <span>10-15 minutos</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-coral-600">✓</span>
@@ -109,7 +109,7 @@ export default async function DiagnosticoPage() {
                   Rápido y Eficiente
                 </h3>
                 <p className="text-sm text-slate-700">
-                  Solo 15-20 minutos para obtener una evaluación completa de tu nivel.
+                  25 preguntas para obtener una estimación orientativa de tu nivel de inglés.
                 </p>
               </div>
 
@@ -268,7 +268,7 @@ export default async function DiagnosticoPage() {
                   <span className="text-coral-600 group-open:rotate-180 transition-transform">▼</span>
                 </summary>
                 <p className="text-slate-700 mt-4">
-                  El test tiene 24 preguntas y generalmente toma entre 15 y 20 minutos. Puedes hacerlo a tu propio ritmo.
+                  El test tiene 25 preguntas y generalmente toma entre 15 y 20 minutos. Puedes hacerlo a tu propio ritmo.
                 </p>
               </details>
 
@@ -314,7 +314,7 @@ export default async function DiagnosticoPage() {
             "@type": "WebPage",
             name: "Test de Nivel de Inglés Online Gratis",
             description:
-              "Test de nivel inglés online gratuito. Evalúa tu nivel de inglés con 24 preguntas CEFR de A1 a C2.",
+              "Test de nivel inglés online gratuito. Evalúa tu nivel de inglés con 25 preguntas CEFR de A1 a C2.",
             url: "https://linguafly.app/test-nivel",
             inLanguage: "es",
             about: {
