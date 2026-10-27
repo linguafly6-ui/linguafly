@@ -71,7 +71,7 @@ jobs:
             let content = fs.readFileSync(file, 'utf8');
             const pattern = file.endsWith('.jsonc')
               ? /("database_name"\s*:\s*"linguafly_db"\s*,\s*"database_id"\s*:\s*")[^"]+(")/
-              : /(database_name\s*=\s*"linguafly_db"\s*\n\s*database_id\s*=\s*")[^"]+(")/
+              : /(database_name\s*=\s*"linguafly_db"\s*\n\s*database_id\s*=\s*")[^"]+(")/;
             if (!pattern.test(content)) {
               console.error('::error::Could not locate the linguafly_db ID in ' + file);
               process.exit(1);
