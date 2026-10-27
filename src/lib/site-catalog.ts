@@ -483,7 +483,6 @@ const LEGACY_HOME_REDIRECT_PREFIXES = [
   "/monetag",
   "/practice",
   "/preview",
-  "/test-nivel",
   "/test-toefl",
   "/test-translation",
   "/tutor-privado",
