@@ -608,7 +608,7 @@ const packs: Pack[] = [
     { question: "Complete: April, May, ___.", answer: "June" },
     { question: "Complete: Tuesday, Wednesday, ___.", answer: "Thursday" },
     { question: "A date includes a day, a month and a ___.", answer: "year" }
-  ] },,
+  ] },
   { slug: "b1-narrative-tenses", title: "Narrative Tenses", level: "B1", count: 5, instruction: "Complete each sentence with the correct word or structure.", items: [
     { question: "When I arrived, they ___ dinner. (eat)", answer: "were eating" },
     { question: "She ___ before the rain started. (leave)", answer: "had left" },
