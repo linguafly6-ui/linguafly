@@ -38,11 +38,11 @@
     }
   ],
   // D1 (SQLite) — origen de verdad del contenido público.
-  // Migraciones: wrangler d1 migrations apply linguafly_db --remote
+  // Migraciones: wrangler d1 migrations apply blog --remote
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "linguafly_db",
+      "database_name": "blog",
       "database_id": "476f34d4-5622-4a56-923e-c4fb571578c2",
       "migrations_dir": "migrations/d1"
     }
