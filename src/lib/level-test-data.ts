@@ -166,6 +166,18 @@ export const LEVEL_TEST_QUESTIONS: Question[] = [
     correctAnswer: 1,
   },
 
+
+  {
+    id: 'b1-5',
+    type: 'multiple-choice',
+    skill: 'grammar',
+    level: 'B1',
+    points: 3,
+    question: 'She has lived in Madrid ___ 2020.',
+    options: ['for', 'since', 'during', 'from'],
+    correctAnswer: 1,
+  },
+
   // ===== B2 LEVEL =====
   {
     id: 'b2-1',
