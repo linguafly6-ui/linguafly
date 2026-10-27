@@ -64,6 +64,7 @@ export function Navigation() {
               )}
             </div>
             <Link href="/blog" className={linkClass}>Artículos</Link>
+            <Link href="/test-nivel" className="rounded-full bg-gradient-to-r from-coral-500 to-peach-500 px-4 py-2 text-xs font-black text-white shadow-sm transition hover:opacity-90">Test de nivel</Link>
             <Link
               href="/ejercicios-ingles-pdf"
               className="rounded-full border border-coral-200 bg-coral-50 px-4 py-2 text-xs font-black text-coral-700 shadow-sm transition hover:border-coral-300 hover:bg-coral-100"
@@ -104,6 +105,13 @@ export function Navigation() {
                   {vertical.icon} {vertical.name}
                 </Link>
               ))}
+              <Link
+                href="/test-nivel"
+                className="inline-flex w-fit items-center rounded-full bg-gradient-to-r from-coral-500 to-peach-500 px-4 py-2 text-sm font-extrabold text-white"
+                onClick={closeMobileMenu}
+              >
+                🎯 Test de nivel de inglés
+              </Link>
               <Link
                 href="/ejercicios-ingles-pdf"
                 className="inline-flex w-fit items-center rounded-full border border-coral-200 bg-coral-50 px-4 py-2 text-sm font-extrabold text-coral-700"
