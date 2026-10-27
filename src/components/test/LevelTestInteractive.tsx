@@ -111,14 +111,7 @@ export default function LevelTestInteractive({ authUser = null }: LevelTestInter
 
   const handleNext = () => {
     if (isLastQuestion) {
-      if (isAuthenticated) {
-        void finalizeTest({
-          firstName: resolvedUserName,
-          email: resolvedUserEmail,
-        });
-      } else {
-        setShowLeadForm(true);
-      }
+      void finalizeTest();
     } else {
       setCurrentQuestionIndex(prev => prev + 1);
     }
@@ -225,68 +218,6 @@ export default function LevelTestInteractive({ authUser = null }: LevelTestInter
             Comenzar Test
             <ArrowRight className="w-5 h-5" />
           </button>
-        </div>
-      </div>
-    );
-  }
-
-  // Lead capture form screen
-  if (showLeadForm) {
-    return (
-      <div className="max-w-3xl mx-auto">
-        <div className="bg-white rounded-2xl shadow-xl border border-slate-200 p-8 md:p-12">
-          <div className="text-center mb-8">
-            <div className="w-20 h-20 bg-gradient-to-br from-coral-500 to-peach-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <Award className="w-10 h-10 text-white" />
-            </div>
-            <h2 className="text-3xl font-black text-slate-900 mb-4">
-              ¡Test Completado!
-            </h2>
-            <p className="text-lg text-slate-600">
-              Introduce tus datos para ver tu nivel detallado y recibir recomendaciones personalizadas.
-            </p>
-          </div>
-
-          <form onSubmit={handleSubmitLead} className="space-y-6">
-            <div>
-              <label className="block text-sm font-bold text-slate-700 mb-2">
-                Nombre Completo
-              </label>
-              <input
-                type="text"
-                required
-                value={leadData.firstName}
-                onChange={(e) => setLeadData(prev => ({ ...prev, firstName: e.target.value }))}
-                className="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-coral-500 focus:outline-none transition-colors"
-                placeholder="Ej: Juan Pérez"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-bold text-slate-700 mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                required
-                value={leadData.email}
-                onChange={(e) => setLeadData(prev => ({ ...prev, email: e.target.value }))}
-                className="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-coral-500 focus:outline-none transition-colors"
-                placeholder="tu@email.com"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-gradient-to-r from-coral-600 to-peach-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:from-coral-700 hover:to-peach-700 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 disabled:opacity-50"
-            >
-              {isSubmitting ? 'Procesando...' : 'Ver Resultados Ahora'}
-              <ArrowRight className="w-5 h-5" />
-            </button>
-            <p className="text-xs text-center text-slate-500">
-              Al ver los resultados, aceptas recibir información sobre nuestros cursos.
-            </p>
-          </form>
         </div>
       </div>
     );
