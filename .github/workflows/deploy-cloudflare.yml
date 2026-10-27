@@ -45,7 +45,7 @@ jobs:
           npx wrangler d1 list --json > /tmp/d1-databases.json
           node <<'NODE'
           const fs = require('node:fs');
-          const wantedName = 'linguafly_db';
+          const wantedName = 'blog';
           const raw = JSON.parse(fs.readFileSync('/tmp/d1-databases.json', 'utf8'));
           const matches = [];
           function walk(value) {
@@ -62,24 +62,24 @@ jobs:
           const ids = [...new Set(matches)];
           if (ids.length !== 1) {
             console.error(ids.length === 0
-              ? '::error::No D1 database named linguafly_db was found in the configured Cloudflare account. Check CLOUDFLARE_ACCOUNT_ID, token permissions, and whether the database still exists. No database was created automatically.'
-              : '::error::More than one D1 database named linguafly_db was returned; refusing to choose one automatically.');
+              ? '::error::No D1 database named blog was found in the configured Cloudflare account. Check CLOUDFLARE_ACCOUNT_ID, token permissions, and whether the database still exists. No database was created automatically.'
+              : '::error::More than one D1 database named blog was returned; refusing to choose one automatically.');
             process.exit(1);
           }
           const actualId = ids[0];
           for (const file of ['wrangler.jsonc', 'wrangler.toml']) {
             let content = fs.readFileSync(file, 'utf8');
             const pattern = file.endsWith('.jsonc')
-              ? /("database_name"\s*:\s*"linguafly_db"\s*,\s*"database_id"\s*:\s*")[^"]+(")/
-              : /(database_name\s*=\s*"linguafly_db"\s*\n\s*database_id\s*=\s*")[^"]+(")/;
+              ? /("database_name"\s*:\s*"blog"\s*,\s*"database_id"\s*:\s*")[^"]+(")/
+              : /(database_name\s*=\s*"blog"\s*\n\s*database_id\s*=\s*")[^"]+(")/;
             if (!pattern.test(content)) {
-              console.error('::error::Could not locate the linguafly_db ID in ' + file);
+              console.error('::error::Could not locate the blog ID in ' + file);
               process.exit(1);
             }
             content = content.replace(pattern, '$1' + actualId + '$2');
             fs.writeFileSync(file, content);
           }
-          console.log('Resolved linguafly_db ID from the configured Cloudflare account and updated the runner-local Wrangler configs.');
+          console.log('Resolved blog ID from the configured Cloudflare account and updated the runner-local Wrangler configs.');
           NODE
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -87,7 +87,7 @@ jobs:
           CI: true
 
       - name: Apply D1 migrations
-        run: npx wrangler d1 migrations apply linguafly_db --remote
+        run: npx wrangler d1 migrations apply blog --remote
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -100,7 +100,7 @@ jobs:
           rm -rf "$SEED_DIR"
           mkdir -p "$SEED_DIR"
 
-          if npx wrangler d1 execute linguafly_db --remote --json --command "SELECT category, slug, content_hash FROM articles" > "$HASHES"; then
+          if npx wrangler d1 execute blog --remote --json --command "SELECT category, slug, content_hash FROM articles" > "$HASHES"; then
             echo "Incremental D1 sync using content_hash fingerprints."
             npx tsx scripts/sync-articles-to-d1.ts --sql-out-dir "$SEED_DIR" --hashes-from "$HASHES"
           else
@@ -116,7 +116,7 @@ jobs:
           fi
           for f in "${files[@]}"; do
             echo "Seeding $(basename "$f")"
-            npx wrangler d1 execute linguafly_db --remote --file="$f" --yes
+            npx wrangler d1 execute blog --remote --file="$f" --yes
           done
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
