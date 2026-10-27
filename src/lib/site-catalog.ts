@@ -399,6 +399,7 @@ const EXACT_PUBLIC_PATHS = new Set([
   "/contacto",
   "/mesas",
   "/sobre-nosotros",
+  "/test-nivel",
   "/robots.txt",
   "/sitemap.xml",
   "/llms.txt",
