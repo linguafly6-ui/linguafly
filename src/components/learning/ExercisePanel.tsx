@@ -19,13 +19,42 @@ export function ExercisePanel({ lessonId }: { lessonId: string }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState<string | null>(null);
+  const [hydratedLesson, setHydratedLesson] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
     setLoading(true);
     setError("");
-    setAnswers({});
-    setFeedback({});
+    setHydratedLesson(null);
+    try {
+      const saved = window.localStorage.getItem(`linguafly:a1:exercise:${lessonId}`);
+      if (saved) {
+        const parsed: unknown = JSON.parse(saved);
+        if (parsed && typeof parsed === "object") {
+          const state = parsed as { answers?: unknown; feedback?: unknown };
+          if (state.answers && typeof state.answers === "object" && !Array.isArray(state.answers)) {
+            setAnswers(state.answers as Record<string, string>);
+          } else {
+            setAnswers({});
+          }
+          if (state.feedback && typeof state.feedback === "object" && !Array.isArray(state.feedback)) {
+            setFeedback(state.feedback as Record<string, Feedback>);
+          } else {
+            setFeedback({});
+          }
+        } else {
+          setAnswers({});
+          setFeedback({});
+        }
+      } else {
+        setAnswers({});
+        setFeedback({});
+      }
+    } catch {
+      setAnswers({});
+      setFeedback({});
+    }
+    setHydratedLesson(lessonId);
     fetch(`/api/learning/lessons/${encodeURIComponent(lessonId)}/exercises`, { cache: "no-store" })
       .then(async (response) => {
         if (!response.ok) throw new Error("No se han podido cargar los ejercicios.");
@@ -36,6 +65,18 @@ export function ExercisePanel({ lessonId }: { lessonId: string }) {
       .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
   }, [lessonId]);
+
+  useEffect(() => {
+    if (hydratedLesson !== lessonId) return;
+    try {
+      window.localStorage.setItem(
+        `linguafly:a1:exercise:${lessonId}`,
+        JSON.stringify({ answers, feedback })
+      );
+    } catch {
+      // Exercise state is a convenience; storage failures must not block practice.
+    }
+  }, [answers, feedback, hydratedLesson, lessonId]);
 
   async function checkAnswer(exercise: Exercise) {
     const answer = answers[exercise.id];
