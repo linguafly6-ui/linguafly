@@ -24,6 +24,13 @@ export async function GET(request: NextRequest) {
     ).bind(tokenHash, now).first<{ email: string }>();
     if (!tokenRow) return fail();
 
+    const subscription = await env.DB.prepare(
+      "SELECT id FROM learning_subscriptions WHERE email = ? AND status IN ('active', 'trialing') AND (current_period_end IS NULL OR current_period_end > ?) LIMIT 1"
+    ).bind(tokenRow.email.toLowerCase(), now).first<{ id: string }>();
+    if (!subscription) {
+      return NextResponse.redirect(new URL("https://linguafly.app/crear-cuenta?error=suscripcion-requerida"), 303);
+    }
+
     // Consume once only; concurrent requests cannot redeem the same link twice.
     const consumed = await env.DB.prepare(
       "UPDATE learning_auth_tokens SET consumed_at = ? WHERE token_hash = ? AND consumed_at IS NULL AND expires_at > ?"
