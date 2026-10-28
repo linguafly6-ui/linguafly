@@ -15,8 +15,20 @@ import { compareCourseUnitArticles } from "@/lib/content/course-unit-order";
 import { articleContentHash } from "@/lib/db/article-hash";
 import { getArticleOgImagePath } from "@/lib/seo/og-images";
 
+export interface CloudflareEmailBinding {
+  send(message: {
+    to: string;
+    from: string;
+    subject: string;
+    text: string;
+    html?: string;
+  }): Promise<{ messageId: string }>;
+}
+
 export interface CloudflareEnv {
   DB: D1Database;
+  EMAIL?: CloudflareEmailBinding;
+  EMAIL_TEST_TOKEN?: string;
   CACHE?: KVNamespace;
   SEARCH_INDEX?: KVNamespace;
   ARTICLES_BUCKET?: R2Bucket;
