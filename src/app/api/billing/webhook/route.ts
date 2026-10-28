@@ -11,6 +11,12 @@ type StripeObject = {
   subscription?: string | { id?: string } | null;
   customer_email?: string | null;
   customer_details?: { email?: string | null } | null;
+  amount_paid?: number;
+  currency?: string;
+  hosted_invoice_url?: string | null;
+  invoice_pdf?: string | null;
+  number?: string | null;
+  billing_reason?: string | null;
   metadata?: { email?: string; plan?: string } | null;
   status?: string;
   mode?: string;
@@ -76,7 +82,39 @@ export async function POST(request: NextRequest) {
     const currentPeriodEnd = periodEnd(obj.current_period_end);
     const cancelAtPeriodEnd = obj.cancel_at_period_end ? 1 : 0;
 
-    if (event.type === "checkout.session.completed" && obj.mode !== "payment") {
+    if (event.type === "invoice.paid") {
+      // Invoice.paid is the reliable source for both the first and recurring successful payments.
+      const invoiceEmail = (obj.customer_email || obj.customer_details?.email || "").trim().toLowerCase();
+      if (!invoiceEmail) {
+        return NextResponse.json({ error: "La factura pagada no incluye correo de cliente." }, { status: 500 });
+      }
+      if (!env.EMAIL) {
+        return NextResponse.json({ error: "Servicio de correo no configurado." }, { status: 500 });
+      }
+      const amount = ((obj.amount_paid || 0) / 100).toLocaleString("es-ES", {
+        style: "currency",
+        currency: (obj.currency || "eur").toUpperCase(),
+      });
+      const invoiceNumber = obj.number || obj.id || "—";
+      const invoiceUrl = obj.hosted_invoice_url || "";
+      const pdfUrl = obj.invoice_pdf || "";
+      const safeInvoiceNumber = invoiceNumber.replace(/[<>&"]/g, "");
+      const linksText = [
+        invoiceUrl ? `Ver factura: ${invoiceUrl}` : "",
+        pdfUrl ? `Descargar PDF: ${pdfUrl}` : "",
+      ].filter(Boolean).join("\\n");
+      const linksHtml = [
+        invoiceUrl ? `<p><a href="${invoiceUrl}">Ver factura de Stripe</a></p>` : "",
+        pdfUrl ? `<p><a href="${pdfUrl}">Descargar factura en PDF</a></p>` : "",
+      ].join("");
+      await env.EMAIL.send({
+        to: invoiceEmail,
+        from: "noreply@linguafly.app",
+        subject: `Recibo de pago de Linguafly — ${amount}`,
+        text: `Hola.\\n\\nHemos recibido tu pago de ${amount} para Linguafly.\\nNúmero de factura: ${safeInvoiceNumber}\\n${linksText}\\n\\nGracias por aprender con Linguafly.`,
+        html: `<p>Hola.</p><p>Hemos recibido tu pago de <strong>${amount}</strong> para Linguafly.</p><p>Número de factura: ${safeInvoiceNumber}</p>${linksHtml}<p>Gracias por aprender con Linguafly.</p>`,
+      });
+    } else if (event.type === "checkout.session.completed" && obj.mode !== "payment") {
       // Checkout subscription status is confirmed again by subscription lifecycle events.
       if (email && subscriptionId) {
         await env.DB.prepare(`
