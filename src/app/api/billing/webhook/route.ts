@@ -13,6 +13,7 @@ type StripeObject = {
   customer_details?: { email?: string | null } | null;
   metadata?: { email?: string; plan?: string } | null;
   status?: string;
+  mode?: string;
   current_period_end?: number;
   cancel_at_period_end?: boolean;
 };
