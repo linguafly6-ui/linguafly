@@ -102,7 +102,7 @@ export async function POST(
       return NextResponse.json({ error: "Exercise not found" }, { status: 404 });
     }
 
-    let answerKey: { correct?: unknown };
+    let answerKey: { correct?: unknown; answer?: unknown };
     try {
       answerKey = JSON.parse(row.answer_json || "{}") as { correct?: unknown };
     } catch {
@@ -110,7 +110,11 @@ export async function POST(
     }
 
     const normalize = (value: string) => value.trim().toLocaleLowerCase("en").replace(/\s+/g, " ");
-    const correctAnswer = typeof answerKey.correct === "string" ? answerKey.correct : "";
+    const correctAnswer = typeof answerKey.correct === "string"
+      ? answerKey.correct
+      : typeof answerKey.answer === "string"
+        ? answerKey.answer
+        : "";
     if (!correctAnswer) {
       return NextResponse.json({ error: "Exercise answer is unavailable" }, { status: 500 });
     }
