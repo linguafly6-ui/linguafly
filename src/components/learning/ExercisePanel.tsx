@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { scheduleNextReview, type ReviewState, type ReviewResult } from "@/lib/learning/spaced-repetition";
 
 type Exercise = {
   id: string;
@@ -16,6 +17,7 @@ export function ExercisePanel({ lessonId }: { lessonId: string }) {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [feedback, setFeedback] = useState<Record<string, Feedback>>({});
+  const [reviews, setReviews] = useState<Record<string, ReviewResult>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState<string | null>(null);
@@ -31,7 +33,7 @@ export function ExercisePanel({ lessonId }: { lessonId: string }) {
       if (saved) {
         const parsed: unknown = JSON.parse(saved);
         if (parsed && typeof parsed === "object") {
-          const state = parsed as { answers?: unknown; feedback?: unknown };
+          const state = parsed as { answers?: unknown; feedback?: unknown; reviews?: unknown };
           if (state.answers && typeof state.answers === "object" && !Array.isArray(state.answers)) {
             setAnswers(state.answers as Record<string, string>);
           } else {
@@ -42,17 +44,25 @@ export function ExercisePanel({ lessonId }: { lessonId: string }) {
           } else {
             setFeedback({});
           }
+          if (state.reviews && typeof state.reviews === "object" && !Array.isArray(state.reviews)) {
+            setReviews(state.reviews as Record<string, ReviewResult>);
+          } else {
+            setReviews({});
+          }
         } else {
           setAnswers({});
           setFeedback({});
+          setReviews({});
         }
       } else {
         setAnswers({});
         setFeedback({});
+        setReviews({});
       }
     } catch {
       setAnswers({});
       setFeedback({});
+      setReviews({});
     }
     setHydratedLesson(lessonId);
     fetch(`/api/learning/lessons/${encodeURIComponent(lessonId)}/exercises`, { cache: "no-store" })
@@ -71,12 +81,12 @@ export function ExercisePanel({ lessonId }: { lessonId: string }) {
     try {
       window.localStorage.setItem(
         `linguafly:a1:exercise:${lessonId}`,
-        JSON.stringify({ answers, feedback })
+        JSON.stringify({ answers, feedback, reviews })
       );
     } catch {
       // Exercise state is a convenience; storage failures must not block practice.
     }
-  }, [answers, feedback, hydratedLesson, lessonId]);
+  }, [answers, feedback, reviews, hydratedLesson, lessonId]);
 
   async function checkAnswer(exercise: Exercise) {
     const answer = answers[exercise.id];
@@ -92,6 +102,14 @@ export function ExercisePanel({ lessonId }: { lessonId: string }) {
       const result = await response.json() as Feedback & { error?: string };
       if (!response.ok) throw new Error(result.error || "No se ha podido corregir la respuesta.");
       setFeedback((current) => ({ ...current, [exercise.id]: result }));
+      const previous: ReviewState = reviews[exercise.id] ?? {
+        intervalDays: 0,
+        easeFactor: 2.5,
+        repetitions: 0,
+        lapses: 0,
+      };
+      const scheduled = scheduleNextReview(previous, result.correct ? 4 : 1);
+      setReviews((current) => ({ ...current, [exercise.id]: scheduled }));
     } catch {
       setError("No se ha podido corregir la respuesta. Comprueba la conexión e inténtalo otra vez.");
     } finally {
@@ -135,7 +153,7 @@ export function ExercisePanel({ lessonId }: { lessonId: string }) {
                 >{option}</button>;
               })}
             </div>
-            {!result ? <button type="button" disabled={!answers[exercise.id] || submitting === exercise.id} onClick={() => checkAnswer(exercise)} className="mt-4 rounded-xl bg-[#252a24] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[#41483e] disabled:cursor-not-allowed disabled:opacity-40">{submitting === exercise.id ? "Corrigiendo…" : "Comprobar respuesta"}</button> : <div className={`mt-4 rounded-xl p-4 ${result.correct ? "bg-[#eaf2e7]" : "bg-[#fff2ec]"}`}><p className={`text-sm font-extrabold ${result.correct ? "text-[#355a37]" : "text-[#8f432c]"}`}>{result.correct ? "¡Muy bien! Respuesta correcta." : "Aún no. Revisa la explicación."}</p><p className="mt-1 text-sm leading-6 text-[#56584f]">{result.explanation}</p></div>}
+            {!result ? <button type="button" disabled={!answers[exercise.id] || submitting === exercise.id} onClick={() => checkAnswer(exercise)} className="mt-4 rounded-xl bg-[#252a24] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[#41483e] disabled:cursor-not-allowed disabled:opacity-40">{submitting === exercise.id ? "Corrigiendo…" : "Comprobar respuesta"}</button> : <div className={`mt-4 rounded-xl p-4 ${result.correct ? "bg-[#eaf2e7]" : "bg-[#fff2ec]"}`}><p className={`text-sm font-extrabold ${result.correct ? "text-[#355a37]" : "text-[#8f432c]"}`}>{result.correct ? "¡Muy bien! Respuesta correcta." : "Aún no. Revisa la explicación."}</p><p className="mt-1 text-sm leading-6 text-[#56584f]">{result.explanation}</p>{reviews[exercise.id] && <p className="mt-2 text-xs leading-5 text-[#65665b]">Próximo repaso: {new Date(reviews[exercise.id].dueAt).toLocaleString("es-ES", { dateStyle: "medium", timeStyle: "short" })}</p>}</div>}
           </article>;
         })}
       </div>
