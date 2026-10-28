@@ -1,5 +1,6 @@
 -- Stripe recurring subscriptions for paid Linguafly learner access.
-CREATE TABLE IF NOT EXISTS learning_subscriptions (
+-- Keep this table separate from the legacy learning_subscriptions table.
+CREATE TABLE IF NOT EXISTS linguafly_stripe_subscriptions (
   id TEXT PRIMARY KEY,
   email TEXT NOT NULL COLLATE NOCASE,
   stripe_customer_id TEXT,
@@ -12,10 +13,10 @@ CREATE TABLE IF NOT EXISTS learning_subscriptions (
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
-CREATE INDEX IF NOT EXISTS idx_learning_subscriptions_email_status
-  ON learning_subscriptions(email, status);
-CREATE INDEX IF NOT EXISTS idx_learning_subscriptions_customer
-  ON learning_subscriptions(stripe_customer_id);
+CREATE INDEX IF NOT EXISTS idx_linguafly_stripe_subs_email_status
+  ON linguafly_stripe_subscriptions(email, status);
+CREATE INDEX IF NOT EXISTS idx_linguafly_stripe_subs_customer
+  ON linguafly_stripe_subscriptions(stripe_customer_id);
 
 CREATE TABLE IF NOT EXISTS stripe_webhook_events (
   event_id TEXT PRIMARY KEY,
