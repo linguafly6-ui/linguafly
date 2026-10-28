@@ -392,6 +392,7 @@ export function getPublicCategoryLabel(category: string): {
 const EXACT_PUBLIC_PATHS = new Set([
   "/",
   "/blog",
+  "/cuenta",
   "/idiomas",
   "/privacidad",
   "/cookies",
