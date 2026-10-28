@@ -67,8 +67,8 @@
     "export:blog-data": "npx --no-install tsx scripts/export-blog-data.ts",
     "articles:sync": "npx tsx scripts/sync-articles-to-d1.ts",
     "articles:sync:changed": "npx tsx scripts/sync-articles-to-d1.ts --git-since HEAD~1 --dry-run",
-    "d1:migrate": "wrangler d1 migrations apply linguafly_db --remote",
-    "d1:migrate:local": "wrangler d1 migrations apply linguafly_db --local",
+    "d1:migrate": "wrangler d1 migrations apply blog --remote",
+    "d1:migrate:local": "wrangler d1 migrations apply blog --local",
     "bulk-import": "npx tsx scripts/bulk-import-articles.ts",
     "report:commercial-visibility": "node scripts/report-commercial-visibility.mjs"
   },
