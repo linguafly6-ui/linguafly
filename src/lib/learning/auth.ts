@@ -51,7 +51,7 @@ export async function getSessionUser(request: Request) {
   ).bind(tokenHash, new Date().toISOString()).first<{ id: string; email: string; email_verified_at: string }>();
   if (!row) return { env, user: null };
   const subscription = await env.DB.prepare(
-    "SELECT id FROM learning_subscriptions WHERE email = ? AND status IN ('active', 'trialing') AND (current_period_end IS NULL OR current_period_end > ?) LIMIT 1"
+    "SELECT id FROM linguafly_stripe_subscriptions WHERE email = ? AND status IN ('active', 'trialing') AND (current_period_end IS NULL OR current_period_end > ?) LIMIT 1"
   ).bind(row.email, new Date().toISOString()).first<{ id: string }>();
   if (!subscription) return { env, user: null };
   await env.DB.prepare("UPDATE learning_sessions SET last_seen_at = ? WHERE token_hash = ?")
