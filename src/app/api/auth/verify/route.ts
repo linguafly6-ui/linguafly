@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
     if (!tokenRow) return fail();
 
     const subscription = await env.DB.prepare(
-      "SELECT id FROM learning_subscriptions WHERE email = ? AND status IN ('active', 'trialing') AND (current_period_end IS NULL OR current_period_end > ?) LIMIT 1"
+      "SELECT id FROM linguafly_stripe_subscriptions WHERE email = ? AND status IN ('active', 'trialing') AND (current_period_end IS NULL OR current_period_end > ?) LIMIT 1"
     ).bind(tokenRow.email.toLowerCase(), now).first<{ id: string }>();
     if (!subscription) {
       return NextResponse.redirect(new URL("https://linguafly.app/crear-cuenta?error=suscripcion-requerida"), 303);
