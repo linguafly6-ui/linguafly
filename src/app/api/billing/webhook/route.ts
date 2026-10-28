@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
       // Checkout subscription status is confirmed again by subscription lifecycle events.
       if (email && subscriptionId) {
         await env.DB.prepare(`
-          INSERT INTO learning_subscriptions
+          INSERT INTO linguafly_stripe_subscriptions
             (id, email, stripe_customer_id, stripe_subscription_id, stripe_checkout_session_id, plan, status, current_period_end, updated_at)
           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
           ON CONFLICT(stripe_subscription_id) DO UPDATE SET
@@ -96,13 +96,13 @@ export async function POST(request: NextRequest) {
     } else if (event.type.startsWith("customer.subscription.") && subscriptionId) {
       const subscription = obj;
       const subscriptionEmail = (subscription.metadata?.email || "").trim().toLowerCase();
-      const existing = await env.DB.prepare("SELECT email, plan FROM learning_subscriptions WHERE stripe_subscription_id = ?")
+      const existing = await env.DB.prepare("SELECT email, plan FROM linguafly_stripe_subscriptions WHERE stripe_subscription_id = ?")
         .bind(subscriptionId).first<{ email: string; plan: string }>();
       const resolvedEmail = subscriptionEmail || existing?.email;
       const resolvedPlan = subscription.metadata?.plan === "annual" || existing?.plan === "annual" ? "annual" : "monthly";
       if (resolvedEmail) {
         await env.DB.prepare(`
-          INSERT INTO learning_subscriptions
+          INSERT INTO linguafly_stripe_subscriptions
             (id, email, stripe_customer_id, stripe_subscription_id, plan, status, current_period_end, cancel_at_period_end, updated_at)
           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
           ON CONFLICT(stripe_subscription_id) DO UPDATE SET
