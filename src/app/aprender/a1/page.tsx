@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { ExercisePanel } from "@/components/learning/ExercisePanel";
+import Link from "next/link";
 
 type Lesson = {
   id: string;
@@ -69,7 +70,9 @@ export default function A1LearningPage() {
       .then((result) => {
         if (!active) return;
         setData(result);
-        setSelectedId(result.lessons[0]?.id ?? null);
+        const requestedLesson = new URLSearchParams(window.location.search).get("lesson");
+        const requestedExists = requestedLesson && result.lessons.some((lesson) => lesson.id === requestedLesson);
+        setSelectedId(requestedExists ? requestedLesson : (result.lessons[0]?.id ?? null));
       })
       .catch(() => {
         if (active) setError("No hemos podido cargar las lecciones. Comprueba la conexión e inténtalo de nuevo.");
@@ -96,7 +99,7 @@ export default function A1LearningPage() {
       <header className="border-b border-[#ded8ca] bg-[#f5f1e8]">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-8">
           <a href="/" className="text-lg font-extrabold tracking-tight text-[#22251f]">lingua<span className="text-[#b75d3b]">fly</span><span className="ml-2 text-xs font-medium uppercase tracking-[0.22em] text-[#77776c]">academy</span></a>
-          <a href="/" className="text-sm font-semibold text-[#66675d] transition hover:text-[#b75d3b]">← Volver a la web</a>
+          <div className="flex items-center gap-4"><Link href="/aprender/repasos" className="text-sm font-bold text-[#b75d3b] transition hover:text-[#99492d]">Mis repasos ↗</Link><a href="/" className="text-sm font-semibold text-[#66675d] transition hover:text-[#b75d3b]">← Volver a la web</a></div>
         </div>
       </header>
 
