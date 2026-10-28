@@ -20,6 +20,8 @@ export default function AccountPage() {
       .catch(() => { if (alive) setUser(null); })
       .finally(() => { if (alive) setChecking(false); });
     const params = new URLSearchParams(window.location.search);
+    if (params.get("checkout") === "success") setMessage("¡Pago completado! Introduce el mismo correo que usaste en Stripe para recibir tu enlace seguro de acceso. Si el pago acaba de realizarse, espera unos segundos a que se confirme.");
+    if (params.get("checkout") === "cancelled") setMessage("El pago se ha cancelado. No se ha activado ninguna suscripción.");
     if (params.get("login") === "success") setMessage("Has iniciado sesión correctamente.");
     if (params.get("error") === "enlace-invalido") setMessage("El enlace no es válido o ha caducado. Solicita uno nuevo.");
     if (params.get("error") === "temporal") setMessage("No hemos podido completar el acceso. Inténtalo de nuevo.");
