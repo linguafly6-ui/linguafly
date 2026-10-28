@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
   const token = request.nextUrl.searchParams.get("token") || "";
-  const fail = () => NextResponse.redirect(new URL("/cuenta?error=enlace-invalido", request.url), 303);
+  const fail = () => NextResponse.redirect(new URL("https://linguafly.app/cuenta?error=enlace-invalido"), 303);
   if (!/^[a-f0-9]{64}$/.test(token)) return fail();
 
   try {
@@ -49,7 +49,7 @@ export async function GET(request: NextRequest) {
     await env.DB.prepare("INSERT INTO learning_sessions (token_hash, user_id, expires_at) VALUES (?, ?, ?)")
       .bind(sessionHash, userId, sessionExpires).run();
 
-    const response = NextResponse.redirect(new URL("/cuenta?login=success", request.url), 303);
+    const response = NextResponse.redirect(new URL("https://linguafly.app/cuenta?login=success"), 303);
     response.cookies.set(SESSION_COOKIE, sessionToken, {
       httpOnly: true,
       secure: true,
@@ -62,6 +62,6 @@ export async function GET(request: NextRequest) {
     return response;
   } catch (error) {
     console.error("[auth/verify] failed:", error);
-    return NextResponse.redirect(new URL("/cuenta?error=temporal", request.url), 303);
+    return NextResponse.redirect(new URL("https://linguafly.app/cuenta?error=temporal"), 303);
   }
 }
