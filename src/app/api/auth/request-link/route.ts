@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     }
 
     const subscription = await env.DB.prepare(
-      "SELECT status FROM learning_subscriptions WHERE email = ? AND status IN ('active', 'trialing') AND (current_period_end IS NULL OR current_period_end > ?) ORDER BY updated_at DESC LIMIT 1"
+      "SELECT status FROM linguafly_stripe_subscriptions WHERE email = ? AND status IN ('active', 'trialing') AND (current_period_end IS NULL OR current_period_end > ?) ORDER BY updated_at DESC LIMIT 1"
     ).bind(email, new Date().toISOString()).first<{ status: string }>();
     if (!subscription) {
       return NextResponse.json(
