@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { ExercisePanel } from "@/components/learning/ExercisePanel";
 
 type Lesson = {
   id: string;
@@ -146,6 +147,8 @@ export default function A1LearningPage() {
                   </article>
                 ))}
               </div>
+
+              <ExercisePanel lessonId={selected.id} />
 
               <div className="mt-5 flex flex-col justify-between gap-4 rounded-2xl bg-[#e9e3d7] p-5 sm:flex-row sm:items-center sm:p-6">
                 <div><p className="font-bold text-[#30352d]">¿Has terminado esta lección?</p><p className="mt-1 text-sm text-[#65665b]">Marca el paso como completado y continúa a tu ritmo.</p></div>
