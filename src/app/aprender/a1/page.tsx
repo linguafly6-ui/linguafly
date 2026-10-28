@@ -32,6 +32,32 @@ export default function A1LearningPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [completed, setCompleted] = useState<string[]>([]);
+  const [progressLoaded, setProgressLoaded] = useState(false);
+
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem("linguafly:a1:completed");
+      if (saved) {
+        const parsed: unknown = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.every((item) => typeof item === "string")) {
+          setCompleted(parsed);
+        }
+      }
+    } catch {
+      // Progress storage is best-effort; the course must still load if storage is unavailable.
+    } finally {
+      setProgressLoaded(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!progressLoaded) return;
+    try {
+      window.localStorage.setItem("linguafly:a1:completed", JSON.stringify(completed));
+    } catch {
+      // Private browsing or storage limits must not block learning.
+    }
+  }, [completed, progressLoaded]);
 
   useEffect(() => {
     let active = true;
@@ -81,7 +107,7 @@ export default function A1LearningPage() {
             <h1 className="mt-3 text-2xl font-bold text-[#f7f3e9]">Inglés desde cero</h1>
             <p className="mt-2 text-sm leading-6 text-[#c7c9bd]">Nivel A1 · Lecciones cortas · Repaso inteligente</p>
             <div className="mt-5 flex items-end justify-between">
-              <span className="text-sm text-[#c7c9bd]">Progreso de esta sesión</span>
+              <span className="text-sm text-[#c7c9bd]">Tu progreso en este dispositivo</span>
               <span className="text-xl font-bold">{completed.length}/{data?.lessons.length ?? 60}</span>
             </div>
             <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-[#484d45]">
@@ -154,7 +180,7 @@ export default function A1LearningPage() {
                 <div><p className="font-bold text-[#30352d]">¿Has terminado esta lección?</p><p className="mt-1 text-sm text-[#65665b]">Marca el paso como completado y continúa a tu ritmo.</p></div>
                 <button onClick={finishLesson} disabled={completed.includes(selected.id)} className="rounded-xl bg-[#b75d3b] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#99492d] disabled:cursor-default disabled:bg-[#48634a]">{completed.includes(selected.id) ? "✓ Completada" : "Marcar como completada →"}</button>
               </div>
-              <p className="mt-4 text-xs leading-5 text-[#898779]">El progreso de esta vista es temporal y se reinicia al recargar. La cuenta, el guardado entre dispositivos y los ejercicios corregidos se conectarán cuando esté verificada la autenticación.</p>
+              <p className="mt-4 text-xs leading-5 text-[#898779]">El progreso se guarda en este navegador y se conserva al volver. Por ahora no se sincroniza entre dispositivos ni con una cuenta.</p>
             </>
           ) : <div className="rounded-3xl border border-[#ded8ca] bg-[#fbf9f4] p-10"><h2 className="text-2xl font-bold">Curso A1</h2><p className="mt-3 text-[#65665b]">{error || "No hay lecciones publicadas todavía."}</p></div>}
         </section>
