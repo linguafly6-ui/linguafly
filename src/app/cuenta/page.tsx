@@ -25,6 +25,7 @@ export default function AccountPage() {
     if (params.get("login") === "success") setMessage("Has iniciado sesión correctamente.");
     if (params.get("error") === "enlace-invalido") setMessage("El enlace no es válido o ha caducado. Solicita uno nuevo.");
     if (params.get("error") === "temporal") setMessage("No hemos podido completar el acceso. Inténtalo de nuevo.");
+    if (params.get("error") === "suscripcion-requerida") setMessage("Necesitas una suscripción activa para acceder. Comprueba que el pago se haya confirmado y solicita un nuevo enlace.");
     return () => { alive = false; };
   }, []);
 
