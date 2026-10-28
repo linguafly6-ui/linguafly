@@ -25,6 +25,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "El servicio de correo no está disponible temporalmente." }, { status: 503, headers: { "Cache-Control": "no-store" } });
     }
 
+    const subscription = await env.DB.prepare(
+      "SELECT status FROM learning_subscriptions WHERE email = ? AND status IN ('active', 'trialing') AND (current_period_end IS NULL OR current_period_end > ?) ORDER BY updated_at DESC LIMIT 1"
+    ).bind(email, new Date().toISOString()).first<{ status: string }>();
+    if (!subscription) {
+      return NextResponse.json(
+        { error: "No encontramos una suscripción activa para este correo. Completa primero el pago o espera unos segundos a que se confirme." },
+        { status: 403, headers: { "Cache-Control": "no-store" } }
+      );
+    }
+
     const now = new Date();
     const nowIso = now.toISOString();
     const cooldownCutoff = new Date(now.getTime() - AUTH_EMAIL_COOLDOWN_SECONDS * 1000).toISOString();
