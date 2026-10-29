@@ -8,7 +8,7 @@ import { Exercise } from '@/lib/exercise-generator';
 const LESSON_TITLE = 'Comprensión auditiva';
 const TOPIC = 'Daily Routine';
 
-const LISTENING_TRANSCRIPT = `[[Interviewer|Entrevistador]]: [[What|Qué]] [[do|(auxiliar)]] [[you|tú]] [[do|haces]] [[first|primero]] [[in|por]] [[the|la]] [[morning|mañana]]? [[Jake|Jake]]: [[First|Primero]] [[I|yo]] [[wake up|me levanto]] [[at|a]] [[six|seis]]. [[Then|Luego]] [[I|yo]] [[brush|me]] [[my|lavo los]] [[teeth|dientes]] [[and|y]] [[have|me]] [[a|doy]] [[shower|una ducha]]. [[Interviewer|Entrevistador]]: [[What|Qué]] [[about|sobre]] [[breakfast|el desayuno]]? [[Jake|Jake]]: [[After that|Después]] [[I|yo]] [[have|tomo]] [[breakfast|desayuno]] [[at|a]] [[half|y]] [[past|media]] [[six|seis]]. [[I|Yo]] [[go|voy]] [[to|a]] [[work|trabajo]] [[at|a]] [[eight|ocho]]. [[Interviewer|Entrevistador]]: [[When|Cuándo]] [[do|(auxiliar)]] [[you|tú]] [[go|vas]] [[to bed|a la cama]]? [[Jake|Jake]]: [[I|Yo]] [[go|me]] [[to bed|acuesto]] [[at|a]] [[ten|diez]] [[o\'clock|en punto]].`;
+const LISTENING_TRANSCRIPT = `[[Interviewer: What do you do first in the morning?|Entrevistador: ¿Qué haces primero por la mañana?]] [[Jake: First, I wake up at six. Then I brush my teeth and have a shower.|Jake: Primero, me despierto a las seis. Luego me cepillo los dientes y me ducho.]] [[Interviewer: What about breakfast?|Entrevistador: ¿Y el desayuno?]] [[Jake: After that, I have breakfast at half past six. I go to work at eight.|Jake: Después, desayuno a las seis y media. Voy al trabajo a las ocho.]] [[Interviewer: When do you go to bed?|Entrevistador: ¿Cuándo te acuestas?]] [[Jake: I go to bed at ten o'clock.|Jake: Me acuesto a las diez en punto.]]`;
 
 const INSTRUCTIONS = 'Escucha el audio. Después contesta cada pregunta.';
 
