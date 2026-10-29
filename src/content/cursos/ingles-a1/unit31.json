@@ -450,11 +450,11 @@
             },
             {
               "id": "o2",
-              "text": "[[can't|can't]]"
+              "text": "[[can|can]]"
             },
             {
               "id": "o3",
-              "text": "[[Can|Can]]"
+              "text": "[[is|is]]"
             }
           ],
           "correct_answer": "o1"
@@ -469,7 +469,7 @@
           "options": [
             {
               "id": "o1",
-              "text": "[[Can|Can]]"
+              "text": "[[can't|can't]]"
             },
             {
               "id": "o2",
@@ -477,7 +477,7 @@
             },
             {
               "id": "o3",
-              "text": "[[can|can]]"
+              "text": "[[Do|Do]]"
             }
           ],
           "correct_answer": "o2"
@@ -492,7 +492,7 @@
           "options": [
             {
               "id": "o1",
-              "text": "[[can|can]]"
+              "text": "[[could|could]]"
             },
             {
               "id": "o2",
@@ -519,11 +519,11 @@
             },
             {
               "id": "o2",
-              "text": "[[can't|can't]]"
+              "text": "[[can|can]]"
             },
             {
               "id": "o3",
-              "text": "[[Can|Can]]"
+              "text": "[[isn't|isn't]]"
             }
           ],
           "correct_answer": "o1"
@@ -627,11 +627,11 @@
             },
             {
               "id": "o2",
-              "text": "[[Can|Can]]"
+              "text": "[[can't|can't]]"
             },
             {
               "id": "o3",
-              "text": "[[can|can]]"
+              "text": "[[could|could]]"
             }
           ],
           "correct_answer": "o1"
@@ -654,7 +654,7 @@
             },
             {
               "id": "o3",
-              "text": "[[can't|can't]]"
+              "text": "[[doesn't|doesn't]]"
             }
           ],
           "correct_answer": "o2"
@@ -673,7 +673,7 @@
             },
             {
               "id": "o2",
-              "text": "[[Can|Can]]"
+              "text": "[[Do|Do]]"
             },
             {
               "id": "o3",
@@ -696,11 +696,11 @@
             },
             {
               "id": "o2",
-              "text": "[[Can|Can]]"
+              "text": "[[can't|can't]]"
             },
             {
               "id": "o3",
-              "text": "[[can|can]]"
+              "text": "[[could|could]]"
             }
           ],
           "correct_answer": "o1"
