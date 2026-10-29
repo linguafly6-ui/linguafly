@@ -8,7 +8,7 @@ import { Exercise } from '@/lib/exercise-generator';
 const LESSON_TITLE = 'Comprensión auditiva';
 const TOPIC = 'Days of the Week';
 
-const LISTENING_TRANSCRIPT = `[[Anna|Anna]]: [[What|Qué]] [[do|(auxiliar)]] [[you|tú]] [[do|haces]] [[on|los]] [[Mondays|lunes]]? [[Ben|Ben]]: [[I|Yo]] [[work|trabajo]] [[from|de]] [[nine|nueve]] [[to|a]] [[six|seis]]. [[Anna|Anna]]: [[Do|¿]] [[you|tú]] [[have|tienes]] [[class|clase]] [[on|los]] [[Tuesdays|martes]]? [[Ben|Ben]]: [[Yes|Sí]], [[I|yo]] [[have|tengo]] [[English|inglés]] [[in|por]] [[the|la]] [[evening|tarde]]. [[Anna|Anna]]: [[What|Qué]] [[about|sobre]] [[the|el]] [[weekend|fin de semana]]? [[Ben|Ben]]: [[On|El]] [[Saturday|sábado]] [[I|yo]] [[go|voy]] [[to|a]] [[the|el]] [[gym|gimnasio]]. [[On|El]] [[Sunday|domingo]] [[I|yo]] [[rest|descanso]]. [[I|Yo]] [[don't|no]] [[work|trabajo]] [[on|el]] [[weekend|fin de semana]].`;
+const LISTENING_TRANSCRIPT = `[[Anna: What do you do on Mondays?|Anna: ¿Qué haces los lunes?]] [[Ben: I work from nine to six.|Ben: Trabajo de nueve a seis.]] [[Anna: Do you have class on Tuesdays?|Anna: ¿Tienes clase los martes?]] [[Ben: Yes, I have English in the evening.|Ben: Sí, tengo inglés por la tarde.]] [[Anna: What about the weekend?|Anna: ¿Y el fin de semana?]] [[Ben: On Saturday I go to the gym. On Sunday I rest.|Ben: El sábado voy al gimnasio. El domingo descanso.]] [[I don't work at the weekend.|No trabajo los fines de semana.]]`;
 
 const INSTRUCTIONS = 'Escucha el audio. Después contesta cada pregunta.';
 
