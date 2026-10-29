@@ -366,13 +366,6 @@ UPDATE learning_exercises SET
 WHERE id = 'a1-u24-voc-14';
 
 UPDATE learning_exercises SET
- prompt = '¿Qué expresión significa «el lunes» cuando hablamos de una fecha?',
- options_json = '["on Monday","in Monday","at Monday","by Monday"]',
- answer_json = '{"correct":"on Monday"}',
- explanation = 'Usamos «on» con los días de la semana.'
-WHERE id = 'a1-u56-voc-11';
-
-UPDATE learning_exercises SET
  prompt = '¿Qué expresión significa «en junio»?',
  options_json = '["on June","at June","in June","by June"]',
  answer_json = '{"correct":"in June"}',
