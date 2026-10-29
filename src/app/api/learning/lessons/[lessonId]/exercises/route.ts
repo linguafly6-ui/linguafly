@@ -8,12 +8,20 @@ import { getA1LegacyUnit, type A1LegacyItem as LegacyItem, type A1LegacyUnit as 
 const sectionNames = new Set(["grammar", "vocabulary", "listening", "reading", "production"]);
 function plainText(value: string | undefined): string {
   if (!value) return "";
-  return value.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, "$2").replace(/\s+/g, " ").trim();
+  return value.replace(/\\[\\[([^\\]|]+)\\|([^\\]]+)\\]\\]/g, "$2").replace(/\\s+/g, " ").trim();
 }
 
 function plainEnglish(value: string | undefined): string {
   if (!value) return "";
-  return value.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, "$1").replace(/\s+/g, " ").trim();
+  return value.replace(/\\[\\[([^\\]|]+)\\|([^\\]]+)\\]\\]/g, "$1").replace(/\\s+/g, " ").trim();
+}
+
+function bilingualSide(value: string | undefined, preferred: "english" | "spanish"): string {
+  if (!value) return "";
+  return value.replace(/\\[\\[([^\\]|]+)\\|([^\\]]+)\\]\\]/g, (_whole, first: string, second: string) => {
+    if (first.toLocaleLowerCase("en") === second.toLocaleLowerCase("en")) return first;
+    return preferred === "english" ? (first.length <= second.length && /[A-Za-z]/.test(first) ? first : first) : second;
+  }).replace(/\\s+/g, " ").trim();
 }
 
 function getLegacySection(item: LegacyItem): string | null {
