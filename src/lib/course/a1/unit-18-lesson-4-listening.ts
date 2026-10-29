@@ -6,7 +6,7 @@ import { Exercise } from '@/lib/exercise-generator';
 
 const LESSON_TITLE = 'Comprensión auditiva';
 const TOPIC = 'Likes & Dislikes';
-const LISTENING_TRANSCRIPT = `[[A|A]]: [[Do|¿Te]] [[you|gusta]] [[like|leer]] [[reading|leer]]? [[B|B]]: [[Yes|Sí]], [[I|yo]] [[do|sí]]. [[I|Yo]] [[love|me encanta]] [[reading|leer]] [[novels|novelas]]. [[A|A]]: [[What|Qué]] [[about|tal]] [[music|música]]? [[Do|¿Te]] [[you|gusta]] [[like|la]] [[music|música]]? [[B|B]]: [[Yes|Sí]]. [[I|Yo]] [[like|me gusta]] [[listening to|escuchar]] [[music|música]]. [[I|Yo]] [[like|me gusta]] [[pop|pop]] [[and|y]] [[jazz|jazz]]. [[I|Yo]] [[don't|no]] [[like|me gusta]] [[heavy|heavy]] [[metal|metal]]. [[Why|¿Por]] [[do|qué]]? [[Because|Porque]] [[it's|es]] [[too|demasiado]] [[loud|fuerte]]. [[A|A]]: [[Do|¿Te]] [[you|gusta]] [[like|ver]] [[watching|películas]] [[films|películas]]? [[B|B]]: [[Yes|Sí]], [[I|yo]] [[like|me gusta]] [[comedy|comedia]] [[films|películas]].`;
+const LISTENING_TRANSCRIPT = `[[A: Do you like reading?|A: ¿Te gusta leer?]] [[B: Yes, I do. I love reading novels.|B: Sí. Me encanta leer novelas.]] [[A: What about music? Do you like music?|A: ¿Y la música? ¿Te gusta la música?]] [[B: Yes. I like listening to music. I like pop and jazz. I don't like heavy metal because it's too loud.|B: Sí. Me gusta escuchar música. Me gustan el pop y el jazz. No me gusta el heavy metal porque es demasiado ruidoso.]] [[A: Do you like watching films?|A: ¿Te gusta ver películas?]] [[B: Yes, I like comedy films.|B: Sí, me gustan las películas de comedia.]]`;
 
 const INSTRUCTIONS = 'Escucha el audio. Después contesta cada pregunta.';
 
