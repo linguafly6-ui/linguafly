@@ -89,8 +89,7 @@ function main() {
   fs.rmSync(OUT, { recursive: true, force: true });
   fs.mkdirSync(OUT, { recursive: true });
 
-  for (const record of records) {
-    const sql = `INSERT INTO learning_course_json_units
+  const statements = records.map((record) => `INSERT INTO learning_course_json_units
   (course_key, level, unit_number, unit_id, title, source_path, content_hash, content_json, updated_at)
 VALUES
   (${sqlString(record.courseKey)}, ${sqlString(record.level)}, ${record.unitNumber},
@@ -103,10 +102,15 @@ ON CONFLICT(course_key, unit_number) DO UPDATE SET
   source_path = excluded.source_path,
   content_hash = excluded.content_hash,
   content_json = excluded.content_json,
-  updated_at = excluded.updated_at;
-`;
-    const filename = `${record.courseKey}-unit-${String(record.unitNumber).padStart(3, "0")}.sql`;
-    fs.writeFileSync(path.join(OUT, filename), sql);
+  updated_at = excluded.updated_at;`);
+
+  // Keep SQL files comfortably below D1 request-size limits while avoiding one
+  // network round trip per unit.
+  const chunkSize = 10;
+  for (let start = 0; start < statements.length; start += chunkSize) {
+    const chunk = statements.slice(start, start + chunkSize);
+    const filename = `batch-${String(Math.floor(start / chunkSize) + 1).padStart(3, "0")}.sql`;
+    fs.writeFileSync(path.join(OUT, filename), chunk.join("\\n"));
   }
 
   const byCourse = records.reduce<Record<string, number>>((counts, record) => {
@@ -114,7 +118,7 @@ ON CONFLICT(course_key, unit_number) DO UPDATE SET
     return counts;
   }, {});
   console.log(`[course-json-sync] Validated ${records.length} unit files across ${courseDirs.length} course folders.`);
-  console.log(`[course-json-sync] Generated ${records.length} idempotent SQL files in ${OUT}.`);
+  console.log(`[course-json-sync] Generated ${Math.ceil(records.length / 10)} batched idempotent SQL files in ${OUT}.`);
   console.log(JSON.stringify(byCourse, null, 2));
 }
 
