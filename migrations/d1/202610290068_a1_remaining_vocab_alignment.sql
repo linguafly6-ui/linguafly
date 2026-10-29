@@ -119,9 +119,3 @@ UPDATE learning_exercises SET
  explanation = '«Digit» significa «dígito».'
 WHERE id = 'a1-u55-voc-11';
 
-UPDATE learning_exercises SET
- prompt = '¿Qué expresión significa «este año»?',
- options_json = '["last year","next year","this year","every week"]',
- answer_json = '{"correct":"this year"}',
- explanation = '«This year» significa «este año».'
-WHERE id = 'a1-u56-voc-11';
