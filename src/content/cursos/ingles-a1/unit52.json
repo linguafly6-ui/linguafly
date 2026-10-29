@@ -492,7 +492,7 @@
           "options": [
             {
               "id": "o1",
-              "text": "[[much|much]]"
+              "text": "[[many|many]]"
             },
             {
               "id": "o2",
@@ -631,7 +631,7 @@
             },
             {
               "id": "o3",
-              "text": "[[much|much]]"
+              "text": "[[many|many]]"
             }
           ],
           "correct_answer": "o1"
@@ -700,7 +700,7 @@
             },
             {
               "id": "o3",
-              "text": "[[much|much]]"
+              "text": "[[many|many]]"
             }
           ],
           "correct_answer": "o1"
