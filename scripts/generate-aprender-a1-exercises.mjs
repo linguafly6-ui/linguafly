@@ -95,13 +95,15 @@ function normalizeNegativeGrammarItem(item) {
   const embeddedNegative = stimulus.match(/\b(don't|doesn't|didn't|do not|does not|did not|isn't|aren't|wasn't|weren't|can't|cannot|won't|will not)\s+_{2,}\s+([A-Za-z]+)\b/i);
   const negativeAuxiliaryOnly = /^(?:don't|doesn't|didn't|isn't|aren't|wasn't|weren't|can't|cannot|won't|do not|does not|did not|is not|are not|was not|were not|will not)$/i.test(answer);
   if (embeddedNegative) {
-    negativeAnswer = `${embeddedNegative[1]} ${answer || embeddedNegative[2]}`;
-    nextStimulus = stimulus.replace(embeddedNegative[0], '______');
+    // Keep the lexical verb visible and ask for the auxiliary only.
+    negativeAnswer = embeddedNegative[1];
+    nextStimulus = stimulus.replace(embeddedNegative[0], `______ ${answer} ${embeddedNegative[2]}`);
   } else if (negativeAuxiliaryOnly) {
     const blankAndVerb = stimulus.match(/_{2,}\s+([A-Za-z]+)\b/);
     if (!blankAndVerb) return null;
-    negativeAnswer = `${answer} ${blankAndVerb[1]}`;
-    nextStimulus = stimulus.replace(blankAndVerb[0], '______');
+    // The blank is already for do/does/don't/doesn't; the verb after it is
+    // visible context and must not be pulled into the expected answer.
+    negativeAnswer = answer;
   } else if (/_{2,}\s+not\b/i.test(stimulus) && /^(am|is|are|was|were)$/i.test(answer)) {
     const subject = stimulus.match(/^\s*(I|you|he|she|it|we|they)\b/i)?.[1]?.toLocaleLowerCase('en');
     const forms = { i: 'am not', you: "aren't", he: "isn't", she: "isn't", it: "isn't", we: "aren't", they: "aren't" };
@@ -212,6 +214,8 @@ function normalizeSourceItem(item, category, lessonNumber, exerciseNumber, optio
       const grammarBlankContext = [stimulusEn, String(item.correct_answer ?? '')].join(' ');
       const grammarInstruction = /\?\s*$/.test(stimulusEn)
         ? 'Completa la pregunta.'
+        : /^(?:do|does|don't|doesn't)$/i.test(String(item.correct_answer ?? '').trim())
+          ? "Completa con do, does, don't o doesn't."
         : /\b(?:not|don't|doesn't|isn't|aren't|wasn't|weren't|can't|won't)\b/i.test(grammarBlankContext)
           ? 'Completa la frase en negativo.'
           : 'Completa la frase.';
@@ -403,7 +407,24 @@ for (let index = 0; index < grammarRepairRows.length; index += grammarRepairBatc
   const updates = batch.map((row) => `UPDATE learning_exercises SET exercise_type = ${sql(row.exerciseType)}, prompt = ${sql(row.prompt)}, options_json = ${sql(JSON.stringify(row.options))}, answer_json = ${sql(row.answerJson)}, explanation = ${sql(row.explanation)} WHERE id = ${sql(row.id)};`);
   fs.writeFileSync(migrationPath, `-- Make negative grammar answers learner-produced and remove repeated choices.\n${clearProgress}\n${updates.join('\n')}\n`, 'utf8');
 }
+const auxiliaryPracticeRows = rows.filter((row) => {
+  if (row.sectionType !== 'grammar' || !row.negativeFormChanged) return false;
+  try {
+    return /^(?:do|does|don't|doesn't)$/i.test(JSON.parse(row.answerJson).correct ?? '');
+  } catch {
+    return false;
+  }
+});
+for (let index = 0; index < auxiliaryPracticeRows.length; index += grammarRepairBatchSize) {
+  const batch = auxiliaryPracticeRows.slice(index, index + grammarRepairBatchSize);
+  const migrationNumber = String(59 + Math.floor(index / grammarRepairBatchSize)).padStart(3, '0');
+  const migrationPath = path.join(migrationDir, `202610290${migrationNumber}_a1_auxiliary_answer_clarity.sql`);
+  const clearProgress = `DELETE FROM learning_exercise_progress WHERE exercise_id IN (${batch.map((row) => sql(row.id)).join(', ')});`;
+  const updates = batch.map((row) => `UPDATE learning_exercises SET exercise_type = ${sql(row.exerciseType)}, prompt = ${sql(row.prompt)}, options_json = ${sql(JSON.stringify(row.options))}, answer_json = ${sql(row.answerJson)}, explanation = ${sql(row.explanation)} WHERE id = ${sql(row.id)};`);
+  fs.writeFileSync(migrationPath, `-- Make do/does/don't/doesn't practice ask for the auxiliary only.\n${clearProgress}\n${updates.join('\n')}\n`, 'utf8');
+}
 console.log(`Generated ${rows.length} exercises (15 in each of 4 sections across 60 units): ${path.relative(root, outputPath)}`);
 console.log(`Regenerated ${grammarPromptUpdates.length} complete grammar fill-in prompts across ${Math.ceil(grammarPromptUpdates.length / grammarPromptBatchSize)} D1-safe migrations.`);
 console.log(`Corrected ${grammarRepairRows.length} negative-form or duplicate-choice exercises; ${duplicateChoiceRows.length} duplicate-choice exercises remain.`);
+console.log(`Clarified ${auxiliaryPracticeRows.length} auxiliary-only grammar answers in ${Math.ceil(auxiliaryPracticeRows.length / grammarRepairBatchSize)} additional migration(s).`);
 
