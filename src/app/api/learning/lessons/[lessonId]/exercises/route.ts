@@ -71,10 +71,10 @@ function normalizedLegacyAnswer(item: LegacyItem): string {
     const correctId = String(item.correct_answer);
     const text = options.find((option) => option.id === correctId)?.text;
     if (!text) return "";
-    return plainEnglish(text);
+    return item.mastery_tag === "vocabulary" ? plainText(text) : plainEnglish(text);
   }
   if (item.type === "sentence-building" && Array.isArray(item.correct_answer)) {
-    const byId = new Map(options.map((option) => [option.id, plainEnglish(option.text)]));
+    const byId = new Map(options.map((option) => [option.id, item.mastery_tag === "vocabulary" ? plainText(option.text) : plainEnglish(option.text)]));
     return item.correct_answer.map((id) => byId.get(String(id)) ?? String(id)).join(" ");
   }
   if (item.type === "true-false") return item.correct_answer === true ? "True" : "False";
@@ -82,7 +82,7 @@ function normalizedLegacyAnswer(item: LegacyItem): string {
 }
 
 function legacyExercise(item: LegacyItem, index: number) {
-  const options = (item.options ?? []).map((option) => plainEnglish(option.text));
+  const options = (item.options ?? []).map((option) => item.mastery_tag === "vocabulary" ? plainText(option.text) : plainEnglish(option.text));
   if (item.type === "true-false") options.splice(0, options.length, "True", "False");
   return {
     id: item.interaction_id,
@@ -103,6 +103,8 @@ function getPrompt(item: LegacyItem): string {
   const stimulus = plainEnglish(item.stimulus_en);
   const question = plainEnglish(item.question_en);
   const instruction = plainText(item.prompt_es);
+  if (item.mastery_tag === "vocabulary" && item.type === "multiple-choice") return `${stimulus} ${instruction}`.trim();
+  if (item.mastery_tag === "vocabulary" && item.type === "fill-blank") return `${plainText(item.stimulus_en)} ${instruction}`.trim();
   if (item.type === "reading-comprehension" || item.type === "listening-comprehension") return question || stimulus || instruction;
   if (item.type === "true-false") return `${instruction} ${stimulus}`.trim();
   if (item.type === "sentence-building") return `${instruction} ${stimulus}`.trim();
