@@ -593,7 +593,7 @@
           "prompt_es": "[[Complete|Completa]] [[the|la]] [[sentence|frase]].",
           "mastery_tag": "grammar",
           "complexity": 2,
-          "stimulus_en": "[[I|Yo]] [[have|tengo]] ______ [[books|libros]].",
+          "stimulus_en": "[[How|Cuántos]] [[books|libros]] [[do|tienes]] [[you|tú]] [[have|tener]]?",
           "correct_answer": "two"
         },
         {
@@ -1199,7 +1199,7 @@
           "prompt_es": "[[Complete|Completa]] [[the|la]] [[sentence|frase]].",
           "mastery_tag": "production",
           "complexity": 3,
-          "stimulus_en": "[[It|Eso]] [[is|es]] ______ [[orange|naranja]].",
+          "stimulus_en": "[[It|Esto]] [[is|es]] ______ [[apple|manzana]].",
           "correct_answer": "an"
         },
         {
