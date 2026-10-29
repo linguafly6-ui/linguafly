@@ -184,23 +184,13 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
             {exercise.type === "sentence_building" && <div className="mt-4 rounded-xl bg-[#f0ece3] p-3"><p className="text-xs font-bold uppercase tracking-wide text-[#65665b]">Tu frase</p><p className="mt-1 min-h-6 text-sm font-semibold text-[#30352d]">{(sentenceWords[exercise.id] ?? []).join(" ") || "Selecciona las palabras en orden."}</p><button type="button" disabled={Boolean(result) || !(sentenceWords[exercise.id]?.length)} onClick={() => { setSentenceWords((current) => ({ ...current, [exercise.id]: [] })); void chooseAnswer(exercise.id, ""); }} className="mt-2 text-xs font-bold text-[#8f432c] disabled:opacity-40">Borrar frase</button></div>}
             <div className="mt-4 grid gap-2 sm:grid-cols-2">
               {exercise.type === "multiple_choice" ? exercise.options.map((option, optionIndex) => {
-              {exercise.type === "true_false" ? ["True", "False"].map((option) => (
-                <button key={option} type="button" disabled={Boolean(result) || Boolean(submitting)} onClick={() => void chooseAnswer(exercise.id, option)} className={`rounded-xl border px-4 py-3 text-left text-sm font-semibold transition disabled:cursor-default ${answers[exercise.id] === option ? "border-[#b75d3b] bg-[#f8e8df] text-[#87452e]" : "border-[#e5dfd3] bg-[#fbf9f4] text-[#56584f] hover:border-[#c6a18e]"}`}>{option}</button>
-              )) : null}
                 const chosen = answers[exercise.id] === option;
                 const correctOption = Boolean(result?.correct && chosen);
                 return (
-                  <button
-                    key={`${option}-${optionIndex}`}
-                    type="button"
-                    disabled={Boolean(result) || Boolean(submitting)}
-                    onClick={() => void chooseAnswer(exercise.id, option)}
-                    className={`rounded-xl border px-4 py-3 text-left text-sm font-semibold transition disabled:cursor-default ${correctOption ? "border-[#8ba58a] bg-[#eaf2e7] text-[#355a37]" : chosen ? "border-[#b75d3b] bg-[#f8e8df] text-[#87452e]" : "border-[#e5dfd3] bg-[#fbf9f4] text-[#56584f] hover:border-[#c6a18e]"}`}
-                  >
-                    {option}
-                  </button>
+                  <button key={`${option}-${optionIndex}`} type="button" disabled={Boolean(result) || Boolean(submitting)} onClick={() => void chooseAnswer(exercise.id, option)} className={`rounded-xl border px-4 py-3 text-left text-sm font-semibold transition disabled:cursor-default ${correctOption ? "border-[#8ba58a] bg-[#eaf2e7] text-[#355a37]" : chosen ? "border-[#b75d3b] bg-[#f8e8df] text-[#87452e]" : "border-[#e5dfd3] bg-[#fbf9f4] text-[#56584f] hover:border-[#c6a18e]"}`}>{option}</button>
                 );
               }) : null}
+              {exercise.type === "true_false" ? ["True", "False"].map((option) => (
                 <button key={option} type="button" disabled={Boolean(result) || Boolean(submitting)} onClick={() => void chooseAnswer(exercise.id, option)} className={`rounded-xl border px-4 py-3 text-left text-sm font-semibold transition disabled:cursor-default ${answers[exercise.id] === option ? "border-[#b75d3b] bg-[#f8e8df] text-[#87452e]" : "border-[#e5dfd3] bg-[#fbf9f4] text-[#56584f] hover:border-[#c6a18e]"}`}>{option}</button>
               )) : null}
               {exercise.type === "sentence_building" ? exercise.options.map((option, optionIndex) => {
