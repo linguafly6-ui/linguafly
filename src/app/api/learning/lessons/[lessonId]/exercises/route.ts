@@ -43,7 +43,7 @@ function loadLegacyUnit(unitNumber: number): Promise<LegacyUnit | null> {
 
 function plainText(value: string | undefined): string {
   if (!value) return "";
-  return value.replace(/\\[([^[\\]|]+)\\|([^\\]]+)\\]/g, "$2").replace(/\\s+/g, " ").trim();
+  return value.replace(/\\[([^\]|]+)\|([^\]]+)\]/g, "$2").replace(/\s+/g, " ").trim();
 }
 
 function getLegacySection(item: LegacyItem): string | null {
@@ -166,7 +166,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
     const item = unit?.blocks.flatMap((block) => block.content).find((question) => question.interaction_id === payload.exerciseId);
     if (!item) return NextResponse.json({ error: "Ejercicio A1 no encontrado." }, { status: 404 });
     const expected = normalizedLegacyAnswer(item);
-    const normalize = (value: string) => value.trim().replace(/\\s+/g, " ").toLocaleLowerCase("en");
+    const normalize = (value: string) => value.trim().replace(/\s+/g, " ").toLocaleLowerCase("en");
     const correct = item.type === "true-false"
       ? normalize(payload.answer) === (item.correct_answer === true ? "true" : "false")
       : item.type === "sentence-building"
