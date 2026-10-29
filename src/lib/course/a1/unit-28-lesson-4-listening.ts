@@ -6,7 +6,7 @@ import { Exercise } from '@/lib/exercise-generator';
 
 const LESSON_TITLE = 'Comprensión auditiva';
 const TOPIC = 'Body Parts';
-const LISTENING_TRANSCRIPT = `[[A|A]]: [[What|Qué]] [[do|tienes]] [[you|]] [[have|tienes]] [[got|]] [[on|en]] [[your|tu]] [[face|cara]]? [[B|B]]: [[I|Yo]] [[have|tengo]] [[got|]] [[two|dos]] [[eyes|ojos]], [[a|una]] [[nose|nariz]] [[and|y]] [[a|una]] [[mouth|boca]]. [[A|A]]: [[This|Esta]] [[is|es]] [[my|mi]] [[hand|mano]]. [[B|B]]: [[Yes|Sí]], [[and|y]] [[these|estas]] [[are|son]] [[my|mis]] [[arms|brazos]]. [[I|Yo]] [[have|tengo]] [[got|]] [[long|largos]] [[arms|brazos]]. [[A|A]]: [[She|Ella]] [[has|tiene]] [[got|]] [[big|grandes]] [[feet|pies]]. [[B|B]]: [[My|Mi]] [[brother|hermano]] [[has|tiene]] [[got|]] [[a|una]] [[big|grande]] [[head| cabeza]] [[and|y]] [[short|cortas]] [[legs|piernas]]. [[He|Él]] [[is|es]] [[short|bajo]].`;
+const LISTENING_TRANSCRIPT = `[[A: What have you got on your face?|A: ¿Qué tienes en la cara?]] [[B: I've got two eyes, a nose and a mouth.|B: Tengo dos ojos, una nariz y una boca.]] [[A: This is my hand.|A: Esta es mi mano.]] [[B: Yes, and these are my arms. I've got long arms.|B: Sí, y estos son mis brazos. Tengo los brazos largos.]] [[A: She has got big feet.|A: Ella tiene los pies grandes.]] [[B: My brother has got a big head and short legs. He is short.|B: Mi hermano tiene la cabeza grande y las piernas cortas. Es bajo.]]`;
 
 const INSTRUCTIONS = 'Escucha el audio. Después contesta cada pregunta.';
 
