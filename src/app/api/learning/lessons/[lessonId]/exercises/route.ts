@@ -6,6 +6,7 @@ import { resolveCloudflareEnv } from "@/lib/db/client";
 import { getA1LegacyUnit, type A1LegacyItem as LegacyItem, type A1LegacyUnit as LegacyUnit } from "@/lib/learning/a1-legacy-units";
 
 const sectionNames = new Set(["grammar", "vocabulary", "listening", "reading", "production"]);
+
 function bilingualPart(value: string, preferred: "english" | "spanish"): string {
   const [left, right] = value.split("|", 2);
   if (right === undefined) return value;
@@ -208,7 +209,8 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
       "SELECT review_json FROM learning_exercise_progress WHERE user_id = ? AND exercise_id = ? LIMIT 1"
     ).bind(user.id, payload.exerciseId).first<{ review_json: string | null }>() : null;
     let previous: ReviewState = { intervalDays: 0, easeFactor: 2.5, repetitions: 0, lapses: 0 };
-    try { if (existingProgress?.review_json) previous = JSON.parse(existingProgress.review_json) as ReviewState; } catch { /* default */ }
+
+try { if (existingProgress?.review_json) previous = JSON.parse(existingProgress.review_json) as ReviewState; } catch { /* default */ }
     const review = scheduleNextReview(previous, correct ? 4 : 1);
     if (user) {
       await env.DB.prepare(
@@ -443,4 +445,5 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
   } catch {
     return NextResponse.json({ error: "No se pudo corregir la respuesta." }, { status: 500 });
   }
+}
 }
