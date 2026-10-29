@@ -492,11 +492,11 @@
           "options": [
             {
               "id": "o1",
-              "text": "[[go|go]]"
+              "text": "[[Then|Then]]"
             },
             {
               "id": "o2",
-              "text": "[[go|go]]"
+              "text": "[[Finally|Finally]]"
             },
             {
               "id": "o3",
