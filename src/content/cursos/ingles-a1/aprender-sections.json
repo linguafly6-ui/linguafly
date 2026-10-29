@@ -376,218 +376,170 @@
     ]
   },
   "a1-17": {
-    "objective": "Preguntar y responder What day is it?.",
+    "objective": "Name common food items in English · Use like/love/hate with nouns · Describe eating habits and meal preferences",
     "sections": [
       {
         "type": "grammar",
-        "title": "Gramática",
-        "body": "Pregunta “What day is it?” y responde “It’s + día”. Para hablar de una actividad habitual, usa “on + día”.\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "What day is it today?"
+        "title": "Gramática y objetivos",
+        "body": "Name common food items in English\n\nUse like/love/hate with nouns\n\nDescribe eating habits and meal preferences\n\nComplete the affirmative sentence. · I _____ eggs for breakfast.\n\nComplete the affirmative sentence. · She _____ pasta but loves rice.\n\nComplete the affirmative sentence. · We _____ fish every Friday.\n\nComplete the affirmative sentence. · Do you _____ salad?\n\nChoose the correct word. · He _____ meat. He is vegetarian. · doesn't eat · doesn't like · eat\n\nBuild a sentence using these words. · Butter · Rice · Bread\n\nBuild a sentence using these words. · Rice · Salad · Milk\n\nBuild a sentence using these words. · Salad · Vegetables · Chicken\n\nBuild a sentence using these words. · Vegetables · Cereal · Fruit",
+        "example": "Complete the affirmative sentence. · I _____ eggs for breakfast."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para preguntar qué día es:\nMonday — Lunes\nTuesday — Martes\nWednesday — Miércoles\nThursday — Jueves\nFriday — Viernes\nSaturday — Sábado"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "What day is it today? It is Wednesday. We have a test tomorrow. Do you work on Saturdays? No, I don't work on weekends. I relax at home. That sounds great! What do you do on Fridays?"
+        "body": "Choose the correct translation. · Bread · Pan · Mantequilla · Huevos\nChoose the correct translation. · Butter · Huevos · Mantequilla · Leche\nChoose the correct translation. · Eggs · Leche · Arroz · Huevos\nChoose the correct translation. · Milk · Leche · Arroz · Pasta\nChoose the correct translation. · Rice · Pasta · Arroz · Pollo\nChoose the correct translation. · Pasta · Pollo · Ensalada\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Milk · Chicken · Fruit\nChoose the correct option. · Rice · Salad · Vegetables"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · Eggs and toast · Cereal and milk or toast · Fruit and yogurt · What do you usually eat for breakfast? I have cereal and milk or toast with butter. Do you like eggs? Yes! I love scrambled eggs. What about you? I usually have fruit — apples or bananas. · What does speaker 1 usually have for breakfast?\nRead the text and answer. · Jam · Butter · Cheese · What do you usually eat for breakfast? I have cereal and milk or toast with butter. Do you like eggs? Yes! I love scrambled eggs. What about you? I usually have fruit — apples or bananas. · What does speaker 1 put on toast?\nRead the text and answer. · Fried · Boiled · Scrambled · What do you usually eat for breakfast? I have cereal and milk or toast with butter. Do you like eggs? Yes! I love scrambled eggs. What about you? I usually have fruit — apples or bananas. · How does speaker 1 like their eggs?\nRead the text and answer. · Bread and butter · Fruit · Cereal · What do you usually eat for breakfast? I have cereal and milk or toast with butter. Do you like eggs? Yes! I love scrambled eggs. What about you? I usually have fruit — apples or bananas. · What does speaker 2 have for breakfast?\nRead the text and answer. · Oranges and grapes · Apples and bananas · Strawberries and melon · What do you usually eat for breakfast? I have cereal and milk or toast with butter. Do you like eggs? Yes! I love scrambled eggs. What about you? I usually have fruit — apples or bananas. · Which fruits are mentioned?\nRead the text and answer. · I like a little · I really like · I don't like · What do you usually eat for breakfast? I have cereal and milk or toast with butter. Do you like eggs? Yes! I love scrambled eggs. What about you? I usually have fruit — apples or bananas. · What does 'I love' express?\nRead the text and answer. · Fruit · Vegetables · Salad · What do you usually eat for breakfast? I have cereal and milk or toast with butter. Do you like eggs? Yes! I love scrambled eggs. What about you? I usually have fruit — apples or bananas. · Which word means 'Verduras'?\nRead the text and answer. · Soup · Chicken · Fish · What do you usually eat for breakfast? I have cereal and milk or toast with butter. Do you like eggs? Yes! I love scrambled eggs. What about you? I usually have fruit — apples or bananas. · What is a typical dinner food in the conversation?\nRead the text and answer. · Butter · Bread · Milk · What do you usually eat for breakfast? I have cereal and milk or toast with butter. Do you like eggs? Yes! I love scrambled eggs. What about you? I usually have fruit — apples or bananas. · Which word means 'Leche'?\nRead the text and answer. · + to + verb · + noun or gerund · + adjective · What do you usually eat for breakfast? I have cereal and milk or toast with butter. Do you like eggs? Yes! I love scrambled eggs. What about you? I usually have fruit — apples or bananas. · What structure follows 'like/love/hate'?"
       }
     ]
   },
   "a1-18": {
-    "objective": "Decir qué haces en distintos días de la semana.",
+    "objective": "Express likes and dislikes using like/love/hate + -ing · Ask and answer 'Why?' with 'Because...' · Talk about hobbies and interests",
     "sections": [
       {
         "type": "grammar",
-        "title": "Gramática",
-        "body": "Para una rutina semanal, combina presente simple y “on + day”: “I study on Mondays”.\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "Can you describe your daily routine?"
+        "title": "Gramática y objetivos",
+        "body": "Express likes and dislikes using like/love/hate + -ing\n\nAsk and answer 'Why?' with 'Because...'\n\nTalk about hobbies and interests\n\nComplete the affirmative sentence. · I love _____ in the sea.\n\nComplete the affirmative sentence. · She doesn't like _____. It is too loud.\n\nComplete the affirmative sentence. · Why do you like _____?\n\nComplete the affirmative sentence. · Because it is fun _____ creative.\n\nChoose the correct word. · I _____ like cooking. I find it relaxing. · don't · singing · dancing\n\nBuild a sentence using these words. · Cooking · Drawing · Reading\n\nBuild a sentence using these words. · Drawing · Shopping · Singing\n\nBuild a sentence using these words. · Shopping · Because · Traveling\n\nBuild a sentence using these words. · Because · Enjoy · Gaming",
+        "example": "Complete the affirmative sentence. · I love _____ in the sea."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para actividades por días:\nWake up — Despertarse\nBrush teeth — Cepillarse los dientes\nHave breakfast — Desayunar\nGo to work — Ir al trabajo\nHave lunch — Almorzar\nHave dinner — Cenar"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "Can you describe your daily routine? Sure! First, I wake up at six thirty. Then, I take a shower and get dressed. After that, I have breakfast — usually toast and coffee. Finally, I go to work at eight o'clock."
+        "body": "Choose the correct translation. · Reading · Leer · Cocinar · Bailar\nChoose the correct translation. · Cooking · Bailar · Cocinar · Cantar\nChoose the correct translation. · Dancing · Cantar · Dibujar · Bailar\nChoose the correct translation. · Singing · Cantar · Dibujar · Nadar\nChoose the correct translation. · Drawing · Nadar · Dibujar · Viajar\nChoose the correct translation. · Swimming · Viajar · Ir de compras · Nadar\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Singing · Traveling · Gaming\nChoose the correct option. · Drawing · Shopping · Because"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · Swimming and cooking · Reading and painting · Dancing and singing · What are your hobbies? I love reading and painting. I find them very relaxing. What about sports? Do you like swimming? Not really. I prefer dancing. Why do you ask? Because I am looking for a dance partner! · What are the speaker's hobbies?\nRead the text and answer. · They are exciting · They are relaxing · They are cheap · What are your hobbies? I love reading and painting. I find them very relaxing. What about sports? Do you like swimming? Not really. I prefer dancing. Why do you ask? Because I am looking for a dance partner! · Why does the speaker like these hobbies?\nRead the text and answer. · Yes, very much · Not really · No, hates it · What are your hobbies? I love reading and painting. I find them very relaxing. What about sports? Do you like swimming? Not really. I prefer dancing. Why do you ask? Because I am looking for a dance partner! · Does the speaker like swimming?\nRead the text and answer. · Reading · Swimming · Dancing · What are your hobbies? I love reading and painting. I find them very relaxing. What about sports? Do you like swimming? Not really. I prefer dancing. Why do you ask? Because I am looking for a dance partner! · What activity does the speaker prefer?\nRead the text and answer. · To learn to dance · Looking for a dance partner · To start a hobby club · What are your hobbies? I love reading and painting. I find them very relaxing. What about sports? Do you like swimming? Not really. I prefer dancing. Why do you ask? Because I am looking for a dance partner! · Why is the other person asking?\nRead the text and answer. · swiming · swimm · swimming · What are your hobbies? I love reading and painting. I find them very relaxing. What about sports? Do you like swimming? Not really. I prefer dancing. Why do you ask? Because I am looking for a dance partner! · How do you form a gerund from 'swim'?\nRead the text and answer. · + noun or -ing · + to + verb only · + adjective · What are your hobbies? I love reading and painting. I find them very relaxing. What about sports? Do you like swimming? Not really. I prefer dancing. Why do you ask? Because I am looking for a dance partner! · Which structure follows 'like/love/hate'?\nRead the text and answer. · But · So · Because · What are your hobbies? I love reading and painting. I find them very relaxing. What about sports? Do you like swimming? Not really. I prefer dancing. Why do you ask? Because I am looking for a dance partner! · What does 'Because' mean?\nRead the text and answer. · Sport · Game · Hobby · What are your hobbies? I love reading and painting. I find them very relaxing. What about sports? Do you like swimming? Not really. I prefer dancing. Why do you ask? Because I am looking for a dance partner! · What word means 'Afición'?\nRead the text and answer. · What? · How? · Why? · What are your hobbies? I love reading and painting. I find them very relaxing. What about sports? Do you like swimming? Not really. I prefer dancing. Why do you ask? Because I am looking for a dance partner! · How do you ask why in English?"
       }
     ]
   },
   "a1-19": {
-    "objective": "Aprender January, February, March y April.",
+    "objective": "Name the twelve months of the year · Use 'in' for months and 'on' for specific dates · Ask and answer about birthdays and dates",
     "sections": [
       {
         "type": "grammar",
-        "title": "Gramática",
-        "body": "Usa “in” con meses: “in May”. Usa “on” con un día o una fecha concreta: “on Monday”, “on May 5th”.\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "When is your birthday?"
+        "title": "Gramática y objetivos",
+        "body": "Name the twelve months of the year\n\nUse 'in' for months and 'on' for specific dates\n\nAsk and answer about birthdays and dates\n\nComplete the affirmative sentence. · My birthday is _____ March.\n\nComplete the affirmative sentence. · Christmas is _____ the 25th of December.\n\nComplete the affirmative sentence. · The meeting is _____ the first of June.\n\nComplete the affirmative sentence. · _____ is your birthday?\n\nChoose the correct word. · Summer is _____ June, July and August. · in · on · at\n\nBuild a sentence using these words. · February · May · January\n\nBuild a sentence using these words. · May · August · April\n\nBuild a sentence using these words. · August · November · July\n\nBuild a sentence using these words. · November · Anniversary · October",
+        "example": "Complete the affirmative sentence. · My birthday is _____ March."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para meses del año i:\nJanuary — Enero\nFebruary — Febrero\nMarch — Marzo\nApril — Abril\nMay — Mayo\nJune — Junio"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "When is your birthday? My birthday is on the fifteenth of August. That's in summer! What do you usually do? I usually have a party with my family and friends. And when is Christmas?"
+        "body": "Choose the correct translation. · January · Enero · Febrero · Marzo\nChoose the correct translation. · February · Marzo · Febrero · Abril\nChoose the correct translation. · March · Abril · Mayo · Marzo\nChoose the correct translation. · April · Abril · Mayo · Junio\nChoose the correct translation. · May · Junio · Mayo · Julio\nChoose the correct translation. · June · Julio · Agosto · Junio\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · April · July · October\nChoose the correct option. · May · August · November"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · August 5th · August 15th · August 25th · When is your birthday? My birthday is on the fifteenth of August. That's in summer! What do you usually do? I usually have a party with my family and friends. And when is Christmas? · When is the speaker's birthday?\nRead the text and answer. · Spring · Autumn · Summer · When is your birthday? My birthday is on the fifteenth of August. That's in summer! What do you usually do? I usually have a party with my family and friends. And when is Christmas? · What season is the birthday?\nRead the text and answer. · Goes on holiday · Has a party · Goes to a restaurant · When is your birthday? My birthday is on the fifteenth of August. That's in summer! What do you usually do? I usually have a party with my family and friends. And when is Christmas? · What does the speaker usually do on their birthday?\nRead the text and answer. · on · at · in · When is your birthday? My birthday is on the fifteenth of August. That's in summer! What do you usually do? I usually have a party with my family and friends. And when is Christmas? · Which preposition is used with months?\nRead the text and answer. · in · on · at · When is your birthday? My birthday is on the fifteenth of August. That's in summer! What do you usually do? I usually have a party with my family and friends. And when is Christmas? · Which preposition is used with specific dates?\nRead the text and answer. · fifteenths · fifteenth · fifteen · When is your birthday? My birthday is on the fifteenth of August. That's in summer! What do you usually do? I usually have a party with my family and friends. And when is Christmas? · How do you say '15' as an ordinal number?\nRead the text and answer. · June · September · August · When is your birthday? My birthday is on the fifteenth of August. That's in summer! What do you usually do? I usually have a party with my family and friends. And when is Christmas? · Which month comes after July?\nRead the text and answer. · Anniversary · Holiday · Birthday · When is your birthday? My birthday is on the fifteenth of August. That's in summer! What do you usually do? I usually have a party with my family and friends. And when is Christmas? · What does 'Birthday' mean?\nRead the text and answer. · Where is your birthday? · When is your birthday? · What is your birthday? · When is your birthday? My birthday is on the fifteenth of August. That's in summer! What do you usually do? I usually have a party with my family and friends. And when is Christmas? · How do you ask when someone's birthday is?\nRead the text and answer. · November · October · December · When is your birthday? My birthday is on the fifteenth of August. That's in summer! What do you usually do? I usually have a party with my family and friends. And when is Christmas? · Which is the last month of the year?"
       }
     ]
   },
   "a1-20": {
-    "objective": "Aprender May, June, July y August.",
+    "objective": "Review all Module 2 topics: time, days, routines, food, hobbies, dates · Combine vocabulary and grammar from units 11–19 · Produce extended descriptions of daily life",
     "sections": [
       {
         "type": "grammar",
-        "title": "Gramática",
-        "body": "El patrón “in + month” indica el mes; “on + date” indica el día concreto.\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "When is your birthday?"
+        "title": "Gramática y objetivos",
+        "body": "Review all Module 2 topics: time, days, routines, food, hobbies, dates\n\nCombine vocabulary and grammar from units 11–19\n\nProduce extended descriptions of daily life\n\nComplete the affirmative sentence. · What _____ does school start?\n\nComplete the affirmative sentence. · She doesn't _____ on Sundays.\n\nComplete the affirmative sentence. · I love _____ in the sea.\n\nComplete the affirmative sentence. · My birthday is _____ July.\n\nChoose the correct word. · _____, he has breakfast. · First · work · swimming\n\nBuild a sentence using these words. · Schedule · Appointment · Routine\n\nBuild a sentence using these words. · Appointment · Frequency · Preference\n\nBuild a sentence using these words. · Frequency · Leisure · Weekday\n\nBuild a sentence using these words. · Leisure · Month · Sequence",
+        "example": "Complete the affirmative sentence. · What _____ does school start?"
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para meses del año ii:\nJanuary — Enero\nFebruary — Febrero\nMarch — Marzo\nApril — Abril\nMay — Mayo\nJune — Junio"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "When is your birthday? My birthday is on the fifteenth of August. That's in summer! What do you usually do? I usually have a party with my family and friends. And when is Christmas?"
+        "body": "Choose the correct translation. · Routine · Rutina · Horario · Hábito\nChoose the correct translation. · Schedule · Hábito · Horario · Preferencia\nChoose the correct translation. · Habit · Preferencia · Cita · Hábito\nChoose the correct translation. · Preference · Preferencia · Cita · Y media\nChoose the correct translation. · Appointment · Y media · Cita · Día de semana\nChoose the correct translation. · Half past · Día de semana · Frecuencia · Y media\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Preference · Weekday · Sequence\nChoose the correct option. · Appointment · Frequency · Leisure"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · At six thirty · At seven o'clock · At seven thirty · Tell me about your typical Monday. I wake up at seven, have, then go to work at eight thirty. Do you eat lunch at work? Yes, usually at one o'clock. I like having salad or a sandwich. And what do you do after work? · What time does the speaker wake up?\nRead the text and answer. · Eight o'clock · Eight thirty · Nine o'clock · Tell me about your typical Monday. I wake up at seven, have, then go to work at eight thirty. Do you eat lunch at work? Yes, usually at one o'clock. I like having salad or a sandwich. And what do you do after work? · What time does the speaker go to work?\nRead the text and answer. · Twelve o'clock · One o'clock · Two o'clock · Tell me about your typical Monday. I wake up at seven, have, then go to work at eight thirty. Do you eat lunch at work? Yes, usually at one o'clock. I like having salad or a sandwich. And what do you do after work? · What time does the speaker have lunch?\nRead the text and answer. · Rice or pasta · Salad or sandwich · Soup or bread · Tell me about your typical Monday. I wake up at seven, have, then go to work at eight thirty. Do you eat lunch at work? Yes, usually at one o'clock. I like having salad or a sandwich. And what do you do after work? · What does the speaker eat for lunch?\nRead the text and answer. · don't + verb · doesn't + verb · isn't + verb · Tell me about your typical Monday. I wake up at seven, have, then go to work at eight thirty. Do you eat lunch at work? Yes, usually at one o'clock. I like having salad or a sandwich. And what do you do after work? · Which grammar structure is used for negatives with 'she/he'?\nRead the text and answer. · on · at · in · Tell me about your typical Monday. I wake up at seven, have, then go to work at eight thirty. Do you eat lunch at work? Yes, usually at one o'clock. I like having salad or a sandwich. And what do you do after work? · Which preposition goes with months in English?\nRead the text and answer. · Then · After that · First · Tell me about your typical Monday. I wake up at seven, have, then go to work at eight thirty. Do you eat lunch at work? Yes, usually at one o'clock. I like having salad or a sandwich. And what do you do after work? · What sequence adverb comes first in a routine?\nRead the text and answer. · I like + noun/-ing · I is liking + noun · I enjoy to + verb · Tell me about your typical Monday. I wake up at seven, have, then go to work at eight thirty. Do you eat lunch at work? Yes, usually at one o'clock. I like having salad or a sandwich. And what do you do after work? · How do you say you enjoy something in English?\nRead the text and answer. · eight past half · half past eight · eight and half · Tell me about your typical Monday. I wake up at seven, have, then go to work at eight thirty. Do you eat lunch at work? Yes, usually at one o'clock. I like having salad or a sandwich. And what do you do after work? · What is 'las ocho y media' in English?\nRead the text and answer. · Sunday · Monday · Saturday · Tell me about your typical Monday. I wake up at seven, have, then go to work at eight thirty. Do you eat lunch at work? Yes, usually at one o'clock. I like having salad or a sandwich. And what do you do after work? · Which day comes after Friday?"
       }
     ]
   },
   "a1-21": {
-    "objective": "Aprender September, October, November y December.",
+    "objective": "Name the rooms of a house in English · Describe rooms using adjectives · Use plural nouns correctly in context",
     "sections": [
       {
         "type": "grammar",
-        "title": "Gramática",
-        "body": "Los meses llevan mayúscula. Usa “in” para el mes y “on” para una fecha completa.\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "When is your birthday?"
+        "title": "Gramática y objetivos",
+        "body": "Name the rooms of a house in English\n\nDescribe rooms using adjectives\n\nUse plural nouns correctly in context\n\nComplete the affirmative sentence. · The kitchen is _____ and modern.\n\nComplete the affirmative sentence. · We have _____ bedrooms.\n\nComplete the affirmative sentence. · The living room is very _____.\n\nComplete the affirmative sentence. · My bedroom _____ a big balcony.\n\nChoose the correct word. · The bathroom _____ small but clean. · is · three · cozy\n\nBuild a sentence using these words. · Living room · Garden · Kitchen\n\nBuild a sentence using these words. · Garden · Garage · Bathroom\n\nBuild a sentence using these words. · Garage · Bright · Dining room\n\nBuild a sentence using these words. · Bright · Spacious · Stairs",
+        "example": "Complete the affirmative sentence. · The kitchen is _____ and modern."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para meses del año iii:\nJanuary — Enero\nFebruary — Febrero\nMarch — Marzo\nApril — Abril\nMay — Mayo\nJune — Junio"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "When is your birthday? My birthday is on the fifteenth of August. That's in summer! What do you usually do? I usually have a party with my family and friends. And when is Christmas?"
+        "body": "Choose the correct translation. · Kitchen · Cocina · Salón · Dormitorio\nChoose the correct translation. · Living room · Dormitorio · Salón · Baño\nChoose the correct translation. · Bedroom · Baño · Jardín · Dormitorio\nChoose the correct translation. · Bathroom · Baño · Jardín · Pasillo/Recibidor\nChoose the correct translation. · Garden · Pasillo/Recibidor · Jardín · Comedor\nChoose the correct translation. · Hall · Comedor · Garaje · Pasillo/Recibidor\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Bathroom · Dining room · Stairs\nChoose the correct option. · Garden · Garage · Bright"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · Two · Four · Three · Tell me about your house. What rooms does it have? We have a large living room, a kitchen, three bedrooms and two bathrooms. Oh, that's spacious! Is there a garden? Yes! We have a small garden with flowers and a table outside. My favourite room is the living room — it's so bright and cozy! · How many bedrooms does the house have?\nRead the text and answer. · One · Three · Two · Tell me about your house. What rooms does it have? We have a large living room, a kitchen, three bedrooms and two bathrooms. Oh, that's spacious! Is there a garden? Yes! We have a small garden with flowers and a table outside. My favourite room is the living room — it's so bright and cozy! · How many bathrooms does the house have?\nRead the text and answer. · No · Yes, a large one · Yes, a small one · Tell me about your house. What rooms does it have? We have a large living room, a kitchen, three bedrooms and two bathrooms. Oh, that's spacious! Is there a garden? Yes! We have a small garden with flowers and a table outside. My favourite room is the living room — it's so bright and cozy! · Is the house there a garden?\nRead the text and answer. · A swimming pool · Flowers and a table · Trees and grass · Tell me about your house. What rooms does it have? We have a large living room, a kitchen, three bedrooms and two bathrooms. Oh, that's spacious! Is there a garden? Yes! We have a small garden with flowers and a table outside. My favourite room is the living room — it's so bright and cozy! · What is in the garden?\nRead the text and answer. · The kitchen · The bedroom · The living room · Tell me about your house. What rooms does it have? We have a large living room, a kitchen, three bedrooms and two bathrooms. Oh, that's spacious! Is there a garden? Yes! We have a small garden with flowers and a table outside. My favourite room is the living room — it's so bright and cozy! · What is the speaker's favourite room?\nRead the text and answer. · Dark and small · Bright and cozy · Large and modern · Tell me about your house. What rooms does it have? We have a large living room, a kitchen, three bedrooms and two bathrooms. Oh, that's spacious! Is there a garden? Yes! We have a small garden with flowers and a table outside. My favourite room is the living room — it's so bright and cozy! · How is the living room described?\nRead the text and answer. · Living room · Kitchen · Bedroom · Tell me about your house. What rooms does it have? We have a large living room, a kitchen, three bedrooms and two bathrooms. Oh, that's spacious! Is there a garden? Yes! We have a small garden with flowers and a table outside. My favourite room is the living room — it's so bright and cozy! · What word means 'Dormitorio'?\nRead the text and answer. · Large · Cozy/Comfortable · Bright · Tell me about your house. What rooms does it have? We have a large living room, a kitchen, three bedrooms and two bathrooms. Oh, that's spacious! Is there a garden? Yes! We have a small garden with flowers and a table outside. My favourite room is the living room — it's so bright and cozy! · What does 'Cozy' mean?\nRead the text and answer. · A large garden · A small outdoor platform · A type of kitchen · Tell me about your house. What rooms does it have? We have a large living room, a kitchen, three bedrooms and two bathrooms. Oh, that's spacious! Is there a garden? Yes! We have a small garden with flowers and a table outside. My favourite room is the living room — it's so bright and cozy! · What is a 'Balcony'?\nRead the text and answer. · Cozy · Spacious · Bright · Tell me about your house. What rooms does it have? We have a large living room, a kitchen, three bedrooms and two bathrooms. Oh, that's spacious! Is there a garden? Yes! We have a small garden with flowers and a table outside. My favourite room is the living room — it's so bright and cozy! · Which adjective describes a room with lots of light?"
       }
     ]
   },
   "a1-22": {
-    "objective": "Reconocer y expresar fechas comunes.",
+    "objective": "Name furniture and household items in English · Use possessive pronouns: mine, yours, his, hers · Describe objects in the home",
     "sections": [
       {
         "type": "grammar",
-        "title": "Gramática",
-        "body": "Las fechas pueden incluir números ordinales: first (1st), second (2nd), third (3rd); después se suele añadir -th.\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "When is your birthday?"
+        "title": "Gramática y objetivos",
+        "body": "Name furniture and household items in English\n\nUse possessive pronouns: mine, yours, his, hers\n\nDescribe objects in the home\n\nComplete the affirmative sentence. · That sofa is _____.\n\nComplete the affirmative sentence. · The red lamp is _____.\n\nComplete the affirmative sentence. · Whose is this _____?\n\nComplete the affirmative sentence. · It's his bed. The blue one is _____.\n\nChoose the correct word. · The wardrobe in my bedroom _____ very old. · is · yours · chair\n\nBuild a sentence using these words. · Sofa · Fridge · Bed\n\nBuild a sentence using these words. · Fridge · Lamp · Chair\n\nBuild a sentence using these words. · Lamp · Curtains · Shelf\n\nBuild a sentence using these words. · Curtains · Yours · Carpet",
+        "example": "Complete the affirmative sentence. · That sofa is _____."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para fechas sencillas:\nJanuary — Enero\nFebruary — Febrero\nMarch — Marzo\nApril — Abril\nMay — Mayo\nJune — Junio"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "When is your birthday? My birthday is on the fifteenth of August. That's in summer! What do you usually do? I usually have a party with my family and friends. And when is Christmas?"
+        "body": "Choose the correct translation. · Bed · Cama · Sofá · Mesa\nChoose the correct translation. · Sofa · Mesa · Sofá · Silla\nChoose the correct translation. · Table · Silla · Nevera · Mesa\nChoose the correct translation. · Chair · Silla · Nevera · Armario\nChoose the correct translation. · Fridge · Armario · Nevera · Estantería\nChoose the correct translation. · Wardrobe · Estantería · Lámpara · Armario\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Chair · Shelf · Carpet\nChoose the correct option. · Fridge · Lamp · Curtains"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · No, it's old · Yes, it's new · It's second-hand · I love your flat! Is that sofa new? Yes! I bought it last month past. It's very comfortable. And what about that lamp? Is it yours? No, that lamp is my flatmate's. The carpet and the curtains are mine, though. I chose them myself. · Is the sofa new?\nRead the text and answer. · Last week · Last year · Last month · I love your flat! Is that sofa new? Yes! I bought it last month past. It's very comfortable. And what about that lamp? Is it yours? No, that lamp is my flatmate's. The carpet and the curtains are mine, though. I chose them myself. · When was the sofa bought?\nRead the text and answer. · The speaker's · The flatmate's · It belongs to both · I love your flat! Is that sofa new? Yes! I bought it last month past. It's very comfortable. And what about that lamp? Is it yours? No, that lamp is my flatmate's. The carpet and the curtains are mine, though. I chose them myself. · Whose is the lamp?\nRead the text and answer. · The sofa and lamp · The carpet and curtains · The table and chairs · I love your flat! Is that sofa new? Yes! I bought it last month past. It's very comfortable. And what about that lamp? Is it yours? No, that lamp is my flatmate's. The carpet and the curtains are mine, though. I chose them myself. · What belongs to the speaker?\nRead the text and answer. · Yours · His/Hers · Mine · I love your flat! Is that sofa new? Yes! I bought it last month past. It's very comfortable. And what about that lamp? Is it yours? No, that lamp is my flatmate's. The carpet and the curtains are mine, though. I chose them myself. · What does 'Mine' mean?\nRead the text and answer. · Mine · Yours · Theirs · I love your flat! Is that sofa new? Yes! I bought it last month past. It's very comfortable. And what about that lamp? Is it yours? No, that lamp is my flatmate's. The carpet and the curtains are mine, though. I chose them myself. · What does 'Yours' mean?\nRead the text and answer. · Chair · Sofa · Bed · I love your flat! Is that sofa new? Yes! I bought it last month past. It's very comfortable. And what about that lamp? Is it yours? No, that lamp is my flatmate's. The carpet and the curtains are mine, though. I chose them myself. · What word means 'Sofá'?\nRead the text and answer. · A type of bed · A large cupboard for clothes · A kitchen appliance · I love your flat! Is that sofa new? Yes! I bought it last month past. It's very comfortable. And what about that lamp? Is it yours? No, that lamp is my flatmate's. The carpet and the curtains are mine, though. I chose them myself. · What is a 'Wardrobe'?\nRead the text and answer. · Wardrobe · Washing machine · Fridge · I love your flat! Is that sofa new? Yes! I bought it last month past. It's very comfortable. And what about that lamp? Is it yours? No, that lamp is my flatmate's. The carpet and the curtains are mine, though. I chose them myself. · Which item is used to cool food?\nRead the text and answer. · Expensive · Comfortable · Old · I love your flat! Is that sofa new? Yes! I bought it last month past. It's very comfortable. And what about that lamp? Is it yours? No, that lamp is my flatmate's. The carpet and the curtains are mine, though. I chose them myself. · How is the speaker the sofa?"
       }
     ]
   },
   "a1-23": {
-    "objective": "Preguntar y responder cuándo es un cumpleaños.",
+    "objective": "Use 'there is/are' in affirmative, negative, and questions · Use prepositions of place: in, on, under, behind · Describe locations of objects",
     "sections": [
       {
         "type": "grammar",
-        "title": "Gramática",
-        "body": "Pregunta “When is your birthday?” y responde “It’s in + mes” o “It’s on + fecha”.\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "When is your birthday?"
+        "title": "Gramática y objetivos",
+        "body": "Use 'there is/are' in affirmative, negative, and questions\n\nUse prepositions of place: in, on, under, behind\n\nDescribe locations of objects\n\nComplete the affirmative sentence. · _____ a book on the table.\n\nComplete the affirmative sentence. · _____ three chairs in the room.\n\nComplete the affirmative sentence. · There isn't _____ TV in the bedroom.\n\nComplete the affirmative sentence. · There aren't _____ windows in the bathroom.\n\nChoose the correct word. · _____ a garden in your house? · Is there · There are · a\n\nBuild a sentence using these words. · There are · Is there · There is\n\nBuild a sentence using these words. · Is there · On · There aren't\n\nBuild a sentence using these words. · On · In front of · In\n\nBuild a sentence using these words. · In front of · A lot of · Behind",
+        "example": "Complete the affirmative sentence. · _____ a book on the table."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para cumpleaños:\nJanuary — Enero\nFebruary — Febrero\nMarch — Marzo\nApril — Abril\nMay — Mayo\nJune — Junio"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "When is your birthday? My birthday is on the fifteenth of August. That's in summer! What do you usually do? I usually have a party with my family and friends. And when is Christmas?"
+        "body": "Choose the correct translation. · There is · Hay (sing.) · Hay (pl.) · No hay (sing.)\nChoose the correct translation. · There are · No hay (sing.) · Hay (pl.) · No hay (pl.)\nChoose the correct translation. · There isn't · No hay (pl.) · ¿Hay? (sing.) · No hay (sing.)\nChoose the correct translation. · There aren't · No hay (pl.) · ¿Hay? (sing.) · ¿Hay? (pl.)\nChoose the correct translation. · Is there · ¿Hay? (pl.) · ¿Hay? (sing.) · En (interior)\nChoose the correct translation. · Are there · En (interior) · En/Sobre (superficie) · ¿Hay? (pl.)\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · There aren't · In · Behind\nChoose the correct option. · Is there · On · In front of"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · No · Yes, on the main street · Yes, far away · Excuse, is there a bank near here? Yes, there is one on the main street. It's next to the supermarket. Are there any ATMs inside? Yes, there are two ATMs inside and one outside. Is there a café nearby? There isn't one on my street. · Is there a bank near?\nRead the text and answer. · Next to the park · Next to the supermarket · Behind the library · Excuse, is there a bank near here? Yes, there is one on the main street. It's next to the supermarket. Are there any ATMs inside? Yes, there are two ATMs inside and one outside. Is there a café nearby? There isn't one on my street. · Where is the bank?\nRead the text and answer. · One · Three · Two · Excuse, is there a bank near here? Yes, there is one on the main street. It's next to the supermarket. Are there any ATMs inside? Yes, there are two ATMs inside and one outside. Is there a café nearby? There isn't one on my street. · How many ATMs are inside the bank?\nRead the text and answer. · No · Yes, one · Yes, two · Excuse, is there a bank near here? Yes, there is one on the main street. It's next to the supermarket. Are there any ATMs inside? Yes, there are two ATMs inside and one outside. Is there a café nearby? There isn't one on my street. · Are there any ATMs outside?\nRead the text and answer. · There are · There is · There have · Excuse, is there a bank near here? Yes, there is one on the main street. It's next to the supermarket. Are there any ATMs inside? Yes, there are two ATMs inside and one outside. Is there a café nearby? There isn't one on my street. · Which is the correct form for singular?\nRead the text and answer. · There isn't a cat · There aren't a cat · There is no cat · Excuse, is there a bank near here? Yes, there is one on the main street. It's next to the supermarket. Are there any ATMs inside? Yes, there are two ATMs inside and one outside. Is there a café nearby? There isn't one on my street. · What is the negative of 'There is a cat'?\nRead the text and answer. · Behind · On · Under · Excuse, is there a bank near here? Yes, there is one on the main street. It's next to the supermarket. Are there any ATMs inside? Yes, there are two ATMs inside and one outside. Is there a café nearby? There isn't one on my street. · What word means 'Debajo de'?\nRead the text and answer. · Is there...? · Are there...? · Has there...? · Excuse, is there a bank near here? Yes, there is one on the main street. It's next to the supermarket. Are there any ATMs inside? Yes, there are two ATMs inside and one outside. Is there a café nearby? There isn't one on my street. · Which question asks about plural?\nRead the text and answer. · In front of · Between · Next to · Excuse, is there a bank near here? Yes, there is one on the main street. It's next to the supermarket. Are there any ATMs inside? Yes, there are two ATMs inside and one outside. Is there a café nearby? There isn't one on my street. · What does 'Next to' mean?\nRead the text and answer. · In front of · Behind · Between · Excuse, is there a bank near here? Yes, there is one on the main street. It's next to the supermarket. Are there any ATMs inside? Yes, there are two ATMs inside and one outside. Is there a café nearby? There isn't one on my street. · What does 'Behind' mean?"
       }
     ]
   },
   "a1-24": {
-    "objective": "Combinar días, meses y fechas.",
+    "objective": "Use advanced prepositions of place: next to, between, opposite, above · Describe the location of objects and places · Combine there is/are with complex prepositions",
     "sections": [
       {
         "type": "grammar",
-        "title": "Gramática",
-        "body": "Repasa la diferencia: “in” + mes, “on” + día o fecha. Los días y meses llevan mayúscula.\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "When is your birthday?"
+        "title": "Gramática y objetivos",
+        "body": "Use advanced prepositions of place: next to, between, opposite, above\n\nDescribe the location of objects and places\n\nCombine there is/are with complex prepositions\n\nComplete the affirmative sentence. · The post office is _____ the bank and the pharmacy.\n\nComplete the affirmative sentence. · The school is _____ the park.\n\nComplete the affirmative sentence. · The lamp is _____ the table.\n\nComplete the affirmative sentence. · The cat is _____ the sofa.\n\nChoose the correct word. · Is the library far _____ here? · from · opposite · above\n\nBuild a sentence using these words. · Between · Above · Next to\n\nBuild a sentence using these words. · Above · Far from · Opposite\n\nBuild a sentence using these words. · Far from · Floor · Near\n\nBuild a sentence using these words. · Floor · Centre · Wall",
+        "example": "Complete the affirmative sentence. · The post office is _____ the bank and the pharmacy."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para repaso de calendario:\nJanuary — Enero\nFebruary — Febrero\nMarch — Marzo\nApril — Abril\nMay — Mayo\nJune — Junio"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "When is your birthday? My birthday is on the fifteenth of August. That's in summer! What do you usually do? I usually have a party with my family and friends. And when is Christmas?"
+        "body": "Choose the correct translation. · Next to · Al lado de · Entre · Delante de\nChoose the correct translation. · Between · Delante de · Entre · Frente a\nChoose the correct translation. · In front of · Frente a · Encima de · Delante de\nChoose the correct translation. · Opposite · Frente a · Encima de · Debajo de\nChoose the correct translation. · Above · Debajo de · Encima de · Cerca de\nChoose the correct translation. · Below · Cerca de · Lejos de · Debajo de\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Opposite · Near · Wall\nChoose the correct option. · Above · Far from · Floor"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · Phone · Glasses · Keys · I can't find my keys. Can you help me? Where did you leave them last night? I think they are on the table next to the door. No, they're not there. Oh! They're between the sofa cushions! Thank you! I always lose things in front of my eyes! · What is the speaker looking for?\nRead the text and answer. · On the floor · On the table next to the door · In the pocket · I can't find my keys. Can you help me? Where did you leave them last night? I think they are on the table next to the door. No, they're not there. Oh! They're between the sofa cushions! Thank you! I always lose things in front of my eyes! · Where does the speaker think the keys are?\nRead the text and answer. · Under the sofa · Between the sofa cushions · Behind the door · I can't find my keys. Can you help me? Where did you leave them last night? I think they are on the table next to the door. No, they're not there. Oh! They're between the sofa cushions! Thank you! I always lose things in front of my eyes! · Where are the keys actually?\nRead the text and answer. · Next to · Between · In front of · I can't find my keys. Can you help me? Where did you leave them last night? I think they are on the table next to the door. No, they're not there. Oh! They're between the sofa cushions! Thank you! I always lose things in front of my eyes! · What does 'Between' mean?\nRead the text and answer. · Far from · Above · Next to · I can't find my keys. Can you help me? Where did you leave them last night? I think they are on the table next to the door. No, they're not there. Oh! They're between the sofa cushions! Thank you! I always lose things in front of my eyes! · What does 'Next to' mean?\nRead the text and answer. · Facing · Next to · Behind · I can't find my keys. Can you help me? Where did you leave them last night? I think they are on the table next to the door. No, they're not there. Oh! They're between the sofa cushions! Thank you! I always lose things in front of my eyes! · What does 'Opposite' mean?\nRead the text and answer. · Below · Above · Near · I can't find my keys. Can you help me? Where did you leave them last night? I think they are on the table next to the door. No, they're not there. Oh! They're between the sofa cushions! Thank you! I always lose things in front of my eyes! · What does 'Above' mean?\nRead the text and answer. · Far from · Near · Opposite · I can't find my keys. Can you help me? Where did you leave them last night? I think they are on the table next to the door. No, they're not there. Oh! They're between the sofa cushions! Thank you! I always lose things in front of my eyes! · What does 'Near' mean?\nRead the text and answer. · Behind · In front of · Between · I can't find my keys. Can you help me? Where did you leave them last night? I think they are on the table next to the door. No, they're not there. Oh! They're between the sofa cushions! Thank you! I always lose things in front of my eyes! · What does 'In front of' mean?\nRead the text and answer. · Near · Far from · Above · I can't find my keys. Can you help me? Where did you leave them last night? I think they are on the table next to the door. No, they're not there. Oh! They're between the sofa cushions! Thank you! I always lose things in front of my eyes! · Which preposition means 'Lejos de'?"
       }
     ]
   },
