@@ -8,7 +8,7 @@ import { Exercise } from '@/lib/exercise-generator';
 const LESSON_TITLE = 'Comprensión auditiva';
 const TOPIC = 'Numbers 20–100 (Prices & Ages)';
 
-const LISTENING_TRANSCRIPT = `[[Maria|Maria]]: [[How|Cuánto]] [[much|cuesta]] [[is|es]] [[this|esta]] [[book|libro]]? [[Shop|Tienda]]: [[It|Cuesta]] [[is|es]] [[twenty-five|veinticinco]] [[euros|euros]]. [[Maria|Maria]]: [[And|Y]] [[how|cuánto]] [[much|cuesta]] [[are|son]] [[the|los]] [[notebooks|cuadernos]]? [[Shop|Tienda]]: [[They|Cuestan]] [[are|son]] [[three|tres]] [[euros|euros]] [[each|cada uno]]. [[Maria|Maria]]: [[How old is your daughter?|¿Cuántos años tiene tu hija?]] [[Shop|Tienda]]: [[She is twelve years old.|Tiene doce años.]] [[Maria|Maria]]: [[My son is fifteen.|Mi hijo tiene quince años.]] [[I|Yo]] [[need|necesito]] [[two|dos]] [[books|libros]] [[and|y]] [[one|un]] [[notebook|cuaderno]]. [[Shop|Tienda]]: [[That|Eso]] [[is|son]] [[fifty-three|cincuenta y tres]] [[euros|euros]] [[in|en]] [[total|total]].`;
+const LISTENING_TRANSCRIPT = `[[Maria: How much is this book?|Maria: ¿Cuánto cuesta este libro?]] [[Shop: It is twenty-five euros.|Dependiente: Cuesta veinticinco euros.]] [[Maria: And how much are the notebooks?|Maria: ¿Y cuánto cuestan los cuadernos?]] [[Shop: They are three euros each.|Dependiente: Cuestan tres euros cada uno.]] [[Maria: How old is your daughter?|Maria: ¿Cuántos años tiene tu hija?]] [[Shop: She is twelve years old.|Dependiente: Tiene doce años.]] [[Maria: My son is fifteen.|Maria: Mi hijo tiene quince años.]] [[I need two books and one notebook.|Necesito dos libros y un cuaderno.]] [[Shop: That is fifty-three euros in total.|Dependiente: Son cincuenta y tres euros en total.]]`;
 
 const INSTRUCTIONS = 'Escucha el audio. Después contesta cada pregunta.';
 
