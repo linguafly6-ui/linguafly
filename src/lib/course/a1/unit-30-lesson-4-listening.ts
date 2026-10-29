@@ -6,7 +6,7 @@ import { Exercise } from '@/lib/exercise-generator';
 
 const LESSON_TITLE = 'Comprensión auditiva';
 const TOPIC = 'Module 3 Review';
-const LISTENING_TRANSCRIPT = `[[A|A]]: [[What|Qué]] [[is|hay]] [[in|en]] [[your|tu]] [[living room|sala]]? [[B|B]]: [[There|Hay]] [[is|(sing)]] [[a|un]] [[sofa|sofá]] [[and|y]] [[there|hay]] [[are|(pl)]] [[two|dos]] [[chairs|sillas]]. [[The|La]] [[table|mesa]] [[is|está]] [[next to|al lado de]] [[the|la]] [[window|ventana]]. [[A|A]]: [[Do|¿Tienes]] [[you|]] [[have|tienes]] [[got|]] [[a|una]] [[pet|mascota]]? [[B|B]]: [[Yes|Sí]], [[I|yo]] [[have|tengo]] [[got|]] [[a|un]] [[dog|perro]]. [[He|Es]] [[is|muy]] [[very|]] [[friendly|amigable]]. [[A|A]]: [[What|Qué]] [[are|estás]] [[you|tú]] [[wearing|llevando]]? [[B|B]]: [[I|Yo]] [[am|estoy]] [[wearing|llevando]] [[a|una]] [[shirt|camisa]] [[and|y]] [[trousers|pantalones]]. [[To|Para]] [[get|llegar]] [[to|a]] [[the|la]] [[park|parque]] [[go|ve]] [[straight|recto]] [[and|y]] [[turn|gira]] [[left|izquierda]].`;
+const LISTENING_TRANSCRIPT = `[[A: What is in your living room?|A: ¿Qué hay en tu salón?]] [[B: There is a sofa and there are two chairs.|B: Hay un sofá y dos sillas.]] [[The table is next to the window.|La mesa está al lado de la ventana.]] [[A: Have you got a pet?|A: ¿Tienes una mascota?]] [[B: Yes, I've got a dog. He is very friendly.|B: Sí, tengo un perro. Es muy amigable.]] [[A: What are you wearing?|A: ¿Qué llevas puesto?]] [[B: I am wearing a shirt and trousers.|B: Llevo una camisa y unos pantalones.]] [[To get to the park, go straight and turn left.|Para llegar al parque, sigue recto y gira a la izquierda.]]`;
 
 const INSTRUCTIONS = 'Escucha el audio. Después contesta cada pregunta.';
 
