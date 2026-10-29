@@ -303,11 +303,16 @@ const descriptionUpdate = `UPDATE learning_courses SET description = 'Curso A1 d
 const readingChunks = [];
 for (let index = 0; index < readingUpdates.length; index += 50) readingChunks.push(readingUpdates.slice(index, index + 50));
 readingChunks.forEach((chunk, index) => {
-  const migrationNumber = String(9 + index).padStart(3, '0');
-  const suffix = index === 0 ? '' : `_${String(index + 1).padStart(2, '0')}`;
-  const migrationPath = path.join(migrationDir, `202610290${migrationNumber}_a1_reading_comprehension${suffix}.sql`);
-  const preamble = index === 0 ? `-- Replace the former Writing section with closed A1 reading comprehension.\nDELETE FROM learning_exercise_progress WHERE exercise_id LIKE 'a1-u%-wri-%';\n${descriptionUpdate}\n` : `-- Continue the A1 reading comprehension conversion (batch ${index + 1}/${readingChunks.length}).\n`;
-  fs.writeFileSync(migrationPath, `${preamble}${chunk.join('\n')}\n`, 'utf8');
+  const parts = index === readingChunks.length - 1 && chunk.length > 40 ? [chunk.slice(0, 40), chunk.slice(40)] : [chunk];
+  parts.forEach((part, partIndex) => {
+    const migrationIndex = index + partIndex;
+    const migrationNumber = String(9 + migrationIndex).padStart(3, '0');
+    const suffix = migrationIndex === 0 ? '' : `_${String(migrationIndex + 1).padStart(2, '0')}`;
+    const migrationPath = path.join(migrationDir, `202610290${migrationNumber}_a1_reading_comprehension${suffix}.sql`);
+    const batchCount = readingChunks.length + (parts.length - 1);
+    const preamble = migrationIndex === 0 ? `-- Replace the former Writing section with closed A1 reading comprehension.\nDELETE FROM learning_exercise_progress WHERE exercise_id LIKE 'a1-u%-wri-%';\n${descriptionUpdate}\n` : `-- Continue the A1 reading comprehension conversion (batch ${migrationIndex + 1}/${batchCount}).\n`;
+    fs.writeFileSync(migrationPath, `${preamble}${part.join('\n')}\n`, 'utf8');
+  });
 });
 console.log(`Generated ${rows.length} exercises (15 in each of 4 sections across 60 units): ${path.relative(root, outputPath)}`);
-console.log(`Generated ${readingUpdates.length} reading conversions in ${readingChunks.length} D1-safe migrations.`);
+console.log(`Generated ${readingUpdates.length} reading conversions in ${readingChunks.length + 1} D1-safe migrations.`);
