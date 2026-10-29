@@ -8,7 +8,7 @@ import { Exercise } from '@/lib/exercise-generator';
 const LESSON_TITLE = 'Comprensión auditiva';
 const TOPIC = 'Places in Town';
 
-const LISTENING_TRANSCRIPT = `[[Anna|Anna]]: [[Where|Dónde]] [[is|está]] [[the|la]] [[post office|oficina de correos]]? [[Ben|Ben]]: [[It|Está]] [[is|al]] [[next to|lado]] [[the|del]] [[bank|banco]]. [[Go|Sigue]] [[straight|recto]] [[and|y]] [[turn|gira]] [[left|a la izquierda]]. [[Anna|Anna]]: [[Is|¿Hay]] [[there|allí]] [[a|una]] [[pharmacy|farmacia]] [[near|cerca]]? [[Ben|Ben]]: [[Yes|Sí]], [[there|allí]] [[is|hay]]. [[It|Está]] [[is|entre]] [[between|la]] [[the|biblioteca]] [[library|y]] [[and|el]] [[the|supermercado]] [[supermarket]]. [[There|Hay]] [[are|dos]] [[two|farmacias]] [[pharmacies|in|en]] [[the|la]] [[street|calle]]. [[Anna|Anna]]: [[Thank you|Gracias]]. [[Ben|Ben]]: [[You\'re welcome|De nada]].`;
+const LISTENING_TRANSCRIPT = `[[Anna: Where is the post office?|Anna: ¿Dónde está la oficina de correos?]] [[Ben: It is next to the bank. Go straight and turn left.|Ben: Está al lado del banco. Sigue recto y gira a la izquierda.]] [[Anna: Is there a pharmacy nearby?|Anna: ¿Hay una farmacia cerca?]] [[Ben: Yes, there is. It is between the library and the supermarket.|Ben: Sí. Está entre la biblioteca y el supermercado.]] [[There are two pharmacies in the street.|Hay dos farmacias en la calle.]] [[Anna: Thank you.|Anna: Gracias.]] [[Ben: You're welcome.|Ben: De nada.]]`;
 
 const INSTRUCTIONS = 'Escucha el audio. Después contesta cada pregunta.';
 
