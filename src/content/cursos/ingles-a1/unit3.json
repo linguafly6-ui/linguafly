@@ -673,7 +673,7 @@
             },
             {
               "id": "o2",
-              "text": "[[am|am]]"
+              "text": "[[is|is]]"
             },
             {
               "id": "o3",
@@ -700,7 +700,7 @@
             },
             {
               "id": "o3",
-              "text": "[[is|is]]"
+              "text": "[[are|are]]"
             }
           ],
           "correct_answer": "o1"
