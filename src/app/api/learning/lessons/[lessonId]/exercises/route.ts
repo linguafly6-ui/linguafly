@@ -120,9 +120,9 @@ export async function POST(
       return NextResponse.json({ correct: null, explanation }, { headers: { "Cache-Control": "no-store" } });
     }
 
-    let answerKey: { correct?: unknown; answer?: unknown };
+    let answerKey: { correct?: unknown; answer?: unknown; accepted?: unknown };
     try {
-      answerKey = JSON.parse(row.answer_json || "{}") as { correct?: unknown };
+      answerKey = JSON.parse(row.answer_json || "{}") as { correct?: unknown; answer?: unknown; accepted?: unknown };
     } catch {
       return NextResponse.json({ error: "Exercise answer is unavailable" }, { status: 500 });
     }
@@ -137,7 +137,10 @@ export async function POST(
       return NextResponse.json({ error: "Exercise answer is unavailable" }, { status: 500 });
     }
 
-    const correct = normalize(body.answer) === normalize(correctAnswer);
+    const acceptedAnswers = Array.isArray(answerKey.accepted)
+      ? answerKey.accepted.filter((answer): answer is string => typeof answer === "string")
+      : [];
+    const correct = [correctAnswer, ...acceptedAnswers].some((answer) => normalize(body.answer) === normalize(answer));
     let review;
     if (user) {
       const previousRow = await env.DB.prepare(
