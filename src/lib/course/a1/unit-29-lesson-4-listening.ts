@@ -6,7 +6,7 @@ import { Exercise } from '@/lib/exercise-generator';
 
 const LESSON_TITLE = 'Comprensión auditiva';
 const TOPIC = 'Clothes';
-const LISTENING_TRANSCRIPT = `[[A|A]]: [[What|Qué]] [[are|estás]] [[you|tú]] [[wearing|llevando]] [[today|hoy]]? [[B|B]]: [[I|Yo]] [[am|estoy]] [[wearing|llevando]] [[a|una]] [[white|blanca]] [[shirt|camisa]] [[and|y]] [[blue|azules]] [[trousers|pantalones]]. [[A|A]]: [[Nice|Bien]]. [[Is|Está]] [[your|tu]] [[sister|hermana]] [[wearing|llevando]] [[a|un]] [[dress|vestido]]? [[B|B]]: [[Yes|Sí]], [[she|ella]] [[is|está]] [[wearing|llevando]] [[a|un]] [[red|rojo]] [[dress|vestido]] [[and|y]] [[black|negros]] [[shoes|zapatos]]. [[A|A]]: [[What|Qué]] [[about|]] [[your|tu]] [[brother|hermano]]? [[B|B]]: [[He|Él]] [[is|está]] [[wearing|llevando]] [[a|una]] [[jacket|chaqueta]] [[and|y]] [[a|un]] [[hat|sombrero]]. [[He|Él]] [[is|está]] [[wearing|llevando]] [[brown|marrones]] [[shoes|zapatos]].`;
+const LISTENING_TRANSCRIPT = `[[A: What are you wearing today?|A: ¿Qué llevas puesto hoy?]] [[B: I am wearing a white shirt and blue trousers.|B: Llevo una camisa blanca y unos pantalones azules.]] [[A: Nice. Is your sister wearing a dress?|A: Qué bien. ¿Tu hermana lleva un vestido?]] [[B: Yes, she is wearing a red dress and black shoes.|B: Sí, lleva un vestido rojo y zapatos negros.]] [[A: What about your brother?|A: ¿Y tu hermano?]] [[B: He is wearing a jacket and a hat. He is wearing brown shoes.|B: Lleva una chaqueta y un sombrero. Lleva zapatos marrones.]]`;
 
 const INSTRUCTIONS = 'Escucha el audio. Después contesta cada pregunta.';
 
