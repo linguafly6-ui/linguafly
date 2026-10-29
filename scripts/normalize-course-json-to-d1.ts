@@ -69,7 +69,7 @@ function sectionFor(item: Interaction, blockTitle: string): string {
 }
 function promptFor(item: Interaction): string {
   if (/fill.?blanks?/i.test(item.type) && typeof item.main_text === "string") {
-    return [item.prompt_es, item.main_text].filter((value) => typeof value === "string" && value.trim()).join("\\n\\n");
+    return [item.prompt_es, item.main_text].filter((value) => typeof value === "string" && value.trim()).join("\n\n");
   }
   return [item.question_en, item.stimulus_en, item.prompt_es]
     .find((value) => typeof value === "string" && value.trim())?.trim() ?? "";
