@@ -17,11 +17,13 @@ type StripeObject = {
   invoice_pdf?: string | null;
   number?: string | null;
   billing_reason?: string | null;
-  metadata?: { email?: string; plan?: string } | null;
+  metadata?: { email?: string; plan?: string; launch_offer?: string; price_after_promo?: string } | null;
   status?: string;
   mode?: string;
+  current_period_start?: number;
   current_period_end?: number;
   cancel_at_period_end?: boolean;
+  schedule?: string | { id?: string } | null;
 };
 type StripeEvent = { id: string; type: string; data: { object: StripeObject } };
 
@@ -53,6 +55,71 @@ function periodEnd(value?: number) {
   return typeof value === "number" ? new Date(value * 1000).toISOString() : null;
 }
 
+async function stripeRequest<T>(secret: string, url: string, method: "GET" | "POST", form?: URLSearchParams): Promise<T> {
+  const response = await fetch(url, {
+    method,
+    headers: {
+      Authorization: `Bearer ${secret}`,
+      ...(form ? { "Content-Type": "application/x-www-form-urlencoded" } : {}),
+    },
+    ...(form ? { body: form.toString() } : {}),
+  });
+  const payload = await response.json() as T & { error?: { message?: string } };
+  if (!response.ok) throw new Error(payload.error?.message || `Stripe API returned ${response.status}`);
+  return payload;
+}
+
+async function scheduleLaunchPriceChange(
+  secret: string,
+  subscriptionId: string,
+  launchPriceId: string,
+  standardPriceId: string,
+  plan: "monthly" | "annual",
+) {
+  const subscription = await stripeRequest<StripeObject>(
+    secret,
+    `https://api.stripe.com/v1/subscriptions/${encodeURIComponent(subscriptionId)}`,
+    "GET",
+  );
+  if (subscription.metadata?.launch_offer !== "three_months_099") {
+    throw new Error("The subscription is missing launch-offer metadata.");
+  }
+
+  let scheduleId = idOf(subscription.schedule);
+  if (!scheduleId) {
+    const created = await stripeRequest<{ id: string }>(secret, "https://api.stripe.com/v1/subscription_schedules", "POST", new URLSearchParams({ from_subscription: subscriptionId }));
+    scheduleId = created.id;
+  }
+
+  const scheduleUrl = `https://api.stripe.com/v1/subscription_schedules/${encodeURIComponent(scheduleId)}`;
+  const schedule = await stripeRequest<{
+    metadata?: { launch_offer_configured?: string };
+    current_phase?: { start_date?: number } | null;
+    phases?: Array<{ start_date?: number }>;
+  }>(secret, scheduleUrl, "GET");
+  if (schedule.metadata?.launch_offer_configured === plan) return;
+
+  const phaseStart = schedule.current_phase?.start_date ?? schedule.phases?.[0]?.start_date ?? subscription.current_period_start;
+  if (!phaseStart) throw new Error("Stripe did not return the subscription phase start date.");
+
+  const phases = new URLSearchParams({
+    end_behavior: "release",
+    proration_behavior: "none",
+    "phases[0][start_date]": String(phaseStart),
+    "phases[0][duration][interval]": "month",
+    "phases[0][duration][interval_count]": "3",
+    "phases[0][proration_behavior]": "none",
+    "phases[0][items][0][price]": launchPriceId,
+    "phases[0][items][0][quantity]": "1",
+    "phases[1][proration_behavior]": "none",
+    "phases[1][items][0][price]": standardPriceId,
+    "phases[1][items][0][quantity]": "1",
+    "metadata[launch_offer_configured]": plan,
+    "metadata[launch_offer]": "three_months_099",
+  });
+  await stripeRequest(secret, scheduleUrl, "POST", phases);
+}
+
 export async function POST(request: NextRequest) {
   try {
     const env = await getLearningEnv();
@@ -81,6 +148,18 @@ export async function POST(request: NextRequest) {
     const status = obj.status || (event.type === "checkout.session.completed" ? "active" : "inactive");
     const currentPeriodEnd = periodEnd(obj.current_period_end);
     const cancelAtPeriodEnd = obj.cancel_at_period_end ? 1 : 0;
+
+    if (event.type === "checkout.session.completed" && obj.mode === "subscription" && obj.metadata?.launch_offer === "three_months_099") {
+      if (!subscriptionId || !obj.metadata.price_after_promo) {
+        return NextResponse.json({ error: "Faltan datos para programar el precio posterior a la oferta." }, { status: 500 });
+      }
+      const billingConfig = env as typeof env & { STRIPE_SECRET_KEY?: string; STRIPE_PRICE_PROMO_MONTHLY?: string; STRIPE_PRICE_MONTHLY?: string };
+      const launchPriceId = billingConfig.STRIPE_PRICE_PROMO_MONTHLY || billingConfig.STRIPE_PRICE_MONTHLY;
+      if (!billingConfig.STRIPE_SECRET_KEY || !launchPriceId || (obj.metadata.plan !== "monthly" && obj.metadata.plan !== "annual")) {
+        return NextResponse.json({ error: "No se pudo programar la renovación de la oferta." }, { status: 500 });
+      }
+      await scheduleLaunchPriceChange(billingConfig.STRIPE_SECRET_KEY, subscriptionId, launchPriceId, obj.metadata.price_after_promo, obj.metadata.plan);
+    }
 
     if (event.type === "invoice.paid") {
       // Invoice.paid is the reliable source for both the first and recurring successful payments.
@@ -162,3 +241,4 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "No se pudo procesar el evento." }, { status: 500 });
   }
 }
+
