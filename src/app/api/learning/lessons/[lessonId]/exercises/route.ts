@@ -6,14 +6,32 @@ import { resolveCloudflareEnv } from "@/lib/db/client";
 import { getA1LegacyUnit, type A1LegacyItem as LegacyItem, type A1LegacyUnit as LegacyUnit } from "@/lib/learning/a1-legacy-units";
 
 const sectionNames = new Set(["grammar", "vocabulary", "listening", "reading", "production"]);
+function bilingualPart(value: string, preferred: "english" | "spanish"): string {
+  const [left, right] = value.split("|", 2);
+  if (right === undefined) return value;
+  const first = left.replace(/^\[/, "");
+  const second = right.replace(/\]$/, "");
+  if (first === second) return first;
+
+  // The data contains both [[English|Spanish]] and [[Spanish|English]] pairs.
+  const englishPattern = /^(Hello|Hi|Good |Bye|Goodbye|Name|Surname|My|Your|I|You|We|They|He|She|It|What|Where|How|Are|Is|Am|Do|Does|This|That|The|A |An |Choose|Complete|Build|Read|True|False)/i;
+  const englishFirst = englishPattern.test(first);
+  const englishSecond = englishPattern.test(second);
+  if (englishFirst !== englishSecond) {
+    if (preferred === "english") return englishFirst ? first : second;
+    return englishFirst ? second : first;
+  }
+  return preferred === "english" ? first : second;
+}
+
 function plainText(value: string | undefined): string {
   if (!value) return "";
-  return value.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, "$2").replace(/\s+/g, " ").trim();
+  return value.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, (_whole, left: string, right: string) => bilingualPart(left + "|" + right, "spanish")).replace(/\s+/g, " ").trim();
 }
 
 function plainEnglish(value: string | undefined): string {
   if (!value) return "";
-  return value.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, "$1").replace(/\s+/g, " ").trim();
+  return value.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, (_whole, left: string, right: string) => bilingualPart(left + "|" + right, "english")).replace(/\s+/g, " ").trim();
 }
 
 function getLegacySection(item: LegacyItem): string | null {
