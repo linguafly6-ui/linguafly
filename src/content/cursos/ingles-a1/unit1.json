@@ -593,7 +593,7 @@
           "prompt_es": "[[Complete|Completa]] [[the|la]] [[sentence|frase]].",
           "mastery_tag": "grammar",
           "complexity": 2,
-          "stimulus_en": "[[My|Mi]] [[name|nombre]] ______ [[Anna|Anna]].",
+          "stimulus_en": "[[What|Cuál]] ______ [[your|tu]] [[surname|apellido]]?",
           "correct_answer": "is"
         },
         {
@@ -602,7 +602,7 @@
           "prompt_es": "[[Complete|Completa]] [[the|la]] [[sentence|frase]].",
           "mastery_tag": "grammar",
           "complexity": 2,
-          "stimulus_en": "[[I|Yo]] ______ [[from|de]] [[London|Londres]].",
+          "stimulus_en": "[[You|Tú]] ______ [[from|de]] [[Madrid|Madrid]].",
           "correct_answer": "am"
         },
         {
