@@ -1,23 +1,7 @@
 import { Exercise } from '@/lib/exercise-generator';
 
 const LESSON_TITLE = 'Comprensión auditiva';
-const LISTENING_TRANSCRIPT = `[[David|David]]: [[Hi|Hola]] [[Sara|Sara]]! [[What|A qué]] [[time|hora]] [[do|te]] [[you|—]] [[wake|despiertas]] [[up|—]] [[every|cada]] [[day|día]]?
-
-[[Sara|Sara]]: [[I|Yo]] [[wake|me]] [[up|despierto]] [[at|a las]] [[seven|siete]]. [[Then|Luego]] [[I|yo]] [[get|me]] [[up|levanto]] and [[eat|desayuno]]. [[What|Y tú]] [[about|qué]] [[you|haces]]?
-
-[[David|David]]: [[I|Yo]] [[wake|me]] [[up|despierto]] [[at|a las]] [[six|seis]]. [[I|Yo]] [[go|voy]] [[to|a]] [[work|trabajar]] [[early|temprano]]. [[I|Yo]] [[work|trabajo]] [[in|en]] [[a|una]] [[school|escuela]].
-
-[[Sara|Sara]]: [[Do|Desayunas]] [[you|tú]] [[eat|—]] [[breakfast|el desayuno]] [[before|antes]] [[work|del trabajo]]?
-
-[[David|David]]: [[Yes|Sí]], [[I|yo]] [[eat|como]] [[breakfast|el desayuno]] [[at|en]] [[home|casa]]. [[I|Yo]] [[drink|bebo]] [[coffee|café]] [[every|cada]] [[morning|mañana]].
-
-[[Sara|Sara]]: [[I|Yo]] [[go|voy]] [[to|al]] [[the|—]] [[gym|gimnasio]] [[after|después del]] [[breakfast|desayuno]]. [[Then|Luego]] [[I|yo]] [[study|estudio]] [[English|inglés]] [[at|en]] [[home|casa]].
-
-[[David|David]]: [[What|A qué]] [[time|hora]] [[do|vuelves]] [[you|—]] [[come|—]] [[home|a casa]] [[in|por]] [[the|la]] [[evening|tarde]]?
-
-[[Sara|Sara]]: [[I|Yo]] [[come|vuelvo]] [[home|a casa]] [[at|a las]] [[five|cinco]]. [[I|Yo]] [[eat|ceno]] [[dinner|la cena]] and [[then|luego]] [[I|yo]] [[go|me]] [[to|voy a]] [[sleep|dormir]] [[at|a las]] [[ten|diez]].
-
-[[David|David]]: [[I|Yo]] [[come|vuelvo]] [[home|a casa]] [[at|a las]] [[four|cuatro]]. [[I|Yo]] [[play|juego]] [[football|al fútbol]] [[with|con]] [[my|mis]] [[friends|amigos]]. [[Then|Luego]] [[I|yo]] [[eat|ceno]] [[dinner|la cena]] and [[sleep|duermo]] [[at|a las]] [[eleven|once]].`;
+const LISTENING_TRANSCRIPT = `[[David: Hi, Sara! What time do you wake up every day?|David: ¡Hola, Sara! ¿A qué hora te despiertas cada día?]] [[Sara: I wake up at seven. Then I get up and eat. What about you?|Sara: Me despierto a las siete. Luego me levanto y como algo. ¿Y tú?]] [[David: I wake up at six. I go to work early. I work in a school.|David: Me despierto a las seis. Voy temprano al trabajo. Trabajo en una escuela.]] [[Sara: Do you eat breakfast before work?|Sara: ¿Desayunas antes de trabajar?]] [[David: Yes, I eat breakfast at home. I drink coffee every morning.|David: Sí, desayuno en casa. Bebo café todas las mañanas.]] [[Sara: I go to the gym after breakfast. Then I study English at home.|Sara: Voy al gimnasio después de desayunar. Luego estudio inglés en casa.]] [[David: What time do you come home in the evening?|David: ¿A qué hora vuelves a casa por la tarde?]] [[Sara: I come home at five. I eat dinner and then I go to sleep at ten.|Sara: Vuelvo a casa a las cinco. Ceno y luego me voy a dormir a las diez.]] [[David: I come home at four. I play football with my friends. Then I eat dinner and sleep at eleven.|David: Vuelvo a casa a las cuatro. Juego al fútbol con mis amigos. Luego ceno y me duermo a las once.]]`;
 
 const INST_MC = 'Escucha el audio y elige la respuesta correcta.';
 const INST_TF = 'Escucha el audio. Indica si la afirmación es verdadera o falsa.';
