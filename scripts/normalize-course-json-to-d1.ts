@@ -205,7 +205,7 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
           if (seenIds.has(id)) throw new Error(`Duplicate exercise ID ${id} in ${levelConfig.folder}/${file.name}`);
               seenIds.add(id); exerciseNumber++;
               statements.push(exerciseStatement(lessonId, id, exerciseNumber, section, "multiple_choice",
-                pair.left, matchingOptions, pair.right, explanation, { ...sourceMeta, sourceInteractionId: item.interaction_id, sourceType: item.type, variant: "match", pairId: pair.id || String(pairIndex + 1) }, audioText));
+                pair.left, matchingOptions, pair.right, explanation || `Respuesta correcta: ${pair.right}`, { ...sourceMeta, sourceInteractionId: item.interaction_id, sourceType: item.type, variant: "match", pairId: pair.id || String(pairIndex + 1) }, audioText));
               summary[levelConfig.level].exercises++;
               summary[levelConfig.level].bySection[section] = (summary[levelConfig.level].bySection[section] ?? 0) + 1;
             }
@@ -227,7 +227,7 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
               const prompt = line.replace(/^\d+\.\s*/, "").replace(/\[GAP\s*\d+\]/gi, "_____").replace(/\(\d+\)/g, "").trim();
               exerciseNumber++;
               statements.push(exerciseStatement(lessonId, id, exerciseNumber, section, "multiple_choice",
-                prompt || promptFor(item), optionTexts(gap.options ?? []), correct, explanation,
+                prompt || promptFor(item), optionTexts(gap.options ?? []), correct, explanation || `Respuesta correcta: ${correct}`,
                 { ...sourceMeta, sourceInteractionId: item.interaction_id, sourceType: item.type, variant: "gap", gapId: gap.id }, audioText));
               summary[levelConfig.level].exercises++;
               summary[levelConfig.level].bySection[section] = (summary[levelConfig.level].bySection[section] ?? 0) + 1;
@@ -242,7 +242,7 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
           const options = /true.?false/i.test(item.type) ? ["True", "False"] : baseOptions;
           const type = typeFor(item, options);
           statements.push(exerciseStatement(lessonId, id, exerciseNumber, section, type,
-            promptFor(item), options, correct, explanation, { ...sourceMeta, sourceInteractionId: item.interaction_id, sourceType: item.type }, audioText));
+            promptFor(item), options, correct, explanation || (correct ? `Respuesta correcta: ${correct}` : ""), { ...sourceMeta, sourceInteractionId: item.interaction_id, sourceType: item.type }, audioText));
           summary[levelConfig.level].exercises++;
           summary[levelConfig.level].bySection[section] = (summary[levelConfig.level].bySection[section] ?? 0) + 1;
         }
