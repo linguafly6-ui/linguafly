@@ -281,6 +281,27 @@ export default function ExerciseRenderer({ exercise, vocabulary, onComplete }: E
 
   const handleWritingComplete = () => {
     if (!userAnswer || typeof userAnswer !== 'string' || !userAnswer.trim()) return;
+    const wordCount = userAnswer.trim().split(/\\s+/).filter(Boolean).length;
+    const minWords = typeof exerciseContent.minWords === 'number' ? exerciseContent.minWords : null;
+    const maxWords = typeof exerciseContent.maxWords === 'number' ? exerciseContent.maxWords : null;
+    if (minWords !== null && wordCount < minWords) {
+      setEvaluation({
+        isCorrect: false,
+        score: 0,
+        feedback: `Tu respuesta tiene ${wordCount} palabras. Escribe al menos ${minWords} para completar la actividad.`,
+      });
+      setSubmitted(true);
+      return;
+    }
+    if (maxWords !== null && wordCount > maxWords) {
+      setEvaluation({
+        isCorrect: false,
+        score: 0,
+        feedback: `Tu respuesta tiene ${wordCount} palabras. Reduce el texto a ${maxWords} palabras como máximo.`,
+      });
+      setSubmitted(true);
+      return;
+    }
     onComplete({ success: true, score: 100 });
   };
 
