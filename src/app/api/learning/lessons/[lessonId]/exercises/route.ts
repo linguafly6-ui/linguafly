@@ -65,11 +65,18 @@ function normalizedLegacyAnswer(item: LegacyItem): string {
     const byId = new Map(options.map((option) => [option.id, plainText(option.text)]));
     return item.correct_answer.map((id) => byId.get(String(id)) ?? String(id)).join(" ");
   }
+  if (item.type === "true-false") return item.correct_answer === true ? "True" : "False";
   return String(item.correct_answer);
 }
 
 function legacyExercise(item: LegacyItem, index: number) {
-  const options = (item.options ?? []).map((option) => plainText(option.text));
+  const options = item.type === "sentence-building"
+    ? (item.options ?? []).map((option) => plainText(option.text))
+    : (item.options ?? []).map((option) => {
+        const bilingual = option.text;
+        const match = /^\\[([^\\]|]+)\\|([^\\]]+)\\]$/.exec(bilingual);
+        return match ? match[1] : plainText(bilingual);
+      });
   if (item.type === "true-false") options.splice(0, options.length, "True", "False");
   return {
     id: item.interaction_id,
@@ -167,11 +174,9 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
     if (!item) return NextResponse.json({ error: "Ejercicio A1 no encontrado." }, { status: 404 });
     const expected = normalizedLegacyAnswer(item);
     const normalize = (value: string) => value.trim().replace(/\s+/g, " ").toLocaleLowerCase("en");
-    const correct = item.type === "true-false"
-      ? normalize(payload.answer) === (item.correct_answer === true ? "true" : "false")
-      : item.type === "sentence-building"
-        ? normalize(payload.answer.split(" ").join(" ")) === normalize(expected)
-        : normalize(payload.answer) === normalize(expected);
+    const correct = item.type === "sentence-building"
+      ? normalize(payload.answer) === normalize(expected)
+      : normalize(payload.answer) === normalize(expected);
 
     const explanation = item.explanation ? plainText(item.explanation) : `Respuesta correcta: ${expected}`;
     const { env, user } = await getSessionUser(request);
