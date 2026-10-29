@@ -80,7 +80,7 @@ export default function A2LearningPage() {
       <header className="border-b border-[#ded8ca] bg-[#f5f1e8]">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-5 sm:px-8">
           <Link href="/" className="text-lg font-extrabold tracking-tight text-[#22251f]">lingua<span className="text-[#b75d3b]">fly</span><span className="ml-2 text-xs font-medium uppercase tracking-[0.22em] text-[#77776c]">academy</span></Link>
-          <div className="flex items-center gap-4"><Link href="/aprender/a1" className="text-sm font-bold text-[#b75d3b] hover:text-[#99492d]">← Curso A1</Link><Link href="/aprender/repasos" className="hidden text-sm font-bold text-[#b75d3b] hover:text-[#99492d] sm:inline">Mis repasos ↗</Link></div>
+          <div className="flex items-center gap-4"><Link href="/aprender/a1" className="text-sm font-bold text-[#b75d3b] hover:text-[#99492d]">← Curso A1</Link><Link href="/aprender/b1" className="text-sm font-bold text-[#b75d3b] hover:text-[#99492d]">Siguiente: B1 →</Link><Link href="/aprender/repasos" className="hidden text-sm font-bold text-[#b75d3b] hover:text-[#99492d] sm:inline">Mis repasos ↗</Link></div>
         </div>
       </header>
       <div className="mx-auto grid max-w-7xl gap-8 px-5 py-8 sm:px-8 lg:grid-cols-[300px_minmax(0,1fr)] lg:py-12">

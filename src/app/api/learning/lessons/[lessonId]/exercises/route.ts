@@ -4,6 +4,7 @@ import { scheduleNextReview, type ReviewState } from "@/lib/learning/spaced-repe
 import { getSessionUser } from "@/lib/learning/auth";
 import { resolveCloudflareEnv } from "@/lib/db/client";
 import { getA1LegacyUnit, type A1LegacyItem as LegacyItem, type A1LegacyUnit as LegacyUnit } from "@/lib/learning/a1-legacy-units";
+import { getLegacyAdvancedUnit, getLegacyAdvancedItem, getLegacyAdvancedSection, type LegacyAdvancedItem } from "@/lib/learning/legacy-advanced-units";
 
 const sectionNames = new Set(["grammar", "vocabulary", "listening", "reading", "production"]);
 
@@ -33,6 +34,24 @@ function plainText(value: string | undefined): string {
 function plainEnglish(value: string | undefined): string {
   if (!value) return "";
   return value.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, (_whole, left: string, right: string) => bilingualPart(left + "|" + right, "english")).replace(/\s+/g, " ").trim();
+}
+
+
+function advancedExpectedAnswer(item: LegacyAdvancedItem): string {
+  const answer = item.correct_answer;
+  if (typeof answer === "string" && item.options?.length) {
+    const option = item.options.find((candidate) => candidate.id === answer);
+    if (option) return option.text;
+  }
+  if (Array.isArray(answer)) return answer.map(String).join(" ");
+  if (answer == null && item.pairs?.length) return item.pairs.map((pair) => pair.left + " — " + pair.right).join("; ");
+  return answer == null ? "" : String(answer);
+}
+function advancedPlainText(value: unknown): string {
+  return typeof value === "string" ? value.replace(/\\s+/g, " ").trim() : "";
+}
+function advancedPrompt(item: LegacyAdvancedItem): string {
+  return [item.stimulus_en, item.question_en, item.prompt_es].map(advancedPlainText).filter(Boolean).join("\\n");
 }
 
 function getLegacySection(item: LegacyItem): string | null {
@@ -118,6 +137,27 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
   const section = request.nextUrl.searchParams.get("section") ?? "grammar";
   if (!sectionNames.has(section)) return NextResponse.json({ error: "Sección no válida." }, { status: 400 });
 
+
+  const advancedMatch = /^(b1|b2|c1|c2)-(\d{2})$/.exec(lessonId);
+  if (advancedMatch) {
+    const unit = getLegacyAdvancedUnit(advancedMatch[1], Number(advancedMatch[2]));
+    if (!unit) return NextResponse.json({ error: "Unidad no disponible." }, { status: 404 });
+    const selected = unit.blocks.flatMap((block) => block.content
+      .filter((item) => getLegacyAdvancedSection(item, block.title) === section)
+      .map((item) => ({ item, blockTitle: block.title })));
+    return NextResponse.json({ exercises: selected.map(({ item }, index) => {
+      const options = (item.options ?? []).map((option) => option.text);
+      const type = options.length ? "multiple_choice"
+        : /fill.?blank|open.?cloze/i.test(item.type) ? "fill_blank" : "free_text";
+      return {
+        id: item.interaction_id, number: index + 1, type,
+        prompt: advancedPrompt(item), options,
+        audioText: section === "listening" && item.transcript ? item.transcript : null,
+        passageText: section === "reading" && item.transcript ? item.transcript : null
+      };
+    }) });
+  }
+
   const a1Items = await getA1Items(lessonId);
   if (a1Items !== null) {
     const selected = a1Items.filter((item) => getLegacySection(item) === section);
@@ -176,6 +216,37 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
     const explanation = item.explanation ? plainText(item.explanation) : `Respuesta correcta: ${expected}`;
     const { env, user } = await getSessionUser(request);
     const now = new Date().toISOString();
+    const previousRow = user
+      ? await env.DB.prepare("SELECT progress_json FROM learning_progress WHERE user_id = ? AND lesson_id = ?").bind(user.id, lessonId).first<{ progress_json: string | null }>()
+      : null;
+    let progress: Record<string, unknown> = {};
+    try { if (previousRow?.progress_json) progress = JSON.parse(previousRow.progress_json); } catch { progress = {}; }
+    const previousReview = (progress[payload.exerciseId] as { review?: ReviewState } | undefined)?.review
+      ?? { intervalDays: 0, easeFactor: 2.5, repetitions: 0, lapses: 0 };
+    const review = scheduleNextReview(previousReview, correct ? 4 : 1);
+    if (user) {
+      progress[payload.exerciseId] = {
+        ...(progress[payload.exerciseId] as Record<string, unknown> | undefined),
+        answer: payload.answer, feedback: { correct, explanation }, review
+      };
+      await env.DB.prepare(
+        `INSERT INTO learning_progress (user_id, lesson_id, progress_json, updated_at)
+         VALUES (?, ?, ?, CURRENT_TIMESTAMP)
+         ON CONFLICT(user_id, lesson_id) DO UPDATE SET progress_json = excluded.progress_json, updated_at = CURRENT_TIMESTAMP`
+      ).bind(user.id, lessonId, JSON.stringify(progress)).run();
+    }
+    return NextResponse.json({ correct, explanation, review, authenticated: Boolean(user) });
+  }
+
+
+  if (/^(b1|b2|c1|c2)-\d{2}$/.test(lessonId)) {
+    const item = getLegacyAdvancedItem(lessonId, payload.exerciseId);
+    if (!item) return NextResponse.json({ error: "Ejercicio no encontrado." }, { status: 404 });
+    const expected = advancedExpectedAnswer(item);
+    const normalize = (value: string) => value.trim().replace(/\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, "");
+    const correct = Boolean(expected) && normalize(payload.answer) === normalize(expected);
+    const explanation = advancedPlainText(item.explanation) || (expected ? "Respuesta correcta: " + expected : "Revisa la explicación del ejercicio.");
+    const { env, user } = await getSessionUser(request);
     const previousRow = user
       ? await env.DB.prepare("SELECT progress_json FROM learning_progress WHERE user_id = ? AND lesson_id = ?").bind(user.id, lessonId).first<{ progress_json: string | null }>()
       : null;
