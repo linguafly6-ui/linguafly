@@ -8,7 +8,7 @@ import { Exercise } from '@/lib/exercise-generator';
 const LESSON_TITLE = 'Comprensión auditiva';
 const TOPIC = 'Jobs & Occupations';
 
-const LISTENING_TRANSCRIPT = `[[Interviewer|Entrevistador]]: [[What|Qué]] [[do|(auxiliar)]] [[you|tú]] [[do|haces]]? [[Tom|Tom]]: [[I|Yo]] [[am|soy]] [[a|un]] [[teacher|profesor]]. [[I|Yo]] [[work|trabajo]] [[in|en]] [[a|una]] [[primary|primaria]] [[school|escuela]]. [[Interviewer|Entrevistador]]: [[Where|Dónde]] [[is|está]] [[the|la]] [[school|escuela]]? [[Tom|Tom]]: [[It|Está]] [[is|es]] [[in|en]] [[the|el]] [[centre|centro]] [[of|de]] [[town|la ciudad]]. [[Interviewer|Entrevistador]]: [[Do|(auxiliar)]] [[you|te]] [[like|gusta]] [[your|tu]] [[job|trabajo]]? [[Tom|Tom]]: [[Yes|Sí]], [[I|me]] [[love|encanta]]. [[My|Mi]] [[sister|hermana]] [[is|es]] [[a|una]] [[nurse|enfermera]]. [[She|Ella]] [[works|trabaja]] [[in|en]] [[a|un]] [[hospital|hospital]]. [[We|Nosotros]] [[both|ambos]] [[like|nos gusta]] [[our|nuestro]] [[jobs|trabajos]].`;
+const LISTENING_TRANSCRIPT = `[[Interviewer: What do you do?|Entrevistador: ¿A qué te dedicas?]] [[Tom: I am a teacher.|Tom: Soy profesor.]] [[I work in a primary school.|Trabajo en una escuela primaria.]] [[Interviewer: Where is the school?|Entrevistador: ¿Dónde está la escuela?]] [[Tom: It is in the centre of town.|Tom: Está en el centro de la ciudad.]] [[Interviewer: Do you like your job?|Entrevistador: ¿Te gusta tu trabajo?]] [[Tom: Yes, I love it.|Tom: Sí, me encanta.]] [[My sister is a nurse.|Mi hermana es enfermera.]] [[She works in a hospital.|Trabaja en un hospital.]] [[We both like our jobs.|A los dos nos gustan nuestros trabajos.]]`;
 
 const INSTRUCTIONS = 'Escucha el audio. Después contesta cada pregunta.';
 
