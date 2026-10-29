@@ -82,7 +82,7 @@ function legacyExercise(item: LegacyItem, index: number) {
       : item.type === "sentence-building" ? "sentence_building"
       : item.type === "fill-blank" ? "fill_blank"
       : item.type === "true-false" ? "multiple_choice" : "free_text",
-    prompt: [plainText(item.stimulus_en), plainText(item.question_en), plainText(item.prompt_es)].filter(Boolean).join(" — "),
+    prompt: getPrompt(item),
     options,
     passageText: item.transcript ? plainText(item.transcript) : null,
     audioText: item.mastery_tag === "listening" && item.transcript ? plainText(item.transcript) : null
