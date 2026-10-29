@@ -1,162 +1,2042 @@
 {
   "a2-01": {
-    "objective": "Contar acciones terminadas en el pasado utilizando verbos regulares.",
+    "objective": "Presentarse con nombre, edad, hometown, neighbourhood, hobby y profesión.",
     "sections": [
-      {"type":"learn","title":"Past Simple: verbos regulares","body":"Usamos el Past Simple para acciones que empezaron y terminaron en un momento pasado. En afirmativa, los verbos regulares suelen acabar en -ed."},
-      {"type":"example","title":"Ejemplos","body":"I watched a film yesterday = Vi una película ayer. She visited her aunt = Ella visitó a su tía."},
-      {"type":"practice","title":"Negativas y preguntas","body":"Negativa: sujeto + didn’t + verbo base. Pregunta: Did + sujeto + verbo base? Ejemplo: Did you work yesterday?"}
+      {
+        "type": "grammar",
+        "title": "Gramática · Greetings & Introductions",
+        "body": "Presentarse con nombre, edad, hometown, neighbourhood, hobby y profesión.\n\nUsa to be (I am/you are/she is) y Present Simple (I live/she lives).",
+        "example": "I ___ from Spain.\nam",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Greetings & Introductions",
+        "body": "hometown = ciudad natal; neighbourhood = barrio; hobby = pasatiempo; favourite = favorito.",
+        "example": "She ___ in a quiet neighbourhood.\nlives",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Greetings & Introductions",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "Hello! My name is Maria. My hometown is Madrid. I live in a quiet neighbourhood. My favourite hobby is reading. I am a teacher. Nice to meet you!",
+        "transcript": "Hello! My name is Maria. My hometown is Madrid. I live in a quiet neighbourhood. My favourite hobby is reading. I am a teacher. Nice to meet you!",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Greetings & Introductions",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "Hello! My name is Maria. My hometown is Madrid. I live in a quiet neighbourhood. My favourite hobby is reading. I am a teacher. Nice to meet you!",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
     ]
   },
   "a2-02": {
-    "objective": "Utilizar verbos irregulares frecuentes para hablar de experiencias pasadas.",
+    "objective": "Narrar acciones terminadas usando verbos regulares y yesterday, last week, ago.",
     "sections": [
-      {"type":"learn","title":"Verbos clave","body":"go → went; have → had; see → saw; buy → bought; eat → ate; make → made."},
-      {"type":"example","title":"Ejemplos","body":"We went to the beach = Fuimos a la playa. I saw my friends = Vi a mis amigos."},
-      {"type":"practice","title":"Recuerda","body":"Con did y didn’t, el verbo vuelve a su forma base: Did you go? / I didn’t go."}
+      {
+        "type": "grammar",
+        "title": "Gramática · Past Simple: regular verbs",
+        "body": "Narrar acciones terminadas usando verbos regulares y yesterday, last week, ago.\n\nEn afirmativa añade -ed (walk → walked). Con did/didn't usa el verbo base.",
+        "example": "I ___ to the park yesterday.\nwalked",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Past Simple: regular verbs",
+        "body": "walk = caminar; visit = visitar; play = jugar; finish = terminar; ago = hace.",
+        "example": "She ___ her grandmother last week.\nvisited",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Past Simple: regular verbs",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "Last week I walked to work. On Tuesday I visited my grandmother. I played football on Wednesday and finished my project on Thursday. Yesterday I rested and watched a film.",
+        "transcript": "Last week I walked to work. On Tuesday I visited my grandmother. I played football on Wednesday and finished my project on Thursday. Yesterday I rested and watched a film.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Past Simple: regular verbs",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "Last week I walked to work. On Tuesday I visited my grandmother. I played football on Wednesday and finished my project on Thursday. Yesterday I rested and watched a film.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
     ]
   },
   "a2-03": {
-    "objective": "Formar preguntas y respuestas breves sobre acontecimientos pasados.",
+    "objective": "Utilizar went, saw, had, made, wrote y bought para contar experiencias.",
     "sections": [
-      {"type":"learn","title":"Estructura","body":"Did + sujeto + verbo base? What did you do? Where did she go?"},
-      {"type":"example","title":"Respuestas breves","body":"Yes, I did. / No, I didn’t. Para el verbo be: Was he tired? Were they at home?"},
-      {"type":"practice","title":"Diálogo","body":"Where did you go? — I went to Madrid. = ¿Adónde fuiste? — Fui a Madrid."}
+      {
+        "type": "grammar",
+        "title": "Gramática · Past Simple: irregular verbs",
+        "body": "Utilizar went, saw, had, made, wrote y bought para contar experiencias.\n\nLos irregulares tienen forma propia: go→went, see→saw, have→had, make→made.",
+        "example": "Yesterday I ___ to town.\nwent",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Past Simple: irregular verbs",
+        "body": "go = ir; went = fui/fue; saw = vi/vio; bought = compré/compró; wrote = escribí/escribió.",
+        "example": "I ___ my friend at the station.\nsaw",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Past Simple: irregular verbs",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "Last Saturday I went to the market. I saw an old friend, bought some fruit and made lunch. At home I wrote an email and had a quiet evening.",
+        "transcript": "Last Saturday I went to the market. I saw an old friend, bought some fruit and made lunch. At home I wrote an email and had a quiet evening.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Past Simple: irregular verbs",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "Last Saturday I went to the market. I saw an old friend, bought some fruit and made lunch. At home I wrote an email and had a quiet evening.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
     ]
   },
   "a2-04": {
-    "objective": "Comparar personas, lugares y objetos utilizando adjetivos.",
+    "objective": "Preguntar por detalles de acciones pasadas con what, where, when, who, why y how.",
     "sections": [
-      {"type":"learn","title":"Adjetivos cortos","body":"Añade -er: small → smaller, cheap → cheaper. Después usa than."},
-      {"type":"example","title":"Adjetivos largos","body":"Usa more + adjetivo: more expensive, more comfortable."},
-      {"type":"practice","title":"Irregulares","body":"good → better; bad → worse. This hotel is cheaper than that one."}
+      {
+        "type": "grammar",
+        "title": "Gramática · Wh-questions in the Past Simple",
+        "body": "Preguntar por detalles de acciones pasadas con what, where, when, who, why y how.\n\nWh-word + did + subject + base verb: Where did you go?",
+        "example": "Where ___ you go yesterday?\ndid",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Wh-questions in the Past Simple",
+        "body": "what = qué; where = dónde; when = cuándo; who = quién; why = por qué; how = cómo.",
+        "example": "What did she ___?\ndo",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Wh-questions in the Past Simple",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "Anna went to Bristol on Saturday. She travelled by train because her car was broken. She met her cousin and returned home at eight.",
+        "transcript": "Anna went to Bristol on Saturday. She travelled by train because her car was broken. She met her cousin and returned home at eight.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Wh-questions in the Past Simple",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "Anna went to Bristol on Saturday. She travelled by train because her car was broken. She met her cousin and returned home at eight.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
     ]
   },
   "a2-05": {
-    "objective": "Describir el extremo de una cualidad en un grupo.",
+    "objective": "Comparar personas, lugares y objetos con -er than, more ... than, better/worse y as ... as.",
     "sections": [
-      {"type":"learn","title":"Regla","body":"Adjetivo corto + -est: the smallest. Adjetivo largo: the most interesting."},
-      {"type":"example","title":"Irregulares","body":"good → the best; bad → the worst."},
-      {"type":"practice","title":"Ejemplo","body":"It’s the best restaurant in town = Es el mejor restaurante de la ciudad."}
+      {
+        "type": "grammar",
+        "title": "Gramática · Comparatives",
+        "body": "Comparar personas, lugares y objetos con -er than, more ... than, better/worse y as ... as.\n\nAdjetivos cortos: tall→taller than; largos: more comfortable than; good→better.",
+        "example": "A bike is ___ (cheap) than a car.\ncheaper",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Comparatives",
+        "body": "tall = alto; cheap = barato; expensive = caro; comfortable = cómodo; better = mejor.",
+        "example": "This room is ___ comfortable than that one.\nmore",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Comparatives",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "Oxford is smaller than London. A bus is cheaper than a taxi. This hotel is more comfortable than the last one, but the train is faster than the bus.",
+        "transcript": "Oxford is smaller than London. A bus is cheaper than a taxi. This hotel is more comfortable than the last one, but the train is faster than the bus.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Comparatives",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "Oxford is smaller than London. A bus is cheaper than a taxi. This hotel is more comfortable than the last one, but the train is faster than the bus.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
     ]
   },
   "a2-06": {
-    "objective": "Explicar cómo se realiza una acción.",
+    "objective": "Identificar el elemento con mayor o menor grado dentro de un grupo.",
     "sections": [
-      {"type":"learn","title":"Formación","body":"Muchos adverbios se forman con adjetivo + -ly: slow → slowly, careful → carefully."},
-      {"type":"example","title":"Irregulares","body":"good → well; fast → fast; hard → hard."},
-      {"type":"practice","title":"Ejemplo","body":"She speaks English slowly = Ella habla inglés despacio."}
+      {
+        "type": "grammar",
+        "title": "Gramática · Superlatives",
+        "body": "Identificar el elemento con mayor o menor grado dentro de un grupo.\n\nAdjetivo corto: the + -est; largo: the most + adjective; good→best, bad→worst.",
+        "example": "This is the ___ (small) room.\nsmallest",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Superlatives",
+        "body": "the biggest = el más grande; the smallest = el más pequeño; the best = el mejor; the worst = el peor.",
+        "example": "It is the ___ interesting book.\nmost",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Superlatives",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "We visited three hotels. The first was cheap, the second was cleaner, and the third was the most comfortable. It was also the best hotel in town.",
+        "transcript": "We visited three hotels. The first was cheap, the second was cleaner, and the third was the most comfortable. It was also the best hotel in town.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Superlatives",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "We visited three hotels. The first was cheap, the second was cleaner, and the third was the most comfortable. It was also the best hotel in town.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
     ]
   },
   "a2-07": {
-    "objective": "Usar in, on y at para indicar cuándo sucede algo.",
+    "objective": "Explicar cómo se realiza una acción con slowly, carefully, well, fast y hard.",
     "sections": [
-      {"type":"learn","title":"IN","body":"Meses, años y partes del día: in July, in 2026, in the morning."},
-      {"type":"example","title":"ON","body":"Días y fechas: on Monday, on 5 May."},
-      {"type":"practice","title":"AT","body":"Horas y expresiones concretas: at 7 o’clock, at night."}
+      {
+        "type": "grammar",
+        "title": "Gramática · Adverbs of manner",
+        "body": "Explicar cómo se realiza una acción con slowly, carefully, well, fast y hard.\n\nMuchos adverbios añaden -ly; good cambia a well; fast mantiene la forma.",
+        "example": "Please speak ___. (slow)\nslowly",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Adverbs of manner",
+        "body": "slowly = despacio; carefully = con cuidado; loudly = alto; well = bien; fast = rápido.",
+        "example": "She sings ___. (good)\nwell",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Adverbs of manner",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "Tom drives carefully and speaks slowly. His sister sings well and runs fast. They work hard when they prepare for a test.",
+        "transcript": "Tom drives carefully and speaks slowly. His sister sings well and runs fast. They work hard when they prepare for a test.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Adverbs of manner",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "Tom drives carefully and speaks slowly. His sister sings well and runs fast. They work hard when they prepare for a test.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
     ]
   },
   "a2-08": {
-    "objective": "Indicar ubicación y desplazamiento en situaciones cotidianas.",
+    "objective": "Usar in, on y at para momentos, días, fechas y horas.",
     "sections": [
-      {"type":"learn","title":"Lugar","body":"next to = al lado de; between = entre; opposite = enfrente de; behind = detrás de."},
-      {"type":"example","title":"Movimiento","body":"across = cruzando; through = a través de; towards = hacia."},
-      {"type":"practice","title":"Ejemplo","body":"The bank is opposite the station = El banco está enfrente de la estación."}
+      {
+        "type": "grammar",
+        "title": "Gramática · Prepositions of time",
+        "body": "Usar in, on y at para momentos, días, fechas y horas.\n\nIN: meses/años; ON: días/fechas; AT: horas y expresiones concretas.",
+        "example": "The meeting is ___ 6 pm.\nat",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Prepositions of time",
+        "body": "in July; in 2026; on Monday; on 5 May; at six o'clock; at night.",
+        "example": "My birthday is ___ May.\nin",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Prepositions of time",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "Our course starts in September. The first class is on Monday at six. We have a test on 5 May and a break in summer.",
+        "transcript": "Our course starts in September. The first class is on Monday at six. We have a test on 5 May and a break in summer.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Prepositions of time",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "Our course starts in September. The first class is on Monday at six. We have a test on 5 May and a break in summer.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
     ]
   },
   "a2-09": {
-    "objective": "Hablar sobre experiencias y acontecimientos que han sido importantes.",
+    "objective": "Expresar ubicación y movimiento con next to, between, opposite, across, through y towards.",
     "sections": [
-      {"type":"learn","title":"Useful phrases","body":"I visited…; I tried…; I enjoyed…; It was exciting."},
-      {"type":"example","title":"Conectores","body":"First, then, after that y finally ayudan a ordenar una historia."},
-      {"type":"practice","title":"Mini tarea","body":"Cuenta tres cosas que hiciste el fin de semana pasado."}
+      {
+        "type": "grammar",
+        "title": "Gramática · Prepositions of place and movement",
+        "body": "Expresar ubicación y movimiento con next to, between, opposite, across, through y towards.\n\nBetween va con dos elementos; opposite significa enfrente; through indica pasar por dentro.",
+        "example": "The café is ___ the bank and the station.\nbetween",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Prepositions of place and movement",
+        "body": "next to = al lado; between = entre; opposite = enfrente; across = al otro lado; through = a través.",
+        "example": "The cinema is ___ the street from the bank.\nopposite",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Prepositions of place and movement",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "The pharmacy is opposite the bank. The café is between the bank and the station. Walk across the road and go through the park towards the museum.",
+        "transcript": "The pharmacy is opposite the bank. The café is between the bank and the station. Walk across the road and go through the park towards the museum.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Prepositions of place and movement",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "The pharmacy is opposite the bank. The café is between the bank and the station. Walk across the road and go through the park towards the museum.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
     ]
   },
   "a2-10": {
-    "objective": "Consolidar el pasado simple y las descripciones.",
+    "objective": "Consolidar pasado, comparativos, superlativos, adverbios y preposiciones.",
     "sections": [
-      {"type":"learn","title":"Past Simple","body":"I went / I didn’t go / Did you go? Usa la forma base después de did y didn’t."},
-      {"type":"example","title":"Comparaciones","body":"cheaper than; more interesting than; the best; the most beautiful."},
-      {"type":"practice","title":"Reto","body":"Escribe cinco frases sobre un viaje y compara dos lugares."}
+      {
+        "type": "grammar",
+        "title": "Gramática · Module 1 review",
+        "body": "Consolidar pasado, comparativos, superlativos, adverbios y preposiciones.\n\nRepasa la pista temporal, el orden de palabras y las formas comparativas/superlativas.",
+        "example": "Last week we ___ (visit) York.\nvisited",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Module 1 review",
+        "body": "yesterday = ayer; cheaper = más barato; the best = el mejor; carefully = con cuidado.",
+        "example": "The train was ___ than the taxi. (cheap)\ncheaper",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Module 1 review",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "Last weekend we travelled to York. The train was cheaper than the car and the hotel was the best in town. We walked carefully across the old bridge and arrived at six.",
+        "transcript": "Last weekend we travelled to York. The train was cheaper than the car and the hotel was the best in town. We walked carefully across the old bridge and arrived at six.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Module 1 review",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "Last weekend we travelled to York. The train was cheaper than the car and the hotel was the best in town. We walked carefully across the old bridge and arrived at six.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
     ]
   },
   "a2-11": {
-    "objective": "Introducir el Present Perfect para conectar experiencias pasadas con el presente.",
+    "objective": "Hablar de experiencias y acciones conectadas con el presente con have/has + participio.",
     "sections": [
-      {"type":"learn","title":"Forma","body":"Sujeto + have/has + participio pasado."},
-      {"type":"example","title":"Ejemplos","body":"I have visited Rome = He visitado Roma. She has tried sushi = Ella ha probado sushi."},
-      {"type":"practice","title":"Have o has","body":"I/you/we/they have; he/she/it has."}
+      {
+        "type": "grammar",
+        "title": "Gramática · Present Perfect: introduction",
+        "body": "Hablar de experiencias y acciones conectadas con el presente con have/has + participio.\n\nSujeto + have/has + past participle; no uses una fecha terminada como yesterday.",
+        "example": "I ___ visited Rome.\nhave",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Present Perfect: introduction",
+        "body": "visited = visitado; tried = probado; been = estado; ever = alguna vez; experience = experiencia.",
+        "example": "She ___ tried sushi.\nhas",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Present Perfect: introduction",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "I have visited Rome and I have tried Italian food. My friend has been to Paris, but she hasn't visited London yet.",
+        "transcript": "I have visited Rome and I have tried Italian food. My friend has been to Paris, but she hasn't visited London yet.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Present Perfect: introduction",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "I have visited Rome and I have tried Italian food. My friend has been to Paris, but she hasn't visited London yet.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
     ]
   },
   "a2-12": {
-    "objective": "Preguntar y hablar de experiencias que alguna vez se han tenido.",
+    "objective": "Preguntar por experiencias con Have you ever...? y expresar ausencia de experiencias con never.",
     "sections": [
-      {"type":"learn","title":"Ever","body":"Have you ever…? significa ¿Has… alguna vez?"},
-      {"type":"example","title":"Never","body":"I have never flown = Nunca he volado. Never ya da sentido negativo."},
-      {"type":"practice","title":"Respuestas","body":"Yes, I have. / No, I haven’t."}
+      {
+        "type": "grammar",
+        "title": "Gramática · Ever and never",
+        "body": "Preguntar por experiencias con Have you ever...? y expresar ausencia de experiencias con never.\n\nEver aparece habitualmente en preguntas; never significa nunca y no lleva otra negación.",
+        "example": "Have you ___ tried sushi?\never",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Ever and never",
+        "body": "Have you ever...? = ¿Has alguna vez...?; never = nunca; flown = volado; abroad = en el extranjero.",
+        "example": "I have ___ flown; never means not at any time.\nnever",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Ever and never",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "Have you ever flown abroad? I have never flown, but I have travelled by train to France. My sister has visited Rome twice.",
+        "transcript": "Have you ever flown abroad? I have never flown, but I have travelled by train to France. My sister has visited Rome twice.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Ever and never",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "Have you ever flown abroad? I have never flown, but I have travelled by train to France. My sister has visited Rome twice.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
     ]
   },
   "a2-13": {
-    "objective": "Expresar si algo ya ha sucedido o todavía no.",
+    "objective": "Expresar si algo ya ha ocurrido o todavía no con already y yet.",
     "sections": [
-      {"type":"learn","title":"Already","body":"Se usa principalmente en afirmativas: I have already finished."},
-      {"type":"example","title":"Yet","body":"Suele aparecer al final de preguntas y negativas: Have you finished yet? I haven’t finished yet."},
-      {"type":"practice","title":"Traducción","body":"already = ya; yet = ya/todavía, según el contexto."}
+      {
+        "type": "grammar",
+        "title": "Gramática · Already and yet",
+        "body": "Expresar si algo ya ha ocurrido o todavía no con already y yet.\n\nAlready suele ir después de have/has; yet al final de preguntas y negativas.",
+        "example": "I've ___ finished my homework.\nalready",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Already and yet",
+        "body": "already = ya; yet = ya/todavía; finish = terminar; homework = deberes; ticket = billete.",
+        "example": "Have you booked the hotel ___?\nyet",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Already and yet",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "I've already packed my bag, but I haven't bought the train ticket yet. Have you booked the hotel yet?",
+        "transcript": "I've already packed my bag, but I haven't bought the train ticket yet. Have you booked the hotel yet?",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Already and yet",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "I've already packed my bag, but I haven't bought the train ticket yet. Have you booked the hotel yet?",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
     ]
   },
   "a2-14": {
-    "objective": "Decir que una acción acaba de suceder.",
+    "objective": "Indicar que una acción acaba de ocurrir con have/has + just + participio.",
     "sections": [
-      {"type":"learn","title":"Posición","body":"Have/has + just + participio."},
-      {"type":"example","title":"Ejemplos","body":"I’ve just arrived = Acabo de llegar. She’s just called = Ella acaba de llamar."},
-      {"type":"practice","title":"Práctica","body":"Completa: They have just ____ (leave). Respuesta: left."}
+      {
+        "type": "grammar",
+        "title": "Gramática · Just",
+        "body": "Indicar que una acción acaba de ocurrir con have/has + just + participio.\n\nJust se coloca entre have/has y el participio pasado.",
+        "example": "They have just ___ home. (go)\ngone",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Just",
+        "body": "just = acabar de; arrive = llegar; leave = salir; finish = terminar; message = mensaje.",
+        "example": "I have just ___ my work. (finish)\nfinished",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Just",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "The train has just arrived. Anna has just left the office and Ben has just sent a message to say he is on his way.",
+        "transcript": "The train has just arrived. Anna has just left the office and Ben has just sent a message to say he is on his way.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Just",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "The train has just arrived. Anna has just left the office and Ben has just sent a message to say he is on his way.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
     ]
   },
   "a2-15": {
-    "objective": "Diferenciar experiencias sin fecha concreta de acciones en un pasado terminado.",
+    "objective": "Distinguir experiencias sin fecha de acciones ocurridas en un momento terminado.",
     "sections": [
-      {"type":"learn","title":"Present Perfect","body":"I have seen that film: experiencia, sin decir cuándo."},
-      {"type":"example","title":"Past Simple","body":"I saw that film last night: se especifica cuándo."},
-      {"type":"practice","title":"Pistas","body":"yesterday, last week, in 2024 → Past Simple; ever, never, already → a menudo Present Perfect."}
+      {
+        "type": "grammar",
+        "title": "Gramática · Present Perfect vs Past Simple",
+        "body": "Distinguir experiencias sin fecha de acciones ocurridas en un momento terminado.\n\nPresent Perfect: have/has + participio; Past Simple con yesterday, last week, in 2024.",
+        "example": "I ___ my aunt yesterday. (visit)\nvisited",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Present Perfect vs Past Simple",
+        "body": "ever = alguna vez; last night = anoche; already = ya; ago = hace; visited = visitó/visitado.",
+        "example": "She has ___ that film. (see)\nseen",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Present Perfect vs Past Simple",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "I have seen that film, but I watched it again last night. We have visited Rome twice; we went there in 2024.",
+        "transcript": "I have seen that film, but I watched it again last night. We have visited Rome twice; we went there in 2024.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Present Perfect vs Past Simple",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "I have seen that film, but I watched it again last night. We have visited Rome twice; we went there in 2024.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
     ]
   },
   "a2-16": {
-    "objective": "Describir una acción que estaba en progreso en un momento pasado.",
+    "objective": "Describir una acción en progreso en un momento pasado con was/were + -ing.",
     "sections": [
-      {"type":"learn","title":"Forma","body":"was/were + verbo-ing."},
-      {"type":"example","title":"Ejemplos","body":"I was studying at 8 pm = Estaba estudiando a las ocho."},
-      {"type":"practice","title":"Uso","body":"I was cooking when he arrived = Estaba cocinando cuando llegó."}
+      {
+        "type": "grammar",
+        "title": "Gramática · Past Continuous",
+        "body": "Describir una acción en progreso en un momento pasado con was/were + -ing.\n\nI/he/she/it was; you/we/they were + verb-ing.",
+        "example": "At 8 pm, I ___ watching TV.\nwas",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Past Continuous",
+        "body": "was studying = estaba estudiando; while = mientras; at eight = a las ocho; raining = lloviendo.",
+        "example": "They ___ playing football.\nwere",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Past Continuous",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "At eight yesterday, I was cooking dinner while my brother was studying. It was raining, so we stayed at home.",
+        "transcript": "At eight yesterday, I was cooking dinner while my brother was studying. It was raining, so we stayed at home.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Past Continuous",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "At eight yesterday, I was cooking dinner while my brother was studying. It was raining, so we stayed at home.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
     ]
   },
   "a2-17": {
-    "objective": "Narrar sucesos y acciones en progreso al mismo tiempo.",
+    "objective": "Narrar una acción interrumpida: Past Continuous para el fondo, Past Simple para el hecho puntual.",
     "sections": [
-      {"type":"learn","title":"Contraste","body":"Past Continuous describe el fondo; Past Simple la acción que ocurre."},
-      {"type":"example","title":"Ejemplo","body":"We were walking when it started to rain."},
-      {"type":"practice","title":"While y when","body":"While suele acompañar una acción en progreso; when introduce el acontecimiento."}
+      {
+        "type": "grammar",
+        "title": "Gramática · Past Simple and Past Continuous",
+        "body": "Narrar una acción interrumpida: Past Continuous para el fondo, Past Simple para el hecho puntual.\n\nwas/were + -ing + when + Past Simple: I was walking when it started to rain.",
+        "example": "I ___ walking when it started to rain.\nwas",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Past Simple and Past Continuous",
+        "body": "while = mientras; when = cuando; rang = sonó; arrived = llegó; in progress = en curso.",
+        "example": "While we were cooking, he ___. (arrive)\narrived",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Past Simple and Past Continuous",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "I was walking to work when it started to rain. While I was waiting for the bus, I saw an old friend.",
+        "transcript": "I was walking to work when it started to rain. While I was waiting for the bus, I saw an old friend.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Past Simple and Past Continuous",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "I was walking to work when it started to rain. While I was waiting for the bus, I saw an old friend.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
     ]
   },
   "a2-18": {
-    "objective": "Expresar cuánto tiempo dura una situación.",
+    "objective": "Indicar duración con for + periodo y origen con since + punto temporal.",
     "sections": [
-      {"type":"learn","title":"For","body":"Se usa con un periodo: for two years, for a week."},
-      {"type":"example","title":"Since","body":"Se usa con un punto de inicio: since Monday, since 2022."},
-      {"type":"practice","title":"Ejemplo","body":"I have lived here for three years / since 2023."}
+      {
+        "type": "grammar",
+        "title": "Gramática · For and since",
+        "body": "Indicar duración con for + periodo y origen con since + punto temporal.\n\nfor three years (period); since 2022 (start point).",
+        "example": "I've studied here ___ two years.\nfor",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · For and since",
+        "body": "for = durante/desde hace; since = desde; ago = hace; period = periodo; starting point = punto inicial.",
+        "example": "I've lived here ___ 2022.\nsince",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · For and since",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "I've lived in Madrid for three years. My sister has worked here since 2022. We have known our neighbours for a long time.",
+        "transcript": "I've lived in Madrid for three years. My sister has worked here since 2022. We have known our neighbours for a long time.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · For and since",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "I've lived in Madrid for three years. My sister has worked here since 2022. We have known our neighbours for a long time.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
     ]
   },
   "a2-19": {
-    "objective": "Preguntar por duración, frecuencia, cantidad y forma.",
+    "objective": "Preguntar por duración, frecuencia, cantidad y forma con how long/often/much/many.",
     "sections": [
-      {"type":"learn","title":"How long","body":"How long have you lived here? = ¿Cuánto tiempo llevas viviendo aquí?"},
-      {"type":"example","title":"How often","body":"How often do you exercise? = ¿Con qué frecuencia haces ejercicio?"},
-      {"type":"practice","title":"How much/many","body":"How much water? How many books?"}
+      {
+        "type": "grammar",
+        "title": "Gramática · How questions",
+        "body": "Preguntar por duración, frecuencia, cantidad y forma con how long/often/much/many.\n\nHow long = duración; how often = frecuencia; how much = incontable; how many = contable.",
+        "example": "___ often do you swim?\nHow",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · How questions",
+        "body": "how long = cuánto tiempo; how often = con qué frecuencia; how much = cuánto; how many = cuántos.",
+        "example": "___ long have you lived here?\nHow",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · How questions",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "How often do you exercise? Twice a week. How long have you lived here? For five years. How many books have you read? Three.",
+        "transcript": "How often do you exercise? Twice a week. How long have you lived here? For five years. How many books have you read? Three.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · How questions",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "How often do you exercise? Twice a week. How long have you lived here? For five years. How many books have you read? Three.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
     ]
   },
   "a2-20": {
-    "objective": "Consolidar las formas del presente perfecto y del pasado continuo.",
+    "objective": "Integrar Present Perfect, Past Continuous y preguntas How.",
     "sections": [
-      {"type":"learn","title":"Repaso","body":"Have/has + participio; was/were + -ing."},
-      {"type":"example","title":"Contraste temporal","body":"I’ve just finished vs I finished an hour ago."},
-      {"type":"practice","title":"Reto","body":"Cuenta una experiencia y describe qué estaba pasando cuando ocurrió."}
+      {
+        "type": "grammar",
+        "title": "Gramática · Module 2 review",
+        "body": "Integrar Present Perfect, Past Continuous y preguntas How.\n\nCombina el auxiliar correcto con el participio o con -ing; distingue duración de fecha concreta.",
+        "example": "I have ___ visited Rome. (never)\nnever",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Module 2 review",
+        "body": "ever/never; already/yet; for/since; was/were; have/has.",
+        "example": "She was ___ when I called. (study)\nstudying",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Module 2 review",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "I've already finished my work, but I was studying when the phone rang. I've lived here for three years and have known my neighbours since 2022.",
+        "transcript": "I've already finished my work, but I was studying when the phone rang. I've lived here for three years and have known my neighbours since 2022.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Module 2 review",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "I've already finished my work, but I was studying when the phone rang. I've lived here for three years and have known my neighbours since 2022.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-21": {
+    "objective": "Expresar planes ya decididos con am/is/are going to + verbo base.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Going to: plans and intentions",
+        "body": "Expresar planes ya decididos con am/is/are going to + verbo base.\n\nbe + going to + base verb; no olvides am/is/are.",
+        "example": "I ___ going to study.\nam",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Going to: plans and intentions",
+        "body": "plan = plan; book = reservar; travel = viajar; visit = visitar; next weekend = el próximo fin de semana.",
+        "example": "She is going to ___ the tickets. (book)\nbook",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Going to: plans and intentions",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "We're going to visit Oxford next weekend. I'm going to book the tickets today, and Anna is going to stay with her cousin.",
+        "transcript": "We're going to visit Oxford next weekend. I'm going to book the tickets today, and Anna is going to stay with her cousin.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Going to: plans and intentions",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "We're going to visit Oxford next weekend. I'm going to book the tickets today, and Anna is going to stay with her cousin.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-22": {
+    "objective": "Hacer predicciones basadas en señales y evidencias visibles.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Going to: predictions",
+        "body": "Hacer predicciones basadas en señales y evidencias visibles.\n\nbe going to + base verb cuando hay evidencia presente.",
+        "example": "Look at the clouds. It ___ going to rain.\nis",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Going to: predictions",
+        "body": "cloudy = nublado; umbrella = paraguas; look at = mirar; storm = tormenta; wet = mojado.",
+        "example": "They are going to ___ wet. (get)\nget",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Going to: predictions",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "Look at those dark clouds! It's going to rain. Take an umbrella, because the streets are going to get wet.",
+        "transcript": "Look at those dark clouds! It's going to rain. Take an umbrella, because the streets are going to get wet.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Going to: predictions",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "Look at those dark clouds! It's going to rain. Take an umbrella, because the streets are going to get wet.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-23": {
+    "objective": "Expresar decisiones, predicciones y promesas con will/won't + verbo base.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Will and won't",
+        "body": "Expresar decisiones, predicciones y promesas con will/won't + verbo base.\n\nwill/won't + infinitive; después de will no añadimos -s ni to.",
+        "example": "I ___ help you. (future offer)\nwill",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Will and won't",
+        "body": "promise = promesa; perhaps = quizá; help = ayudar; carry = llevar; later = más tarde.",
+        "example": "She will ___ late. (not)\nnot be",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Will and won't",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "I think our team will win. I'll help you with your bag, and I promise I won't be late.",
+        "transcript": "I think our team will win. I'll help you with your bag, and I promise I won't be late.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Will and won't",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "I think our team will win. I'll help you with your bag, and I promise I won't be late.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-24": {
+    "objective": "Hablar de planes organizados con present continuous y una referencia futura.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Present Continuous for future plans",
+        "body": "Hablar de planes organizados con present continuous y una referencia futura.\n\nam/is/are + verb-ing; suele incluir una fecha/hora futura.",
+        "example": "I ___ meeting Kate tomorrow.\nam",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Present Continuous for future plans",
+        "body": "meet = quedar; tonight = esta noche; tomorrow = mañana; appointment = cita; arrange = organizar.",
+        "example": "We are ___ dinner at six. (have)\nhaving",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Present Continuous for future plans",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "I'm meeting Kate at six tomorrow. We're having dinner at a new café, and our train is leaving at eight.",
+        "transcript": "I'm meeting Kate at six tomorrow. We're having dinner at a new café, and our train is leaving at eight.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Present Continuous for future plans",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "I'm meeting Kate at six tomorrow. We're having dinner at a new café, and our train is leaving at eight.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-25": {
+    "objective": "Elegir entre going to, will y Present Continuous según intención, evidencia y acuerdo.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Future forms contrast",
+        "body": "Elegir entre going to, will y Present Continuous según intención, evidencia y acuerdo.\n\nGoing to = intención/evidencia; will = decisión espontánea/promesa; Present Continuous = plan acordado.",
+        "example": "We've booked tickets. We ___ travelling tomorrow.\nare",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Future forms contrast",
+        "body": "arrangement = acuerdo; intention = intención; prediction = predicción; promise = promesa.",
+        "example": "Look at the clouds! It ___ rain.\nis going to",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Future forms contrast",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "I've booked a table, so we're meeting at seven. Look at the clouds—it's going to rain. Don't worry, I'll bring an umbrella.",
+        "transcript": "I've booked a table, so we're meeting at seven. Look at the clouds—it's going to rain. Don't worry, I'll bring an umbrella.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Future forms contrast",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "I've booked a table, so we're meeting at seven. Look at the clouds—it's going to rain. Don't worry, I'll bring an umbrella.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-26": {
+    "objective": "Hablar de resultados futuros probables con if + Present Simple, will + base verb.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · First Conditional",
+        "body": "Hablar de resultados futuros probables con if + Present Simple, will + base verb.\n\nIf + present simple, will + base; no uses will directamente en la cláusula if.",
+        "example": "If it ___, we'll stay in. (rain)\nrains",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · First Conditional",
+        "body": "if = si; unless = a menos que; miss = perder; hurry = darse prisa; rain = llover.",
+        "example": "If you study, you ___ pass.\nwill",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · First Conditional",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "If it rains tomorrow, we'll stay at home. If the weather is good, we'll go to the beach. If we leave late, we'll miss the bus.",
+        "transcript": "If it rains tomorrow, we'll stay at home. If the weather is good, we'll go to the beach. If we leave late, we'll miss the bus.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · First Conditional",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "If it rains tomorrow, we'll stay at home. If the weather is good, we'll go to the beach. If we leave late, we'll miss the bus.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-27": {
+    "objective": "Expresar verdades generales y resultados habituales con if + present simple, present simple.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Zero Conditional",
+        "body": "Expresar verdades generales y resultados habituales con if + present simple, present simple.\n\nLos dos verbos van normalmente en Present Simple.",
+        "example": "If water reaches 100°C, it ___.\nboils",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Zero Conditional",
+        "body": "boil = hervir; freeze = congelarse; melt = derretirse; habit = hábito; always = siempre.",
+        "example": "If plants don't get water, they ___.\ndie",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Zero Conditional",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "If you heat water to 100°C, it boils. If you don't water plants, they die. If the temperature falls below zero, water freezes.",
+        "transcript": "If you heat water to 100°C, it boils. If you don't water plants, they die. If the temperature falls below zero, water freezes.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Zero Conditional",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "If you heat water to 100°C, it boils. If you don't water plants, they die. If the temperature falls below zero, water freezes.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-28": {
+    "objective": "Distinguir obligación de ausencia de obligación.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Have to / don't have to",
+        "body": "Distinguir obligación de ausencia de obligación.\n\nhave to = tener que; don't have to = no es necesario; mustn't = prohibición.",
+        "example": "I ___ wear a uniform at school. (obligation)\nhave to",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Have to / don't have to",
+        "body": "uniform = uniforme; rule = norma; necessary = necesario; wear = llevar; bring = traer.",
+        "example": "You ___ bring food; lunch is provided. (not necessary)\ndon't have to",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Have to / don't have to",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "At school we have to wear a uniform, but we don't have to bring our books on Friday. We mustn't use phones during the exam.",
+        "transcript": "At school we have to wear a uniform, but we don't have to bring our books on Friday. We mustn't use phones during the exam.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Have to / don't have to",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "At school we have to wear a uniform, but we don't have to bring our books on Friday. We mustn't use phones during the exam.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-29": {
+    "objective": "Hablar de habilidad pasada y formular peticiones educadas con could.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Could: ability and requests",
+        "body": "Hablar de habilidad pasada y formular peticiones educadas con could.\n\nCould + base verb; peticiones: Could you...?; habilidad pasada: I could swim.",
+        "example": "At six, I ___ swim. (ability past)\ncould",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Could: ability and requests",
+        "body": "could = podía/podría; borrow = pedir prestado; carry = llevar; politely = con educación.",
+        "example": "Could you ___ me, please? (help)\nhelp",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Could: ability and requests",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "When I was six, I could swim but I couldn't ride a bike. Now I can do both. Could you carry this bag, please?",
+        "transcript": "When I was six, I could swim but I couldn't ride a bike. Now I can do both. Could you carry this bag, please?",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Could: ability and requests",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "When I was six, I could swim but I couldn't ride a bike. Now I can do both. Could you carry this bag, please?",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-30": {
+    "objective": "Consolidar planes, predicciones, condicionales, obligaciones y peticiones.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Module 3 review",
+        "body": "Consolidar planes, predicciones, condicionales, obligaciones y peticiones.\n\nSelecciona la forma según intención, evidencia, acuerdo, obligación o posibilidad.",
+        "example": "If the weather ___ good, we'll go out.\nis",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Module 3 review",
+        "body": "going to = plan/evidence; will = promesa; if = condición; have to = obligación; could = petición.",
+        "example": "Our train ___ leaving at nine. (be)\nis",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Module 3 review",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "If the weather is sunny, we'll go to the beach. I've booked the tickets, so we're leaving at nine. You have to bring your passport, and could you carry my bag?",
+        "transcript": "If the weather is sunny, we'll go to the beach. I've booked the tickets, so we're leaving at nine. You have to bring your passport, and could you carry my bag?",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Module 3 review",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "If the weather is sunny, we'll go to the beach. I've booked the tickets, so we're leaving at nine. You have to bring your passport, and could you carry my bag?",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-31": {
+    "objective": "Comprender phrasal verbs frecuentes: get up, wake up, look for, turn on/off y sit down.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Phrasal verbs introduction",
+        "body": "Comprender phrasal verbs frecuentes: get up, wake up, look for, turn on/off y sit down.\n\nPhrasal verb = verb + particle; el significado puede cambiar.",
+        "example": "I ___ at seven every day. (wake)\nwake up",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Phrasal verbs introduction",
+        "body": "get up = levantarse; wake up = despertarse; look for = buscar; turn on = encender; turn off = apagar.",
+        "example": "Please ___ on the TV.\nturn",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Phrasal verbs introduction",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "I wake up at seven and get up ten minutes later. I turn on the coffee machine and look for my keys before I leave.",
+        "transcript": "I wake up at seven and get up ten minutes later. I turn on the coffee machine and look for my keys before I leave.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Phrasal verbs introduction",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "I wake up at seven and get up ten minutes later. I turn on the coffee machine and look for my keys before I leave.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-32": {
+    "objective": "Usar phrasal verbs separables y la colocación del objeto.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Separable phrasal verbs",
+        "body": "Usar phrasal verbs separables y la colocación del objeto.\n\nCon sustantivo, objeto antes o después; con pronombre va en medio: turn it off.",
+        "example": "Please put ___ your coat.\non",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Separable phrasal verbs",
+        "body": "pick up = recoger; put on = ponerse; take off = quitarse; turn it off = apagarlo; write down = apuntar.",
+        "example": "Pick ___ your bag.\nup",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Separable phrasal verbs",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "Before leaving, put on your coat, pick up your bag and turn the lights off. If you use a pronoun, say 'turn them off'.",
+        "transcript": "Before leaving, put on your coat, pick up your bag and turn the lights off. If you use a pronoun, say 'turn them off'.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Separable phrasal verbs",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "Before leaving, put on your coat, pick up your bag and turn the lights off. If you use a pronoun, say 'turn them off'.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-33": {
+    "objective": "Elegir gerundio o infinitivo después de verbos frecuentes.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Gerunds and infinitives",
+        "body": "Elegir gerundio o infinitivo después de verbos frecuentes.\n\nEnjoy/like/love + -ing; want/need/hope + to + base verb.",
+        "example": "I enjoy ___ books. (read)\nreading",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Gerunds and infinitives",
+        "body": "enjoy = disfrutar; want = querer; decide = decidir; finish = terminar; learn = aprender.",
+        "example": "She wants ___ a new language. (learn)\nto learn",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Gerunds and infinitives",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "I enjoy reading in the evening. I want to learn French, and I hope to visit Paris next year. I finished doing my homework before dinner.",
+        "transcript": "I enjoy reading in the evening. I want to learn French, and I hope to visit Paris next year. I finished doing my homework before dinner.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Gerunds and infinitives",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "I enjoy reading in the evening. I want to learn French, and I hope to visit Paris next year. I finished doing my homework before dinner.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-34": {
+    "objective": "Distinguir quién realiza la acción de qué/a quién recibe la acción.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Subject and object questions",
+        "body": "Distinguir quién realiza la acción de qué/a quién recibe la acción.\n\nSubject question: Who called? sin do/did; object question: Who did you call? con auxiliar.",
+        "example": "Who ___ you call yesterday?\ndid",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Subject and object questions",
+        "body": "subject = sujeto; object = objeto; call = llamar; invite = invitar; arrive = llegar.",
+        "example": "Who ___ the doorbell? (subject)\nrang",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Subject and object questions",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "Emma called Jack, and Jack invited Emma to dinner. Who called Jack? Emma. Who did Emma call? Jack.",
+        "transcript": "Emma called Jack, and Jack invited Emma to dinner. Who called Jack? Emma. Who did Emma call? Jack.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Subject and object questions",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "Emma called Jack, and Jack invited Emma to dinner. Who called Jack? Emma. Who did Emma call? Jack.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-35": {
+    "objective": "Hablar de cantidades con some/any y much/many.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Some, any, much and many",
+        "body": "Hablar de cantidades con some/any y much/many.\n\nSome suele ir en afirmativas/ofertas; any en preguntas/negativas; much con incontables; many con contables.",
+        "example": "There aren't ___ eggs.\nany",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Some, any, much and many",
+        "body": "some = algo/algunos; any = algo/ningún; much = mucho (incontable); many = muchos (contable).",
+        "example": "We need ___ milk.\nsome",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Some, any, much and many",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "There are many apples but not much milk. We have some bread, but we don't have any eggs. Would you like some tea?",
+        "transcript": "There are many apples but not much milk. We have some bread, but we don't have any eggs. Would you like some tea?",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Some, any, much and many",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "There are many apples but not much milk. We have some bread, but we don't have any eggs. Would you like some tea?",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-36": {
+    "objective": "Usar a/an para un elemento no específico y the para uno identificado.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Articles a, an and the",
+        "body": "Usar a/an para un elemento no específico y the para uno identificado.\n\nA antes de sonido consonántico; an antes de sonido vocálico; the cuando sabemos cuál.",
+        "example": "I need ___ ticket.\na",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Articles a, an and the",
+        "body": "a hotel; an umbrella; the station; a ticket; an email.",
+        "example": "She has ___ umbrella.\nan",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Articles a, an and the",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "We booked a hotel near the station. I bought an umbrella because the weather was bad. The hotel has a restaurant and a small garden.",
+        "transcript": "We booked a hotel near the station. I bought an umbrella because the weather was bad. The hotel has a restaurant and a small garden.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Articles a, an and the",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "We booked a hotel near the station. I bought an umbrella because the weather was bad. The hotel has a restaurant and a small garden.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-37": {
+    "objective": "Diferenciar gustos habituales (like + -ing/noun) de deseos educados (would like + to/noun).",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Would like vs like",
+        "body": "Diferenciar gustos habituales (like + -ing/noun) de deseos educados (would like + to/noun).\n\nI like swimming. I'd like to swim now. Would you like...? ofrece o invita.",
+        "example": "I like ___ football. (play)\nplaying",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Would like vs like",
+        "body": "would like = gustaría/quisiera; like = gustar; prefer = preferir; order = pedir; menu = menú.",
+        "example": "I'd like ___ a coffee. (have)\nto have",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Would like vs like",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "I like Italian food, but today I'd like to try the fish. Would you like a table near the window?",
+        "transcript": "I like Italian food, but today I'd like to try the fish. Would you like a table near the window?",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Would like vs like",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "I like Italian food, but today I'd like to try the fish. Would you like a table near the window?",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-38": {
+    "objective": "Dar consejos y recomendaciones con should/ought to + base verb.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Should and ought to",
+        "body": "Dar consejos y recomendaciones con should/ought to + base verb.\n\nShould/ought to + infinitive; negative shouldn't.",
+        "example": "You ___ drink more water.\nshould",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Should and ought to",
+        "body": "should = deberías; ought to = deberías; rest = descansar; symptom = síntoma; advice = consejo.",
+        "example": "You shouldn't ___ up late. (stay)\nstay",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Should and ought to",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "You should rest and drink water. You ought to call the doctor if the pain continues. You shouldn't work all night.",
+        "transcript": "You should rest and drink water. You ought to call the doctor if the pain continues. You shouldn't work all night.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Should and ought to",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "You should rest and drink water. You ought to call the doctor if the pain continues. You shouldn't work all night.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-39": {
+    "objective": "Indicar cuándo, dónde y con qué frecuencia con expresiones adverbiales.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Adverbial phrases",
+        "body": "Indicar cuándo, dónde y con qué frecuencia con expresiones adverbiales.\n\nAdverbial phrases se colocan al inicio o final: every morning, at home, last weekend.",
+        "example": "I study ___ home.\nat",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Adverbial phrases",
+        "body": "every day = cada día; at home = en casa; in the afternoon = por la tarde; once a week = una vez por semana.",
+        "example": "I visit my parents ___ a week.\nonce",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Adverbial phrases",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "I study at home every evening. In the afternoon, I go for a walk. I visit my parents once a week.",
+        "transcript": "I study at home every evening. In the afternoon, I go for a walk. I visit my parents once a week.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Adverbial phrases",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "I study at home every evening. In the afternoon, I go for a walk. I visit my parents once a week.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-40": {
+    "objective": "Consolidar phrasal verbs, gerundios, cuantificadores, artículos y consejos.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Module 4 review",
+        "body": "Consolidar phrasal verbs, gerundios, cuantificadores, artículos y consejos.\n\nRecupera el verbo y partícula, patrón verbal, cuantificador y artículo correctos.",
+        "example": "I enjoy ___ books. (read)\nreading",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Module 4 review",
+        "body": "turn off; enjoy + -ing; much water; many books; should + base.",
+        "example": "Turn ___ the light before leaving.\noff",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Module 4 review",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "I enjoy reading at home. I put on my coat, turn off the lights and go out. There aren't many buses, so we should leave early.",
+        "transcript": "I enjoy reading at home. I put on my coat, turn off the lights and go out. There aren't many buses, so we should leave early.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Module 4 review",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "I enjoy reading at home. I put on my coat, turn off the lights and go out. There aren't many buses, so we should leave early.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-41": {
+    "objective": "Pedir billetes y explicar desplazamientos con by bus/train, take, get to, arrive at/in.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Travel and transport",
+        "body": "Pedir billetes y explicar desplazamientos con by bus/train, take, get to, arrive at/in.\n\nby + transport; take the bus/train; arrive at + punto/sitio y arrive in + ciudad/país.",
+        "example": "I go to work ___ bus.\nby",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Travel and transport",
+        "body": "ticket = billete; platform = andén; station = estación; airport = aeropuerto; luggage = equipaje.",
+        "example": "We need to ___ the train at 9:15.\ntake",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Travel and transport",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "We took the train to Oxford. It leaves from platform four at 9:15. When we arrived in Oxford, we took a bus to the hotel.",
+        "transcript": "We took the train to Oxford. It leaves from platform four at 9:15. When we arrived in Oxford, we took a bus to the hotel.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Travel and transport",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "We took the train to Oxford. It leaves from platform four at 9:15. When we arrived in Oxford, we took a bus to the hotel.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-42": {
+    "objective": "Reservar alojamiento, preguntar por servicios y entender check-in/check-out.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Accommodation",
+        "body": "Reservar alojamiento, preguntar por servicios y entender check-in/check-out.\n\nI'd like to book a room; Is breakfast included?; check in/out.",
+        "example": "I'd like to ___ a room.\nbook",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Accommodation",
+        "body": "single room = habitación individual; double room = doble; reservation = reserva; available = disponible; key = llave.",
+        "example": "Is breakfast ___?\nincluded",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Accommodation",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "Hello, I'd like to book a double room for two nights. Is breakfast included? Yes, and check-in is from 2 pm. Check-out is at 11 am.",
+        "transcript": "Hello, I'd like to book a double room for two nights. Is breakfast included? Yes, and check-in is from 2 pm. Check-out is at 11 am.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Accommodation",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "Hello, I'd like to book a double room for two nights. Is breakfast included? Yes, and check-in is from 2 pm. Check-out is at 11 am.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-43": {
+    "objective": "Hablar de actividades de vacaciones, experiencias y planes.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Holiday activities",
+        "body": "Hablar de actividades de vacaciones, experiencias y planes.\n\ngo sightseeing, go swimming, visit museums; use Past Simple for finished holiday events.",
+        "example": "Last summer we ___ sightseeing.\nwent",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Holiday activities",
+        "body": "sightseeing = turismo; beach = playa; souvenir = recuerdo; hike = ruta a pie; explore = explorar.",
+        "example": "We visited two ___.\nmuseums",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Holiday activities",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "Last summer we went sightseeing in Rome, visited two museums and went swimming at the beach. We bought souvenirs for our friends.",
+        "transcript": "Last summer we went sightseeing in Rome, visited two museums and went swimming at the beach. We bought souvenirs for our friends.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Holiday activities",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "Last summer we went sightseeing in Rome, visited two museums and went swimming at the beach. We bought souvenirs for our friends.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-44": {
+    "objective": "Describir el tiempo y entender predicciones con it is/was, there is y going to.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Weather and forecasts",
+        "body": "Describir el tiempo y entender predicciones con it is/was, there is y going to.\n\nIt's sunny/cloudy/windy; it's going to rain when there are signs.",
+        "example": "It's ___ today; the wind is strong.\nwindy",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Weather and forecasts",
+        "body": "sunny = soleado; cloudy = nublado; windy = ventoso; forecast = previsión; umbrella = paraguas.",
+        "example": "Dark clouds mean it may ___.\nrain",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Weather and forecasts",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "The forecast says it will be windy today. There are dark clouds over the hills, so it's going to rain this afternoon. Take an umbrella.",
+        "transcript": "The forecast says it will be windy today. There are dark clouds over the hills, so it's going to rain this afternoon. Take an umbrella.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Weather and forecasts",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "The forecast says it will be windy today. There are dark clouds over the hills, so it's going to rain this afternoon. Take an umbrella.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-45": {
+    "objective": "Hablar de películas, música, televisión, noticias y preferencias.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Entertainment and media",
+        "body": "Hablar de películas, música, televisión, noticias y preferencias.\n\nI watched/saw; It was exciting/boring; genres: comedy, drama, documentary.",
+        "example": "I watched a ___ (comedia).\ncomedy",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Entertainment and media",
+        "body": "film = película; news = noticias; comedy = comedia; documentary = documental; review = reseña.",
+        "example": "The film was very ___. (gracioso)\nfunny",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Entertainment and media",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "On Friday I watched a comedy at home. It was funny, but the documentary I saw on Saturday was more interesting.",
+        "transcript": "On Friday I watched a comedy at home. It was funny, but the documentary I saw on Saturday was more interesting.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Entertainment and media",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "On Friday I watched a comedy at home. It was funny, but the documentary I saw on Saturday was more interesting.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-46": {
+    "objective": "Comprar, preguntar precios, tallas y pedir servicios con expresiones corteses.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Shopping and services",
+        "body": "Comprar, preguntar precios, tallas y pedir servicios con expresiones corteses.\n\nHow much is it?; Can I try it on?; I'd like...; comparative prices.",
+        "example": "How much ___ this jacket?\nis",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Shopping and services",
+        "body": "size = talla; receipt = recibo; fitting room = probador; change = cambio; refund = devolución.",
+        "example": "Can I try it ___?\non",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Shopping and services",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "Excuse me, how much is this jacket? It's £35. Can I try it on in a medium? Of course. Keep the receipt if you need a refund.",
+        "transcript": "Excuse me, how much is this jacket? It's £35. Can I try it on in a medium? Of course. Keep the receipt if you need a refund.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Shopping and services",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "Excuse me, how much is this jacket? It's £35. Can I try it on in a medium? Of course. Keep the receipt if you need a refund.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-47": {
+    "objective": "Describir síntomas y pedir ayuda con have a headache, feel ill, should.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Health and body",
+        "body": "Describir síntomas y pedir ayuda con have a headache, feel ill, should.\n\nI have a headache; my throat hurts; you should rest; if it continues, call a doctor.",
+        "example": "I have a ___. (dolor de cabeza)\nheadache",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Health and body",
+        "body": "headache = dolor de cabeza; sore throat = dolor de garganta; fever = fiebre; medicine = medicamento; appointment = cita.",
+        "example": "My throat is ___. (dolorido)\nsore",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Health and body",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "I have a sore throat and a headache. You should drink water and rest. If your fever continues, you should call the doctor.",
+        "transcript": "I have a sore throat and a headache. You should drink water and rest. If your fever continues, you should call the doctor.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Health and body",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "I have a sore throat and a headache. You should drink water and rest. If your fever continues, you should call the doctor.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-48": {
+    "objective": "Describir prendas, tallas, colores, patrones y comparaciones.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Clothes and fashion",
+        "body": "Describir prendas, tallas, colores, patrones y comparaciones.\n\nThis shirt is cheaper than that one; wear/put on/take off.",
+        "example": "I'm looking for a blue ___.\njacket",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Clothes and fashion",
+        "body": "shirt = camisa; coat = abrigo; shoes = zapatos; size = talla; comfortable = cómodo.",
+        "example": "Can I try it ___?\non",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Clothes and fashion",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "I'm looking for a blue jacket. This one is cheaper than the black one, but the black coat is warmer. Can I try them on?",
+        "transcript": "I'm looking for a blue jacket. This one is cheaper than the black one, but the black coat is warmer. Can I try them on?",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Clothes and fashion",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "I'm looking for a blue jacket. This one is cheaper than the black one, but the black coat is warmer. Can I try them on?",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-49": {
+    "objective": "Describir personalidad, relaciones y experiencias sociales.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · People and relationships",
+        "body": "Describir personalidad, relaciones y experiencias sociales.\n\nbe + adjective; get on with; friend/colleague/relative; comparative personality adjectives.",
+        "example": "My colleague is very ___. (amable)\nfriendly",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · People and relationships",
+        "body": "friendly = amable; honest = honesto; colleague = compañero de trabajo; relative = familiar; get on = llevarse bien.",
+        "example": "We get ___ well.\non",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · People and relationships",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "My colleague Sam is friendly and very patient. We get on well, although we sometimes disagree. Last weekend I met his sister and we had lunch together.",
+        "transcript": "My colleague Sam is friendly and very patient. We get on well, although we sometimes disagree. Last weekend I met his sister and we had lunch together.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · People and relationships",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "My colleague Sam is friendly and very patient. We get on well, although we sometimes disagree. Last weekend I met his sister and we had lunch together.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-50": {
+    "objective": "Integrar vocabulario práctico para viajes, alojamiento, vacaciones, tiempo, compras, salud y relaciones.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Module 5 review",
+        "body": "Integrar vocabulario práctico para viajes, alojamiento, vacaciones, tiempo, compras, salud y relaciones.\n\nUsa expresiones funcionales completas y el tiempo verbal adecuado al contexto.",
+        "example": "We ___ a room before the holiday. (book)\nbooked",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Module 5 review",
+        "body": "reservation, ticket, forecast, refund, headache, comfortable, colleague.",
+        "example": "It was ___, so we bought a coat. (wind)\nwindy",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Module 5 review",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "We booked a room, took the train and visited a museum. It was windy, so we bought a coat. My friend had a headache, but she rested and felt better.",
+        "transcript": "We booked a room, took the train and visited a museum. It was windy, so we bought a coat. My friend had a headache, but she rested and felt better.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Module 5 review",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "We booked a room, took the train and visited a museum. It was windy, so we bought a coat. My friend had a headache, but she rested and felt better.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-51": {
+    "objective": "Proponer planes con Shall we, Let's, Why don't we y How about.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Making suggestions",
+        "body": "Proponer planes con Shall we, Let's, Why don't we y How about.\n\nShall we + base; Let's + base; How about + noun/-ing; Why don't we + base.",
+        "example": "___ we go for a walk?\nShall",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Making suggestions",
+        "body": "suggestion = sugerencia; meet = quedar; cinema = cine; Shall we...? = ¿Y si...?",
+        "example": "Let's ___ at six.\nmeet",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Making suggestions",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "It's Saturday. Shall we go to the cinema? We could meet at six. How about having dinner after the film?",
+        "transcript": "It's Saturday. Shall we go to the cinema? We could meet at six. How about having dinner after the film?",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Making suggestions",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "It's Saturday. Shall we go to the cinema? We could meet at six. How about having dinner after the film?",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-52": {
+    "objective": "Ofrecer ayuda y pedir cosas cortésmente con Can I, Would you like me to, Could you.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Offers and requests",
+        "body": "Ofrecer ayuda y pedir cosas cortésmente con Can I, Would you like me to, Could you.\n\nCan I + base; Could you + base; Would you like me to + base.",
+        "example": "Can I ___ you? (help)\nhelp",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Offers and requests",
+        "body": "offer = oferta; request = petición; carry = llevar; lend = prestar; help = ayudar.",
+        "example": "Could you ___ the door? (open)\nopen",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Offers and requests",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "Your bag looks heavy. Can I carry it for you? Yes, please. Could you also lend me a pen? Of course.",
+        "transcript": "Your bag looks heavy. Can I carry it for you? Yes, please. Could you also lend me a pen? Of course.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Offers and requests",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "Your bag looks heavy. Can I carry it for you? Yes, please. Could you also lend me a pen? Of course.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-53": {
+    "objective": "Expresar opiniones y acuerdo/desacuerdo con I think, in my opinion, I agree.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Expressing opinions",
+        "body": "Expresar opiniones y acuerdo/desacuerdo con I think, in my opinion, I agree.\n\nI think + clause; In my opinion, ...; I agree / I don't think so.",
+        "example": "In my ___, this book is useful.\nopinion",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Expressing opinions",
+        "body": "opinion = opinión; agree = estar de acuerdo; useful = útil; boring = aburrido; prefer = preferir.",
+        "example": "I ___ with you. (agree)\nagree",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Expressing opinions",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "In my opinion, the new library is useful. I think it's comfortable, although I prefer the old café. My friend agrees with me.",
+        "transcript": "In my opinion, the new library is useful. I think it's comfortable, although I prefer the old café. My friend agrees with me.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Expressing opinions",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "In my opinion, the new library is useful. I think it's comfortable, although I prefer the old café. My friend agrees with me.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-54": {
+    "objective": "Describir emociones y distinguir adjetivos -ed y -ing (bored/boring, excited/exciting).",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Feelings and emotions",
+        "body": "Describir emociones y distinguir adjetivos -ed y -ing (bored/boring, excited/exciting).\n\n-ed describe cómo se siente una persona; -ing describe lo que provoca la emoción.",
+        "example": "I feel ___ about the trip. (excited)\nexcited",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Feelings and emotions",
+        "body": "excited = emocionado; exciting = emocionante; bored = aburrido; boring = aburrido (que aburre); proud = orgulloso.",
+        "example": "The trip is ___. (exciting)\nexciting",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Feelings and emotions",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "I felt excited before the trip because the plan was exciting. On the long journey I became bored, but I felt proud when we arrived.",
+        "transcript": "I felt excited before the trip because the plan was exciting. On the long journey I became bored, but I felt proud when we arrived.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Feelings and emotions",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "I felt excited before the trip because the plan was exciting. On the long journey I became bored, but I felt proud when we arrived.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-55": {
+    "objective": "Hablar del medio ambiente con should, recycling y acciones sostenibles.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · The environment",
+        "body": "Hablar del medio ambiente con should, recycling y acciones sostenibles.\n\nshould + base; recycle paper; save water; reduce waste; protect nature.",
+        "example": "We should ___ paper. (recycle)\nrecycle",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · The environment",
+        "body": "environment = medio ambiente; recycle = reciclar; pollution = contaminación; save = ahorrar; waste = residuos.",
+        "example": "Don't ___ water. (waste)\nwaste",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · The environment",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "We should recycle paper and glass. We shouldn't waste water, and we can walk or take the bus to reduce pollution.",
+        "transcript": "We should recycle paper and glass. We shouldn't waste water, and we can walk or take the bus to reduce pollution.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · The environment",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "We should recycle paper and glass. We shouldn't waste water, and we can walk or take the bus to reduce pollution.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-56": {
+    "objective": "Hablar de dispositivos y acciones digitales con turn on/off, download, log in y send.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Technology and communication",
+        "body": "Hablar de dispositivos y acciones digitales con turn on/off, download, log in y send.\n\nPhrasal verbs y comandos habituales; log in to an account; download an app.",
+        "example": "Please ___ the app.\ndownload",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Technology and communication",
+        "body": "download = descargar; log in = iniciar sesión; password = contraseña; attachment = archivo adjunto; device = dispositivo.",
+        "example": "Log ___ with your password.\nin",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Technology and communication",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "First, download the app. Then log in with your password and send the file as an attachment. Remember to turn off your device before the meeting.",
+        "transcript": "First, download the app. Then log in with your password and send the file as an attachment. Remember to turn off your device before the meeting.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Technology and communication",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "First, download the app. Then log in with your password and send the file as an attachment. Remember to turn off your device before the meeting.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-57": {
+    "objective": "Hablar del trabajo, estudios, funciones y obligaciones con work as, study at y have to.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Work and education",
+        "body": "Hablar del trabajo, estudios, funciones y obligaciones con work as, study at y have to.\n\nwork as + profesión; study at + institución; have to + verbo base.",
+        "example": "I work ___ a teacher.\nas",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Work and education",
+        "body": "colleague = compañero; degree = título; timetable = horario; task = tarea; deadline = fecha límite.",
+        "example": "I study ___ university.\nat",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Work and education",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "I work as a teaching assistant and study at university in the evening. I have to finish my assignment before Friday because the deadline is close.",
+        "transcript": "I work as a teaching assistant and study at university in the evening. I have to finish my assignment before Friday because the deadline is close.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Work and education",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "I work as a teaching assistant and study at university in the evening. I have to finish my assignment before Friday because the deadline is close.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-58": {
+    "objective": "Describir lugares y edificios con there is/are, located in y preposiciones de lugar.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Places and buildings",
+        "body": "Describir lugares y edificios con there is/are, located in y preposiciones de lugar.\n\nThere is + singular; there are + plural; located in/near/opposite.",
+        "example": "There ___ a museum in the square.\nis",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Places and buildings",
+        "body": "square = plaza; library = biblioteca; museum = museo; located = situado; building = edificio.",
+        "example": "There ___ two cafés near the river.\nare",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Places and buildings",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "There is a museum in the main square. The library is located opposite the station, and there are two cafés near the river.",
+        "transcript": "There is a museum in the main square. The library is located opposite the station, and there are two cafés near the river.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Places and buildings",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "There is a museum in the main square. The library is located opposite the station, and there are two cafés near the river.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-59": {
+    "objective": "Unir ideas con and, but, because, so y although.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Linking words",
+        "body": "Unir ideas con and, but, because, so y although.\n\nbecause introduce causa; so introduce resultado; but/although expresan contraste.",
+        "example": "I was tired, ___ I went to bed.\nso",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Linking words",
+        "body": "and = y; but = pero; because = porque; so = así que; although = aunque.",
+        "example": "We stayed in ___ it rained.\nbecause",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Linking words",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "It rained, so we stayed at home. Although I was tired, I finished my work because the deadline was today. I like tea and coffee, but I prefer tea.",
+        "transcript": "It rained, so we stayed at home. Although I was tired, I finished my work because the deadline was today. I like tea and coffee, but I prefer tea.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Linking words",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "It rained, so we stayed at home. Although I was tired, I finished my work because the deadline was today. I like tea and coffee, but I prefer tea.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
+    ]
+  },
+  "a2-60": {
+    "objective": "Integrar sugerencias, peticiones, opiniones, emociones, entorno, tecnología, trabajo, lugares y conectores.",
+    "sections": [
+      {
+        "type": "grammar",
+        "title": "Gramática · Module 6 review",
+        "body": "Integrar sugerencias, peticiones, opiniones, emociones, entorno, tecnología, trabajo, lugares y conectores.\n\nCombina funciones comunicativas en frases naturales; evita dobles conectores y errores como I am agree.",
+        "example": "___ we meet at six? (suggestion)\nShall",
+        "exampleTranslation": "Aplica la regla y fíjate en el auxiliar, la forma verbal y el orden de las palabras."
+      },
+      {
+        "type": "vocabulary",
+        "title": "Vocabulario · Module 6 review",
+        "body": "Shall we; Could you; I think; proud; recycle; download; work as; there is/are; because/so/although.",
+        "example": "I ___ it's a useful course.\nthink",
+        "exampleTranslation": "Lee el significado en contexto y crea otra frase propia con las palabras clave."
+      },
+      {
+        "type": "listening",
+        "title": "Listening · Module 6 review",
+        "body": "Escucha el diálogo breve de esta unidad. Primero identifica el tema; en la segunda escucha localiza nombres, acciones y detalles. Puedes reproducir el audio con voz inglesa.",
+        "audioText": "This week I felt excited because I finished Module 6. Shall we celebrate? Let's meet in the main square—there is a café opposite the library. Although some units were hard, I think the course was useful, so I'll keep practising.",
+        "transcript": "This week I felt excited because I finished Module 6. Shall we celebrate? Let's meet in the main square—there is a café opposite the library. Although some units were hard, I think the course was useful, so I'll keep practising.",
+        "transcriptTranslation": "Lee la transcripción después de intentar comprender el audio."
+      },
+      {
+        "type": "reading",
+        "title": "Reading · Module 6 review",
+        "body": "Lee el texto breve dos veces: primero para captar la idea general y después para buscar la información precisa.",
+        "example": "This week I felt excited because I finished Module 6. Shall we celebrate? Let's meet in the main square—there is a café opposite the library. Although some units were hard, I think the course was useful, so I'll keep practising.",
+        "exampleTranslation": "Después de responder, vuelve al texto y señala la frase que justifica cada respuesta."
+      }
     ]
   }
 }
