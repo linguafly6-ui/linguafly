@@ -13,6 +13,7 @@ export default function ReviewQueuePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [now, setNow] = useState(Date.now());
+  const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -26,18 +27,28 @@ export default function ReviewQueuePage() {
         const list = data.lessons ?? [];
         setLessons(list);
         const rows: ReviewRow[] = [];
-        for (const lesson of list) {
-          try {
-            const raw = localStorage.getItem(`linguafly:a1:exercise:${lesson.id}`);
-            if (!raw) continue;
-            const saved = JSON.parse(raw) as { reviews?: Record<string, Review> };
-            for (const [exerciseId, review] of Object.entries(saved.reviews ?? {})) {
+        return fetch("/api/learning/progress", { cache: "no-store" }).then(async (response) => {
+          if (!response.ok) throw new Error("No se pudo cargar tu progreso");
+          return response.json() as Promise<{ authenticated: boolean; exercises?: Record<string, Record<string, { review?: Review }>> }>;
+        }).then((progress) => {
+          if (!active) return;
+          setAuthenticated(progress.authenticated);
+          for (const lesson of list) {
+            let exerciseStates = progress.exercises?.[lesson.id];
+            if (!progress.authenticated) {
+              try {
+                const raw = localStorage.getItem(`linguafly:a1:guest:exercise:${lesson.id}`);
+                exerciseStates = raw ? JSON.parse(raw).reviews && Object.fromEntries(Object.entries(JSON.parse(raw).reviews).map(([id, review]) => [id, { review }])) : undefined;
+              } catch { exerciseStates = undefined; }
+            }
+            for (const [exerciseId, state] of Object.entries(exerciseStates ?? {})) {
+              const review = state.review;
               if (!review || typeof review.dueAt !== "string" || !Number.isFinite(Date.parse(review.dueAt))) continue;
               rows.push({ key: lesson.id + ":" + exerciseId, lessonId: lesson.id, lessonTitle: lesson.title, dueAt: review.dueAt });
             }
-          } catch { /* Ignore malformed local progress and load other reviews. */ }
-        }
-        setReviews(rows.sort((a, b) => Date.parse(a.dueAt) - Date.parse(b.dueAt)));
+          }
+          setReviews(rows.sort((a, b) => Date.parse(a.dueAt) - Date.parse(b.dueAt)));
+        });
       })
       .catch(() => { if (active) setError("No se ha podido cargar la lista de repasos. Inténtalo de nuevo."); })
       .finally(() => { if (active) setLoading(false); });
@@ -74,8 +85,9 @@ export default function ReviewQueuePage() {
           </section>
           <section className="mt-10"><h2 className="text-xl font-extrabold">Próximos repasos</h2>{upcoming.length === 0 ? <p className="mt-3 text-sm text-[#77776c]">Todavía no hay repasos futuros programados.</p> : <div className="mt-4 space-y-3">{upcoming.map((r) => <article key={r.key} className="rounded-2xl border border-[#ded8ca] bg-white/50 p-4 sm:flex sm:items-center sm:justify-between"><p className="font-semibold">{r.lessonTitle}</p><p className="mt-1 text-sm text-[#77776c] sm:mt-0">{formatDate(r.dueAt)}</p></article>)}</div>}</section>
         </>}
-        <p className="mt-10 border-t border-[#ded8ca] pt-5 text-xs leading-5 text-[#898779]">Los repasos se guardan actualmente en este navegador. La sincronización entre dispositivos requiere integrar la autenticación verificada y el almacenamiento en servidor.</p>
+        <p className="mt-10 border-t border-[#ded8ca] pt-5 text-xs leading-5 text-[#898779]">{authenticated ? "Tus repasos se guardan en tu cuenta." : "Los repasos de invitado solo se guardan en este navegador. Inicia sesión para sincronizarlos con tu cuenta."}</p>
       </div>
     </main>
   );
 }
+

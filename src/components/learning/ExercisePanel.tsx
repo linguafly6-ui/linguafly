@@ -22,15 +22,33 @@ export function ExercisePanel({ lessonId }: { lessonId: string }) {
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState<string | null>(null);
   const [hydratedLesson, setHydratedLesson] = useState<string | null>(null);
+  const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
     let active = true;
     setLoading(true);
     setError("");
     setHydratedLesson(null);
-    try {
-      const saved = window.localStorage.getItem(`linguafly:a1:exercise:${lessonId}`);
-      if (saved) {
+    setAnswers({}); setFeedback({}); setReviews({}); setAuthenticated(false);
+    fetch("/api/learning/progress", { cache: "no-store" })
+      .then(async (response) => {
+        if (!response.ok) throw new Error("No se pudo cargar tu progreso.");
+        return response.json() as Promise<{ authenticated: boolean; exercises?: Record<string, Record<string, { answer?: string; feedback?: Feedback; review?: ReviewResult }>> }>;
+      })
+      .then((progress) => {
+        if (!active) return;
+        setAuthenticated(progress.authenticated);
+        let saved: string | null = null;
+        if (progress.authenticated) {
+          const states = progress.exercises?.[lessonId] ?? {};
+          setAnswers(Object.fromEntries(Object.entries(states).filter(([, value]) => typeof value.answer === "string").map(([id, value]) => [id, value.answer as string])));
+          setFeedback(Object.fromEntries(Object.entries(states).filter(([, value]) => value.feedback).map(([id, value]) => [id, value.feedback as Feedback])));
+          setReviews(Object.fromEntries(Object.entries(states).filter(([, value]) => value.review).map(([id, value]) => [id, value.review as ReviewResult])));
+          setHydratedLesson(lessonId);
+          return;
+        }
+        try { saved = window.localStorage.getItem(`linguafly:a1:guest:exercise:${lessonId}`); } catch { /* Guest storage is optional. */ }
+        if (saved) {
         const parsed: unknown = JSON.parse(saved);
         if (parsed && typeof parsed === "object") {
           const state = parsed as { answers?: unknown; feedback?: unknown; reviews?: unknown };
@@ -58,13 +76,10 @@ export function ExercisePanel({ lessonId }: { lessonId: string }) {
         setAnswers({});
         setFeedback({});
         setReviews({});
-      }
-    } catch {
-      setAnswers({});
-      setFeedback({});
-      setReviews({});
-    }
-    setHydratedLesson(lessonId);
+        }
+        setHydratedLesson(lessonId);
+      })
+      .catch(() => { if (active) setError("No se ha podido cargar tu progreso. Inténtalo de nuevo."); });
     fetch(`/api/learning/lessons/${encodeURIComponent(lessonId)}/exercises`, { cache: "no-store" })
       .then(async (response) => {
         if (!response.ok) throw new Error("No se han podido cargar los ejercicios.");
@@ -79,14 +94,19 @@ export function ExercisePanel({ lessonId }: { lessonId: string }) {
   useEffect(() => {
     if (hydratedLesson !== lessonId) return;
     try {
-      window.localStorage.setItem(
-        `linguafly:a1:exercise:${lessonId}`,
-        JSON.stringify({ answers, feedback, reviews })
-      );
+      if (!authenticated) window.localStorage.setItem(`linguafly:a1:guest:exercise:${lessonId}`, JSON.stringify({ answers, feedback, reviews }));
     } catch {
       // Exercise state is a convenience; storage failures must not block practice.
     }
-  }, [answers, feedback, reviews, hydratedLesson, lessonId]);
+  }, [answers, feedback, reviews, hydratedLesson, lessonId, authenticated]);
+
+  async function chooseAnswer(exerciseId: string, answer: string) {
+    setAnswers((current) => ({ ...current, [exerciseId]: answer }));
+    if (!authenticated) return;
+    try {
+      await fetch("/api/learning/progress", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "answer", lessonId, exerciseId, answer }) });
+    } catch { /* The selected answer remains available in the current session. */ }
+  }
 
   async function checkAnswer(exercise: Exercise) {
     const answer = answers[exercise.id];
@@ -99,9 +119,13 @@ export function ExercisePanel({ lessonId }: { lessonId: string }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ exerciseId: exercise.id, answer }),
       });
-      const result = await response.json() as Feedback & { error?: string };
+      const result = await response.json() as Feedback & { error?: string; review?: ReviewResult };
       if (!response.ok) throw new Error(result.error || "No se ha podido corregir la respuesta.");
       setFeedback((current) => ({ ...current, [exercise.id]: result }));
+      if (result.review) {
+        setReviews((current) => ({ ...current, [exercise.id]: result.review as ReviewResult }));
+        return;
+      }
       const previous: ReviewState = reviews[exercise.id] ?? {
         intervalDays: 0,
         easeFactor: 2.5,
@@ -148,7 +172,7 @@ export function ExercisePanel({ lessonId }: { lessonId: string }) {
                   key={option}
                   type="button"
                   disabled={Boolean(result) || Boolean(submitting)}
-                  onClick={() => setAnswers((current) => ({ ...current, [exercise.id]: option }))}
+                  onClick={() => void chooseAnswer(exercise.id, option)}
                   className={`rounded-xl border px-4 py-3 text-left text-sm font-semibold transition disabled:cursor-default ${correctOption ? "border-[#8ba58a] bg-[#eaf2e7] text-[#355a37]" : chosen ? "border-[#b75d3b] bg-[#f8e8df] text-[#87452e]" : "border-[#e5dfd3] bg-[#fbf9f4] text-[#56584f] hover:border-[#c6a18e]"}`}
                 >{option}</button>;
               })}
@@ -160,3 +184,4 @@ export function ExercisePanel({ lessonId }: { lessonId: string }) {
     </section>
   );
 }
+

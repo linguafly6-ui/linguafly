@@ -34,31 +34,37 @@ export default function A1LearningPage() {
   const [error, setError] = useState("");
   const [completed, setCompleted] = useState<string[]>([]);
   const [progressLoaded, setProgressLoaded] = useState(false);
+  const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
-    try {
-      const saved = window.localStorage.getItem("linguafly:a1:completed");
-      if (saved) {
-        const parsed: unknown = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.every((item) => typeof item === "string")) {
-          setCompleted(parsed);
-        }
+    let active = true;
+    fetch("/api/learning/progress", { cache: "no-store" }).then(async (response) => {
+      if (!response.ok) throw new Error("Unable to load progress");
+      return response.json() as Promise<{ authenticated: boolean; completed: string[] }>;
+    }).then((progress) => {
+      if (!active) return;
+      setAuthenticated(progress.authenticated);
+      if (progress.authenticated) setCompleted(progress.completed ?? []);
+      else {
+        try {
+          const saved = window.localStorage.getItem("linguafly:a1:guest:completed");
+          const parsed: unknown = saved ? JSON.parse(saved) : [];
+          if (Array.isArray(parsed) && parsed.every((item) => typeof item === "string")) setCompleted(parsed);
+        } catch { /* Guest progress is best-effort. */ }
       }
-    } catch {
-      // Progress storage is best-effort; the course must still load if storage is unavailable.
-    } finally {
-      setProgressLoaded(true);
-    }
+    }).catch(() => { if (active) setError("No se ha podido cargar tu progreso. Inténtalo de nuevo."); })
+      .finally(() => { if (active) setProgressLoaded(true); });
+    return () => { active = false; };
   }, []);
 
   useEffect(() => {
     if (!progressLoaded) return;
     try {
-      window.localStorage.setItem("linguafly:a1:completed", JSON.stringify(completed));
+      if (!authenticated) window.localStorage.setItem("linguafly:a1:guest:completed", JSON.stringify(completed));
     } catch {
       // Private browsing or storage limits must not block learning.
     }
-  }, [completed, progressLoaded]);
+  }, [completed, progressLoaded, authenticated]);
 
   useEffect(() => {
     let active = true;
@@ -90,8 +96,15 @@ export default function A1LearningPage() {
     return [...grouped.entries()].sort(([a], [b]) => a - b);
   }, [data]);
 
-  function finishLesson() {
-    if (selected && !completed.includes(selected.id)) setCompleted((current) => [...current, selected.id]);
+  async function finishLesson() {
+    if (!selected || completed.includes(selected.id)) return;
+    setCompleted((current) => [...current, selected.id]);
+    if (authenticated) {
+      try {
+        const response = await fetch("/api/learning/progress", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "complete", lessonId: selected.id }) });
+        if (!response.ok) throw new Error("Progress save failed");
+      } catch { setError("No se ha podido guardar la lección. Vuelve a intentarlo."); }
+    }
   }
 
   return (
@@ -110,7 +123,7 @@ export default function A1LearningPage() {
             <h1 className="mt-3 text-2xl font-bold text-[#f7f3e9]">Inglés desde cero</h1>
             <p className="mt-2 text-sm leading-6 text-[#c7c9bd]">Nivel A1 · Lecciones cortas · Repaso inteligente</p>
             <div className="mt-5 flex items-end justify-between">
-              <span className="text-sm text-[#c7c9bd]">Tu progreso en este dispositivo</span>
+              <span className="text-sm text-[#c7c9bd]">{authenticated ? "Tu progreso guardado" : "Tu progreso de invitado"}</span>
               <span className="text-xl font-bold">{completed.length}/{data?.lessons.length ?? 60}</span>
             </div>
             <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-[#484d45]">
@@ -183,7 +196,7 @@ export default function A1LearningPage() {
                 <div><p className="font-bold text-[#30352d]">¿Has terminado esta lección?</p><p className="mt-1 text-sm text-[#65665b]">Marca el paso como completado y continúa a tu ritmo.</p></div>
                 <button onClick={finishLesson} disabled={completed.includes(selected.id)} className="rounded-xl bg-[#b75d3b] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#99492d] disabled:cursor-default disabled:bg-[#48634a]">{completed.includes(selected.id) ? "✓ Completada" : "Marcar como completada →"}</button>
               </div>
-              <p className="mt-4 text-xs leading-5 text-[#898779]">El progreso se guarda en este navegador y se conserva al volver. Por ahora no se sincroniza entre dispositivos ni con una cuenta.</p>
+              <p className="mt-4 text-xs leading-5 text-[#898779]">{authenticated ? "Tus respuestas y tu progreso se guardan en tu cuenta." : "El progreso de invitado se guarda solo en este navegador. Inicia sesión para sincronizarlo con tu cuenta."}</p>
             </>
           ) : <div className="rounded-3xl border border-[#ded8ca] bg-[#fbf9f4] p-10"><h2 className="text-2xl font-bold">Curso A1</h2><p className="mt-3 text-[#65665b]">{error || "No hay lecciones publicadas todavía."}</p></div>}
         </section>
@@ -191,3 +204,4 @@ export default function A1LearningPage() {
     </main>
   );
 }
+

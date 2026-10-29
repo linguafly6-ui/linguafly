@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { resolveCloudflareEnv } from "@/lib/db/client";
+import { getSessionUser } from "@/lib/learning/auth";
+import { scheduleNextReview, type ReviewState } from "@/lib/learning/spaced-repetition";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -65,8 +67,7 @@ export async function GET(
 
 /**
  * POST /api/learning/lessons/:lessonId/exercises
- * Grades a public practice answer without saving learner-specific data.
- * Progress writes are intentionally deferred until server-side auth exists.
+ * Grades a practice answer. Learner progress is saved only for a verified session.
  */
 export async function POST(
   request: NextRequest,
@@ -89,7 +90,7 @@ export async function POST(
       return NextResponse.json({ error: "Invalid answer payload" }, { status: 400 });
     }
 
-    const { env } = await resolveCloudflareEnv();
+    const { env, user } = await getSessionUser(request);
     const row = await env.DB.prepare(
       `SELECT e.answer_json, e.explanation
        FROM learning_exercises e
@@ -119,11 +120,35 @@ export async function POST(
       return NextResponse.json({ error: "Exercise answer is unavailable" }, { status: 500 });
     }
 
+    const correct = normalize(body.answer) === normalize(correctAnswer);
+    let review;
+    if (user) {
+      const previousRow = await env.DB.prepare(
+        "SELECT review_json FROM learning_exercise_progress WHERE user_id = ? AND exercise_id = ? LIMIT 1"
+      ).bind(user.id, body.exerciseId).first<{ review_json: string | null }>();
+      let previous: ReviewState = { intervalDays: 0, easeFactor: 2.5, repetitions: 0, lapses: 0 };
+      try {
+        if (previousRow?.review_json) {
+          const saved = JSON.parse(previousRow.review_json) as Partial<ReviewState>;
+          previous = { ...previous, ...saved };
+        }
+      } catch { /* A malformed prior schedule starts a fresh schedule. */ }
+      review = scheduleNextReview(previous, correct ? 4 : 1);
+      const now = new Date().toISOString();
+      await env.DB.prepare(
+        `INSERT INTO learning_exercise_progress (user_id, lesson_id, exercise_id, answer_text, correct, explanation, review_json, updated_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+         ON CONFLICT(user_id, exercise_id) DO UPDATE SET answer_text = excluded.answer_text, correct = excluded.correct, explanation = excluded.explanation, review_json = excluded.review_json, updated_at = excluded.updated_at`
+      ).bind(user.id, lessonId, body.exerciseId, body.answer, correct ? 1 : 0, row.explanation, JSON.stringify(review), now).run();
+      await env.DB.prepare(
+        `INSERT INTO learning_lesson_progress (user_id, lesson_id, status, attempts, correct_answers, total_answers, started_at, updated_at)
+         VALUES (?, ?, 'in_progress', 1, ?, 1, ?, ?)
+         ON CONFLICT(user_id, lesson_id) DO UPDATE SET status = CASE WHEN learning_lesson_progress.status = 'completed' THEN 'completed' ELSE 'in_progress' END, attempts = learning_lesson_progress.attempts + 1, correct_answers = learning_lesson_progress.correct_answers + excluded.correct_answers, total_answers = learning_lesson_progress.total_answers + 1, updated_at = excluded.updated_at`
+      ).bind(user.id, lessonId, correct ? 1 : 0, now, now).run();
+    }
+
     return NextResponse.json(
-      {
-        correct: normalize(body.answer) === normalize(correctAnswer),
-        explanation: row.explanation,
-      },
+      { correct, explanation: row.explanation, ...(review ? { review } : {}) },
       { headers: { "Cache-Control": "no-store" } }
     );
   } catch (error) {
@@ -134,3 +159,4 @@ export async function POST(
     );
   }
 }
+
