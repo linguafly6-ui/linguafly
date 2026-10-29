@@ -450,7 +450,7 @@
             },
             {
               "id": "o2",
-              "text": "[[is|is]]"
+              "text": "[[am|am]]"
             },
             {
               "id": "o3",
@@ -519,11 +519,11 @@
             },
             {
               "id": "o2",
-              "text": "[[is|is]]"
+              "text": "[[three|three]]"
             },
             {
               "id": "o3",
-              "text": "[[is|is]]"
+              "text": "[[four|four]]"
             }
           ],
           "correct_answer": "o1"
