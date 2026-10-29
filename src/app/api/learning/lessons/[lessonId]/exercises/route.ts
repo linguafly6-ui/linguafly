@@ -73,13 +73,7 @@ function normalizedLegacyAnswer(item: LegacyItem): string {
 }
 
 function legacyExercise(item: LegacyItem, index: number) {
-  const options = item.type === "sentence-building"
-    ? (item.options ?? []).map((option) => plainText(option.text))
-    : (item.options ?? []).map((option) => {
-        const bilingual = option.text;
-        const match = /^\[([^\]|]+)\|([^\]]+)\]$/.exec(bilingual);
-        return match ? match[1] : plainText(bilingual);
-      });
+  const options = (item.options ?? []).map((option) => plainText(option.text));
   if (item.type === "true-false") options.splice(0, options.length, "True", "False");
   return {
     id: item.interaction_id,
