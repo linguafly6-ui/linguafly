@@ -15,7 +15,7 @@ type Exercise = {
 
 type Feedback = { correct: boolean | null; explanation: string };
 
-const sectionTitles: Record<string, string> = { grammar: "Gramática", vocabulary: "Vocabulario", listening: "Listening", reading: "Reading" };
+const sectionTitles: Record<string, string> = { grammar: "Gramática", vocabulary: "Vocabulario", listening: "Comprensión auditiva", reading: "Comprensión lectora", production: "Producción" };
 
 export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sectionType: string }) {
   const level = lessonId.startsWith("a2-") ? "a2" : "a1";
@@ -30,6 +30,7 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
   const [hydratedLesson, setHydratedLesson] = useState<string | null>(null);
   const [authenticated, setAuthenticated] = useState(false);
   const [playingAudioId, setPlayingAudioId] = useState<string | null>(null);
+  const [sentenceWords, setSentenceWords] = useState<Record<string, string[]>>({});
   const speechTimer = useRef<number | null>(null);
   const speechGeneration = useRef(0);
 
@@ -77,7 +78,7 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
         if (!response.ok) throw new Error("No se han podido cargar los ejercicios.");
         return response.json() as Promise<{ exercises: Exercise[] }>;
       })
-      .then((data) => { if (active) setExercises(data.exercises ?? []); })
+      .then((data) => { if (active) { setExercises(data.exercises ?? []); setSentenceWords({}); } })
       .catch(() => { if (active) setError("Los ejercicios estarán disponibles cuando la base de datos del curso esté actualizada."); })
       .finally(() => { if (active) setLoading(false); });
     return () => {
@@ -162,7 +163,7 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
     <section className="mt-8 rounded-3xl border border-[#ded8ca] bg-[#fbf9f4] p-6 sm:p-8">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#b75d3b]">15 ejercicios {level.toUpperCase()}</p>
+          <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#b75d3b]">{level === "a1" ? "Ejercicios del curso original A1" : "15 ejercicios A2"}</p>
           <h3 className="mt-2 text-2xl font-extrabold text-[#22251f]">Practica {title}</h3>
           <p className="mt-2 text-sm text-[#65665b]">Responde y revisa la explicación. Las respuestas erróneas vuelven antes; las correctas se espacian progresivamente.</p>
         </div>
@@ -180,35 +181,28 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
             <h4 className="mt-2 text-base font-bold leading-6 text-[#30352d]">{exercise.prompt}</h4>
             {sectionType === "listening" && exercise.audioText && <button type="button" disabled={Boolean(playingAudioId && playingAudioId !== exercise.id)} onClick={() => playExerciseAudio(exercise)} aria-live="polite" className="mt-3 rounded-xl bg-[#252a24] px-4 py-2.5 text-sm font-bold text-white disabled:cursor-wait disabled:opacity-60">{playingAudioId === exercise.id ? "♫ Reproduciendo…" : "▶ Escuchar"}</button>}
             {exercise.type === "free_text" || exercise.type === "fill_blank" ? <label className="mt-4 block"><span className="sr-only">Tu respuesta en inglés</span><input type="text" value={answers[exercise.id] ?? ""} onChange={(event) => void chooseAnswer(exercise.id, event.target.value)} maxLength={500} disabled={Boolean(result) || Boolean(submitting)} placeholder="Escribe tu respuesta en inglés…" className="w-full rounded-xl border border-[#ded8ca] bg-[#fbf9f4] px-4 py-3 text-sm text-[#30352d] outline-none focus:border-[#b75d3b]" /></label> : null}
-            {exercise.type === "sentence_building" && answers[exercise.id] && <p className="mt-3 rounded-xl bg-[#f0ece3] p-3 text-sm font-semibold text-[#30352d]">{(() => { try { return (JSON.parse(answers[exercise.id]) as string[]).join(" "); } catch { return answers[exercise.id]; } })()}</p>}
+            {exercise.type === "sentence_building" && <div className="mt-4 rounded-xl bg-[#f0ece3] p-3"><p className="text-xs font-bold uppercase tracking-wide text-[#65665b]">Tu frase</p><p className="mt-1 min-h-6 text-sm font-semibold text-[#30352d]">{(sentenceWords[exercise.id] ?? []).join(" ") || "Selecciona las palabras en orden."}</p><button type="button" disabled={Boolean(result) || !(sentenceWords[exercise.id]?.length)} onClick={() => { setSentenceWords((current) => ({ ...current, [exercise.id]: [] })); void chooseAnswer(exercise.id, ""); }} className="mt-2 text-xs font-bold text-[#8f432c] disabled:opacity-40">Borrar frase</button></div>}
             <div className="mt-4 grid gap-2 sm:grid-cols-2">
-              {exercise.type === "multiple_choice" || exercise.type === "sentence_building" ? exercise.options.map((option, optionIndex) => {
+              {exercise.type === "multiple_choice" ? exercise.options.map((option, optionIndex) => {
                 const chosen = answers[exercise.id] === option;
-                const selectedWords: string[] = exercise.type === "sentence_building" ? (() => { try { return JSON.parse(answers[exercise.id] || "[]") as string[]; } catch { return []; } })() : [];
-                const wordTotal = selectedWords.filter((word) => word === option).length;
-                const isWordSelected = exercise.type === "sentence_building" && wordTotal > 0;
                 const correctOption = Boolean(result?.correct && chosen);
                 return (
-                  <button
-                    key={`${option}-${optionIndex}`}
-                    type="button"
-                    disabled={Boolean(result) || Boolean(submitting)}
-                    onClick={() => {
-                      if (exercise.type !== "sentence_building") {
-                        void chooseAnswer(exercise.id, option);
-                        return;
-                      }
-                      const words = (() => {
-                        try { return JSON.parse(answers[exercise.id] || "[]") as string[]; }
-                        catch { return []; }
-                      })();
-                      void chooseAnswer(exercise.id, JSON.stringify([...words, option]));
-                    }}
-                    className={`rounded-xl border px-4 py-3 text-left text-sm font-semibold transition disabled:cursor-default ${correctOption || (isWordSelected && result?.correct) ? "border-[#8ba58a] bg-[#eaf2e7] text-[#355a37]" : chosen || isWordSelected ? "border-[#b75d3b] bg-[#f8e8df] text-[#87452e]" : "border-[#e5dfd3] bg-[#fbf9f4] text-[#56584f] hover:border-[#c6a18e]"}`}
-                  >
-                    {option}{wordTotal ? ` (${selectedWords.indexOf(option) + 1})` : ""}
-                  </button>
+                  <button key={`${option}-${optionIndex}`} type="button" disabled={Boolean(result) || Boolean(submitting)} onClick={() => void chooseAnswer(exercise.id, option)} className={`rounded-xl border px-4 py-3 text-left text-sm font-semibold transition disabled:cursor-default ${correctOption ? "border-[#8ba58a] bg-[#eaf2e7] text-[#355a37]" : chosen ? "border-[#b75d3b] bg-[#f8e8df] text-[#87452e]" : "border-[#e5dfd3] bg-[#fbf9f4] text-[#56584f] hover:border-[#c6a18e]"}`}>{option}</button>
                 );
+              }) : null}
+              {exercise.type === "true_false" ? ["True", "False"].map((option) => (
+                <button key={option} type="button" disabled={Boolean(result) || Boolean(submitting)} onClick={() => void chooseAnswer(exercise.id, option)} className={`rounded-xl border px-4 py-3 text-left text-sm font-semibold transition disabled:cursor-default ${answers[exercise.id] === option ? "border-[#b75d3b] bg-[#f8e8df] text-[#87452e]" : "border-[#e5dfd3] bg-[#fbf9f4] text-[#56584f] hover:border-[#c6a18e]"}`}>{option}</button>
+              )) : null}
+              {exercise.type === "sentence_building" ? exercise.options.map((option, optionIndex) => {
+                const words = sentenceWords[exercise.id] ?? [];
+                const usedCount = words.filter((word) => word === option).length;
+                const totalCount = exercise.options.filter((word) => word === option).length;
+                const selected = usedCount > 0;
+                return <button key={`${option}-${optionIndex}`} type="button" disabled={Boolean(result) || Boolean(submitting) || usedCount >= totalCount} onClick={() => {
+                  const next = [...words, option];
+                  setSentenceWords((current) => ({ ...current, [exercise.id]: next }));
+                  void chooseAnswer(exercise.id, next.join(" "));
+                }} className={`rounded-xl border px-4 py-3 text-left text-sm font-semibold transition disabled:cursor-default ${selected ? "border-[#b75d3b] bg-[#f8e8df] text-[#87452e] opacity-80" : "border-[#e5dfd3] bg-[#fbf9f4] text-[#56584f] hover:border-[#c6a18e]"}`}>{option}</button>;
               }) : null}
             </div>
             {!result ? <button type="button" disabled={!answers[exercise.id] || submitting === exercise.id} onClick={() => checkAnswer(exercise)} className="mt-4 rounded-xl bg-[#252a24] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[#41483e] disabled:cursor-not-allowed disabled:opacity-40">{submitting === exercise.id ? "Corrigiendo…" : exercise.type === "free_text" ? "Guardar y revisar" : "Comprobar respuesta"}</button> : <div className={`mt-4 rounded-xl p-4 ${result.correct === true ? "bg-[#eaf2e7]" : result.correct === false ? "bg-[#fff2ec]" : "bg-[#f0ece3]"}`}><p className={`text-sm font-extrabold ${result.correct === true ? "text-[#355a37]" : result.correct === false ? "text-[#8f432c]" : "text-[#56584f]"}`}>{result.correct === true ? "¡Muy bien! Respuesta correcta." : result.correct === false ? "Aún no. Revisa la explicación." : "Respuesta guardada. Revisa tu texto."}</p><p className="mt-1 text-sm leading-6 text-[#56584f]">{result.explanation}</p>{reviews[exercise.id] && <p className="mt-2 text-xs leading-5 text-[#65665b]">Próximo repaso: {new Date(reviews[exercise.id].dueAt).toLocaleString("es-ES", { dateStyle: "medium", timeStyle: "short" })}</p>}</div>}
