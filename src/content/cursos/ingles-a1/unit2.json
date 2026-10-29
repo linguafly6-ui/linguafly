@@ -295,7 +295,7 @@
           "prompt_es": "[[Complete|Completa]] [[the|la]] [[sentence|frase]].",
           "mastery_tag": "vocabulary",
           "complexity": 2,
-          "stimulus_en": "[[He|Él]] ______ [[a|un]] [[doctor|médico]].",
+          "stimulus_en": "[[He|Él]] ______ [[from|de]] [[Canada|Canadá]].",
           "correct_answer": "is"
         },
         {
@@ -304,7 +304,7 @@
           "prompt_es": "[[Complete|Completa]] [[the|la]] [[sentence|frase]].",
           "mastery_tag": "vocabulary",
           "complexity": 2,
-          "stimulus_en": "[[She|Ella]] ______ [[from|de]] [[Spain|España]].",
+          "stimulus_en": "[[She|Ella]] ______ [[a|una]] [[nurse|enfermera]].",
           "correct_answer": "is"
         },
         {
@@ -313,7 +313,7 @@
           "prompt_es": "[[Complete|Completa]] [[the|la]] [[sentence|frase]].",
           "mastery_tag": "vocabulary",
           "complexity": 2,
-          "stimulus_en": "[[We|Nosotros]] ______ [[students|estudiantes]].",
+          "stimulus_en": "[[We|Nosotros]] ______ [[at|en]] [[school|la escuela]].",
           "correct_answer": "are"
         },
         {
