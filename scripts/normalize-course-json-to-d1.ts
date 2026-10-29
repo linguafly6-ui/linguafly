@@ -262,6 +262,7 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
             for (let gapIndex = 0; gapIndex < item.gaps.length; gapIndex++) {
               const gap = item.gaps[gapIndex];
               const id = `${item.interaction_id}__gap_${gap.id}`;
+              validateExerciseId(id, `${levelConfig.folder}/${file.name}`);
               if (seenIds.has(id)) throw new Error(`Duplicate exercise ID ${id} in ${levelConfig.folder}/${file.name}`);
               seenIds.add(id);
               const answerId = item.correct_answer && typeof item.correct_answer === "object"
@@ -281,6 +282,7 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
           }
 
           const id = item.interaction_id;
+          validateExerciseId(id, `${levelConfig.folder}/${file.name}`);
           if (seenIds.has(id)) throw new Error(`Duplicate exercise ID ${id} in ${levelConfig.folder}/${file.name}`);
           seenIds.add(id); exerciseNumber++;
           const correct = expectedText(item.correct_answer, item.options ?? []);
