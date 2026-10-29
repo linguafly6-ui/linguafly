@@ -8,7 +8,7 @@ import { Exercise } from '@/lib/exercise-generator';
 const LESSON_TITLE = 'Comprensión auditiva';
 const TOPIC = 'At the Cafe';
 
-const LISTENING_TRANSCRIPT = `[[Waiter|Camarero]]: [[Hi|Hola]]. [[What|Qué]] [[can|puedo]] [[I|yo]] [[get|traer]] [[you|te]]? [[Customer|Cliente]]: [[I\'d|Me]] [[like|gustaría]] [[a|un]] [[coffee|café]] [[and|y]] [[a|un]] [[croissant|croissant]], [[please|por favor]]. [[Waiter|Camarero]]: [[Anything|Algo]] [[else|más]]? [[Customer|Cliente]]: [[No|No]], [[that\'s|eso es]] [[all|todo]] [[thanks|gracias]]. [[Waiter|Camarero]]: [[That\'s|Son]] [[four|cuatro]] [[euros|euros]] [[twenty|veinte]] [[please|por favor]]. [[Customer|Cliente]]: [[Here|Aquí]] [[you|tienes]] [[are|tienes]]. [[Waiter|Camarero]]: [[Thank you|Gracias]]. [[Enjoy|Que]] [[your|lo]] [[coffee|café]] [[!|disfrutes]].`;
+const LISTENING_TRANSCRIPT = `[[Waiter: Hi. What can I get you?|Camarero: Hola. ¿Qué te pongo?]] [[Customer: I'd like a coffee and a croissant, please.|Cliente: Quisiera un café y un cruasán, por favor.]] [[Waiter: Anything else?|Camarero: ¿Algo más?]] [[Customer: No, that's all, thanks.|Cliente: No, eso es todo, gracias.]] [[Waiter: That's four euros twenty, please.|Camarero: Son cuatro euros con veinte, por favor.]] [[Customer: Here you are.|Cliente: Aquí tienes.]] [[Waiter: Thank you. Enjoy your coffee!|Camarero: Gracias. ¡Que disfrutes del café!]]`;
 
 const INSTRUCTIONS = 'Escucha el audio. Después contesta cada pregunta.';
 
