@@ -544,218 +544,170 @@
     ]
   },
   "a1-25": {
-    "objective": "Usar I, you, he, she, it, we y they.",
+    "objective": "Name places in a neighborhood · Use 'there is/are' with articles (a/the) and quantifiers (some/any) · Describe your local area",
     "sections": [
       {
         "type": "grammar",
-        "title": "Gramática",
-        "body": "El pronombre sustituye al nombre: I (yo), you (tú), he (él), she (ella), it (cosa/animal), we (nosotros) y they (ellos).\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "This is my friend Carlos."
+        "title": "Gramática y objetivos",
+        "body": "Name places in a neighborhood\n\nUse 'there is/are' with articles (a/the) and quantifiers (some/any)\n\nDescribe your local area\n\nComplete the affirmative sentence. · There is _____ park near my house.\n\nComplete the affirmative sentence. · There are _____ restaurants on this street.\n\nComplete the affirmative sentence. · Is there _____ pharmacy nearby?\n\nComplete the affirmative sentence. · There aren't _____ cinemas in my neighborhood.\n\nChoose the correct word. · The library is on _____ main street. · the · some · a\n\nBuild a sentence using these words. · Supermarket · Pharmacy · Park\n\nBuild a sentence using these words. · Pharmacy · Bank · Library\n\nBuild a sentence using these words. · Bank · Bakery · School\n\nBuild a sentence using these words. · Bakery · Neighborhood · Restaurant",
+        "example": "Complete the affirmative sentence. · There is _____ park near my house."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para pronombres personales:\nHe — Él\nShe — Ella\nIt — Ello/Eso\nWe — Nosotros\nThey — Ellos/Ellas\nCountry — País"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "Hi! This is my friend Carlos. He is from Spain. And this is Ana. She is from Italy. We are students at the same school. They are my classmates."
+        "body": "Choose the correct translation. · Park · Parque · Supermercado · Cine\nChoose the correct translation. · Supermarket · Cine · Supermercado · Biblioteca\nChoose the correct translation. · Cinema · Biblioteca · Farmacia · Cine\nChoose the correct translation. · Library · Biblioteca · Farmacia · Hospital\nChoose the correct translation. · Pharmacy · Hospital · Farmacia · Escuela\nChoose the correct translation. · Hospital · Escuela · Banco\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Library · School · Restaurant\nChoose the correct option. · Pharmacy · Bank · Bakery"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · Cinema and park · Supermarket, pharmacy and park · Hospital and school · What's your neighborhood like? It's really convenient! There is a supermarket, a pharmacy and a park nearby. Is there a cinema? No, there isn't a cinema in my neighborhood, but there's a great library where I go often. That's good! Is it far from your house? · What is in the speaker's neighborhood?\nRead the text and answer. · Yes · No · There are two · What's your neighborhood like? It's really convenient! There is a supermarket, a pharmacy and a park nearby. Is there a cinema? No, there isn't a cinema in my neighborhood, but there's a great library where I go often. That's good! Is it far from your house? · Is there a cinema in the neighborhood?\nRead the text and answer. · To work · Often/regularly · Only on weekends · What's your neighborhood like? It's really convenient! There is a supermarket, a pharmacy and a park nearby. Is there a cinema? No, there isn't a cinema in my neighborhood, but there's a great library where I go often. That's good! Is it far from your house? · What does the speaker go to the library for?\nRead the text and answer. · a · an · the · What's your neighborhood like? It's really convenient! There is a supermarket, a pharmacy and a park nearby. Is there a cinema? No, there isn't a cinema in my neighborhood, but there's a great library where I go often. That's good! Is it far from your house? · Which article goes before a specific known place?\nRead the text and answer. · some · any · a · What's your neighborhood like? It's really convenient! There is a supermarket, a pharmacy and a park nearby. Is there a cinema? No, there isn't a cinema in my neighborhood, but there's a great library where I go often. That's good! Is it far from your house? · Which word is used in negative and questions with places?\nRead the text and answer. · Restaurant · Bakery · Pharmacy · What's your neighborhood like? It's really convenient! There is a supermarket, a pharmacy and a park nearby. Is there a cinema? No, there isn't a cinema in my neighborhood, but there's a great library where I go often. That's good! Is it far from your house? · What word means 'Panadería'?\nRead the text and answer. · A food shop · A medicine shop · A library · What's your neighborhood like? It's really convenient! There is a supermarket, a pharmacy and a park nearby. Is there a cinema? No, there isn't a cinema in my neighborhood, but there's a great library where I go often. That's good! Is it far from your house? · What is a 'Pharmacy'?\nRead the text and answer. · Far away · Easy to use/access · Expensive · What's your neighborhood like? It's really convenient! There is a supermarket, a pharmacy and a park nearby. Is there a cinema? No, there isn't a cinema in my neighborhood, but there's a great library where I go often. That's good! Is it far from your house? · What does 'Convenient' mean?\nRead the text and answer. · City centre · Local area/barrio · Country · What's your neighborhood like? It's really convenient! There is a supermarket, a pharmacy and a park nearby. Is there a cinema? No, there isn't a cinema in my neighborhood, but there's a great library where I go often. That's good! Is it far from your house? · What does 'Neighborhood' mean?\nRead the text and answer. · Next to the park · On the main street · Far from the speaker's house · What's your neighborhood like? It's really convenient! There is a supermarket, a pharmacy and a park nearby. Is there a cinema? No, there isn't a cinema in my neighborhood, but there's a great library where I go often. That's good! Is it far from your house? · Where is the library?"
       }
     ]
   },
   "a1-26": {
-    "objective": "Relacionar am, is y are con los pronombres.",
+    "objective": "Give and follow directions in English · Use imperative form for instructions: turn, go, take · Describe routes using prepositions and directional language",
     "sections": [
       {
         "type": "grammar",
-        "title": "Gramática",
-        "body": "El verbo “to be” cambia con el sujeto: I am; he/she/it is; you/we/they are.\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "This is my friend Carlos."
+        "title": "Gramática y objetivos",
+        "body": "Give and follow directions in English\n\nUse imperative form for instructions: turn, go, take\n\nDescribe routes using prepositions and directional language\n\nComplete the affirmative sentence. · _____ straight for two minutes.\n\nComplete the affirmative sentence. · _____ left at the traffic lights.\n\nComplete the affirmative sentence. · Take the _____ on the right.\n\nComplete the affirmative sentence. · Go past the _____ and then turn right.\n\nChoose the correct word. · Is it _____ from here? · far · Turn · first street\n\nBuild a sentence using these words. · Turn right · At the corner · Turn left\n\nBuild a sentence using these words. · At the corner · Crossroads · Past\n\nBuild a sentence using these words. · Crossroads · On the left · Bridge\n\nBuild a sentence using these words. · On the left · Near · Take the second",
+        "example": "Complete the affirmative sentence. · _____ straight for two minutes."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para el verbo to be:\nHe — Él\nShe — Ella\nIt — Ello/Eso\nWe — Nosotros\nThey — Ellos/Ellas\nCountry — País"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "Hi! This is my friend Carlos. He is from Spain. And this is Ana. She is from Italy. We are students at the same school. They are my classmates."
+        "body": "Choose the correct translation. · Turn left · Girar a la izquierda · Girar a la derecha · Seguir recto\nChoose the correct translation. · Turn right · Seguir recto · Girar a la derecha · Pasar por delante\nChoose the correct translation. · Go straight · Pasar por delante · En la esquina · Seguir recto\nChoose the correct translation. · Past · Pasar por delante · En la esquina · Semáforo\nChoose the correct translation. · At the corner · Semáforo · En la esquina · Puente\nChoose the correct translation. · Traffic lights · Puente · Cruce · Semáforo\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Past · Bridge · Take the second\nChoose the correct option. · At the corner · Crossroads · On the left"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · Bus station · Train station · Airport · Excuse, how do I get to the train station? Go straight for two minutes, then turn left at the traffic lights. Then, take the second street on the right. The station is at the end of that road, on the left. Is it far? Can I walk there? · What transport does the speaker want to?\nRead the text and answer. · One · Three · Two · Excuse, how do I get to the train station? Go straight for two minutes, then turn left at the traffic lights. Then, take the second street on the right. The station is at the end of that road, on the left. Is it far? Can I walk there? · How many minutes does the speaker walk straight?\nRead the text and answer. · At the crossroads · At the bridge · At the traffic lights · Excuse, how do I get to the train station? Go straight for two minutes, then turn left at the traffic lights. Then, take the second street on the right. The station is at the end of that road, on the left. Is it far? Can I walk there? · Where does the speaker turn left?\nRead the text and answer. · The first · The third · The second · Excuse, how do I get to the train station? Go straight for two minutes, then turn left at the traffic lights. Then, take the second street on the right. The station is at the end of that road, on the left. Is it far? Can I walk there? · Which street does the speaker take on the right?\nRead the text and answer. · At the start of the road · In the middle of the road · At the end of the road on the left · Excuse, how do I get to the train station? Go straight for two minutes, then turn left at the traffic lights. Then, take the second street on the right. The station is at the end of that road, on the left. Is it far? Can I walk there? · Where is the station?\nRead the text and answer. · Turn right · Continue forward without turning · Go back · Excuse, how do I get to the train station? Go straight for two minutes, then turn left at the traffic lights. Then, take the second street on the right. The station is at the end of that road, on the left. Is it far? Can I walk there? · What does 'Go straight' mean?\nRead the text and answer. · Go straight · Turn right · Turn left · Excuse, how do I get to the train station? Go straight for two minutes, then turn left at the traffic lights. Then, take the second street on the right. The station is at the end of that road, on the left. Is it far? Can I walk there? · What does 'Turn left' mean?\nRead the text and answer. · Marking speed · Controlling traffic flow · Giving directions · Excuse, how do I get to the train station? Go straight for two minutes, then turn left at the traffic lights. Then, take the second street on the right. The station is at the end of that road, on the left. Is it far? Can I walk there? · What is traffic lights used for?\nRead the text and answer. · Before arriving at · Going by something · Turning at · Excuse, how do I get to the train station? Go straight for two minutes, then turn left at the traffic lights. Then, take the second street on the right. The station is at the end of that road, on the left. Is it far? Can I walk there? · What does 'Past' mean in directions?\nRead the text and answer. · Questions · Past tense · Imperatives · Excuse, how do I get to the train station? Go straight for two minutes, then turn left at the traffic lights. Then, take the second street on the right. The station is at the end of that road, on the left. Is it far? Can I walk there? · Which grammar form is used for giving directions?"
       }
     ]
   },
   "a1-27": {
-    "objective": "Crear frases afirmativas sencillas con to be.",
+    "objective": "Name common pets and animals in English · Use adjectives to describe animals · Talk about pets and animal habits",
     "sections": [
       {
         "type": "grammar",
-        "title": "Gramática",
-        "body": "Una frase afirmativa básica sigue el orden sujeto + “to be” + información: “She is a student”.\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "This is my friend Carlos."
+        "title": "Gramática y objetivos",
+        "body": "Name common pets and animals in English\n\nUse adjectives to describe animals\n\nTalk about pets and animal habits\n\nComplete the affirmative sentence. · My dog is very _____.\n\nComplete the affirmative sentence. · Lions are _____ animals.\n\nComplete the affirmative sentence. · Do you _____ any pets?\n\nComplete the affirmative sentence. · She has a cute _____ called Max.\n\nChoose the correct word. · My cat _____ a lot but is very friendly. · sleeps · dangerous · have\n\nBuild a sentence using these words. · Cat · Rabbit · Dog\n\nBuild a sentence using these words. · Rabbit · Cow · Fish\n\nBuild a sentence using these words. · Cow · Dangerous · Horse\n\nBuild a sentence using these words. · Dangerous · Wild · Tiger",
+        "example": "Complete the affirmative sentence. · My dog is very _____."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para frases afirmativas:\nHe — Él\nShe — Ella\nIt — Ello/Eso\nWe — Nosotros\nThey — Ellos/Ellas\nCountry — País"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "Hi! This is my friend Carlos. He is from Spain. And this is Ana. She is from Italy. We are students at the same school. They are my classmates."
+        "body": "Choose the correct translation. · Dog · Perro · Gato · Pájaro\nChoose the correct translation. · Cat · Pájaro · Gato · Pez\nChoose the correct translation. · Bird · Pez · Conejo · Pájaro\nChoose the correct translation. · Fish · Pez · Conejo · Hámster\nChoose the correct translation. · Rabbit · Hámster · Conejo · Caballo\nChoose the correct translation. · Hamster · Caballo · Vaca · Hámster\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Fish · Horse · Tiger\nChoose the correct option. · Rabbit · Cow · Dangerous"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · A cat · A dog · A rabbit · Do you have any pets? Yes! I have a dog called Buddy. He's very friendly and loves playing. What breed is he? He's a golden retriever. What about you? Do you have any pets? No, I don't have pets, but I love cats. They are so cute! · What type of pet does the speaker have?\nRead the text and answer. · Max · Rex · Buddy · Do you have any pets? Yes! I have a dog called Buddy. He's very friendly and loves playing. What breed is he? He's a golden retriever. What about you? Do you have any pets? No, I don't have pets, but I love cats. They are so cute! · What is the dog's name?\nRead the text and answer. · Dangerous and wild · Very friendly · Quiet and shy · Do you have any pets? Yes! I have a dog called Buddy. He's very friendly and loves playing. What breed is he? He's a golden retriever. What about you? Do you have any pets? No, I don't have pets, but I love cats. They are so cute! · How is the dog described?\nRead the text and answer. · Labrador · German Shepherd · Golden Retriever · Do you have any pets? Yes! I have a dog called Buddy. He's very friendly and loves playing. What breed is he? He's a golden retriever. What about you? Do you have any pets? No, I don't have pets, but I love cats. They are so cute! · What breed is the dog?\nRead the text and answer. · Yes, a cat · No, but they love cats · Yes, a dog too · Do you have any pets? Yes! I have a dog called Buddy. He's very friendly and loves playing. What breed is he? He's a golden retriever. What about you? Do you have any pets? No, I don't have pets, but I love cats. They are so cute! · Does the other person have any pets?\nRead the text and answer. · Dangerous · Wild · Friendly · Do you have any pets? Yes! I have a dog called Buddy. He's very friendly and loves playing. What breed is he? He's a golden retriever. What about you? Do you have any pets? No, I don't have pets, but I love cats. They are so cute! · What word means 'Amigable'?\nRead the text and answer. · Cute · Wild · Friendly · Do you have any pets? Yes! I have a dog called Buddy. He's very friendly and loves playing. What breed is he? He's a golden retriever. What about you? Do you have any pets? No, I don't have pets, but I love cats. They are so cute! · Which word means 'Salvaje'?\nRead the text and answer. · Dog and cat · Rabbit and hamster · Lion and tiger · Do you have any pets? Yes! I have a dog called Buddy. He's very friendly and loves playing. What breed is he? He's a golden retriever. What about you? Do you have any pets? No, I don't have pets, but I love cats. They are so cute! · Which of these are wild animals?\nRead the text and answer. · Big · Cute/Sweet-looking · Loud · Do you have any pets? Yes! I have a dog called Buddy. He's very friendly and loves playing. What breed is he? He's a golden retriever. What about you? Do you have any pets? No, I don't have pets, but I love cats. They are so cute! · What does 'Cute' mean?\nRead the text and answer. · Sleeping · Playing · Barking · Do you have any pets? Yes! I have a dog called Buddy. He's very friendly and loves playing. What breed is he? He's a golden retriever. What about you? Do you have any pets? No, I don't have pets, but I love cats. They are so cute! · What does the dog love doing?"
       }
     ]
   },
   "a1-28": {
-    "objective": "Usar isn’t, aren’t y am not.",
+    "objective": "Name the main body parts in English · Use have/has got to describe body parts · Follow simple body-related instructions in English",
     "sections": [
       {
         "type": "grammar",
-        "title": "Gramática",
-        "body": "Para negar, añade “not” después de “to be”: “I am not”, “he isn’t”, “they aren’t”.\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "I am not very well."
+        "title": "Gramática y objetivos",
+        "body": "Name the main body parts in English\n\nUse have/has got to describe body parts\n\nFollow simple body-related instructions in English\n\nComplete the affirmative sentence. · I have _____ eyes.\n\nComplete the affirmative sentence. · She has a long _____.\n\nComplete the affirmative sentence. · We have ten _____ on each hand.\n\nComplete the affirmative sentence. · My _____ hurts today.\n\nChoose the correct word. · He broke his _____ while playing football. · leg · neck · fingers\n\nBuild a sentence using these words. · Arm · Foot · Head\n\nBuild a sentence using these words. · Foot · Nose · Hand\n\nBuild a sentence using these words. · Nose · Back · Ear\n\nBuild a sentence using these words. · Back · Toe · Neck",
+        "example": "Complete the affirmative sentence. · I have _____ eyes."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para frases negativas:\nHappy — Feliz\nSad — Triste\nTired — Cansado/a\nHungry — Hambriento/a\nThirsty — Sediento/a\nAngry — Enfadado/a"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "Hi Laura! How are you? I am not very well. I am tired. Are you sick? No, I am not sick. Just very tired. Is Tom here? Is he happy? No, he is not here. He is sad today."
+        "body": "Choose the correct translation. · Head · Cabeza · Brazo · Pierna\nChoose the correct translation. · Arm · Pierna · Brazo · Mano\nChoose the correct translation. · Leg · Mano · Pie · Pierna\nChoose the correct translation. · Hand · Mano · Pie · Ojo\nChoose the correct translation. · Foot · Ojo · Pie · Oreja\nChoose the correct translation. · Eye · Oreja · Nariz · Ojo\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Hand · Ear · Neck\nChoose the correct option. · Foot · Nose · Back"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · Ear · Shoulder · Nose · Point to your nose — now your left ear! This is a fun game! OK, now touch your right shoulder with your left hand. Wow, that's tricky! How many fingers do you have? Ten fingers and ten toes! Just like everybody else. Ha! And how many eyes do you have? · What body part is the speaker asked to point first?\nRead the text and answer. · Right · Left · Both · Point to your nose — now your left ear! This is a fun game! OK, now touch your right shoulder with your left hand. Wow, that's tricky! How many fingers do you have? Ten fingers and ten toes! Just like everybody else. Ha! And how many eyes do you have? · Which ear is the speaker asked to point?\nRead the text and answer. · Touching nose with tongue · Touching right shoulder with left hand · Touching toes with fingers · Point to your nose — now your left ear! This is a fun game! OK, now touch your right shoulder with your left hand. Wow, that's tricky! How many fingers do you have? Ten fingers and ten toes! Just like everybody else. Ha! And how many eyes do you have? · What is the tricky task in the conversation?\nRead the text and answer. · Eight · Twelve · Ten · Point to your nose — now your left ear! This is a fun game! OK, now touch your right shoulder with your left hand. Wow, that's tricky! How many fingers do you have? Ten fingers and ten toes! Just like everybody else. Ha! And how many eyes do you have? · How many fingers does a person have?\nRead the text and answer. · Ten · Eight · Twelve · Point to your nose — now your left ear! This is a fun game! OK, now touch your right shoulder with your left hand. Wow, that's tricky! How many fingers do you have? Ten fingers and ten toes! Just like everybody else. Ha! And how many eyes do you have? · How many toes does a person have?\nRead the text and answer. · Eye · Ear · Nose · Point to your nose — now your left ear! This is a fun game! OK, now touch your right shoulder with your left hand. Wow, that's tricky! How many fingers do you have? Ten fingers and ten toes! Just like everybody else. Ha! And how many eyes do you have? · What word means 'Oreja'?\nRead the text and answer. · Shoulder · Elbow · Knee · Point to your nose — now your left ear! This is a fun game! OK, now touch your right shoulder with your left hand. Wow, that's tricky! How many fingers do you have? Ten fingers and ten toes! Just like everybody else. Ha! And how many eyes do you have? · What word means 'Hombro'?\nRead the text and answer. · foots · feets · feet · Point to your nose — now your left ear! This is a fun game! OK, now touch your right shoulder with your left hand. Wow, that's tricky! How many fingers do you have? Ten fingers and ten toes! Just like everybody else. Ha! And how many eyes do you have? · What is the plural of 'foot'?\nRead the text and answer. · Front · Back/spine area · Neck · Point to your nose — now your left ear! This is a fun game! OK, now touch your right shoulder with your left hand. Wow, that's tricky! How many fingers do you have? Ten fingers and ten toes! Just like everybody else. Ha! And how many eyes do you have? · What does 'Back' mean as a body part?\nRead the text and answer. · Back · Chest · Neck · Point to your nose — now your left ear! This is a fun game! OK, now touch your right shoulder with your left hand. Wow, that's tricky! How many fingers do you have? Ten fingers and ten toes! Just like everybody else. Ha! And how many eyes do you have? · Which body part is between the head and the shoulders?"
       }
     ]
   },
   "a1-29": {
-    "objective": "Formar preguntas como Are you…? e Is she…?.",
+    "objective": "Name clothing items in English · Use Present Continuous to describe what people are wearing · Describe outfits for different occasions",
     "sections": [
       {
         "type": "grammar",
-        "title": "Gramática",
-        "body": "En preguntas con “to be”, el verbo va delante del sujeto: “Are you…?”, “Is she…?”.\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "I am not very well."
+        "title": "Gramática y objetivos",
+        "body": "Name clothing items in English\n\nUse Present Continuous to describe what people are wearing\n\nDescribe outfits for different occasions\n\nComplete the affirmative sentence. · I am _____ a blue dress.\n\nComplete the affirmative sentence. · She is _____ a red coat.\n\nComplete the affirmative sentence. · What are you _____?\n\nComplete the affirmative sentence. · He isn't _____ a jacket today.\n\nChoose the correct word. · They are _____ warm clothes because it's cold. · wearing · putting on · wears\n\nBuild a sentence using these words. · Trousers · Hat · Shirt\n\nBuild a sentence using these words. · Hat · Skirt · Shoes\n\nBuild a sentence using these words. · Skirt · Socks · T-shirt\n\nBuild a sentence using these words. · Socks · Getting dressed · Boots",
+        "example": "Complete the affirmative sentence. · I am _____ a blue dress."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para preguntas con to be:\nHappy — Feliz\nSad — Triste\nTired — Cansado/a\nHungry — Hambriento/a\nThirsty — Sediento/a\nAngry — Enfadado/a"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "Hi Laura! How are you? I am not very well. I am tired. Are you sick? No, I am not sick. Just very tired. Is Tom here? Is he happy? No, he is not here. He is sad today."
+        "body": "Choose the correct translation. · Shirt · Camisa · Pantalones · Vestido\nChoose the correct translation. · Trousers · Vestido · Pantalones · Zapatos\nChoose the correct translation. · Dress · Zapatos · Sombrero · Vestido\nChoose the correct translation. · Shoes · Zapatos · Sombrero · Chaqueta\nChoose the correct translation. · Hat · Chaqueta · Sombrero · Camiseta\nChoose the correct translation. · Jacket · Camiseta · Falda · Chaqueta\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Shoes · T-shirt · Boots\nChoose the correct option. · Hat · Skirt · Socks"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · A wedding · A party · A dinner · What are you wearing to the party tonight? I think I'll wear my blue dress and black boots. That sounds beautiful! What about a jacket? It's cold tonight. Good idea! I'll take my grey coat too. And don't forget a scarf — the forecast says it's very cold! · What event are they going to?\nRead the text and answer. · Red dress · Green dress · Blue dress · What are you wearing to the party tonight? I think I'll wear my blue dress and black boots. That sounds beautiful! What about a jacket? It's cold tonight. Good idea! I'll take my grey coat too. And don't forget a scarf — the forecast says it's very cold! · What dress is the speaker going to wear?\nRead the text and answer. · White shoes · Black boots · Brown boots · What are you wearing to the party tonight? I think I'll wear my blue dress and black boots. That sounds beautiful! What about a jacket? It's cold tonight. Good idea! I'll take my grey coat too. And don't forget a scarf — the forecast says it's very cold! · What shoes is the speaker going to wear?\nRead the text and answer. · It's rainy · It's cold · It's windy · What are you wearing to the party tonight? I think I'll wear my blue dress and black boots. That sounds beautiful! What about a jacket? It's cold tonight. Good idea! I'll take my grey coat too. And don't forget a scarf — the forecast says it's very cold! · Why is a jacket recommended?\nRead the text and answer. · Hat · Gloves · Scarf · What are you wearing to the party tonight? I think I'll wear my blue dress and black boots. That sounds beautiful! What about a jacket? It's cold tonight. Good idea! I'll take my grey coat too. And don't forget a scarf — the forecast says it's very cold! · What extra item is also suggested?\nRead the text and answer. · Black · Blue · Grey · What are you wearing to the party tonight? I think I'll wear my blue dress and black boots. That sounds beautiful! What about a jacket? It's cold tonight. Good idea! I'll take my grey coat too. And don't forget a scarf — the forecast says it's very cold! · What colour coat does the speaker plan to wear?\nRead the text and answer. · Present Simple · Present Continuous · Past Simple · What are you wearing to the party tonight? I think I'll wear my blue dress and black boots. That sounds beautiful! What about a jacket? It's cold tonight. Good idea! I'll take my grey coat too. And don't forget a scarf — the forecast says it's very cold! · What tense is used to describe what someone is wearing?\nRead the text and answer. · Skirt · Dress · Trousers/Pants · What are you wearing to the party tonight? I think I'll wear my blue dress and black boots. That sounds beautiful! What about a jacket? It's cold tonight. Good idea! I'll take my grey coat too. And don't forget a scarf — the forecast says it's very cold! · What does 'Trousers' mean?\nRead the text and answer. · Scarf · Hat · Coat · What are you wearing to the party tonight? I think I'll wear my blue dress and black boots. That sounds beautiful! What about a jacket? It's cold tonight. Good idea! I'll take my grey coat too. And don't forget a scarf — the forecast says it's very cold! · What word means 'Bufanda'?\nRead the text and answer. · subject + verb-ing · subject + am/is/are + verb-ing · subject + do/does + verb · What are you wearing to the party tonight? I think I'll wear my blue dress and black boots. That sounds beautiful! What about a jacket? It's cold tonight. Good idea! I'll take my grey coat too. And don't forget a scarf — the forecast says it's very cold! · What is the structure of Present Continuous?"
       }
     ]
   },
   "a1-30": {
-    "objective": "Dar información básica sobre ti.",
+    "objective": "Review all Module 3 topics: rooms, furniture, prepositions, neighborhood, animals, body, clothes · Combine there is/are with prepositions and descriptions · Produce extended descriptions of home and environment",
     "sections": [
       {
         "type": "grammar",
-        "title": "Gramática",
-        "body": "Da datos personales con estos bloques: “My name is…”, “I am … years old” y “I am from…”.\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "My name is Mark Davis."
+        "title": "Gramática y objetivos",
+        "body": "Review all Module 3 topics: rooms, furniture, prepositions, neighborhood, animals, body, clothes\n\nCombine there is/are with prepositions and descriptions\n\nProduce extended descriptions of home and environment\n\nComplete the affirmative sentence. · There _____ a park near my house.\n\nComplete the affirmative sentence. · The book is _____ the table.\n\nComplete the affirmative sentence. · What are you _____?\n\nComplete the affirmative sentence. · Does the house have _____ garden?\n\nChoose the correct word. · Turn _____ at the traffic lights. · left · on · wearing\n\nBuild a sentence using these words. · Furniture · Body · Room\n\nBuild a sentence using these words. · Body · Description · Animal\n\nBuild a sentence using these words. · Description · Comfortable · Preposition\n\nBuild a sentence using these words. · Comfortable · Wearing · Position",
+        "example": "Complete the affirmative sentence. · There _____ a park near my house."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para información personal:\nHello — Hola\nHi — Hola (informal)\nGood morning — Buenos días\nGood afternoon — Buenas tardes\nGood evening — Buenas noches (saludo)\nGood night — Buenas noches (despedida)"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "Hello! My name is Mark Davis. I am a student from London. Nice to meet you, Mark! Nice to meet you too! What is your surname? My surname is Davis."
+        "body": "Choose the correct translation. · Room · Habitación · Muebles · Dirección\nChoose the correct translation. · Furniture · Dirección · Muebles · Animal\nChoose the correct translation. · Direction · Animal · Cuerpo · Dirección\nChoose the correct translation. · Animal · Cuerpo · Ropa\nChoose the correct translation. · Body · Ropa · Cuerpo · Preposición\nChoose the correct translation. · Clothes · Preposición · Descripción · Ropa\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Animal · Preposition · Position\nChoose the correct option. · Body · Description · Comfortable"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · Sofa and TV · Bed, wardrobe and lamp · Table and chairs · Can you describe your bedroom? Sure! There is a big bed, a wardrobe and a lamp on the shelf. Is there a mirror? Yes, there's one above the wardrobe. My cat usually sleeps on the bed! Sounds cozy! And what are you wearing today? · What is is in the bedroom?\nRead the text and answer. · On the table · On the shelf · On the floor · Can you describe your bedroom? Sure! There is a big bed, a wardrobe and a lamp on the shelf. Is there a mirror? Yes, there's one above the wardrobe. My cat usually sleeps on the bed! Sounds cozy! And what are you wearing today? · Where is the lamp?\nRead the text and answer. · No · Yes · Not mentioned · Can you describe your bedroom? Sure! There is a big bed, a wardrobe and a lamp on the shelf. Is there a mirror? Yes, there's one above the wardrobe. My cat usually sleeps on the bed! Sounds cozy! And what are you wearing today? · Is there a mirror?\nRead the text and answer. · Next to the door · Above the wardrobe · On the wall · Can you describe your bedroom? Sure! There is a big bed, a wardrobe and a lamp on the shelf. Is there a mirror? Yes, there's one above the wardrobe. My cat usually sleeps on the bed! Sounds cozy! And what are you wearing today? · Where is the mirror?\nRead the text and answer. · Plays in the garden · Sleeps on the bed · Sits by the window · Can you describe your bedroom? Sure! There is a big bed, a wardrobe and a lamp on the shelf. Is there a mirror? Yes, there's one above the wardrobe. My cat usually sleeps on the bed! Sounds cozy! And what are you wearing today? · What does the cat usually do?\nRead the text and answer. · Under · Between · Above · Can you describe your bedroom? Sure! There is a big bed, a wardrobe and a lamp on the shelf. Is there a mirror? Yes, there's one above the wardrobe. My cat usually sleeps on the bed! Sounds cozy! And what are you wearing today? · Which preposition means 'Encima de'?\nRead the text and answer. · Present Simple · Past Simple · Present Continuous · Can you describe your bedroom? Sure! There is a big bed, a wardrobe and a lamp on the shelf. Is there a mirror? Yes, there's one above the wardrobe. My cat usually sleeps on the bed! Sounds cozy! And what are you wearing today? · What tense describes what you are wearing now?\nRead the text and answer. · It is a... · There is a... · Here is a... · Can you describe your bedroom? Sure! There is a big bed, a wardrobe and a lamp on the shelf. Is there a mirror? Yes, there's one above the wardrobe. My cat usually sleeps on the bed! Sounds cozy! And what are you wearing today? · How do you say there is a thing in English?\nRead the text and answer. · Present Simple · There is/are · Present Continuous · Can you describe your bedroom? Sure! There is a big bed, a wardrobe and a lamp on the shelf. Is there a mirror? Yes, there's one above the wardrobe. My cat usually sleeps on the bed! Sounds cozy! And what are you wearing today? · What grammar structure describes actions happening right now?\nRead the text and answer. · It is dark · It is cozy · It is bright · Can you describe your bedroom? Sure! There is a big bed, a wardrobe and a lamp on the shelf. Is there a mirror? Yes, there's one above the wardrobe. My cat usually sleeps on the bed! Sounds cozy! And what are you wearing today? · How do you describe a room with lots of natural light?"
       }
     ]
   },
   "a1-31": {
-    "objective": "Nombrar familiares cercanos en inglés.",
+    "objective": "Use 'can' and 'can't' to express abilities · Ask yes/no questions with 'Can...?' · Describe personal abilities and skills",
     "sections": [
       {
         "type": "grammar",
-        "title": "Gramática",
-        "body": "Para presentar a alguien de tu familia, usa “This is my…”: “This is my sister”.\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "This is a photo of my family."
+        "title": "Gramática y objetivos",
+        "body": "Use 'can' and 'can't' to express abilities\n\nAsk yes/no questions with 'Can...?'\n\nDescribe personal abilities and skills\n\nComplete the affirmative sentence. · I _____ swim very well.\n\nComplete the affirmative sentence. · She _____ drive. She doesn't have a licence.\n\nComplete the affirmative sentence. · _____ you speak French?\n\nComplete the affirmative sentence. · We _____ cook Italian food.\n\nChoose the correct word. · He can sing but _____ dance. · can't · can · is\n\nBuild a sentence using these words. · Cook · Sing · Swim\n\nBuild a sentence using these words. · Sing · Run · Speak\n\nBuild a sentence using these words. · Run · Can · Draw\n\nBuild a sentence using these words. · Can · Well · Play the guitar",
+        "example": "Complete the affirmative sentence. · I _____ swim very well."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para la familia:\nMother — Madre\nFather — Padre\nBrother — Hermano\nSister — Hermana\nSon — Hijo\nDaughter — Hija"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "This is a photo of my family. That is my father. His name is Robert. And that is my mother. Her name is Sarah. Do you have brothers or sisters? Yes! I have one brother and two sisters. Our family is very close."
+        "body": "Choose the correct translation. · Swim · Nadar · Cocinar · Conducir\nChoose the correct translation. · Cook · Conducir · Cocinar · Hablar\nChoose the correct translation. · Drive · Hablar · Cantar · Conducir\nChoose the correct translation. · Speak · Hablar · Cantar · Bailar\nChoose the correct translation. · Sing · Bailar · Cantar · Dibujar\nChoose the correct translation. · Dance · Dibujar · Correr · Bailar\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Speak · Draw · Play the guitar\nChoose the correct option. · Sing · Run · Can"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · No · Yes, quite well · Yes, but not well · Can you swim? Yes, I can swim quite well! I go to the pool every week. Wow! Can you also dive? No, I can't dive. It's too scary for me! What about you? Can you swim? I can swim a little, but I can't do it very well. · Can the first speaker swim?\nRead the text and answer. · Daily · Every week · Every month · Can you swim? Yes, I can swim quite well! I go to the pool every week. Wow! Can you also dive? No, I can't dive. It's too scary for me! What about you? Can you swim? I can swim a little, but I can't do it very well. · How often does the first speaker go to the pool?\nRead the text and answer. · Yes · No, it's too scary · Not mentioned · Can you swim? Yes, I can swim quite well! I go to the pool every week. Wow! Can you also dive? No, I can't dive. It's too scary for me! What about you? Can you swim? I can swim a little, but I can't do it very well. · Can the first speaker dive?\nRead the text and answer. · Yes, very well · No · A little, but not well · Can you swim? Yes, I can swim quite well! I go to the pool every week. Wow! Can you also dive? No, I can't dive. It's too scary for me! What about you? Can you swim? I can swim a little, but I can't do it very well. · Can the second speaker swim?\nRead the text and answer. · I can + verb · I can to + verb · I am can + verb · Can you swim? Yes, I can swim quite well! I go to the pool every week. Wow! Can you also dive? No, I can't dive. It's too scary for me! What about you? Can you swim? I can swim a little, but I can't do it very well. · What is the affirmative form of 'can'?\nRead the text and answer. · I don't can · I can't · I am not can · Can you swim? Yes, I can swim quite well! I go to the pool every week. Wow! Can you also dive? No, I can't dive. It's too scary for me! What about you? Can you swim? I can swim a little, but I can't do it very well. · What is the negative form of 'can'?\nRead the text and answer. · Do you can...? · Can you...? · Are you can...? · Can you swim? Yes, I can swim quite well! I go to the pool every week. Wow! Can you also dive? No, I can't dive. It's too scary for me! What about you? Can you swim? I can swim a little, but I can't do it very well. · How do you ask a question with 'can'?\nRead the text and answer. · Hobby · Ability · Talent · Can you swim? Yes, I can swim quite well! I go to the pool every week. Wow! Can you also dive? No, I can't dive. It's too scary for me! What about you? Can you swim? I can swim a little, but I can't do it very well. · What word means 'Habilidad'?\nRead the text and answer. · Exciting · Fun · Frightening · Can you swim? Yes, I can swim quite well! I go to the pool every week. Wow! Can you also dive? No, I can't dive. It's too scary for me! What about you? Can you swim? I can swim a little, but I can't do it very well. · What does 'Scary' mean?\nRead the text and answer. · It adds -s · It adds -ing · It stays in base form · Can you swim? Yes, I can swim quite well! I go to the pool every week. Wow! Can you also dive? No, I can't dive. It's too scary for me! What about you? Can you swim? I can swim a little, but I can't do it very well. · Which verb never changes after 'can'?"
       }
     ]
   },
   "a1-32": {
-    "objective": "Usar my, your, his, her, our y their.",
+    "objective": "Name sports and hobbies in English · Use play/go/do with the correct sport · Talk about sports participation and club membership",
     "sections": [
       {
         "type": "grammar",
-        "title": "Gramática",
-        "body": "El adjetivo posesivo va antes del familiar: my mother, his brother, her parents, our family.\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "This is a photo of my family."
+        "title": "Gramática y objetivos",
+        "body": "Name sports and hobbies in English\n\nUse play/go/do with the correct sport\n\nTalk about sports participation and club membership\n\nComplete the affirmative sentence. · I _____ football on Saturdays.\n\nComplete the affirmative sentence. · She _____ cycling every morning.\n\nComplete the affirmative sentence. · They _____ yoga twice a week.\n\nComplete the affirmative sentence. · He _____ tennis very well.\n\nChoose the correct word. · Do you _____ skiing in winter? · go · goes · do\n\nBuild a sentence using these words. · Tennis · Cycling · Football\n\nBuild a sentence using these words. · Cycling · Chess · Basketball\n\nBuild a sentence using these words. · Chess · Play · Skiing\n\nBuild a sentence using these words. · Play · Match · Volleyball",
+        "example": "Complete the affirmative sentence. · I _____ football on Saturdays."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para adjetivos posesivos:\nMother — Madre\nFather — Padre\nBrother — Hermano\nSister — Hermana\nSon — Hijo\nDaughter — Hija"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "This is a photo of my family. That is my father. His name is Robert. And that is my mother. Her name is Sarah. Do you have brothers or sisters? Yes! I have one brother and two sisters. Our family is very close."
+        "body": "Choose the correct translation. · Football · Fútbol · Tenis · Natación\nChoose the correct translation. · Tennis · Natación · Tenis · Baloncesto\nChoose the correct translation. · Swimming · Baloncesto · Ciclismo · Natación\nChoose the correct translation. · Basketball · Baloncesto · Ciclismo · Correr\nChoose the correct translation. · Cycling · Correr · Ciclismo · Esquí\nChoose the correct translation. · Running · Esquí · Ajedrez · Correr\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Basketball · Skiing · Volleyball\nChoose the correct option. · Cycling · Chess · Play"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · Football and swimming · Tennis and swimming · Tennis and cycling · Do you any sports? Yes! I play tennis and go swimming regularly. That's great! Do you play tennis in a club? Yes, I am a member of the local tennis club. We have matches on Sundays. I do yoga myself. It's so relaxing and good for flexibility. · What sports does the speaker do?\nRead the text and answer. · No · Yes · Not mentioned · Do you any sports? Yes! I play tennis and go swimming regularly. That's great! Do you play tennis in a club? Yes, I am a member of the local tennis club. We have matches on Sundays. I do yoga myself. It's so relaxing and good for flexibility. · Is the speaker a member of a tennis club?\nRead the text and answer. · On Saturdays · On Sundays · On Fridays · Do you any sports? Yes! I play tennis and go swimming regularly. That's great! Do you play tennis in a club? Yes, I am a member of the local tennis club. We have matches on Sundays. I do yoga myself. It's so relaxing and good for flexibility. · When do they have matches?\nRead the text and answer. · Swimming · Cycling · Yoga · Do you any sports? Yes! I play tennis and go swimming regularly. That's great! Do you play tennis in a club? Yes, I am a member of the local tennis club. We have matches on Sundays. I do yoga myself. It's so relaxing and good for flexibility. · What does the second speaker do for exercise?\nRead the text and answer. · go · do · play · Do you any sports? Yes! I play tennis and go swimming regularly. That's great! Do you play tennis in a club? Yes, I am a member of the local tennis club. We have matches on Sundays. I do yoga myself. It's so relaxing and good for flexibility. · Which verb goes with 'tennis' and 'football'?\nRead the text and answer. · play · go · do · Do you any sports? Yes! I play tennis and go swimming regularly. That's great! Do you play tennis in a club? Yes, I am a member of the local tennis club. We have matches on Sundays. I do yoga myself. It's so relaxing and good for flexibility. · Which verb goes with 'swimming' and 'cycling'?\nRead the text and answer. · play · go · do · Do you any sports? Yes! I play tennis and go swimming regularly. That's great! Do you play tennis in a club? Yes, I am a member of the local tennis club. We have matches on Sundays. I do yoga myself. It's so relaxing and good for flexibility. · Which verb goes with 'yoga' and 'martial arts'?\nRead the text and answer. · Club · Match · Team · Do you any sports? Yes! I play tennis and go swimming regularly. That's great! Do you play tennis in a club? Yes, I am a member of the local tennis club. We have matches on Sundays. I do yoga myself. It's so relaxing and good for flexibility. · What word means 'Partido'?\nRead the text and answer. · Speed · Relaxation and flexibility · Strength · Do you any sports? Yes! I play tennis and go swimming regularly. That's great! Do you play tennis in a club? Yes, I am a member of the local tennis club. We have matches on Sundays. I do yoga myself. It's so relaxing and good for flexibility. · What benefit is mentioned for yoga?\nRead the text and answer. · Sometimes · Rarely · Consistently/Often · Do you any sports? Yes! I play tennis and go swimming regularly. That's great! Do you play tennis in a club? Yes, I am a member of the local tennis club. We have matches on Sundays. I do yoga myself. It's so relaxing and good for flexibility. · What does 'Regularly' mean?"
       }
     ]
   },
