@@ -592,7 +592,7 @@
           "prompt_es": "[[Complete|Completa]] [[the|la]] [[sentence|frase]].",
           "mastery_tag": "grammar",
           "complexity": 2,
-          "stimulus_en": "[[We|Nosotros]] ______ [[students|estudiantes]].",
+          "stimulus_en": "[[Are|Están]] [[you|ustedes]] [[at|en]] [[school|la escuela]]?",
           "correct_answer": "are"
         },
         {
@@ -601,8 +601,8 @@
           "prompt_es": "[[Complete|Completa]] [[the|la]] [[sentence|frase]].",
           "mastery_tag": "grammar",
           "complexity": 2,
-          "stimulus_en": "[[They|Ellos]] ______ [[from|de]] [[Italy|Italia]].",
-          "correct_answer": "are"
+          "stimulus_en": "[[Is|Es]] [[he|él]] [[from|de]] [[Italy|Italia]]?",
+          "correct_answer": "is"
         },
         {
           "interaction_id": "A1_U2_I33",
