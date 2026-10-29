@@ -185,7 +185,7 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
           const section = sectionFor(item, block.title);
           const sourceMeta = { blockId: block.block_id ?? "", blockTitle: block.title, masteryTag: item.mastery_tag ?? "", conceptTags: item.concept_tags ?? [] };
           const baseOptions = optionTexts(item.options ?? []);
-          const audioText = String(item.transcript ?? (section === "listening" ? item.stimulus_en ?? "" : ""));
+          const audioText = String(item.transcript ?? (section === "listening" ? item.stimulus_en ?? "" : section === "reading" ? item.main_text ?? item.stimulus_en ?? "" : ""));
           const rawExplanation = String(item.explanation ?? "");
           const explanation = /\bundefined\b/i.test(rawExplanation) ? "" : rawExplanation;
 
@@ -218,7 +218,7 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
               const correct = String(item.correct_answer[gapIndex] ?? "");
               const targetPattern = new RegExp("\\(" + gapNumber + "\\)\\s*_{2,}");
               const visibleText = mainText.replace(targetPattern, "_____");
-              const prompt = `${String(item.prompt_es ?? "Complete the text")} — gap ${gapNumber} of ${item.correct_answer.length}\\n\\n${visibleText}`;
+              const prompt = `${String(item.prompt_es ?? "Complete the text")} — gap ${gapNumber} of ${item.correct_answer.length}\n\n${visibleText}`;
               exerciseNumber++;
               statements.push(exerciseStatement(lessonId, id, exerciseNumber, section, "fill_blank",
                 prompt, [], correct, explanation || `Respuesta correcta: ${correct}`,
