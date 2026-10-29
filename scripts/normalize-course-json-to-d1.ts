@@ -189,7 +189,7 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
           const baseOptions = optionTexts(item.options ?? []);
           const audioText = String(item.transcript ?? (section === "listening" ? item.stimulus_en ?? "" : ""));
           const rawExplanation = String(item.explanation ?? "");
-          const explanation = /\\bundefined\\b/i.test(rawExplanation) ? "" : rawExplanation;
+          const explanation = /\bundefined\b/i.test(rawExplanation) ? "" : rawExplanation;
 
           if (/matching|match/i.test(item.type) && Array.isArray(item.pairs) && item.pairs.length) {
             const matchingOptions = item.pairs.map((pair) => pair.right);
@@ -219,7 +219,7 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
               seenIds.add(id);
               const correct = String(item.correct_answer[gapIndex] ?? "");
               const textWithTarget = mainText.replace(new RegExp("\\(" + gapNumber + "\\)\\s*_{2,}"), "_____");
-              const prompt = `${String(item.prompt_es ?? "Complete the text")} (hueco ${gapNumber} de ${item.correct_answer.length})\\n\\n${textWithTarget}`;
+              const prompt = `${String(item.prompt_es ?? "Complete the text")} (hueco ${gapNumber} de ${item.correct_answer.length})\n\n${textWithTarget}`;
               exerciseNumber++;
               statements.push(exerciseStatement(lessonId, id, exerciseNumber, section, "fill_blank",
                 prompt, [], correct, explanation || `Respuesta correcta: ${correct}`,
