@@ -17,15 +17,15 @@ WHERE id = 'a1-u03-voc-12';
 
 UPDATE learning_exercises SET
  prompt = 'Elige la expresión en inglés que corresponde a «Lo siento».',
- options_json = '["You're welcome","Good afternoon","Sorry","See you"]',
+ options_json = '["You''re welcome","Good afternoon","Sorry","See you"]',
  answer_json = '{"correct":"Sorry"}',
  explanation = '«Sorry» significa «Lo siento» o «Perdón».'
 WHERE id = 'a1-u03-voc-13';
 
 UPDATE learning_exercises SET
  prompt = 'Elige la respuesta natural a «Thank you».',
- options_json = '["My name is Ana","You're welcome","Good morning","See you tomorrow"]',
- answer_json = '{"correct":"You're welcome"}',
+ options_json = '["My name is Ana","You''re welcome","Good morning","See you tomorrow"]',
+ answer_json = '{"correct":"You''re welcome"}',
  explanation = '«You’re welcome» es una respuesta habitual a «Thank you»: «De nada».'
 WHERE id = 'a1-u03-voc-14';
 
