@@ -182,13 +182,34 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
             {exercise.type === "free_text" || exercise.type === "fill_blank" ? <label className="mt-4 block"><span className="sr-only">Tu respuesta en inglés</span><input type="text" value={answers[exercise.id] ?? ""} onChange={(event) => void chooseAnswer(exercise.id, event.target.value)} maxLength={500} disabled={Boolean(result) || Boolean(submitting)} placeholder="Escribe tu respuesta en inglés…" className="w-full rounded-xl border border-[#ded8ca] bg-[#fbf9f4] px-4 py-3 text-sm text-[#30352d] outline-none focus:border-[#b75d3b]" /></label> : null}
             {exercise.type === "sentence_building" && answers[exercise.id] && <p className="mt-3 rounded-xl bg-[#f0ece3] p-3 text-sm font-semibold text-[#30352d]">{(() => { try { return (JSON.parse(answers[exercise.id]) as string[]).join(" "); } catch { return answers[exercise.id]; } })()}</p>}
             <div className="mt-4 grid gap-2 sm:grid-cols-2">
-              {exercise.type === "multiple_choice" || exercise.type === "sentence_building" ? exercise.options.map((option) => {
+              {exercise.type === "multiple_choice" || exercise.type === "sentence_building" ? exercise.options.map((option, optionIndex) => {
                 const chosen = answers[exercise.id] === option;
                 const selectedWords: string[] = exercise.type === "sentence_building" ? (() => { try { return JSON.parse(answers[exercise.id] || "[]") as string[]; } catch { return []; } })() : [];
-                const wordChosen = selectedWords.filter((word) => word === option).length;
                 const wordTotal = selectedWords.filter((word) => word === option).length;
-                const isWordSelected = exercise.type === "sentence_building" && wordChosen > 0;
-                const correctOption = result && result.correct && chosen;
+                const isWordSelected = exercise.type === "sentence_building" && wordTotal > 0;
+                const correctOption = Boolean(result?.correct && chosen);
+                return (
+                  <button
+                    key={`${option}-${optionIndex}`}
+                    type="button"
+                    disabled={Boolean(result) || Boolean(submitting)}
+                    onClick={() => {
+                      if (exercise.type !== "sentence_building") {
+                        void chooseAnswer(exercise.id, option);
+                        return;
+                      }
+                      const words = (() => {
+                        try { return JSON.parse(answers[exercise.id] || "[]") as string[]; }
+                        catch { return []; }
+                      })();
+                      void chooseAnswer(exercise.id, JSON.stringify([...words, option]));
+                    }}
+                    className={`rounded-xl border px-4 py-3 text-left text-sm font-semibold transition disabled:cursor-default ${correctOption || (isWordSelected && result?.correct) ? "border-[#8ba58a] bg-[#eaf2e7] text-[#355a37]" : chosen || isWordSelected ? "border-[#b75d3b] bg-[#f8e8df] text-[#87452e]" : "border-[#e5dfd3] bg-[#fbf9f4] text-[#56584f] hover:border-[#c6a18e]"}`}
+                  >
+                    {option}{wordTotal ? ` (${selectedWords.indexOf(option) + 1})` : ""}
+                  </button>
+                );
+              }) : null}
             </div>
             {!result ? <button type="button" disabled={!answers[exercise.id] || submitting === exercise.id} onClick={() => checkAnswer(exercise)} className="mt-4 rounded-xl bg-[#252a24] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[#41483e] disabled:cursor-not-allowed disabled:opacity-40">{submitting === exercise.id ? "Corrigiendo…" : exercise.type === "free_text" ? "Guardar y revisar" : "Comprobar respuesta"}</button> : <div className={`mt-4 rounded-xl p-4 ${result.correct === true ? "bg-[#eaf2e7]" : result.correct === false ? "bg-[#fff2ec]" : "bg-[#f0ece3]"}`}><p className={`text-sm font-extrabold ${result.correct === true ? "text-[#355a37]" : result.correct === false ? "text-[#8f432c]" : "text-[#56584f]"}`}>{result.correct === true ? "¡Muy bien! Respuesta correcta." : result.correct === false ? "Aún no. Revisa la explicación." : "Respuesta guardada. Revisa tu texto."}</p><p className="mt-1 text-sm leading-6 text-[#56584f]">{result.explanation}</p>{reviews[exercise.id] && <p className="mt-2 text-xs leading-5 text-[#65665b]">Próximo repaso: {new Date(reviews[exercise.id].dueAt).toLocaleString("es-ES", { dateStyle: "medium", timeStyle: "short" })}</p>}</div>}
           </article>;
