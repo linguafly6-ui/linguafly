@@ -3,7 +3,7 @@
  * learning_lessons and learning_exercises. A1/A2 are intentionally excluded:
  * their curated D1 exercise IDs and learner history require a separate mapping.
  *
- * Usage: npx tsx scripts/normalize-course-json-to-d1.ts --sql-out-dir /tmp/d1-normalized-seed
+ * Usage: npx tsx scripts/normalize-course-json-to-d1.ts --sql-out-dir /tmp/d1-normalized-seed [--reset-test-progress]
  * This generates idempotent SQL; it does not connect to D1.
  */
 import fs from "node:fs";
@@ -24,6 +24,7 @@ if (argIndex < 0 || !process.argv[argIndex + 1]) {
   process.exit(1);
 }
 const OUT = path.resolve(process.argv[argIndex + 1]);
+const RESET_TEST_PROGRESS = process.argv.includes("--reset-test-progress");
 
 type Option = { id?: string; text?: string };
 type Interaction = {
@@ -111,23 +112,29 @@ function exerciseStatement(
   source: unknown,
   audioText: string
 ): string {
-  return `INSERT INTO learning_exercises
-  (id, lesson_id, exercise_number, exercise_type, prompt, options_json, answer_json, explanation, ai_generated, section_type, audio_text)
-VALUES
-  (${sqlString(id)}, ${sqlString(lessonId)}, ${number}, ${sqlString(type)}, ${sqlString(prompt)},
+  const values = `(${sqlString(id)}, ${sqlString(lessonId)}, ${number}, ${sqlString(type)}, ${sqlString(prompt)},
    ${sqlString(json(options))}, ${sqlString(json({ correct, source }))}, ${sqlString(explanation)}, 0,
-   ${sqlString(section)}, ${audioText ? sqlString(audioText) : "NULL"})
-ON CONFLICT(id) DO UPDATE SET
-  exercise_number = excluded.exercise_number,
-  exercise_type = excluded.exercise_type,
-  prompt = excluded.prompt,
-  options_json = excluded.options_json,
-  answer_json = excluded.answer_json,
-  explanation = excluded.explanation,
-  section_type = excluded.section_type,
-  audio_text = excluded.audio_text;`;
+   ${sqlString(section)}, ${audioText ? sqlString(audioText) : "NULL"})`;
+  // Avoid INSERT ... ON CONFLICT: D1 has a BEFORE INSERT duplicate-prompt
+  // trigger that fires even for a conflicting ID. UPDATE then insert-if-missing
+  // makes reruns safe without bypassing the duplicate-prompt guard.
+  return `UPDATE learning_exercises SET
+  lesson_id = ${sqlString(lessonId)}, exercise_number = ${number}, exercise_type = ${sqlString(type)},
+  prompt = ${sqlString(prompt)}, options_json = ${sqlString(json(options))},
+  answer_json = ${sqlString(json({ correct, source }))}, explanation = ${sqlString(explanation)},
+  section_type = ${sqlString(section)}, audio_text = ${audioText ? sqlString(audioText) : "NULL"}
+WHERE id = ${sqlString(id)};
+INSERT INTO learning_exercises
+  (id, lesson_id, exercise_number, exercise_type, prompt, options_json, answer_json, explanation, ai_generated, section_type, audio_text)
+SELECT ${values} WHERE NOT EXISTS (SELECT 1 FROM learning_exercises WHERE id = ${sqlString(id)});`;
 }
 
+function distinctPrompt(prompt: string, section: string, seen: Map<string, number>): string {
+  const normalized = `${section}:${prompt.trim().toLocaleLowerCase("en")}`;
+  const count = (seen.get(normalized) ?? 0) + 1;
+  seen.set(normalized, count);
+  return count === 1 ? prompt : `${prompt} (Actividad ${count})`;
+}
 function main() {
   const statements: string[] = [];
   const summary: Record<string, { units: number; exercises: number; bySection: Record<string, number> }> = {};
@@ -160,13 +167,20 @@ description = excluded.description, published = 1, updated_at = strftime('%Y-%m-
       const unitNumber = file.number;
       const lessonId = `${levelConfig.level.toLowerCase()}-${String(unitNumber).padStart(2, "0")}`;
       const objective = (unit.learning_outcomes ?? []).join(" · ");
+      // Keep public lesson metadata and readable section text here, but never
+      // expose answer keys/options through the public lessons endpoint. The
+      // full lossless source JSON is stored separately in learning_course_json_units.
       const safeContent = {
         objective,
         learningOutcomes: unit.learning_outcomes ?? [],
         masteryTags: unit.mastery_tags ?? [],
         sections: unit.blocks.map((block) => ({
-          type: "learn", title: block.title,
-          body: `${block.content.length} actividades · ${block.duration_minutes ?? 0} min`,
+          type: "learn",
+          title: block.title,
+          body: block.content.map((item) => [item.question_en, item.stimulus_en, item.prompt_es, item.main_text]
+            .filter((value) => typeof value === "string" && value.trim()).join(" · ")).join("\n"),
+          ...(block.content.some((item) => item.type.toLowerCase().includes("listening"))
+            ? { audioText: block.content.map((item) => item.transcript ?? item.stimulus_en ?? "").filter(Boolean).join("\n") } : {}),
         })),
         reviewEnabled: true,
         source: { courseKey: levelConfig.folder, unitId: unit.course.unit_id, file: path.relative(ROOT, absolute).split(path.sep).join("/") },
@@ -179,8 +193,19 @@ VALUES (${sqlString(lessonId)}, ${sqlString(levelConfig.courseId)}, ${unitNumber
 ON CONFLICT(id) DO UPDATE SET title = excluded.title, objective = excluded.objective,
 estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_json, published = 1;`);
 
+      if (RESET_TEST_PROGRESS) {
+        // Explicitly opt-in, test-only reset. Delete dependent history first.
+        statements.push(`DELETE FROM learning_review_history WHERE lesson_id = ${sqlString(lessonId)};`);
+        statements.push(`DELETE FROM learning_review_items WHERE lesson_id = ${sqlString(lessonId)};`);
+        statements.push(`DELETE FROM learning_exercise_progress WHERE lesson_id = ${sqlString(lessonId)};`);
+        statements.push(`DELETE FROM learning_lesson_progress WHERE lesson_id = ${sqlString(lessonId)};`);
+        statements.push(`DELETE FROM learning_writing_drafts WHERE lesson_id = ${sqlString(lessonId)};`);
+        statements.push(`DELETE FROM learning_exercises WHERE lesson_id = ${sqlString(lessonId)};`);
+      }
+
       let exerciseNumber = 0;
       const seenIds = new Set<string>();
+      const seenPrompts = new Map<string, number>();
       for (const block of unit.blocks) {
         if (!Array.isArray(block.content)) throw new Error(`Invalid block content in ${levelConfig.folder}/${file.name}`);
         for (const item of block.content) {
@@ -190,7 +215,7 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
           const section = sectionFor(item, block.title);
           const sourceMeta = { blockId: block.block_id ?? "", blockTitle: block.title, masteryTag: item.mastery_tag ?? "", conceptTags: item.concept_tags ?? [] };
           const baseOptions = optionTexts(item.options ?? []);
-          const audioText = String(item.transcript ?? (section === "listening" ? item.stimulus_en ?? "" : ""));
+          const audioText = String(item.transcript ?? (section === "listening" ? item.stimulus_en ?? "" : section === "reading" ? item.main_text ?? item.stimulus_en ?? "" : ""));
           const rawExplanation = String(item.explanation ?? "");
           const explanation = /\bundefined\b/i.test(rawExplanation) ? "" : rawExplanation;
 
@@ -200,12 +225,32 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
               const pair = item.pairs[pairIndex];
               const id = `${item.interaction_id}__match_${pair.id || String(pairIndex + 1)}`;
               validateExerciseId(id, `${levelConfig.folder}/${file.name}`);
-              validateExerciseId(id, `${levelConfig.folder}/${file.name}`);
-              validateExerciseId(id, `${levelConfig.folder}/${file.name}`);
           if (seenIds.has(id)) throw new Error(`Duplicate exercise ID ${id} in ${levelConfig.folder}/${file.name}`);
               seenIds.add(id); exerciseNumber++;
               statements.push(exerciseStatement(lessonId, id, exerciseNumber, section, "multiple_choice",
-                pair.left, matchingOptions, pair.right, explanation || `Respuesta correcta: ${pair.right}`, { ...sourceMeta, sourceInteractionId: item.interaction_id, sourceType: item.type, variant: "match", pairId: pair.id || String(pairIndex + 1) }, audioText));
+                distinctPrompt(pair.left, section, seenPrompts), matchingOptions, pair.right, explanation || `Respuesta correcta: ${pair.right}`, { ...sourceMeta, sourceInteractionId: item.interaction_id, sourceType: item.type, variant: "match", pairId: pair.id || String(pairIndex + 1) }, audioText));
+              summary[levelConfig.level].exercises++;
+              summary[levelConfig.level].bySection[section] = (summary[levelConfig.level].bySection[section] ?? 0) + 1;
+            }
+            continue;
+          }
+
+          if (/fill.?blanks?/i.test(item.type) && Array.isArray(item.correct_answer) && item.correct_answer.length > 1) {
+            const mainText = String(item.main_text ?? item.stimulus_en ?? "");
+            for (let gapIndex = 0; gapIndex < item.correct_answer.length; gapIndex++) {
+              const gapNumber = gapIndex + 1;
+              const id = `${item.interaction_id}__gap_${gapNumber}`;
+              validateExerciseId(id, `${levelConfig.folder}/${file.name}`);
+              if (seenIds.has(id)) throw new Error(`Duplicate exercise ID ${id} in ${levelConfig.folder}/${file.name}`);
+              seenIds.add(id);
+              const correct = String(item.correct_answer[gapIndex] ?? "");
+              const targetPattern = new RegExp("\\(" + gapNumber + "\\)\\s*_{2,}");
+              const visibleText = mainText.replace(targetPattern, "_____");
+              const prompt = `${String(item.prompt_es ?? "Complete the text")} — gap ${gapNumber} of ${item.correct_answer.length}\n\n${visibleText}`;
+              exerciseNumber++;
+              statements.push(exerciseStatement(lessonId, id, exerciseNumber, section, "fill_blank",
+                distinctPrompt(prompt, section, seenPrompts), [], correct, explanation || `Respuesta correcta: ${correct}`,
+                { ...sourceMeta, sourceInteractionId: item.interaction_id, sourceType: item.type, variant: "fill_blank", gapNumber }, audioText));
               summary[levelConfig.level].exercises++;
               summary[levelConfig.level].bySection[section] = (summary[levelConfig.level].bySection[section] ?? 0) + 1;
             }
@@ -217,6 +262,7 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
             for (let gapIndex = 0; gapIndex < item.gaps.length; gapIndex++) {
               const gap = item.gaps[gapIndex];
               const id = `${item.interaction_id}__gap_${gap.id}`;
+              validateExerciseId(id, `${levelConfig.folder}/${file.name}`);
               if (seenIds.has(id)) throw new Error(`Duplicate exercise ID ${id} in ${levelConfig.folder}/${file.name}`);
               seenIds.add(id);
               const answerId = item.correct_answer && typeof item.correct_answer === "object"
@@ -227,7 +273,7 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
               const prompt = line.replace(/^\d+\.\s*/, "").replace(/\[GAP\s*\d+\]/gi, "_____").replace(/\(\d+\)/g, "").trim();
               exerciseNumber++;
               statements.push(exerciseStatement(lessonId, id, exerciseNumber, section, "multiple_choice",
-                prompt || promptFor(item), optionTexts(gap.options ?? []), correct, explanation || `Respuesta correcta: ${correct}`,
+                distinctPrompt(prompt || promptFor(item), section, seenPrompts), optionTexts(gap.options ?? []), correct, explanation || `Respuesta correcta: ${correct}`,
                 { ...sourceMeta, sourceInteractionId: item.interaction_id, sourceType: item.type, variant: "gap", gapId: gap.id }, audioText));
               summary[levelConfig.level].exercises++;
               summary[levelConfig.level].bySection[section] = (summary[levelConfig.level].bySection[section] ?? 0) + 1;
@@ -236,13 +282,14 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
           }
 
           const id = item.interaction_id;
+          validateExerciseId(id, `${levelConfig.folder}/${file.name}`);
           if (seenIds.has(id)) throw new Error(`Duplicate exercise ID ${id} in ${levelConfig.folder}/${file.name}`);
           seenIds.add(id); exerciseNumber++;
           const correct = expectedText(item.correct_answer, item.options ?? []);
           const options = /true.?false/i.test(item.type) ? ["True", "False"] : baseOptions;
           const type = typeFor(item, options);
           statements.push(exerciseStatement(lessonId, id, exerciseNumber, section, type,
-            promptFor(item), options, correct, explanation || (correct ? `Respuesta correcta: ${correct}` : ""), { ...sourceMeta, sourceInteractionId: item.interaction_id, sourceType: item.type }, audioText));
+            distinctPrompt(promptFor(item), section, seenPrompts), options, correct, explanation || (correct ? `Respuesta correcta: ${correct}` : ""), { ...sourceMeta, sourceInteractionId: item.interaction_id, sourceType: item.type }, audioText));
           summary[levelConfig.level].exercises++;
           summary[levelConfig.level].bySection[section] = (summary[levelConfig.level].bySection[section] ?? 0) + 1;
         }
