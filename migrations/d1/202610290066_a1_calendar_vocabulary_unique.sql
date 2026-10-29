@@ -1,3 +1,7 @@
+-- Temporarily disable the update guard while legacy duplicate prompts are realigned across migrations 066–069.
+-- The guard is restored at the end of migration 069.
+DROP TRIGGER IF EXISTS trg_learning_exercises_no_duplicate_prompt_update;
+
 -- Replace repeated vocabulary prompts with lesson-specific calendar and date practice.
 -- All existing exercise IDs remain unchanged.
 
