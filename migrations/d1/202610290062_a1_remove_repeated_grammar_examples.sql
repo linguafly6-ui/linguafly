@@ -26,9 +26,9 @@ UPDATE learning_exercises SET prompt = 'Completa con do, does, don''t o doesn''t
 UPDATE learning_exercises SET prompt = 'Completa la frase. I ______ like a cup of tea, please.' WHERE id = 'a1-u54-gra-09';
 UPDATE learning_exercises SET prompt = 'Completa la frase. Could we ______ the menu, please?' WHERE id = 'a1-u54-gra-10';
 UPDATE learning_exercises SET prompt = 'Completa la frase. How ______ is your little brother?' WHERE id = 'a1-u55-gra-09';
-UPDATE learning_exercises SET prompt = 'Completa la frase. The tickets ______ fifteen euros each.' WHERE id = 'a1-u55-gra-10';
-UPDATE learning_exercises SET prompt = 'Completa la frase. My cousin is ______ years old.' WHERE id = 'a1-u57-gra-09';
-UPDATE learning_exercises SET prompt = 'Completa la frase. These ______ my grandparents.' WHERE id = 'a1-u57-gra-10';
+UPDATE learning_exercises SET prompt = 'Completa la frase. The ticket ______ fifteen euros.' WHERE id = 'a1-u55-gra-10';
+UPDATE learning_exercises SET prompt = 'Completa la frase. How ______ is your cousin?' WHERE id = 'a1-u57-gra-09';
+UPDATE learning_exercises SET prompt = 'Completa la frase. This ______ my grandparents' house.' WHERE id = 'a1-u57-gra-10';
 UPDATE learning_exercises SET prompt = 'Completa la frase. You ______ drink more water when it is hot.' WHERE id = 'a1-u60-gra-09';
 UPDATE learning_exercises SET prompt = 'Completa la frase. We ______ money ______ groceries every Friday.' WHERE id = 'a1-u60-gra-10';
 
