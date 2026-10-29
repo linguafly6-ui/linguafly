@@ -6,7 +6,7 @@ import { Exercise } from '@/lib/exercise-generator';
 
 const LESSON_TITLE = 'Comprensión auditiva';
 const TOPIC = 'There is / There are';
-const LISTENING_TRANSCRIPT = `[[A|A]]: [[What|Qué]] [[is|hay]] [[in|en]] [[your|tu]] [[bag|bolso]]? [[B|B]]: [[There|Hay]] [[is|(sing)]] [[a|un]] [[book|libro]], [[a|un]] [[pen|bolígrafo]] [[and|y]] [[my|mi]] [[keys|llaves]]. [[A|A]]: [[Is|¿Hay]] [[there|]] [[a|una]] [[phone|teléfono]]? [[B|B]]: [[Yes|Sí]], [[there|hay]] [[is|(sing)]]. [[It|Está]] [[is|(está)]] [[under|debajo de]] [[the|el]] [[book|libro]]. [[A|A]]: [[Where|Dónde]] [[is|está]] [[the|la]] [[chair|silla]]? [[B|B]]: [[It|Está]] [[is|(está)]] [[behind|detrás de]] [[the|la]] [[table|mesa]]. [[There|Hay]] [[are|(pl)]] [[two|dos]] [[chairs|sillas]] [[in|en]] [[the|la]] [[room|habitación]]. [[There|No]] [[isn\'t|no hay]] [[a|ningún]] [[sofa|sofá]] [[in|en]] [[my|mi]] [[room|habitación]].`;
+const LISTENING_TRANSCRIPT = `[[A: What is in your bag?|A: ¿Qué hay en tu bolso?]] [[B: There is a book, a pen and my keys.|B: Hay un libro, un bolígrafo y mis llaves.]] [[A: Is there a phone?|A: ¿Hay un teléfono?]] [[B: Yes, there is. It is under the book.|B: Sí. Está debajo del libro.]] [[A: Where is the chair?|A: ¿Dónde está la silla?]] [[B: It is behind the table.|B: Está detrás de la mesa.]] [[There are two chairs in the room.|Hay dos sillas en la habitación.]] [[There isn't a sofa in my room.|No hay ningún sofá en mi habitación.]]`;
 
 const INSTRUCTIONS = 'Escucha el audio. Después contesta cada pregunta.';
 
