@@ -17,7 +17,7 @@ UPDATE learning_exercises SET prompt = 'Completa la frase en negativo. You _____
 UPDATE learning_exercises SET prompt = 'Completa con do, does, don''t o doesn''t. I ______ eat fish.' WHERE id = 'a1-u38-gra-01';
 UPDATE learning_exercises SET prompt = 'Completa con do, does, don''t o doesn''t. We ______ work on Sundays.' WHERE id = 'a1-u38-gra-03';
 UPDATE learning_exercises SET prompt = 'Completa con do, does, don''t o doesn''t. I ______ clean my room every day.' WHERE id = 'a1-u38-gra-05';
-UPDATE learning_exercises SET prompt = 'Completa con do, does, don''t o doesn''t. She ______ teach on Sundays.' WHERE id = 'a1-u39-gra-01';
+UPDATE learning_exercises SET prompt = 'Completa con do, does, don''t o doesn''t. My mother ______ work at the hospital.' WHERE id = 'a1-u39-gra-01';
 UPDATE learning_exercises SET prompt = 'Completa con do, does, don''t o doesn''t. He ______ get up early on weekends.' WHERE id = 'a1-u39-gra-05';
 UPDATE learning_exercises SET prompt = 'Completa con do, does, don''t o doesn''t. She ______ drive to work.' WHERE id = 'a1-u40-gra-01';
 UPDATE learning_exercises SET prompt = 'Completa con do, does, don''t o doesn''t. He ______ cook dinner every night.' WHERE id = 'a1-u40-gra-05';
