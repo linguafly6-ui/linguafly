@@ -451,7 +451,7 @@
             },
             {
               "id": "o2",
-              "text": "[[are|are]]"
+              "text": "[[am|am]]"
             },
             {
               "id": "o3",
@@ -470,7 +470,7 @@
           "options": [
             {
               "id": "o1",
-              "text": "[[is|is]]"
+              "text": "[[are|are]]"
             },
             {
               "id": "o2",
@@ -493,7 +493,7 @@
           "options": [
             {
               "id": "o1",
-              "text": "[[am|am]]"
+              "text": "[[is|is]]"
             },
             {
               "id": "o2",
@@ -632,7 +632,7 @@
             },
             {
               "id": "o3",
-              "text": "[[am|am]]"
+              "text": "[[are|are]]"
             }
           ],
           "correct_answer": "o1"
@@ -697,7 +697,7 @@
             },
             {
               "id": "o2",
-              "text": "[[am|am]]"
+              "text": "[[is|is]]"
             },
             {
               "id": "o3",
