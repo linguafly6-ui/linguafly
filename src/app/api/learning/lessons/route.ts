@@ -3,6 +3,7 @@ import { resolveCloudflareEnv } from "@/lib/db/client";
 import a1LearningSections from "@/content/cursos/ingles-a1/aprender-sections.json";
 import a2LearningSections from "@/content/cursos/ingles-a2/aprender-sections.json";
 import { getLegacyAdvancedUnit, getLegacyAdvancedSection } from "@/lib/learning/legacy-advanced-units";
+import { a2Units } from "@/lib/learning/a2-units";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -69,6 +70,36 @@ export async function GET(request: NextRequest) {
 
     const rows = result.results || [];
     const first = rows[0];
+
+    // Keep A2 usable when its database publication rows are missing.
+    if (level === "A2" && rows.length === 0) {
+      const lessons = a2Units.map((unit) => ({
+        id: `a2-${String(unit.n).padStart(2, "0")}`,
+        number: unit.n,
+        unit: unit.n,
+        title: unit.title,
+        objective: unit.objective,
+        estimated_minutes: 30,
+        content: {
+          objective: unit.objective,
+          sections: [
+            { type: "grammar", title: "Gramática", body: unit.grammar },
+            { type: "vocabulary", title: "Vocabulario", body: unit.vocabulary },
+            { type: "listening", title: "Comprensión auditiva", body: unit.passage },
+            { type: "reading", title: "Comprensión lectora", body: unit.passage },
+          ],
+          reviewEnabled: true,
+        },
+      }));
+      return NextResponse.json({
+        course: {
+          id: "ingles-a2", title: "Inglés elemental", level: "A2",
+          description: "Curso de inglés A2 con práctica de gramática, vocabulario, escucha y lectura.",
+          lesson_count: lessons.length,
+        },
+        lessons,
+      }, { headers: { "Cache-Control": "no-store" } });
+    }
 
     return NextResponse.json(
       {
