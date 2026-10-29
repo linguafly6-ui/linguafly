@@ -77,12 +77,17 @@ export default function AccountPage() {
         <section className="mt-8 rounded-2xl border border-neutral-200 p-6">
           <p className="text-sm text-neutral-500">Has iniciado sesión como</p>
           <p className="mt-1 font-semibold">{user.email}</p>
-          <Link href="/aprender/a1" className="mt-5 inline-block rounded-lg bg-[#b75d3b] px-4 py-2.5 font-semibold text-white">
-            Continuar aprendiendo
-          </Link>
-          <button type="button" onClick={logout} disabled={busy} className="ml-3 rounded-lg border border-neutral-300 px-4 py-2.5 font-semibold disabled:opacity-50">
-            Cerrar sesión
-          </button>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link href="/aprender/a1" className="inline-flex items-center rounded-lg bg-[#b75d3b] px-4 py-2.5 font-semibold text-white">
+              Continuar aprendiendo
+            </Link>
+            <Link href="/soporte" className="inline-flex items-center rounded-lg border border-[#b75d3b] px-4 py-2.5 font-semibold text-[#b75d3b] hover:bg-orange-50">
+              Centro de soporte
+            </Link>
+            <button type="button" onClick={logout} disabled={busy} className="rounded-lg border border-neutral-300 px-4 py-2.5 font-semibold disabled:opacity-50">
+              Cerrar sesión
+            </button>
+          </div>
         </section>
       ) : (
         <form onSubmit={requestLink} className="mt-8 rounded-2xl border border-neutral-200 p-6">
