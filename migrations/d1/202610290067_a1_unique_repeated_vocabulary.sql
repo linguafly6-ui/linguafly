@@ -338,10 +338,10 @@ UPDATE learning_exercises SET
 WHERE id = 'a1-u54-voc-14';
 
 UPDATE learning_exercises SET
- prompt = '¿Qué expresión significa «número de teléfono»?',
- options_json = '["phone number","date of birth","home address","first name"]',
- answer_json = '{"correct":"phone number"}',
- explanation = '«Phone number» significa «número de teléfono».'
+ prompt = '¿Qué palabra significa «dígito»?',
+ options_json = '["digit","letter","price","date"]',
+ answer_json = '{"correct":"digit"}',
+ explanation = '«Digit» significa «dígito».'
 WHERE id = 'a1-u55-voc-11';
 
 UPDATE learning_exercises SET
