@@ -68,6 +68,9 @@ function sectionFor(item: Interaction, blockTitle: string): string {
   return "grammar";
 }
 function promptFor(item: Interaction): string {
+  if (/fill.?blanks?/i.test(item.type) && typeof item.main_text === "string") {
+    return [item.prompt_es, item.main_text].filter((value) => typeof value === "string" && value.trim()).join("\\n\\n");
+  }
   return [item.question_en, item.stimulus_en, item.prompt_es]
     .find((value) => typeof value === "string" && value.trim())?.trim() ?? "";
 }
@@ -203,27 +206,6 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
               seenIds.add(id); exerciseNumber++;
               statements.push(exerciseStatement(lessonId, id, exerciseNumber, section, "multiple_choice",
                 pair.left, matchingOptions, pair.right, explanation, { ...sourceMeta, sourceInteractionId: item.interaction_id, sourceType: item.type, variant: "match", pairId: pair.id || String(pairIndex + 1) }, audioText));
-              summary[levelConfig.level].exercises++;
-              summary[levelConfig.level].bySection[section] = (summary[levelConfig.level].bySection[section] ?? 0) + 1;
-            }
-            continue;
-          }
-
-          if (/fill.?blanks?/i.test(item.type) && Array.isArray(item.correct_answer) && item.correct_answer.length > 1) {
-            const mainText = String(item.main_text ?? item.stimulus_en ?? "");
-            for (let gapIndex = 0; gapIndex < item.correct_answer.length; gapIndex++) {
-              const gapNumber = gapIndex + 1;
-              const id = `${item.interaction_id}__gap_${gapNumber}`;
-              validateExerciseId(id, `${levelConfig.folder}/${file.name}`);
-              if (seenIds.has(id)) throw new Error(`Duplicate exercise ID ${id} in ${levelConfig.folder}/${file.name}`);
-              seenIds.add(id);
-              const correct = String(item.correct_answer[gapIndex] ?? "");
-              const textWithTarget = mainText.replace(new RegExp("\\(" + gapNumber + "\\)\\s*_{2,}"), "_____");
-              const prompt = `${String(item.prompt_es ?? "Complete the text")} (hueco ${gapNumber} de ${item.correct_answer.length})\n\n${textWithTarget}`;
-              exerciseNumber++;
-              statements.push(exerciseStatement(lessonId, id, exerciseNumber, section, "fill_blank",
-                prompt, [], correct, explanation || `Respuesta correcta: ${correct}`,
-                { ...sourceMeta, sourceInteractionId: item.interaction_id, sourceType: item.type, variant: "fill_blank", gapNumber }, audioText));
               summary[levelConfig.level].exercises++;
               summary[levelConfig.level].bySection[section] = (summary[levelConfig.level].bySection[section] ?? 0) + 1;
             }
