@@ -237,6 +237,37 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
     return NextResponse.json({ correct, explanation, review, authenticated: Boolean(user) });
   }
 
+
+  if (/^(b1|b2|c1|c2)-\d{2}$/.test(lessonId)) {
+    const item = getLegacyAdvancedItem(lessonId, payload.exerciseId);
+    if (!item) return NextResponse.json({ error: "Ejercicio no encontrado." }, { status: 404 });
+    const expected = advancedExpectedAnswer(item);
+    const normalize = (value: string) => value.trim().replace(/\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, "");
+    const correct = Boolean(expected) && normalize(payload.answer) === normalize(expected);
+    const explanation = advancedPlainText(item.explanation) || (expected ? "Respuesta correcta: " + expected : "Revisa la explicación del ejercicio.");
+    const { env, user } = await getSessionUser(request);
+    const previousRow = user
+      ? await env.DB.prepare("SELECT progress_json FROM learning_progress WHERE user_id = ? AND lesson_id = ?").bind(user.id, lessonId).first<{ progress_json: string | null }>()
+      : null;
+    let progress: Record<string, unknown> = {};
+    try { if (previousRow?.progress_json) progress = JSON.parse(previousRow.progress_json); } catch { progress = {}; }
+    const previousReview = (progress[payload.exerciseId] as { review?: ReviewState } | undefined)?.review
+      ?? { intervalDays: 0, easeFactor: 2.5, repetitions: 0, lapses: 0 };
+    const review = scheduleNextReview(previousReview, correct ? 4 : 1);
+    if (user) {
+      progress[payload.exerciseId] = {
+        ...(progress[payload.exerciseId] as Record<string, unknown> | undefined),
+        answer: payload.answer, feedback: { correct, explanation }, review
+      };
+      await env.DB.prepare(
+        `INSERT INTO learning_progress (user_id, lesson_id, progress_json, updated_at)
+         VALUES (?, ?, ?, CURRENT_TIMESTAMP)
+         ON CONFLICT(user_id, lesson_id) DO UPDATE SET progress_json = excluded.progress_json, updated_at = CURRENT_TIMESTAMP`
+      ).bind(user.id, lessonId, JSON.stringify(progress)).run();
+    }
+    return NextResponse.json({ correct, explanation, review, authenticated: Boolean(user) });
+  }
+
   if (/^a2-\d{2}$/.test(lessonId)) {
     const found = getA2Question(lessonId, payload.exerciseId);
     if (!found) return NextResponse.json({ error: "Ejercicio A2 no encontrado." }, { status: 404 });
