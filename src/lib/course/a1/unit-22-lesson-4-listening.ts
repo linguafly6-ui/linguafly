@@ -6,7 +6,7 @@ import { Exercise } from '@/lib/exercise-generator';
 
 const LESSON_TITLE = 'Comprensión auditiva';
 const TOPIC = 'Furniture & Household Items';
-const LISTENING_TRANSCRIPT = `[[A|A]]: [[Whose|De quién]] [[is|es]] [[this|esta]] [[chair|silla]]? [[B|B]]: [[It\'s|Es]] [[mine|mía]]. [[A|A]]: [[And|Y]] [[the|la]] [[table|mesa]]? [[B|B]]: [[That|Esa]] [[one|una]] [[is|es]] [[yours|tuya]]. [[We|Nosotros]] [[have|tenemos]] [[a|un]] [[new|nuevo]] [[sofa|sofá]] [[in|en]] [[the|el]] [[living room|salón]]. [[The|El]] [[old|viejo]] [[one|uno]] [[was|era]] [[my sister\'s|de mi hermana]] — [[now|ahora]] [[she|ella]] [[has|tiene]] [[a|una]] [[bed|cama]] [[in|en]] [[her|su]] [[room|habitación]]. [[In|En]] [[the|la]] [[kitchen|cocina]] [[there|hay]] [[is|(sing)]] [[a|una]] [[big|gran]] [[fridge|nevera]]. [[The|Los]] [[plates|platos]] [[are|son]] [[ours|nuestros]].`;
+const LISTENING_TRANSCRIPT = `[[A: Whose is this chair?|A: ¿De quién es esta silla?]] [[B: It's mine.|B: Es mía.]] [[A: And the table?|A: ¿Y la mesa?]] [[B: That one is yours.|B: Esa es tuya.]] [[We have a new sofa in the living room.|Tenemos un sofá nuevo en el salón.]] [[The old one was my sister's; now she has a bed in her room.|El antiguo era de mi hermana; ahora tiene una cama en su habitación.]] [[There is a big fridge in the kitchen.|Hay una nevera grande en la cocina.]] [[The plates are ours.|Los platos son nuestros.]]`;
 
 const INSTRUCTIONS = 'Escucha el audio. Después contesta cada pregunta.';
 
