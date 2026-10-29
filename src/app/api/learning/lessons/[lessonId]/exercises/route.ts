@@ -1,181 +1,117 @@
 import { NextRequest, NextResponse } from "next/server";
-import { resolveCloudflareEnv } from "@/lib/db/client";
-import { getSessionUser } from "@/lib/learning/auth";
+import { a2QuestionSets, a2Units } from "@/lib/learning/a2-units";
 import { scheduleNextReview, type ReviewState } from "@/lib/learning/spaced-repetition";
+import { getLearningSession } from "@/lib/learning/session";
+import { db } from "@/lib/db";
 
-export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
+const sectionNames = new Set(["grammar", "vocabulary", "listening", "reading"]);
 
-type ExerciseRow = {
-  id: string;
-  exercise_number: number;
-  exercise_type: string;
-  prompt: string;
-  options_json: string;
-  section_type: string;
-  audio_text: string | null;
-};
-
-/** Return prompts and options only; never send answer keys to the browser. */
-export async function GET(
-  request: NextRequest,
-  context: { params: Promise<{ lessonId: string }> }
-) {
-  try {
-    const { lessonId } = await context.params;
-    if (!/^[a-zA-Z0-9_-]{1,80}$/.test(lessonId)) {
-      return NextResponse.json({ error: "Invalid lesson id" }, { status: 400 });
-    }
-
-    const { env } = await resolveCloudflareEnv();
-    const lesson = await env.DB.prepare(
-      "SELECT id FROM learning_lessons WHERE id = ? AND published = 1 LIMIT 1"
-    ).bind(lessonId).first<{ id: string }>();
-
-    if (!lesson) {
-      return NextResponse.json({ error: "Lesson not found" }, { status: 404 });
-    }
-
-    const sectionType = new URL(request.url).searchParams.get("section");
-    const result = await env.DB.prepare(
-      `SELECT id, exercise_number, exercise_type, prompt, options_json, section_type, audio_text
-       FROM learning_exercises
-       WHERE lesson_id = ? AND section_type = ?
-       ORDER BY exercise_number ASC`
-    ).bind(lessonId, sectionType && ["grammar", "vocabulary", "listening", "reading"].includes(sectionType) ? sectionType : "practice").all<ExerciseRow>();
-
-    const exercises = (result.results || []).map((row) => {
-      let options: unknown = [];
-      try {
-        options = JSON.parse(row.options_json || "[]");
-        if (!Array.isArray(options)) options = [];
-      } catch {
-        options = [];
-      }
-      return { id: row.id, number: row.exercise_number, type: row.exercise_type, prompt: row.prompt, options, audioText: row.audio_text, passageText: row.section_type === "reading" ? row.audio_text : null };
-    });
-
-    return NextResponse.json(
-      { lessonId, exercises },
-      { headers: { "Cache-Control": "no-store" } }
-    );
-  } catch (error) {
-    console.error("[api/learning/lesson-exercises] Failed to list exercises:", error);
-    return NextResponse.json(
-      { error: "Unable to load exercises" },
-      { status: 500, headers: { "Cache-Control": "no-store" } }
-    );
-  }
+function getA2Question(lessonId: string, exerciseId: string) {
+  const match = /^a2-(\d{2})$/.exec(lessonId);
+  if (!match) return null;
+  const unitNumber = Number(match[1]);
+  const unit = a2Units.find((item) => item.n === unitNumber);
+  if (!unit) return null;
+  const parts = exerciseId.split("-");
+  if (parts.length !== 4 || parts[0] !== "a2" || parts[1] !== match[1]) return null;
+  const section = parts[2] as "grammar" | "vocabulary" | "listening" | "reading";
+  if (!sectionNames.has(section)) return null;
+  const index = Number(parts[3]) - 1;
+  const question = a2QuestionSets[unitNumber]?.[section]?.[index];
+  return question ? { unit, section, question } : null;
 }
 
-/**
- * POST /api/learning/lessons/:lessonId/exercises
- * Grades a practice answer. Learner progress is saved only for a verified session.
- */
-export async function POST(
-  request: NextRequest,
-  context: { params: Promise<{ lessonId: string }> }
-) {
-  try {
-    const { lessonId } = await context.params;
-    if (!/^[a-zA-Z0-9_-]{1,80}$/.test(lessonId)) {
-      return NextResponse.json({ error: "Invalid lesson id" }, { status: 400 });
-    }
-
-    const body = await request.json().catch(() => null) as { exerciseId?: unknown; answer?: unknown } | null;
-    if (
-      !body ||
-      typeof body.exerciseId !== "string" ||
-      !/^[a-zA-Z0-9_-]{1,100}$/.test(body.exerciseId) ||
-      typeof body.answer !== "string" ||
-      body.answer.length > 500
-    ) {
-      return NextResponse.json({ error: "Invalid answer payload" }, { status: 400 });
-    }
-
-    const { env, user } = await getSessionUser(request);
-    const row = await env.DB.prepare(
-      `SELECT e.answer_json, e.explanation, e.exercise_type
-       FROM learning_exercises e
-       INNER JOIN learning_lessons l ON l.id = e.lesson_id
-       WHERE e.id = ? AND e.lesson_id = ? AND l.published = 1
-       LIMIT 1`
-    ).bind(body.exerciseId, lessonId).first<{ answer_json: string; explanation: string; exercise_type: string }>();
-
-    if (!row) {
-      return NextResponse.json({ error: "Exercise not found" }, { status: 404 });
-    }
-
-    if (row.exercise_type === "free_text") {
-      if (!body.answer.trim()) return NextResponse.json({ error: "Write a short answer before continuing." }, { status: 400 });
-      const explanation = row.explanation || "Revisa tu texto: ¿has escrito una frase completa en inglés?";
-      if (user) {
-        const now = new Date().toISOString();
-        await env.DB.prepare(
-          `INSERT INTO learning_exercise_progress (user_id, lesson_id, exercise_id, answer_text, correct, explanation, review_json, updated_at)
-           VALUES (?, ?, ?, ?, NULL, ?, NULL, ?)
-           ON CONFLICT(user_id, exercise_id) DO UPDATE SET answer_text = excluded.answer_text, correct = NULL, explanation = excluded.explanation, review_json = NULL, updated_at = excluded.updated_at`
-        ).bind(user.id, lessonId, body.exerciseId, body.answer.trim(), explanation, now).run();
-      }
-      return NextResponse.json({ correct: null, explanation }, { headers: { "Cache-Control": "no-store" } });
-    }
-
-    let answerKey: { correct?: unknown; answer?: unknown; accepted?: unknown };
-    try {
-      answerKey = JSON.parse(row.answer_json || "{}") as { correct?: unknown; answer?: unknown; accepted?: unknown };
-    } catch {
-      return NextResponse.json({ error: "Exercise answer is unavailable" }, { status: 500 });
-    }
-
-    const normalize = (value: string) => value.trim().toLocaleLowerCase("en").replace(/\s+/g, " ");
-    const correctAnswer = typeof answerKey.correct === "string"
-      ? answerKey.correct
-      : typeof answerKey.answer === "string"
-        ? answerKey.answer
-        : "";
-    if (!correctAnswer) {
-      return NextResponse.json({ error: "Exercise answer is unavailable" }, { status: 500 });
-    }
-
-    const acceptedAnswers = Array.isArray(answerKey.accepted)
-      ? answerKey.accepted.filter((answer): answer is string => typeof answer === "string")
-      : [];
-    const correct = [correctAnswer, ...acceptedAnswers].some((answer) => normalize(body.answer) === normalize(answer));
-    let review;
-    if (user) {
-      const previousRow = await env.DB.prepare(
-        "SELECT review_json FROM learning_exercise_progress WHERE user_id = ? AND exercise_id = ? LIMIT 1"
-      ).bind(user.id, body.exerciseId).first<{ review_json: string | null }>();
-      let previous: ReviewState = { intervalDays: 0, easeFactor: 2.5, repetitions: 0, lapses: 0 };
-      try {
-        if (previousRow?.review_json) {
-          const saved = JSON.parse(previousRow.review_json) as Partial<ReviewState>;
-          previous = { ...previous, ...saved };
-        }
-      } catch { /* A malformed prior schedule starts a fresh schedule. */ }
-      review = scheduleNextReview(previous, correct ? 4 : 1);
-      const now = new Date().toISOString();
-      await env.DB.prepare(
-        `INSERT INTO learning_exercise_progress (user_id, lesson_id, exercise_id, answer_text, correct, explanation, review_json, updated_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-         ON CONFLICT(user_id, exercise_id) DO UPDATE SET answer_text = excluded.answer_text, correct = excluded.correct, explanation = excluded.explanation, review_json = excluded.review_json, updated_at = excluded.updated_at`
-      ).bind(user.id, lessonId, body.exerciseId, body.answer, correct ? 1 : 0, row.explanation, JSON.stringify(review), now).run();
-      await env.DB.prepare(
-        `INSERT INTO learning_lesson_progress (user_id, lesson_id, status, attempts, correct_answers, total_answers, started_at, updated_at)
-         VALUES (?, ?, 'in_progress', 1, ?, 1, ?, ?)
-         ON CONFLICT(user_id, lesson_id) DO UPDATE SET status = CASE WHEN learning_lesson_progress.status = 'completed' THEN 'completed' ELSE 'in_progress' END, attempts = learning_lesson_progress.attempts + 1, correct_answers = learning_lesson_progress.correct_answers + excluded.correct_answers, total_answers = learning_lesson_progress.total_answers + 1, updated_at = excluded.updated_at`
-      ).bind(user.id, lessonId, correct ? 1 : 0, now, now).run();
-    }
-
-    return NextResponse.json(
-      { correct, explanation: row.explanation, ...(review ? { review } : {}) },
-      { headers: { "Cache-Control": "no-store" } }
-    );
-  } catch (error) {
-    console.error("[api/learning/lesson-exercises] Failed to grade answer:", error);
-    return NextResponse.json(
-      { error: "Unable to grade answer" },
-      { status: 500, headers: { "Cache-Control": "no-store" } }
-    );
+export async function GET(request: NextRequest, context: { params: Promise<{ lessonId: string }> }) {
+  const { lessonId } = await context.params;
+  if (/^a2-\d{2}$/.test(lessonId)) {
+    const section = request.nextUrl.searchParams.get("section") ?? "grammar";
+    if (!sectionNames.has(section)) return NextResponse.json({ error: "Sección no válida." }, { status: 400 });
+    const match = /^a2-(\d{2})$/.exec(lessonId)!;
+    const unitNumber = Number(match[1]);
+    const unit = a2Units.find((item) => item.n === unitNumber);
+    const questions = a2QuestionSets[unitNumber]?.[section as keyof typeof a2QuestionSets[number]] ?? [];
+    if (!unit || questions.length !== 15) return NextResponse.json({ error: "Unidad A2 no disponible." }, { status: 404 });
+    return NextResponse.json({ exercises: questions.map((item) => ({
+      id: item.id,
+      number: item.number,
+      type: "multiple_choice",
+      prompt: item.prompt,
+      options: item.options,
+      audioText: section === "listening" ? unit.passage : null,
+      passageText: section === "reading" ? unit.passage : null
+    })) });
   }
+
+  const dbResult = await db.query(
+    `SELECT id, exercise_number, exercise_type, prompt, options_json, section_type, audio_text
+     FROM learning_exercises WHERE lesson_id = ? AND section_type = ? ORDER BY exercise_number ASC`,
+    [lessonId, request.nextUrl.searchParams.get("section") ?? "grammar"]
+  );
+  if (dbResult.error) return NextResponse.json({ error: "No se pudieron cargar los ejercicios." }, { status: 500 });
+  return NextResponse.json({ exercises: (dbResult.data ?? []).map((row: Record<string, unknown>) => ({
+    id: String(row.id), number: Number(row.exercise_number), type: String(row.exercise_type),
+    prompt: String(row.prompt), options: JSON.parse(String(row.options_json ?? "[]")),
+    audioText: row.audio_text ? String(row.audio_text) : null,
+    passageText: row.section_type === "reading" && row.audio_text ? String(row.audio_text) : null
+  })) });
+}
+
+export async function POST(request: NextRequest, context: { params: Promise<{ lessonId: string }> }) {
+  const { lessonId } = await context.params;
+  const payload = await request.json().catch(() => null) as { exerciseId?: string; answer?: unknown } | null;
+  if (!payload?.exerciseId || typeof payload.answer !== "string" || payload.answer.length > 500) {
+    return NextResponse.json({ error: "Respuesta no válida." }, { status: 400 });
+  }
+
+  if (/^a2-\d{2}$/.test(lessonId)) {
+    const found = getA2Question(lessonId, payload.exerciseId);
+    if (!found) return NextResponse.json({ error: "Ejercicio A2 no encontrado." }, { status: 404 });
+    const { unit, question } = found;
+    const correct = payload.answer === question.answer;
+    const session = await getLearningSession();
+    const userId = session?.userId ?? null;
+    const previousResult = userId
+      ? await db.query(
+          `SELECT progress_json FROM learning_progress WHERE user_id = ? AND lesson_id = ?`,
+          [userId, lessonId]
+        )
+      : { data: [], error: null };
+    let progress: Record<string, unknown> = {};
+    if (previousResult.data?.[0]?.progress_json) {
+      try { progress = JSON.parse(String(previousResult.data[0].progress_json)); } catch { progress = {}; }
+    }
+    const previous = (progress[payload.exerciseId] as { review?: ReviewState } | undefined)?.review ?? {
+      intervalDays: 0, easeFactor: 2.5, repetitions: 0, lapses: 0
+    };
+    const review = scheduleNextReview(previous, correct ? 4 : 1);
+    if (userId) {
+      progress[payload.exerciseId] = {
+        ...(progress[payload.exerciseId] as Record<string, unknown> | undefined),
+        answer: payload.answer,
+        feedback: { correct, explanation: question.explanation },
+        review
+      };
+      await db.query(
+        `INSERT INTO learning_progress (user_id, lesson_id, progress_json, updated_at)
+         VALUES (?, ?, ?, CURRENT_TIMESTAMP)
+         ON CONFLICT(user_id, lesson_id) DO UPDATE SET progress_json = excluded.progress_json, updated_at = CURRENT_TIMESTAMP`,
+        [userId, lessonId, JSON.stringify(progress)]
+      );
+    }
+    return NextResponse.json({ correct, explanation: question.explanation, review, authenticated: Boolean(userId) });
+  }
+
+  const existing = await db.query(
+    `SELECT id, answer_json, explanation, lesson_id FROM learning_exercises WHERE id = ? AND lesson_id = ?`,
+    [payload.exerciseId, lessonId]
+  );
+  const row = existing.data?.[0] as Record<string, unknown> | undefined;
+  if (!row) return NextResponse.json({ error: "Ejercicio no encontrado." }, { status: 404 });
+  let answerData: unknown;
+  try { answerData = JSON.parse(String(row.answer_json ?? "{}")); } catch { answerData = {}; }
+  const expected = typeof answerData === "object" && answerData !== null && "correct" in answerData
+    ? (answerData as { correct: unknown }).correct
+    : answerData;
+  const correct = payload.answer === expected;
+  return NextResponse.json({ correct, explanation: String(row.explanation ?? ""), review: null });
 }
