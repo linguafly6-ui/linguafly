@@ -155,6 +155,19 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
         gaps?: { id: string; options: { id: string; text: string }[] }[];
         main_text?: string;
       }).gaps;
+      const pairs = (item as LegacyAdvancedItem & {
+        pairs?: { id?: string; left: string; right: string }[];
+      }).pairs;
+      if (/matching|match/i.test(item.type) && Array.isArray(pairs) && pairs.length) {
+        const matchingOptions = pairs.map((pair) => pair.right);
+        return pairs.map((pair, pairIndex) => ({
+          id: item.interaction_id + "__match_" + (pair.id || String(pairIndex + 1)),
+          number: index * pairs.length + pairIndex + 1,
+          type: "multiple_choice",
+          prompt: pair.left,
+          options: matchingOptions,
+        }));
+      }
       if (/cloze/i.test(item.type) && Array.isArray(gaps) && gaps.length) {
         const mainText = String((item as LegacyAdvancedItem & { main_text?: string }).main_text ?? "");
         return gaps.map((gap, gapIndex) => {
@@ -266,12 +279,12 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
 
 
   if (/^(b1|b2|c1|c2)-\d{2}$/.test(lessonId)) {
-    const gapMatch = /^(.*)__gap_(\d+)$/.exec(payload.exerciseId);
-    const item = getLegacyAdvancedItem(lessonId, gapMatch ? gapMatch[1] : payload.exerciseId);
+    const specialMatch = /^(.*)__(gap|match)_([^_]+)$/.exec(payload.exerciseId);
+    const item = getLegacyAdvancedItem(lessonId, specialMatch ? specialMatch[1] : payload.exerciseId);
     if (!item) return NextResponse.json({ error: "Ejercicio no encontrado." }, { status: 404 });
     let expected = advancedExpectedAnswer(item);
-    if (gapMatch) {
-      const gapId = gapMatch[2];
+    if (specialMatch?.[2] === "gap") {
+      const gapId = specialMatch[3];
       const gapItem = item as LegacyAdvancedItem & {
         gaps?: { id: string; options: { id: string; text: string }[] }[];
         correct_answer?: Record<string, string>;
@@ -280,6 +293,10 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
       const correctOptionId = gapItem.correct_answer && typeof gapItem.correct_answer === "object"
         ? gapItem.correct_answer[gapId] : undefined;
       expected = gap?.options.find((option) => option.id === correctOptionId)?.text ?? "";
+    } else if (specialMatch?.[2] === "match") {
+      const pairId = specialMatch[3];
+      const pairs = (item as LegacyAdvancedItem & { pairs?: { id?: string; left: string; right: string }[] }).pairs ?? [];
+      expected = pairs.find((pair, index) => (pair.id || String(index + 1)) === pairId)?.right ?? "";
     }
     const normalize = (value: string) => value.trim().replace(/\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, "");
     const correct = Boolean(expected) && normalize(payload.answer) === normalize(expected);
