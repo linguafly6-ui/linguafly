@@ -6,7 +6,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const contentDir = path.join(root, 'src/content/cursos/ingles-a1');
 const seedPath = path.join(root, 'migrations/d1/202610280002_seed_a1_course.sql');
 const outputPath = path.join(root, 'migrations/d1/202610290005_a1_15_exercises_per_section.sql');
-const correctionPath = path.join(root, 'migrations/d1/202610290007_a1_grammar_exercises_fixed.sql');
+const correctionPath = path.join(root, 'migrations/d1/202610290008_a1_vocab_and_grammar_quality.sql');
 
 const sourceUnitByLesson = [
   1, 1, 1, 1, 3, 1, 4, 4, 8, 8, 8, 8,
@@ -30,10 +30,20 @@ const toTextOptions = (options, side = 0) => (options ?? []).map((option) => ({
 }));
 const sectionBlock = (unit, title) => unit.blocks.find((block) => block.title === title)?.content ?? [];
 function makeOptionsUnique(options, correct) {
-  const beForms = ['am', 'is', 'are'];
   const normalizedCorrect = String(correct).trim().toLocaleLowerCase('en');
-  if (!beForms.includes(normalizedCorrect)) return { options, repaired: false };
-  const optionFallbacks = beForms;
+  const optionFallbacks = {
+    am: ['am', 'is', 'are'], is: ['is', 'am', 'are'], are: ['are', 'is', 'am'],
+    a: ['a', 'an', 'the'], an: ['an', 'a', 'the'],
+    in: ['in', 'on', 'at'], on: ['on', 'in', 'at'], at: ['at', 'in', 'on'],
+    was: ['was', 'were', 'is'], were: ['were', 'was', 'are'],
+    "don't": ["don't", "doesn't", 'do'], "doesn't": ["doesn't", "don't", 'does'],
+    do: ['do', 'does', 'are'], does: ['does', 'do', 'is'],
+    have: ['have', 'has', 'do'], has: ['has', 'have', 'is'],
+    like: ['like', 'likes', 'love'], likes: ['likes', 'like', 'loves'],
+    what: ['What', 'Where', 'When', 'Who'], where: ['Where', 'When', 'What', 'Who'],
+    first: ['First', 'Then', 'Next', 'Finally'], would: ['would', 'could', 'should'],
+  }[normalizedCorrect];
+  if (!optionFallbacks) return { options, repaired: false };
   const result = [...options];
   const correctIndex = result.indexOf(correct);
   const seen = new Map();
@@ -124,9 +134,15 @@ function normalizeSourceItem(item, category, lessonNumber, exerciseNumber) {
     if (item.type === 'multiple-choice') {
       prompt = isIntroVocab
         ? `Elige la traducción al español de “${stimulusEn}”.`
-        : `${promptEs}${stimulusEn ? ` ${stimulusEn}` : ''}`.trim();
+        : category === 'vocabulary' && stimulusEs
+          ? `Elige la palabra en inglés que corresponde a «${stimulusEs}».`
+          : `${promptEs}${stimulusEn ? ` ${stimulusEn}` : ''}`.trim();
       correct = options[(item.options ?? []).findIndex((option) => option.id === item.correct_answer)];
-      explanation = correct ? `La respuesta correcta es «${correct}». Comprueba cómo encaja en la frase.` : '';
+      explanation = correct
+        ? category === 'vocabulary' && !isIntroVocab && stimulusEs
+          ? `«${correct}» significa «${stimulusEs}».`
+          : `La respuesta correcta es «${correct}». Comprueba cómo encaja en la frase.`
+        : '';
     } else if (item.type === 'fill-blank') {
       const sentence = stimulusEn ? `${stimulusEn}${stimulusEs && stimulusEs !== stimulusEn ? ` (${stimulusEs})` : ''}` : '';
       prompt = `${promptEs}${sentence ? `\n${sentence}` : ''}`.trim();
@@ -146,7 +162,7 @@ function normalizeSourceItem(item, category, lessonNumber, exerciseNumber) {
   }
 
   let optionsRepaired = false;
-  if (type === 'multiple-choice' && correct && category === 'grammar' && exerciseNumber === 7) {
+  if (type === 'multiple-choice' && correct && category === 'grammar' && [7, 13, 14, 15].includes(exerciseNumber)) {
     const result = makeOptionsUnique(options, correct);
     options = result.options;
     optionsRepaired = result.repaired;
@@ -262,7 +278,9 @@ const corrections = [];
 for (const row of rows) {
   if (row.sectionType === 'grammar' && [10109, 10110].includes(row.exerciseNumber)) {
     corrections.push(`UPDATE learning_exercises SET exercise_type = ${sql(row.exerciseType)}, prompt = ${sql(row.prompt)}, options_json = ${sql(JSON.stringify(row.options))}, answer_json = ${sql(row.answerJson)}, explanation = ${sql(row.explanation)} WHERE id = ${sql(row.id)};`);
-  } else if (row.sectionType === 'grammar' && row.exerciseNumber === 10107 && row.optionsRepaired) {
+  } else if (row.sectionType === 'vocabulary' && [10011, 10012, 10013, 10014].includes(row.exerciseNumber)) {
+    corrections.push(`UPDATE learning_exercises SET prompt = ${sql(row.prompt)}, explanation = ${sql(row.explanation)} WHERE id = ${sql(row.id)};`);
+  } else if (row.sectionType === 'grammar' && [10107, 10113, 10114, 10115].includes(row.exerciseNumber) && row.optionsRepaired) {
     corrections.push(`UPDATE learning_exercises SET options_json = ${sql(JSON.stringify(row.options))} WHERE id = ${sql(row.id)};`);
   }
 }
