@@ -519,11 +519,11 @@
             },
             {
               "id": "o2",
-              "text": "[[any|any]]"
+              "text": "[[having|having]]"
             },
             {
               "id": "o3",
-              "text": "[[any|any]]"
+              "text": "[[have|have]]"
             }
           ],
           "correct_answer": "o1"
