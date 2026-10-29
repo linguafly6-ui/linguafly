@@ -43,7 +43,7 @@ function loadLegacyUnit(unitNumber: number): Promise<LegacyUnit | null> {
 
 function plainText(value: string | undefined): string {
   if (!value) return "";
-  return value.replace(/\\[([^\]|]+)\|([^\]]+)\]/g, "$2").replace(/\s+/g, " ").trim();
+  return value.replace(/\[([^\]|]+)\|([^\]]+)\]/g, "$2").replace(/\s+/g, " ").trim();
 }
 
 function getLegacySection(item: LegacyItem): string | null {
