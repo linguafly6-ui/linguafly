@@ -6,7 +6,7 @@ import { Exercise } from '@/lib/exercise-generator';
 
 const LESSON_TITLE = 'Comprensión auditiva';
 const TOPIC = 'Pets & Animals';
-const LISTENING_TRANSCRIPT = `[[A|A]]: [[Do|¿Tienes]] [[you|]] [[have|tienes]] [[a|una]] [[pet|mascota]]? [[B|B]]: [[Yes|Sí]], [[I|yo]] [[have|tengo]] [[a|un]] [[dog|perro]]. [[He|Es]] [[is|muy]] [[very|]] [[friendly|amigable]]. [[A|A]]: [[What|Qué]] [[about|]] [[your|tu]] [[sister|hermana]]? [[B|B]]: [[She|Ella]] [[has|tiene]] [[a|un]] [[cat|gato]]. [[It|Es]] [[is|muy]] [[very|]] [[cute|mono]]. [[A|A]]: [[I|Yo]] [[like|me gustan]] [[farm|los animales de granja]] [[animals|animales]]. [[My|Mi]] [[uncle|tío]] [[has|tiene]] [[a|una]] [[farm|granja]] [[with|con]] [[cows|vacas]] [[and|y]] [[chickens|gallinas]]. [[B|B]]: [[Wild|Los animales salvajes]] [[animals|animales]] [[are|son]] [[dangerous|peligrosos]]. [[We|No]] [[don\'t|]] [[have|tenemos]] [[them|ellos]] [[at|en]] [[home|casa]].`;
+const LISTENING_TRANSCRIPT = `[[A: Do you have a pet?|A: ¿Tienes una mascota?]] [[B: Yes, I have a dog. He is very friendly.|B: Sí, tengo un perro. Es muy amigable.]] [[A: What about your sister?|A: ¿Y tu hermana?]] [[B: She has a cat. It is very cute.|B: Tiene un gato. Es muy bonito.]] [[A: I like farm animals.|A: Me gustan los animales de granja.]] [[My uncle has a farm with cows and chickens.|Mi tío tiene una granja con vacas y gallinas.]] [[B: Wild animals are dangerous. We don't have them at home.|B: Los animales salvajes son peligrosos. No los tenemos en casa.]]`;
 
 const INSTRUCTIONS = 'Escucha el audio. Después contesta cada pregunta.';
 
