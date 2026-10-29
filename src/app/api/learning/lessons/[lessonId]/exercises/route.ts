@@ -87,7 +87,7 @@ function legacyExercise(item: LegacyItem, index: number) {
 }
 
 function getA2Question(lessonId: string, exerciseId: string) {
-  const match = /^a2-(\\d{2})$/.exec(lessonId);
+  const match = /^a2-(\d{2})$/.exec(lessonId);
   if (!match) return null;
   const unitNumber = Number(match[1]);
   const unit = a2Units.find((item) => item.n === unitNumber);
@@ -102,7 +102,7 @@ function getA2Question(lessonId: string, exerciseId: string) {
 }
 
 async function getA1Items(lessonId: string) {
-  const match = /^a1-(\\d{2})$/.exec(lessonId);
+  const match = /^a1-(\d{2})$/.exec(lessonId);
   if (!match) return null;
   const unitNumber = Number(match[1]);
   if (unitNumber < 1 || unitNumber > 60) return null;
@@ -122,8 +122,8 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
     return NextResponse.json({ exercises: selected.map((item, index) => legacyExercise(item, index)) });
   }
 
-  if (/^a2-\\d{2}$/.test(lessonId)) {
-    const match = /^a2-(\\d{2})$/.exec(lessonId)!;
+  if (/^a2-\d{2}$/.test(lessonId)) {
+  const match = /^a2-(\d{2})$/.exec(lessonId);
     const unitNumber = Number(match[1]);
     const unit = a2Units.find((item) => item.n === unitNumber);
     const questions = a2QuestionSets[unitNumber]?.[section as keyof typeof a2QuestionSets[number]] ?? [];
@@ -159,7 +159,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
     return NextResponse.json({ error: "Respuesta no válida." }, { status: 400 });
   }
 
-  const a1Match = /^a1-(\\d{2})$/.exec(lessonId);
+  const a1Match = /^a1-(\d{2})$/.exec(lessonId);
   if (a1Match) {
     const unitNumber = Number(a1Match[1]);
     const unit = unitNumber >= 1 && unitNumber <= 60 ? await loadLegacyUnit(unitNumber) : null;
@@ -198,7 +198,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
     return NextResponse.json({ correct, explanation, review, authenticated: Boolean(user) });
   }
 
-  if (/^a2-\\d{2}$/.test(lessonId)) {
+  if (/^a2-\d{2}$/.test(lessonId)) {
     const found = getA2Question(lessonId, payload.exerciseId);
     if (!found) return NextResponse.json({ error: "Ejercicio A2 no encontrado." }, { status: 404 });
     const { unit, question } = found;
