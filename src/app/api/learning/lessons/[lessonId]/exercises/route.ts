@@ -91,17 +91,20 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
     return NextResponse.json({ correct, explanation: question.explanation, review, authenticated: Boolean(user) });
   }
 
-  const existing = await db.query(
-    `SELECT id, answer_json, explanation, lesson_id FROM learning_exercises WHERE id = ? AND lesson_id = ?`,
-    [payload.exerciseId, lessonId]
-  );
-  const row = existing.data?.[0] as Record<string, unknown> | undefined;
-  if (!row) return NextResponse.json({ error: "Ejercicio no encontrado." }, { status: 404 });
-  let answerData: unknown;
-  try { answerData = JSON.parse(String(row.answer_json ?? "{}")); } catch { answerData = {}; }
-  const expected = typeof answerData === "object" && answerData !== null && "correct" in answerData
-    ? (answerData as { correct: unknown }).correct
-    : answerData;
-  const correct = payload.answer === expected;
-  return NextResponse.json({ correct, explanation: String(row.explanation ?? ""), review: null });
+  try {
+    const { env } = await resolveCloudflareEnv();
+    const row = await env.DB.prepare(
+      "SELECT id, answer_json, explanation FROM learning_exercises WHERE id = ? AND lesson_id = ? LIMIT 1"
+    ).bind(payload.exerciseId, lessonId).first<{ id: string; answer_json: string | null; explanation: string | null }>();
+    if (!row) return NextResponse.json({ error: "Ejercicio no encontrado." }, { status: 404 });
+    let answerData: unknown;
+    try { answerData = JSON.parse(String(row.answer_json ?? "{}")); } catch { answerData = {}; }
+    const expected = typeof answerData === "object" && answerData !== null && "correct" in answerData
+      ? (answerData as { correct: unknown }).correct
+      : answerData;
+    const correct = payload.answer === expected;
+    return NextResponse.json({ correct, explanation: String(row.explanation ?? ""), review: null });
+  } catch {
+    return NextResponse.json({ error: "No se pudo corregir la respuesta." }, { status: 500 });
+  }
 }
