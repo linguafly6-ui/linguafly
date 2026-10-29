@@ -136,6 +136,34 @@ async function getA1Items(lessonId: string) {
   return unit.blocks.flatMap((block) => block.content).filter((item) => getLegacySection(item) !== null);
 }
 
+async function getNormalizedD1Exercises(lessonId: string, section: string) {
+  try {
+    const { env } = await resolveCloudflareEnv();
+    const result = await env.DB.prepare(
+      `SELECT id, exercise_number, exercise_type, prompt, options_json, section_type, audio_text
+       FROM learning_exercises WHERE lesson_id = ? AND section_type = ? ORDER BY exercise_number ASC`
+    ).bind(lessonId, section).all<Record<string, unknown>>();
+    const rows = result.results ?? [];
+    if (!rows.length) return null;
+    return rows.map((row) => {
+      let options: unknown = [];
+      try { options = JSON.parse(String(row.options_json ?? "[]")); } catch { options = []; }
+      return {
+        id: String(row.id),
+        number: Number(row.exercise_number),
+        type: String(row.exercise_type),
+        prompt: String(row.prompt ?? ""),
+        options: Array.isArray(options) ? options : [],
+        audioText: row.section_type === "listening" && row.audio_text ? String(row.audio_text) : null,
+        passageText: row.section_type === "reading" && row.audio_text ? String(row.audio_text) : null,
+      };
+    });
+  } catch (error) {
+    console.error("[learning/exercises] D1 normalized read failed; using legacy source:", error);
+    return null;
+  }
+}
+
 export async function GET(request: NextRequest, context: { params: Promise<{ lessonId: string }> }) {
   const { lessonId } = await context.params;
   const section = request.nextUrl.searchParams.get("section") ?? "grammar";
@@ -144,6 +172,8 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
 
   const advancedMatch = /^(b1|b2|c1|c2)-(\d{2})$/.exec(lessonId);
   if (advancedMatch) {
+    const normalizedExercises = await getNormalizedD1Exercises(lessonId, section);
+    if (normalizedExercises) return NextResponse.json({ exercises: normalizedExercises });
     const unit = getLegacyAdvancedUnit(advancedMatch[1], Number(advancedMatch[2]));
     if (!unit) return NextResponse.json({ error: "Unidad no disponible." }, { status: 404 });
     const selected = unit.blocks.flatMap((block) => block.content
@@ -281,6 +311,88 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
 
 
   if (/^(b1|b2|c1|c2)-\d{2}$/.test(lessonId)) {
+    // Prefer the normalized D1 record. If the unit has not yet been imported,
+    // retain the existing JSON-backed fallback without breaking the lesson.
+    try {
+      const { env, user } = await getSessionUser(request);
+      const row = await env.DB.prepare(
+        "SELECT id, answer_json, explanation, exercise_type FROM learning_exercises WHERE id = ? AND lesson_id = ? LIMIT 1"
+      ).bind(payload.exerciseId, lessonId).first<{ id: string; answer_json: string | null; explanation: string | null; exercise_type: string }>();
+      if (row) {
+        let answerData: unknown = {};
+        try { answerData = JSON.parse(String(row.answer_json ?? "{}")); } catch { answerData = {}; }
+        const expected = typeof answerData === "object" && answerData !== null && "correct" in answerData
+          ? String((answerData as { correct: unknown }).correct ?? "") : String(answerData ?? "");
+        let submitted = payload.answer;
+        if (row.exercise_type === "sentence_building") {
+          try {
+            const parsed = JSON.parse(submitted);
+            if (Array.isArray(parsed)) submitted = parsed.map(String).join(" ");
+          } catch { /* submitted as plain text */ }
+        }
+        const normalize = (value: string) => value.trim().replace(/\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, "");
+        const correct = Boolean(expected) && normalize(submitted) === normalize(expected);
+        const explanation = String(row.explanation ?? "");
+        const now = new Date().toISOString();
+        let review: ReturnType<typeof scheduleNextReview> | null = null;
+        if (user) {
+          const existing = await env.DB.prepare(
+            "SELECT review_json FROM learning_exercise_progress WHERE user_id = ? AND exercise_id = ? LIMIT 1"
+          ).bind(user.id, payload.exerciseId).first<{ review_json: string | null }>();
+          let previous: ReviewState = { intervalDays: 0, easeFactor: 2.5, repetitions: 0, lapses: 0 };
+          try { if (existing?.review_json) previous = JSON.parse(existing.review_json) as ReviewState; } catch { /* use default */ }
+          review = scheduleNextReview(previous, correct ? 4 : 1, now);
+          await env.DB.prepare(
+            `INSERT INTO learning_exercise_progress
+              (user_id, lesson_id, exercise_id, answer_text, correct, explanation, review_json, updated_at)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+             ON CONFLICT(user_id, exercise_id) DO UPDATE SET
+               lesson_id = excluded.lesson_id, answer_text = excluded.answer_text,
+               correct = excluded.correct, explanation = excluded.explanation,
+               review_json = excluded.review_json, updated_at = excluded.updated_at`
+          ).bind(user.id, lessonId, payload.exerciseId, submitted, correct ? 1 : 0, explanation, JSON.stringify(review), now).run();
+
+          const conceptKey = `exercise:${payload.exerciseId}`;
+          const priorItem = await env.DB.prepare(
+            "SELECT id FROM learning_review_items WHERE user_id = ? AND concept_key = ? LIMIT 1"
+          ).bind(user.id, conceptKey).first<{ id: string }>();
+          const reviewItemId = priorItem?.id ?? `review-${user.id}-${payload.exerciseId}`;
+          await env.DB.prepare(
+            `INSERT INTO learning_review_items
+              (id, user_id, lesson_id, concept_key, due_at, interval_days, ease_factor, repetitions, lapses, last_quality, last_reviewed_at, created_at, updated_at)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+             ON CONFLICT(user_id, concept_key) DO UPDATE SET
+               due_at = excluded.due_at, interval_days = excluded.interval_days,
+               ease_factor = excluded.ease_factor, repetitions = excluded.repetitions,
+               lapses = excluded.lapses, last_quality = excluded.last_quality,
+               last_reviewed_at = excluded.last_reviewed_at, updated_at = excluded.updated_at`
+          ).bind(reviewItemId, user.id, lessonId, conceptKey, review.dueAt, review.intervalDays,
+            review.easeFactor, review.repetitions, review.lapses, review.quality, review.reviewedAt, now, now).run();
+          const historyId = `review-history-${user.id}-${payload.exerciseId}-${Date.now()}`;
+          await env.DB.prepare(
+            `INSERT INTO learning_review_history
+              (id, user_id, review_item_id, lesson_id, quality, was_correct, reviewed_at)
+             VALUES (?, ?, ?, ?, ?, ?, ?)`
+          ).bind(historyId, user.id, reviewItemId, lessonId, review.quality, correct ? 1 : 0, review.reviewedAt).run();
+          await env.DB.prepare(
+            `INSERT INTO learning_lesson_progress
+              (user_id, lesson_id, status, attempts, correct_answers, total_answers, last_score, started_at, updated_at)
+             VALUES (?, ?, 'in_progress', 1, ?, 1, ?, ?, ?)
+             ON CONFLICT(user_id, lesson_id) DO UPDATE SET
+               status = CASE WHEN learning_lesson_progress.status = 'completed' THEN 'completed' ELSE 'in_progress' END, attempts = learning_lesson_progress.attempts + 1,
+               correct_answers = learning_lesson_progress.correct_answers + excluded.correct_answers,
+               total_answers = learning_lesson_progress.total_answers + 1,
+               last_score = CAST(learning_lesson_progress.correct_answers + excluded.correct_answers AS REAL) * 100
+                 / (learning_lesson_progress.total_answers + 1),
+               started_at = COALESCE(learning_lesson_progress.started_at, excluded.started_at),
+               updated_at = excluded.updated_at`
+          ).bind(user.id, lessonId, correct ? 1 : 0, correct ? 100 : 0, now, now).run();
+        }
+        return NextResponse.json({ correct, explanation, review, authenticated: Boolean(user) });
+      }
+    } catch (error) {
+      console.error("[learning/exercises] D1 normalized grading failed; using legacy source:", error);
+    }
     const specialMatch = /^(.*)__(gap|match)_([^_]+)$/.exec(payload.exerciseId);
     const item = getLegacyAdvancedItem(lessonId, specialMatch ? specialMatch[1] : payload.exerciseId);
     if (!item) return NextResponse.json({ error: "Ejercicio no encontrado." }, { status: 404 });
