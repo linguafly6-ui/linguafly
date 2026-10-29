@@ -469,7 +469,7 @@
           "options": [
             {
               "id": "o1",
-              "text": "[[and|and]]"
+              "text": "[[but|but]]"
             },
             {
               "id": "o2",
@@ -496,7 +496,7 @@
             },
             {
               "id": "o2",
-              "text": "[[but|but]]"
+              "text": "[[and|and]]"
             },
             {
               "id": "o3",
@@ -646,7 +646,7 @@
           "options": [
             {
               "id": "o1",
-              "text": "[[but|but]]"
+              "text": "[[and|and]]"
             },
             {
               "id": "o2",
@@ -673,7 +673,7 @@
             },
             {
               "id": "o2",
-              "text": "[[and|and]]"
+              "text": "[[but|but]]"
             },
             {
               "id": "o3",
