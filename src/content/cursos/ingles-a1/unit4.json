@@ -478,7 +478,7 @@
             },
             {
               "id": "o3",
-              "text": "[[three|three]]"
+              "text": "[[four|four]]"
             }
           ],
           "correct_answer": "o2"
@@ -628,7 +628,7 @@
             },
             {
               "id": "o2",
-              "text": "[[three|three]]"
+              "text": "[[two|two]]"
             },
             {
               "id": "o3",
@@ -697,7 +697,7 @@
             },
             {
               "id": "o2",
-              "text": "[[a|a]]"
+              "text": "[[the|the]]"
             },
             {
               "id": "o3",
