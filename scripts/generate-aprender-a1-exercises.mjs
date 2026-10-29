@@ -29,7 +29,7 @@ const toTextOptions = (options, side = 0) => (options ?? []).map((option) => ({
   text: unmark(option.text, side),
 }));
 const sectionBlock = (unit, title) => unit.blocks.find((block) => block.title === title)?.content ?? [];
-function makeOptionsUnique(options, correct) {
+function makeOptionsUnique(options, correct, contextCandidates = []) {
   const normalizedCorrect = String(correct).trim().toLocaleLowerCase('en');
   const optionFallbacks = {
     am: ['am', 'is', 'are'], is: ['is', 'am', 'are'], are: ['are', 'is', 'am'],
@@ -42,8 +42,15 @@ function makeOptionsUnique(options, correct) {
     like: ['like', 'likes', 'love'], likes: ['likes', 'like', 'loves'],
     what: ['What', 'Where', 'When', 'Who'], where: ['Where', 'When', 'What', 'Who'],
     first: ['First', 'Then', 'Next', 'Finally'], would: ['would', 'could', 'should'],
+    one: ['one', 'two', 'three', 'four'], two: ['two', 'one', 'three', 'four'],
+    three: ['three', 'two', 'four', 'five'], four: ['four', 'three', 'five', 'two'],
+    five: ['five', 'four', 'six', 'three'], any: ['any', 'some', 'a', 'many'],
+    some: ['some', 'any', 'a', 'many'], many: ['many', 'much', 'some', 'any'],
+    much: ['much', 'many', 'some', 'any'], from: ['from', 'in', 'on', 'at'],
+    bank: ['bank', 'school', 'park', 'station'], blue: ['blue', 'green', 'brown', 'black'],
   }[normalizedCorrect];
-  if (!optionFallbacks) return { options, repaired: false };
+  const candidates = [...(optionFallbacks ?? []), ...contextCandidates];
+  if (candidates.length === 0) return { options, repaired: false };
   const result = [...options];
   const correctIndex = result.indexOf(correct);
   const seen = new Map();
@@ -57,7 +64,7 @@ function makeOptionsUnique(options, correct) {
     const earlierIndex = seen.get(normalized);
     const replaceIndex = index === correctIndex ? earlierIndex : index;
     const used = new Set(result.filter((_option, optionIndex) => optionIndex !== replaceIndex).map((option) => option.trim().toLocaleLowerCase('en')));
-    const fallback = optionFallbacks.find((option) => !used.has(option.toLocaleLowerCase('en')) && option.toLocaleLowerCase('en') !== String(correct).trim().toLocaleLowerCase('en'));
+    const fallback = candidates.find((option) => !used.has(option.toLocaleLowerCase('en')) && option.toLocaleLowerCase('en') !== String(correct).trim().toLocaleLowerCase('en'));
     if (!fallback) throw new Error(`Could not replace duplicate option '${result[replaceIndex]}'`);
     result[replaceIndex] = fallback;
     seen.set(fallback.toLocaleLowerCase('en'), replaceIndex);
@@ -65,6 +72,46 @@ function makeOptionsUnique(options, correct) {
     repaired = true;
   }
   return { options: result, repaired };
+}
+
+const negativeContractions = { "don't": 'do not', "doesn't": 'does not', "isn't": 'is not', "aren't": 'are not', "wasn't": 'was not', "weren't": 'were not', "can't": 'cannot', "won't": 'will not' };
+function negativeVariants(answer) {
+  const expanded = answer.replace(/\b(don't|doesn't|isn't|aren't|wasn't|weren't|can't|won't)\b/gi, (match) => negativeContractions[match.toLocaleLowerCase('en')] ?? match);
+  const variants = [expanded];
+  if (answer.toLocaleLowerCase('en') === 'am not') variants.push("I'm not");
+  return [...new Set(variants.filter((variant) => variant !== answer))];
+}
+
+function normalizeNegativeGrammarItem(item) {
+  if (!['fill-blank', 'multiple-choice'].includes(item.type)) return null;
+  const stimulus = unmark(item.stimulus_en, 0);
+  if (!stimulus.includes('_')) return null;
+  const rawAnswer = item.type === 'multiple-choice'
+    ? item.options?.find((option) => option.id === item.correct_answer)?.text ?? item.correct_answer
+    : item.correct_answer;
+  const answer = unmark(rawAnswer, 0);
+  let nextStimulus = stimulus;
+  let negativeAnswer = answer;
+  const embeddedNegative = stimulus.match(/\b(don't|doesn't|didn't|do not|does not|did not|isn't|aren't|wasn't|weren't|can't|cannot|won't|will not)\s+_{2,}\s+([A-Za-z]+)\b/i);
+  const negativeAuxiliaryOnly = /^(?:don't|doesn't|didn't|isn't|aren't|wasn't|weren't|can't|cannot|won't|do not|does not|did not|is not|are not|was not|were not|will not)$/i.test(answer);
+  if (embeddedNegative) {
+    negativeAnswer = `${embeddedNegative[1]} ${answer || embeddedNegative[2]}`;
+    nextStimulus = stimulus.replace(embeddedNegative[0], '______');
+  } else if (negativeAuxiliaryOnly) {
+    const blankAndVerb = stimulus.match(/_{2,}\s+([A-Za-z]+)\b/);
+    if (!blankAndVerb) return null;
+    negativeAnswer = `${answer} ${blankAndVerb[1]}`;
+    nextStimulus = stimulus.replace(blankAndVerb[0], '______');
+  } else if (/_{2,}\s+not\b/i.test(stimulus) && /^(am|is|are|was|were)$/i.test(answer)) {
+    const subject = stimulus.match(/^\s*(I|you|he|she|it|we|they)\b/i)?.[1]?.toLocaleLowerCase('en');
+    const forms = { i: 'am not', you: "aren't", he: "isn't", she: "isn't", it: "isn't", we: "aren't", they: "aren't" };
+    if (!subject) return null;
+    negativeAnswer = forms[subject];
+    nextStimulus = stimulus.replace(/_{2,}\s+not\b/i, '______');
+  } else if (item.type !== 'multiple-choice' || !/\b(?:don't|doesn't|didn't|isn't|aren't|wasn't|weren't|can't|cannot|won't|not)\b/i.test(answer)) {
+    return null;
+  }
+  return { stimulus: nextStimulus, answer: negativeAnswer, accepted: negativeVariants(negativeAnswer) };
 }
 
 const seed = fs.readFileSync(seedPath, 'utf8');
@@ -82,10 +129,12 @@ if (lessonMetadata.size !== 60 || sourceUnitByLesson.length !== 60) {
   throw new Error('Expected metadata and source mappings for all 60 A1 units.');
 }
 
-function normalizeSourceItem(item, category, lessonNumber, exerciseNumber) {
+function normalizeSourceItem(item, category, lessonNumber, exerciseNumber, optionFallbacks = []) {
   const lessonId = `a1-${String(lessonNumber).padStart(2, '0')}`;
   const idSection = category === 'reading' ? 'wri' : category.slice(0, 3);
   const id = `a1-u${String(lessonNumber).padStart(2, '0')}-${idSection}-${String(exerciseNumber).padStart(2, '0')}`;
+  const negativeRepair = category === 'grammar' ? normalizeNegativeGrammarItem(item) : null;
+  if (negativeRepair) item = { ...item, type: 'fill-blank', stimulus_en: negativeRepair.stimulus, correct_answer: negativeRepair.answer, accepted_answers: negativeRepair.accepted, negative_form_changed: true };
   const promptEs = unmark(item.prompt_es, 1);
   const stimulusEn = unmark(item.stimulus_en, 0);
   const stimulusEs = unmark(item.stimulus_en, 1);
@@ -187,8 +236,8 @@ ${sentence}` : ''}`.trim();
   }
 
   let optionsRepaired = false;
-  if (type === 'multiple-choice' && correct && category === 'grammar' && [7, 13, 14, 15].includes(exerciseNumber)) {
-    const result = makeOptionsUnique(options, correct);
+  if (type === 'multiple-choice' && correct && category === 'grammar') {
+    const result = makeOptionsUnique(options, correct, optionFallbacks);
     options = result.options;
     optionsRepaired = result.repaired;
   }
@@ -204,10 +253,11 @@ ${sentence}` : ''}`.trim();
     prompt,
     options,
     optionsRepaired,
-    answerJson: type === 'free-text' ? JSON.stringify({ selfCheck: true }) : JSON.stringify({ correct }),
+    answerJson: type === 'free-text' ? JSON.stringify({ selfCheck: true }) : JSON.stringify({ correct, ...(item.accepted_answers?.length ? { accepted: item.accepted_answers } : {}) }),
     explanation: explanation ?? '',
     audioText,
     passageText,
+    negativeFormChanged: Boolean(item.negative_form_changed),
   };
 }
 
@@ -224,6 +274,10 @@ for (let lessonNumber = 1; lessonNumber <= 60; lessonNumber += 1) {
   const grammarPool = [
     ...sectionBlock(unit, 'Grammar — Affirmative'),
     ...sectionBlock(unit, 'Grammar — Negative & Questions'),
+  ];
+  const grammarOptionFallbacks = [
+    ...grammarPool.flatMap((item) => toTextOptions(item.options, 0).map((option) => option.text)),
+    ...grammarPool.map((item) => unmark(item.correct_answer, 0)).filter((answer) => answer && answer !== '[object Object]'),
   ];
   const grammarForWriting = grammarPool
     .filter((item) => item.type === 'fill-blank' || item.type === 'sentence-building')
@@ -277,7 +331,7 @@ for (let lessonNumber = 1; lessonNumber <= 60; lessonNumber += 1) {
     if (category === 'grammar' && (items[8].type === 'free-text' || items[9].type === 'free-text' || items[8].type === 'sentence-building' || items[9].type === 'sentence-building')) {
       throw new Error(`Unit ${lessonNumber}: grammar exercises 9 and 10 must not be free writing.`);
     }
-    rows.push(...items.map((item, index) => normalizeSourceItem(item, category, lessonNumber, index + 1)));
+    rows.push(...items.map((item, index) => normalizeSourceItem(item, category, lessonNumber, index + 1, category === 'grammar' ? grammarOptionFallbacks : [])));
   }
 }
 
@@ -337,5 +391,19 @@ for (let index = 0; index < grammarPromptUpdates.length; index += grammarPromptB
 for (const row of rows.filter((item) => item.sectionType === 'grammar' && item.exerciseType === 'fill_blank')) {
   if (/afirmativa|affirmative/i.test(row.prompt)) throw new Error(`Misleading affirmative instruction remains on ${row.id}`);
 }
+const grammarRepairRows = rows.filter((row) => row.sectionType === 'grammar' && (row.negativeFormChanged || row.optionsRepaired));
+const duplicateChoiceRows = rows.filter((row) => row.exerciseType === 'multiple_choice' && new Set(row.options.map((option) => option.trim().toLocaleLowerCase('en'))).size !== row.options.length);
+if (duplicateChoiceRows.length) throw new Error(`Found duplicate answer choices in ${duplicateChoiceRows.length} exercises: ${duplicateChoiceRows.slice(0, 5).map((row) => row.id).join(', ')}`);
+const grammarRepairBatchSize = 40;
+for (let index = 0; index < grammarRepairRows.length; index += grammarRepairBatchSize) {
+  const batch = grammarRepairRows.slice(index, index + grammarRepairBatchSize);
+  const migrationNumber = String(52 + Math.floor(index / grammarRepairBatchSize)).padStart(3, '0');
+  const migrationPath = path.join(migrationDir, `202610290${migrationNumber}_a1_grammar_negative_and_choices.sql`);
+  const clearProgress = `DELETE FROM learning_exercise_progress WHERE exercise_id IN (${batch.map((row) => sql(row.id)).join(', ')});`;
+  const updates = batch.map((row) => `UPDATE learning_exercises SET exercise_type = ${sql(row.exerciseType)}, prompt = ${sql(row.prompt)}, options_json = ${sql(JSON.stringify(row.options))}, answer_json = ${sql(row.answerJson)}, explanation = ${sql(row.explanation)} WHERE id = ${sql(row.id)};`);
+  fs.writeFileSync(migrationPath, `-- Make negative grammar answers learner-produced and remove repeated choices.\n${clearProgress}\n${updates.join('\n')}\n`, 'utf8');
+}
 console.log(`Generated ${rows.length} exercises (15 in each of 4 sections across 60 units): ${path.relative(root, outputPath)}`);
 console.log(`Regenerated ${grammarPromptUpdates.length} complete grammar fill-in prompts across ${Math.ceil(grammarPromptUpdates.length / grammarPromptBatchSize)} D1-safe migrations.`);
+console.log(`Corrected ${grammarRepairRows.length} negative-form or duplicate-choice exercises; ${duplicateChoiceRows.length} duplicate-choice exercises remain.`);
+
