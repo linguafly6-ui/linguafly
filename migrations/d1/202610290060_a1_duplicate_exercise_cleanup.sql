@@ -35,8 +35,8 @@ SET answer_json = CASE id
   WHEN 'a1-u39-gra-15' THEN '{"correct":"doesn''t","accepted":["does not"]}'
   WHEN 'a1-u40-gra-07' THEN '{"correct":"doesn''t","accepted":["does not"]}'
   WHEN 'a1-u40-gra-10' THEN '{"correct":"doesn''t","accepted":["does not"]}'
-  WHEN 'a1-u40-gra-13' THEN '{"correct":"don't","accepted":["do not"]}'
-  WHEN 'a1-u40-gra-15' THEN '{"correct":"doesn't","accepted":["does not"]}'
+  WHEN 'a1-u40-gra-13' THEN '{"correct":"don''t","accepted":["do not"]}'
+  WHEN 'a1-u40-gra-15' THEN '{"correct":"doesn''t","accepted":["does not"]}'
   ELSE answer_json
 END
 WHERE id IN (
