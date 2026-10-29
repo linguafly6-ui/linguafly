@@ -8,7 +8,7 @@ import { Exercise } from '@/lib/exercise-generator';
 const LESSON_TITLE = 'Comprensión auditiva';
 const TOPIC = 'Present Simple: I, You, We, They';
 
-const LISTENING_TRANSCRIPT = `[[Interviewer|Entrevistador]]: [[Do|¿]] [[you|tú]] [[watch|ves]] [[TV|la tele]] [[in|por]] [[the|la]] [[evening|tarde]]? [[Mike|Mike]]: [[Yes|Sí]], [[I|yo]] [[do|sí]]. [[I|Yo]] [[like|me gusta]] [[watching|ver]] [[films|películas]]. [[Interviewer|Entrevistador]]: [[Do|¿]] [[you|tú]] [[cook|cocinas]] [[dinner|cena]]? [[Mike|Mike]]: [[No|No]], [[I|yo]] [[don't|no]]. [[I|Yo]] [[don't|no]] [[like|me gusta]] [[cooking|cocinar]]. [[My|Mi]] [[wife|mujer]] [[cooks|cocina]]. [[Interviewer|Entrevistador]]: [[Do|¿]] [[you|tú]] [[do|haces]] [[the|las]] [[housework|tareas domésticas]]? [[Mike|Mike]]: [[Yes|Sí]], [[I|yo]] [[do|sí]]. [[I|Yo]] [[wash|lavo]] [[the|los]] [[dishes|platos]] [[and|y]] [[clean|limpio]] [[the|la]] [[bathroom|baño]]. [[I|Yo]] [[don't|no]] [[iron|plancho]]. [[My|Mi]] [[wife|mujer]] [[irons|plancha]].`;
+const LISTENING_TRANSCRIPT = `[[Interviewer: Do you watch TV in the evening?|Entrevistador: ¿Ves la televisión por la tarde?]] [[Mike: Yes, I do. I like watching films.|Mike: Sí. Me gusta ver películas.]] [[Interviewer: Do you cook dinner?|Entrevistador: ¿Cocinas la cena?]] [[Mike: No, I don't. I don't like cooking. My wife cooks.|Mike: No. No me gusta cocinar. Mi mujer cocina.]] [[Interviewer: Do you do the housework?|Entrevistador: ¿Haces las tareas domésticas?]] [[Mike: Yes, I do. I wash the dishes and clean the bathroom. I don't iron. My wife irons.|Mike: Sí. Friego los platos y limpio el baño. No plancho. Mi mujer plancha.]]`;
 
 const INSTRUCTIONS = 'Escucha el audio. Después contesta cada pregunta.';
 
