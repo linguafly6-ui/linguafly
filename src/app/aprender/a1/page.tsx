@@ -125,6 +125,17 @@ export default function A1LearningPage() {
             </div>
           </div>
 
+          <Link href="/curso-a2" className="mb-6 block rounded-2xl border border-[#d8a58a] bg-white p-4 transition hover:border-[#b75d3b] hover:shadow-sm">
+            <p className="text-xs font-extrabold uppercase tracking-[0.15em] text-[#b75d3b]">Siguiente nivel</p>
+            <div className="mt-1 flex items-center justify-between gap-3">
+              <div>
+                <p className="font-bold text-[#252a24]">Explorar el curso A2</p>
+                <p className="mt-1 text-sm leading-5 text-[#66675d]">60 unidades para seguir avanzando en inglés.</p>
+              </div>
+              <span aria-hidden="true" className="text-xl font-bold text-[#b75d3b]">→</span>
+            </div>
+          </Link>
+
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-sm font-extrabold uppercase tracking-[0.15em] text-[#77776c]">Contenido del curso</h2>
             <span className="text-xs text-[#77776c]">{data?.lessons.length ?? "—"} unidades</span>
