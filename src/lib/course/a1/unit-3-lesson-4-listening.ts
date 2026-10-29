@@ -7,21 +7,7 @@
 import { Exercise } from '@/lib/exercise-generator';
 
 const LESSON_TITLE = 'Comprensión auditiva';
-const LISTENING_TRANSCRIPT = `[[Receptionist|Recepcionista]]: [[Good morning|Buenos días]]! [[How|Cómo]] [[are|estás]] [[you|tú]] [[today|hoy]]?
-
-[[Ben|Ben]]: [[Hi|Hola]]! [[I|Yo]] [[am|estoy]] [[not|no]] [[great|muy bien]], [[actually|la verdad]]. [[I|Yo]] [[am|estoy]] [[very|muy]] [[tired|cansado]].
-
-[[Receptionist|Recepcionista]]: [[Oh|Oh]], [[I|yo]] [[am|estoy]] [[sorry|lo siento]]. [[Is|Estás]] [[your|tú]] [[friend|amigo]] [[Ana|Ana]] [[here|aquí]] [[with|con]] [[you|ti]] [[today|hoy]]?
-
-[[Ben|Ben]]: [[Yes|Sí]], [[she|ella]] [[is|está]] [[over there|allí]]. [[She|Ella]] [[is|está]] [[excited|emocionada]] — [[she|ella]] [[is|está]] [[not|no]] [[tired|cansada]] [[at all|para nada]].
-
-[[Receptionist|Recepcionista]]: [[Is|Tiene]] [[she|ella]] [[hungry|hambre]]? [[We|Nosotros]] [[have|tenemos]] [[snacks|merienda]] [[here|aquí]].
-
-[[Ben|Ben]]: [[Actually|En realidad]], [[she|ella]] [[isn't|no está]] [[hungry|hambrienta]], [[but|pero]] [[she|ella]] [[is|está]] [[thirsty|sedienta]]. [[Are|Hay]] [[there|aquí]] [[any|algunos]] [[drinks|bebidas]] [[here|aquí]]?
-
-[[Receptionist|Recepcionista]]: [[Of course|Por supuesto]]! And [[what|qué]] [[about|hay de]] [[you|ti]], [[Ben|Ben]]? [[Are|Estás]] [[you|tú]] [[hungry|hambriento]]?
-
-[[Ben|Ben]]: [[Yes|Sí]], [[I|yo]] [[am|estoy]] [[a little|un poco]] [[hungry|hambriento]]. [[I|Yo]] [[am not|no estoy]] [[angry|enfadado]] [[or|ni]] [[sad|triste]] — [[just|solo]] [[tired|cansado]] and [[hungry|hambriento]].`;
+const LISTENING_TRANSCRIPT = `[[Receptionist: Good morning! How are you today?|Recepcionista: ¡Buenos días! ¿Cómo estás hoy?]] [[Ben: Hi! I am not great, actually. I am very tired.|Ben: ¡Hola! La verdad es que no estoy muy bien. Estoy muy cansado.]] [[Receptionist: Oh, I am sorry. Is your friend Ana here with you today?|Recepcionista: Vaya, lo siento. ¿Está aquí contigo tu amiga Ana hoy?]] [[Ben: Yes, she is over there. She is excited; she is not tired at all.|Ben: Sí, está allí. Está emocionada; no está nada cansada.]] [[Receptionist: Is she hungry? We have snacks here.|Recepcionista: ¿Tiene hambre? Tenemos aperitivos aquí.]] [[Ben: Actually, she isn't hungry, but she is thirsty. Are there any drinks here?|Ben: En realidad, no tiene hambre, pero tiene sed. ¿Hay bebidas aquí?]] [[Receptionist: Of course! And what about you, Ben? Are you hungry?|Recepcionista: ¡Por supuesto! ¿Y tú, Ben? ¿Tienes hambre?]] [[Ben: Yes, I am a little hungry. I am not angry or sad — just tired and hungry.|Ben: Sí, tengo un poco de hambre. No estoy enfadado ni triste: solo estoy cansado y tengo hambre.]]`;
 
 const INST_MC = 'Escucha el audio y elige la respuesta correcta.';
 const INST_TF = 'Escucha el audio. Indica si la afirmación es verdadera o falsa.';
