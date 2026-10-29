@@ -42,17 +42,21 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
     })) });
   }
 
-  const { env } = await resolveCloudflareEnv();
-  const dbResult = await env.DB.prepare(
-    `SELECT id, exercise_number, exercise_type, prompt, options_json, section_type, audio_text
-     FROM learning_exercises WHERE lesson_id = ? AND section_type = ? ORDER BY exercise_number ASC`
-  ).bind(lessonId, request.nextUrl.searchParams.get("section") ?? "grammar").all<Record<string, unknown>>();
-  return NextResponse.json({ exercises: (dbResult.results ?? []).map((row: Record<string, unknown>) => ({
-    id: String(row.id), number: Number(row.exercise_number), type: String(row.exercise_type),
-    prompt: String(row.prompt), options: JSON.parse(String(row.options_json ?? "[]")),
-    audioText: row.audio_text ? String(row.audio_text) : null,
-    passageText: row.section_type === "reading" && row.audio_text ? String(row.audio_text) : null
-  })) });
+  try {
+    const { env } = await resolveCloudflareEnv();
+    const result = await env.DB.prepare(
+      `SELECT id, exercise_number, exercise_type, prompt, options_json, section_type, audio_text
+       FROM learning_exercises WHERE lesson_id = ? AND section_type = ? ORDER BY exercise_number ASC`
+    ).bind(lessonId, request.nextUrl.searchParams.get("section") ?? "grammar").all<Record<string, unknown>>();
+    return NextResponse.json({ exercises: (result.results ?? []).map((row) => ({
+      id: String(row.id), number: Number(row.exercise_number), type: String(row.exercise_type),
+      prompt: String(row.prompt), options: JSON.parse(String(row.options_json ?? "[]")),
+      audioText: row.audio_text ? String(row.audio_text) : null,
+      passageText: row.section_type === "reading" && row.audio_text ? String(row.audio_text) : null
+    })) });
+  } catch {
+    return NextResponse.json({ error: "No se pudieron cargar los ejercicios." }, { status: 500 });
+  }
 }
 
 export async function POST(request: NextRequest, context: { params: Promise<{ lessonId: string }> }) {
@@ -68,6 +72,21 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
     const { unit, question } = found;
     const correct = payload.answer === question.answer;
     const { env, user } = await getSessionUser(request);
+    const now = new Date().toISOString();
+    const existingProgress = user ? await env.DB.prepare(
+      "SELECT review_json FROM learning_exercise_progress WHERE user_id = ? AND exercise_id = ? LIMIT 1"
+    ).bind(user.id, payload.exerciseId).first<{ review_json: string | null }>() : null;
+    let previous: ReviewState = { intervalDays: 0, easeFactor: 2.5, repetitions: 0, lapses: 0 };
+    try {
+      if (existingProgress?.review_json) previous = JSON.parse(existingProgress.review_json) as ReviewState;
+    } catch { /* Use the initial review interval. */ }
+    const review = scheduleNextReview(previous, correct ? 4 : 1);
+    if (user) {
+      await env.DB.prepare(
+        `INSERT INTO learning_exercise_progress (user_id, lesson_id, exercise_id, answer_text, correct, explanation, review_json, updated_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+         ON CONFLICT(user_id, exercise_id) DO UPDATE SET answer_text = excluded.answer_text, correct = excluded.correct, explanation = excluded.explanation, review_json = excluded.review_json, updated_at = excluded.updated_at`
+      ).bind(user.id, lessonId, payload.exerciseId, payload.answer, correct ? 1 : 0, question.explanation, JSON.stringify(review), now).run();
     const userId = user?.id ?? null;
     const previousRow = userId
       ? await env.DB.prepare(`SELECT progress_json FROM learning_progress WHERE user_id = ? AND lesson_id = ?`).bind(userId, lessonId).first<{ progress_json: string | null }>()
@@ -93,9 +112,26 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
          ON CONFLICT(user_id, lesson_id) DO UPDATE SET progress_json = excluded.progress_json, updated_at = CURRENT_TIMESTAMP`
       ).bind(userId, lessonId, JSON.stringify(progress)).run();
     }
-    return NextResponse.json({ correct, explanation: question.explanation, review, authenticated: Boolean(userId) });
+    return NextResponse.json({ correct, explanation: question.explanation, review, authenticated: Boolean(user) });
   }
 
+  try {
+    const { env } = await resolveCloudflareEnv();
+    const row = await env.DB.prepare(
+      "SELECT id, answer_json, explanation FROM learning_exercises WHERE id = ? AND lesson_id = ? LIMIT 1"
+    ).bind(payload.exerciseId, lessonId).first<{ id: string; answer_json: string | null; explanation: string | null }>();
+    if (!row) return NextResponse.json({ error: "Ejercicio no encontrado." }, { status: 404 });
+    let answerData: unknown;
+    try { answerData = JSON.parse(String(row.answer_json ?? "{}")); } catch { answerData = {}; }
+    const expected = typeof answerData === "object" && answerData !== null && "correct" in answerData
+      ? (answerData as { correct: unknown }).correct
+      : answerData;
+    const correct = payload.answer === expected;
+    return NextResponse.json({ correct, explanation: String(row.explanation ?? ""), review: null });
+  } catch {
+    return NextResponse.json({ error: "No se pudo corregir la respuesta." }, { status: 500 });
+  }
+}
   const { env } = await resolveCloudflareEnv();
   const row = await env.DB.prepare(
     `SELECT id, answer_json, explanation, lesson_id FROM learning_exercises WHERE id = ? AND lesson_id = ? LIMIT 1`
