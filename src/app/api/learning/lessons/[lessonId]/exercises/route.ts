@@ -12,11 +12,13 @@ type ExerciseRow = {
   exercise_type: string;
   prompt: string;
   options_json: string;
+  section_type: string;
+  audio_text: string | null;
 };
 
 /** Return prompts and options only; never send answer keys to the browser. */
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   context: { params: Promise<{ lessonId: string }> }
 ) {
   try {
@@ -34,12 +36,13 @@ export async function GET(
       return NextResponse.json({ error: "Lesson not found" }, { status: 404 });
     }
 
+    const sectionType = new URL(request.url).searchParams.get("section");
     const result = await env.DB.prepare(
-      `SELECT id, exercise_number, exercise_type, prompt, options_json
+      `SELECT id, exercise_number, exercise_type, prompt, options_json, section_type, audio_text
        FROM learning_exercises
-       WHERE lesson_id = ?
+       WHERE lesson_id = ? AND section_type = ?
        ORDER BY exercise_number ASC`
-    ).bind(lessonId).all<ExerciseRow>();
+    ).bind(lessonId, sectionType && ["grammar", "vocabulary", "listening", "writing"].includes(sectionType) ? sectionType : "practice").all<ExerciseRow>();
 
     const exercises = (result.results || []).map((row) => {
       let options: unknown = [];
@@ -49,7 +52,7 @@ export async function GET(
       } catch {
         options = [];
       }
-      return { id: row.id, number: row.exercise_number, type: row.exercise_type, prompt: row.prompt, options };
+      return { id: row.id, number: row.exercise_number, type: row.exercise_type, prompt: row.prompt, options, audioText: row.audio_text };
     });
 
     return NextResponse.json(
@@ -92,15 +95,29 @@ export async function POST(
 
     const { env, user } = await getSessionUser(request);
     const row = await env.DB.prepare(
-      `SELECT e.answer_json, e.explanation
+      `SELECT e.answer_json, e.explanation, e.exercise_type
        FROM learning_exercises e
        INNER JOIN learning_lessons l ON l.id = e.lesson_id
        WHERE e.id = ? AND e.lesson_id = ? AND l.published = 1
        LIMIT 1`
-    ).bind(body.exerciseId, lessonId).first<{ answer_json: string; explanation: string }>();
+    ).bind(body.exerciseId, lessonId).first<{ answer_json: string; explanation: string; exercise_type: string }>();
 
     if (!row) {
       return NextResponse.json({ error: "Exercise not found" }, { status: 404 });
+    }
+
+    if (row.exercise_type === "free_text") {
+      if (!body.answer.trim()) return NextResponse.json({ error: "Write a short answer before continuing." }, { status: 400 });
+      const explanation = row.explanation || "Revisa tu texto: ¿has escrito una frase completa en inglés?";
+      if (user) {
+        const now = new Date().toISOString();
+        await env.DB.prepare(
+          `INSERT INTO learning_exercise_progress (user_id, lesson_id, exercise_id, answer_text, correct, explanation, review_json, updated_at)
+           VALUES (?, ?, ?, ?, NULL, ?, NULL, ?)
+           ON CONFLICT(user_id, exercise_id) DO UPDATE SET answer_text = excluded.answer_text, correct = NULL, explanation = excluded.explanation, review_json = NULL, updated_at = excluded.updated_at`
+        ).bind(user.id, lessonId, body.exerciseId, body.answer.trim(), explanation, now).run();
+      }
+      return NextResponse.json({ correct: null, explanation }, { headers: { "Cache-Control": "no-store" } });
     }
 
     let answerKey: { correct?: unknown; answer?: unknown };

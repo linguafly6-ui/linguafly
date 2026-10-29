@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { ExercisePanel } from "@/components/learning/ExercisePanel";
 import { LearningContentSection, type LearningSection } from "@/components/learning/LearningContentSection";
 import Link from "next/link";
 
@@ -30,17 +29,15 @@ export default function A1LearningPage() {
   const [completed, setCompleted] = useState<string[]>([]);
   const [progressLoaded, setProgressLoaded] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
-  const [writingDrafts, setWritingDrafts] = useState<Record<string, string>>({});
 
   useEffect(() => {
     let active = true;
     fetch("/api/learning/progress", { cache: "no-store" }).then(async (response) => {
       if (!response.ok) throw new Error("Unable to load progress");
-      return response.json() as Promise<{ authenticated: boolean; completed: string[]; writing?: Record<string, string> }>;
+      return response.json() as Promise<{ authenticated: boolean; completed: string[] }>;
     }).then((progress) => {
       if (!active) return;
       setAuthenticated(progress.authenticated);
-      if (progress.authenticated) setWritingDrafts(progress.writing ?? {});
       if (progress.authenticated) setCompleted(progress.completed ?? []);
       else {
         try {
@@ -176,12 +173,8 @@ export default function A1LearningPage() {
                   key={`${selected.id}-${section.type ?? index}`}
                   lessonId={selected.id}
                   section={section}
-                  authenticated={authenticated}
-                  initialDraft={writingDrafts[selected.id]}
                 />)}
               </div>
-
-              <ExercisePanel lessonId={selected.id} />
 
               <div className="mt-5 flex flex-col justify-between gap-4 rounded-2xl bg-[#e9e3d7] p-5 sm:flex-row sm:items-center sm:p-6">
                 <div><p className="font-bold text-[#30352d]">¿Has terminado esta unidad?</p><p className="mt-1 text-sm text-[#65665b]">Marca el paso como completado y continúa a tu ritmo.</p></div>

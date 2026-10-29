@@ -192,7 +192,6 @@ for (let number = 1; number <= 60; number += 1) {
   const override = beginnerOverrides[number];
   const vocabList = override?.vocabulary.join('\n') ?? vocabularyItems.map((item) => `${item.english} — ${item.spanish}`).join('\n');
   const audioText = override?.listening ?? listeningText;
-  const transcriptTranslation = override?.listeningEs;
   const example = override?.example ?? grammarExample;
   const exampleTranslation = override?.exampleTranslation;
   const writingPrompt = /repaso|evaluación|misión/i.test(metadata.title)
@@ -219,8 +218,6 @@ for (let number = 1; number <= 60; number += 1) {
         title: 'Listening',
         body: 'Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.',
         audioText,
-        transcript: audioText,
-        ...(transcriptTranslation ? { transcriptTranslation } : {}),
       },
       {
         type: 'writing',

@@ -73,11 +73,19 @@ export async function POST(request: NextRequest) {
     if (typeof body.exerciseId !== "string" || !/^[a-zA-Z0-9_-]{1,100}$/.test(body.exerciseId) || typeof body.answer !== "string" || body.answer.length > 500) {
       return NextResponse.json({ error: "Invalid answer payload" }, { status: 400 });
     }
-    const exercise = await env.DB.prepare("SELECT id, options_json FROM learning_exercises WHERE id = ? AND lesson_id = ? LIMIT 1").bind(body.exerciseId, body.lessonId).first<{ id: string; options_json: string }>();
+    const exercise = await env.DB.prepare("SELECT id, options_json, exercise_type FROM learning_exercises WHERE id = ? AND lesson_id = ? LIMIT 1").bind(body.exerciseId, body.lessonId).first<{ id: string; options_json: string; exercise_type: string }>();
     if (!exercise) return NextResponse.json({ error: "Exercise not found" }, { status: 404 });
     let options: unknown;
     try { options = JSON.parse(exercise.options_json || "[]"); } catch { options = []; }
-    if (!Array.isArray(options) || !options.includes(body.answer)) return NextResponse.json({ error: "Answer is not an available option" }, { status: 400 });
+    if (!Array.isArray(options)) options = [];
+    if (exercise.exercise_type === "multiple_choice" && !options.includes(body.answer)) return NextResponse.json({ error: "Answer is not an available option" }, { status: 400 });
+    if (exercise.exercise_type === "sentence_building") {
+      let words: unknown;
+      try { words = JSON.parse(body.answer); } catch { words = null; }
+      if (!Array.isArray(words) || words.length > 40 || !words.every((word) => typeof word === "string" && options.includes(word))) {
+        return NextResponse.json({ error: "Answer is not a valid word order" }, { status: 400 });
+      }
+    }
     await env.DB.prepare(
       `INSERT INTO learning_exercise_progress (user_id, lesson_id, exercise_id, answer_text, updated_at)
        VALUES (?, ?, ?, ?, ?)
