@@ -379,7 +379,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
               (user_id, lesson_id, status, attempts, correct_answers, total_answers, last_score, started_at, updated_at)
              VALUES (?, ?, 'in_progress', 1, ?, 1, ?, ?, ?)
              ON CONFLICT(user_id, lesson_id) DO UPDATE SET
-               status = 'in_progress', attempts = learning_lesson_progress.attempts + 1,
+               status = CASE WHEN learning_lesson_progress.status = 'completed' THEN 'completed' ELSE 'in_progress' END, attempts = learning_lesson_progress.attempts + 1,
                correct_answers = learning_lesson_progress.correct_answers + excluded.correct_answers,
                total_answers = learning_lesson_progress.total_answers + 1,
                last_score = CAST(learning_lesson_progress.correct_answers + excluded.correct_answers AS REAL) * 100
