@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
     }
     const statuses = ["open", "in_progress", "waiting_student", "resolved"];
     const priorities = ["low", "normal", "high"];
-    if (typeof body.status === "string" && statuses.includes(body.status)) {
+    if (typeof body.status === "string" && statuses.includes(body.status) && !(typeof body.message === "string" && body.message.trim())) {
       await env.DB.prepare("UPDATE support_tickets SET status = ?, updated_at = ? WHERE id = ?").bind(body.status, now, ticket.id).run();
     }
     if (typeof body.priority === "string" && priorities.includes(body.priority)) {
