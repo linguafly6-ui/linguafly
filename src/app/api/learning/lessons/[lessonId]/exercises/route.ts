@@ -137,7 +137,7 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
   if (!sectionNames.has(section)) return NextResponse.json({ error: "Sección no válida." }, { status: 400 });
 
 
-  const advancedMatch = /^(b1|b2|c1|c2)-(\\d{2})$/.exec(lessonId);
+  const advancedMatch = /^(b1|b2|c1|c2)-(\d{2})$/.exec(lessonId);
   if (advancedMatch) {
     const unit = getLegacyAdvancedUnit(advancedMatch[1], Number(advancedMatch[2]));
     if (!unit) return NextResponse.json({ error: "Unidad no disponible." }, { status: 404 });

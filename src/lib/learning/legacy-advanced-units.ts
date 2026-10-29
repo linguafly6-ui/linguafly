@@ -304,7 +304,7 @@ export function getLegacyAdvancedUnit(level: string, unitNumber: number): Legacy
   return units[level.toLowerCase()]?.[unitNumber] ?? null;
 }
 export function getLegacyAdvancedItem(lessonId: string, exerciseId: string): LegacyAdvancedItem | null {
-  const match = /^(b1|b2|c1|c2)-(\\d{2})$/.exec(lessonId);
+  const match = /^(b1|b2|c1|c2)-(\d{2})$/.exec(lessonId);
   if (!match) return null;
   const unit = getLegacyAdvancedUnit(match[1], Number(match[2]));
   return unit?.blocks.flatMap((block) => block.content).find((item) => item.interaction_id === exerciseId) ?? null;
