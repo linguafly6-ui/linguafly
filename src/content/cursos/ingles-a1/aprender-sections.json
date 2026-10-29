@@ -1,223 +1,209 @@
 {
   "a1-01": {
-    "objective": "Reconocer sonidos iniciales y usar saludos y frases básicas para presentarte.",
+    "objective": "Use common greetings and farewells correctly · Introduce yourself and provide basic personal information · Use the verb 'to be' in affirmative forms with I and You · Apply possessive adjectives (my, your) in context",
     "sections": [
       {
         "type": "grammar",
         "title": "Gramática",
-        "body": "Usa “I am” o “I’m” para decir tu nombre. “Hello” y “Hi” sirven para iniciar una conversación.",
-        "example": "My name is Ana.",
-        "exampleTranslation": "Me llamo Ana."
+        "body": "Use common greetings and farewells correctly\n\nIntroduce yourself and provide basic personal information\n\nUse the verb 'to be' in affirmative forms with I and You\n\nApply possessive adjectives (my, your) in context\n\nComplete the affirmative sentence. · I _____ a student.\n\nComplete the affirmative sentence. · You _____ my teacher.\n\nComplete the affirmative sentence. · My name _____ Anna.\n\nComplete the affirmative sentence. · I _____ from London.\n\nChoose the correct word. · You _____ not a doctor. · are · am · is",
+        "example": "Complete the affirmative sentence. · I _____ a student."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para saludos, sonidos y presentaciones:\nHello — Hola\nHi — Hola (informal)\nMy name — Mi nombre\nI am / I’m — Soy\nWhat’s your name? — ¿Cómo te llamas?\nGoodbye — Adiós"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "A: Hi! My name is Ana. B: Hello, Ana. I’m Leo. How do you spell your name? A: A-N-A."
+        "body": "Choose the correct translation. · Hello · Hola · Hola (informal) · Buenos días\nChoose the correct translation. · Hi · Buenos días · Hola (informal) · Buenas tardes\nChoose the correct translation. · Good morning · Buenas tardes · Buenas noches (saludo) · Buenos días\nChoose the correct translation. · Good afternoon · Buenas tardes · Buenas noches (saludo) · Buenas noches (despedida)\nChoose the correct translation. · Good evening · Buenas noches (despedida) · Buenas noches (saludo) · Adiós\nChoose the correct translation. · Good night · Adiós · Chao · Buenas noches (despedida)\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Good afternoon · Goodbye · Surname\nChoose the correct option. · Good evening · Bye · My"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · Mark · John · Tom · Hello! My name is Mark Davis. I am a student from London. Nice to meet you, Mark! Nice to meet you too! What is your surname? My surname is Davis. · What is the man's name?\nRead the text and answer. · Paris · Madrid · London · Hello! My name is Mark Davis. I am a student from London. Nice to meet you, Mark! Nice to meet you too! What is your surname? My surname is Davis. · Where is Mark from?\nRead the text and answer. · Davis · Smith · Brown · Hello! My name is Mark Davis. I am a student from London. Nice to meet you, Mark! Nice to meet you too! What is your surname? My surname is Davis. · What is Mark's surname?\nRead the text and answer. · teacher · student · doctor · Hello! My name is Mark Davis. I am a student from London. Nice to meet you, Mark! Nice to meet you too! What is your surname? My surname is Davis. · What is Mark's occupation?\nRead the text and answer. · Good night · Hello · Goodbye · Hello! My name is Mark Davis. I am a student from London. Nice to meet you, Mark! Nice to meet you too! What is your surname? My surname is Davis. · How does Mark greet?\nRead the text and answer. · Goodbye · See you · Nice to meet you · Hello! My name is Mark Davis. I am a student from London. Nice to meet you, Mark! Nice to meet you too! What is your surname? My surname is Davis. · What phrase shows politeness when meeting someone?\nRead the text and answer. · Goodbye · Hello (informal) · Good morning · Hello! My name is Mark Davis. I am a student from London. Nice to meet you, Mark! Nice to meet you too! What is your surname? My surname is Davis. · What does 'Hi' mean?\nRead the text and answer. · Good afternoon · Good night · Good morning · Hello! My name is Mark Davis. I am a student from London. Nice to meet you, Mark! Nice to meet you too! What is your surname? My surname is Davis. · Which greeting is used in the morning?\nRead the text and answer. · Name · Surname · Title · Hello! My name is Mark Davis. I am a student from London. Nice to meet you, Mark! Nice to meet you too! What is your surname? My surname is Davis. · What word means 'Apellido' in English?\nRead the text and answer. · Goodbye · Nice to meet you too · My name is Mark · Hello! My name is Mark Davis. I am a student from London. Nice to meet you, Mark! Nice to meet you too! What is your surname? My surname is Davis. · What is the response to 'Nice to meet you'?"
+      },
+      {
+        "type": "vocabulary",
+        "title": "Producción",
+        "body": "Build a sentence using these words. · Hi · Good evening · Hello\nBuild a sentence using these words. · Good evening · Bye · Good afternoon\nBuild a sentence using these words. · Bye · My · Goodbye\nBuild a sentence using these words. · My · Please · Surname\nComplete the sentence. · What _____ your name?\nComplete the sentence. · I _____ not a teacher.\nComplete the sentence. · Nice to meet _____.\nTrue or False? · Hello! My name is Mark Davis."
       }
     ]
   },
   "a1-02": {
-    "objective": "Saludar y responder a saludos sencillos.",
+    "objective": "Use subject pronouns he, she, it, we, they correctly · Conjugate 'to be' (is/are) with all subject pronouns · Describe people and their nationalities",
     "sections": [
       {
         "type": "grammar",
         "title": "Gramática",
-        "body": "Responde a un saludo con otro saludo. “Good morning” se usa por la mañana; “Good evening”, al llegar por la tarde-noche.",
-        "example": "Good morning, Sara!",
-        "exampleTranslation": "¡Buenos días, Sara!"
+        "body": "Use subject pronouns he, she, it, we, they correctly\n\nConjugate 'to be' (is/are) with all subject pronouns\n\nDescribe people and their nationalities\n\nComplete the affirmative sentence. · He _____ a doctor.\n\nComplete the affirmative sentence. · She _____ from Spain.\n\nComplete the affirmative sentence. · We _____ students.\n\nComplete the affirmative sentence. · They _____ from Italy.\n\nChoose the correct word. · It _____ a book. · is · am · are",
+        "example": "Complete the affirmative sentence. · He _____ a doctor."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para saludos básicos:\nHello — Hola\nHi — Hola (informal)\nGood morning — Buenos días\nGood afternoon — Buenas tardes\nGood evening — Buenas noches (saludo)\nNice to meet you — Encantado/a de conocerte"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "A: Good morning, Tom. B: Good morning, Sara. A: How are you? B: I’m fine, thanks."
+        "body": "Choose the correct translation. · He · Él · Ella · Ello/Eso\nChoose the correct translation. · She · Ello/Eso · Ella · Nosotros\nChoose the correct translation. · It · Nosotros · Ellos/Ellas · Ello/Eso\nChoose the correct translation. · We · Nosotros · Ellos/Ellas · País\nChoose the correct translation. · They · País · Ellos/Ellas · España\nChoose the correct translation. · Country · España · Inglaterra · País\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · We · Spain · Italy\nChoose the correct option. · They · England · German"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · Italy · Spain · France · Hi! This is my friend Carlos. He is from Spain. And this is Ana. She is from Italy. We are students at the same school. They are my classmates. · Where is Carlos from?\nRead the text and answer. · Spain · Germany · Italy · Hi! This is my friend Carlos. He is from Spain. And this is Ana. She is from Italy. We are students at the same school. They are my classmates. · Where is Ana from?\nRead the text and answer. · teachers · doctors · students · Hi! This is my friend Carlos. He is from Spain. And this is Ana. She is from Italy. We are students at the same school. They are my classmates. · What are Carlos and Ana?\nRead the text and answer. · She · He · They · Hi! This is my friend Carlos. He is from Spain. And this is Ana. She is from Italy. We are students at the same school. They are my classmates. · Which pronoun do we use for Carlos?\nRead the text and answer. · He · It · She · Hi! This is my friend Carlos. He is from Spain. And this is Ana. She is from Italy. We are students at the same school. They are my classmates. · Which pronoun do we use for Ana?\nRead the text and answer. · We · They · It · Hi! This is my friend Carlos. He is from Spain. And this is Ana. She is from Italy. We are students at the same school. They are my classmates. · What pronoun refers to both Carlos and Ana?\nRead the text and answer. · at home · at the same school · online · Hi! This is my friend Carlos. He is from Spain. And this is Ana. She is from Italy. We are students at the same school. They are my classmates. · Where do they study?\nRead the text and answer. · siblings · classmates · teachers · Hi! This is my friend Carlos. He is from Spain. And this is Ana. She is from Italy. We are students at the same school. They are my classmates. · What is the relationship between Carlos and Ana?\nRead the text and answer. · am · are · is · Hi! This is my friend Carlos. He is from Spain. And this is Ana. She is from Italy. We are students at the same school. They are my classmates. · Which form of 'to be' goes with 'She'?\nRead the text and answer. · is · are · am · Hi! This is my friend Carlos. He is from Spain. And this is Ana. She is from Italy. We are students at the same school. They are my classmates. · Which form of 'to be' goes with 'We'?"
+      },
+      {
+        "type": "vocabulary",
+        "title": "Producción",
+        "body": "Build a sentence using these words. · She · They · He\nBuild a sentence using these words. · They · England · We\nBuild a sentence using these words. · England · German · Spain\nBuild a sentence using these words. · German · One · Italy\nComplete the sentence. · He _____ not American.\nComplete the sentence. · She _____ not a teacher.\nComplete the sentence. · We _____ not from France.\nTrue or False? · Hi! This is my friend Carlos."
       }
     ]
   },
   "a1-03": {
-    "objective": "Decir goodbye, please y thank you en contexto.",
+    "objective": "Form negative sentences with 'to be' (am not, isn't, aren't) · Ask and answer Yes/No questions with 'to be' · Describe emotions and states in English",
     "sections": [
       {
         "type": "grammar",
         "title": "Gramática",
-        "body": "“Please” hace más cortés una petición. Di “Thank you” al recibir algo; “You’re welcome” responde a las gracias. “Bye” y “Goodbye” sirven para despedirse.",
-        "example": "A coffee, please. Thank you!",
-        "exampleTranslation": "Un café, por favor. ¡Gracias!"
+        "body": "Form negative sentences with 'to be' (am not, isn't, aren't)\n\nAsk and answer Yes/No questions with 'to be'\n\nDescribe emotions and states in English\n\nComplete the affirmative sentence. · I _____ not tired.\n\nComplete the affirmative sentence. · She _____ not happy.\n\nComplete the affirmative sentence. · They _____ not hungry.\n\nComplete the affirmative sentence. · _____ they ready?\n\nChoose the correct word. · _____ he sad? · Is · am · are",
+        "example": "Complete the affirmative sentence. · I _____ not tired."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para despedidas y agradecimientos:\nPlease — Por favor\nThank you — Gracias\nThanks — Gracias (informal)\nYou’re welcome — De nada\nGoodbye — Adiós\nSee you later — Hasta luego"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "A: Here you are. B: Thank you. A: You’re welcome. B: Goodbye! A: See you later!"
+        "body": "Choose the correct translation. · Happy · Feliz · Triste · Cansado/a\nChoose the correct translation. · Sad · Cansado/a · Triste · Hambriento/a\nChoose the correct translation. · Tired · Hambriento/a · Sediento/a · Cansado/a\nChoose the correct translation. · Hungry · Hambriento/a · Sediento/a · Enfadado/a\nChoose the correct translation. · Thirsty · Enfadado/a · Sediento/a · Enfermo/a\nChoose the correct translation. · Angry · Enfermo/a · Bien · Enfadado/a\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Hungry · Sick · Yes\nChoose the correct option. · Thirsty · Fine · No"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · happy · tired · angry · Hi Laura! How are you? I am not very well. I am tired. Are you sick? No, I am not sick. Just very tired. Is Tom here? Is he happy? No, he is not here. He is sad today. · How is Laura feeling?\nRead the text and answer. · Yes · No · Maybe · Hi Laura! How are you? I am not very well. I am tired. Are you sick? No, I am not sick. Just very tired. Is Tom here? Is he happy? No, he is not here. He is sad today. · Is Laura sick?\nRead the text and answer. · Yes · No · We don't know · Hi Laura! How are you? I am not very well. I am tired. Are you sick? No, I am not sick. Just very tired. Is Tom here? Is he happy? No, he is not here. He is sad today. · Is Tom present in the conversation?\nRead the text and answer. · happy · fine · sad · Hi Laura! How are you? I am not very well. I am tired. Are you sick? No, I am not sick. Just very tired. Is Tom here? Is he happy? No, he is not here. He is sad today. · How is Tom feeling?\nRead the text and answer. · I am not happy · Am I happy? · I is not happy · Hi Laura! How are you? I am not very well. I am tired. Are you sick? No, I am not sick. Just very tired. Is Tom here? Is he happy? No, he is not here. He is sad today. · What is the negative of 'I am happy'?\nRead the text and answer. · Where are you? · How are you? · Who are you? · Hi Laura! How are you? I am not very well. I am tired. Are you sick? No, I am not sick. Just very tired. Is Tom here? Is he happy? No, he is not here. He is sad today. · Which question asks about feelings?\nRead the text and answer. · Yes, I is. · Yes, I am. · Yes, I are. · Hi Laura! How are you? I am not very well. I am tired. Are you sick? No, I am not sick. Just very tired. Is Tom here? Is he happy? No, he is not here. He is sad today. · What is the short answer to 'Are you tired? — Yes'?\nRead the text and answer. · Thirsty · Angry · Hungry · Hi Laura! How are you? I am not very well. I am tired. Are you sick? No, I am not sick. Just very tired. Is Tom here? Is he happy? No, he is not here. He is sad today. · Which word means 'Hungry'?\nRead the text and answer. · She isn't happy · She aren't happy · She amn't happy · Hi Laura! How are you? I am not very well. I am tired. Are you sick? No, I am not sick. Just very tired. Is Tom here? Is he happy? No, he is not here. He is sad today. · What is the negative of 'She is happy'?\nRead the text and answer. · Is they tired? · Are they tired? · Do they tired? · Hi Laura! How are you? I am not very well. I am tired. Are you sick? No, I am not sick. Just very tired. Is Tom here? Is he happy? No, he is not here. He is sad today. · What is the question form of 'They are tired'?"
+      },
+      {
+        "type": "vocabulary",
+        "title": "Producción",
+        "body": "Build a sentence using these words. · Sad · Thirsty · Happy\nBuild a sentence using these words. · Thirsty · Fine · Hungry\nBuild a sentence using these words. · Fine · No · Sick\nBuild a sentence using these words. · No · Because · Yes\nComplete the sentence. · No, I _____ not angry.\nComplete the sentence. · Yes, she _____ fine.\nComplete the sentence. · We _____ not thirsty.\nTrue or False? · Hi Laura! How are you?"
       }
     ]
   },
   "a1-04": {
-    "objective": "Presentarte usando I’m y My name is.",
+    "objective": "Use articles a/an correctly before nouns · Name classroom objects and their colors · Use numbers 1–5 in context · Use 'this/that' to point to objects",
     "sections": [
       {
         "type": "grammar",
         "title": "Gramática",
-        "body": "Preséntate con “I’m + nombre” o “My name is + nombre”. Para preguntar, usa “What’s your name?”.",
-        "example": "I’m Ana. My name is Leo.",
-        "exampleTranslation": "Soy Ana. Me llamo Leo."
+        "body": "Use articles a/an correctly before nouns\n\nName classroom objects and their colors\n\nUse numbers 1–5 in context\n\nUse 'this/that' to point to objects\n\nComplete the affirmative sentence. · This is _____ pen.\n\nComplete the affirmative sentence. · This is _____ apple.\n\nComplete the affirmative sentence. · I have _____ books.\n\nComplete the affirmative sentence. · There are _____ bags.\n\nChoose the correct word. · That _____ is a red pen. · one · an · two",
+        "example": "Complete the affirmative sentence. · This is _____ pen."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para decir tu nombre:\nName — Nombre\nFirst name — Nombre\nSurname — Apellido\nI’m — Soy / Me llamo\nMy name is — Me llamo\nHow do you spell it? — ¿Cómo se deletrea?"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "A: What’s your name? B: My name is Leo Martin. A: How do you spell Leo? B: L-E-O."
+        "body": "Choose the correct translation. · One · Uno · Dos · Tres\nChoose the correct translation. · Two · Tres · Dos · Cuatro\nChoose the correct translation. · Three · Cuatro · Cinco · Tres\nChoose the correct translation. · Four · Cuatro · Cinco · Bolígrafo\nChoose the correct translation. · Five · Bolígrafo · Cinco · Libro\nChoose the correct translation. · Pen · Libro · Cuaderno · Bolígrafo\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Four · Book · Table\nChoose the correct option. · Five · Notebook · Red"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · Red · Blue · Green · Look at this! What is this? It is a book. It is blue. How many pens do you have? I have three pens. Two are red and one is blue. What about notebooks? I have one notebook. It is new. · What color is the book?\nRead the text and answer. · Two · Four · Three · Look at this! What is this? It is a book. It is blue. How many pens do you have? I have three pens. Two are red and one is blue. What about notebooks? I have one notebook. It is new. · How many pens does the speaker have?\nRead the text and answer. · One · Two · Three · Look at this! What is this? It is a book. It is blue. How many pens do you have? I have three pens. Two are red and one is blue. What about notebooks? I have one notebook. It is new. · How many red pens are there?\nRead the text and answer. · An · A · The · Look at this! What is this? It is a book. It is blue. How many pens do you have? I have three pens. Two are red and one is blue. What about notebooks? I have one notebook. It is new. · Which article goes before 'book'?\nRead the text and answer. · A · The · An · Look at this! What is this? It is a book. It is blue. How many pens do you have? I have three pens. Two are red and one is blue. What about notebooks? I have one notebook. It is new. · Which article goes before 'apple'?\nRead the text and answer. · Three · One · Two · Look at this! What is this? It is a book. It is blue. How many pens do you have? I have three pens. Two are red and one is blue. What about notebooks? I have one notebook. It is new. · How many notebooks does the speaker have?\nRead the text and answer. · old · blue · new · Look at this! What is this? It is a book. It is blue. How many pens do you have? I have three pens. Two are red and one is blue. What about notebooks? I have one notebook. It is new. · What is the notebook like?\nRead the text and answer. · Happy · Notebook · Spain · Look at this! What is this? It is a book. It is blue. How many pens do you have? I have three pens. Two are red and one is blue. What about notebooks? I have one notebook. It is new. · Which word is a classroom object?\nRead the text and answer. · penes · pens · pen's · Look at this! What is this? It is a book. It is blue. How many pens do you have? I have three pens. Two are red and one is blue. What about notebooks? I have one notebook. It is new. · What is the plural of 'pen'?\nRead the text and answer. · That (far) · This (near) · Those (far pl.) · Look at this! What is this? It is a book. It is blue. How many pens do you have? I have three pens. Two are red and one is blue. What about notebooks? I have one notebook. It is new. · What does 'This' mean?"
+      },
+      {
+        "type": "vocabulary",
+        "title": "Producción",
+        "body": "Build a sentence using these words. · Two · Five · One\nBuild a sentence using these words. · Five · Notebook · Four\nBuild a sentence using these words. · Notebook · Red · Book\nBuild a sentence using these words. · Red · An · Table\nComplete the sentence. · This are my _____ notebooks.\nComplete the sentence. · She has _____ book.\nComplete the sentence. · It is _____ apple.\nTrue or False? · Look at this! What is this?"
       }
     ]
   },
   "a1-05": {
-    "objective": "Preguntar y responder How are you?.",
+    "objective": "Use Present Simple affirmative with all pronouns · Apply the 3rd person singular '-s' rule correctly · Describe everyday actions and routines",
     "sections": [
       {
         "type": "grammar",
         "title": "Gramática",
-        "body": "“How are you?” pregunta cómo está la persona. Responde “I’m fine”, “I’m good” o “I’m OK”, y puedes añadir “thanks”.",
-        "example": "I’m fine, thanks.",
-        "exampleTranslation": "Estoy bien, gracias."
+        "body": "Use Present Simple affirmative with all pronouns\n\nApply the 3rd person singular '-s' rule correctly\n\nDescribe everyday actions and routines\n\nComplete the affirmative sentence. · I _____ English at the moment.\n\nComplete the affirmative sentence. · My sister _____ in a hospital.\n\nComplete the affirmative sentence. · My brother _____ rice for dinner.\n\nComplete the affirmative sentence. · They _____ football on Saturdays.\n\nChoose the correct word. · I _____ coffee in the morning. · drink · works · eats",
+        "example": "Complete the affirmative sentence. · I _____ English at the moment."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para preguntar cómo está alguien:\nHow are you? — ¿Cómo estás?\nFine — Bien\nGood — Bien\nOK — Bien / Vale\nTired — Cansado/a\nThanks — Gracias"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "A: Hi, Laura. How are you? B: I’m not very well. I’m tired. A: I’m sorry. B: Thanks."
+        "body": "Choose the correct translation. · Work · Trabajar · Estudiar · Comer\nChoose the correct translation. · Study · Comer · Estudiar · Beber\nChoose the correct translation. · Eat · Beber · Dormir · Comer\nChoose the correct translation. · Drink · Beber · Dormir · Jugar\nChoose the correct translation. · Sleep · Jugar · Dormir · Leer\nChoose the correct translation. · Play · Leer · Escribir · Jugar\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Drink · Read · Cook\nChoose the correct option. · Sleep · Write · Every day"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · six · eight · seven · What do you do every morning? I wake up at seven. Then I eat breakfast. Do you eat eggs? Yes, I always eat eggs and drink orange juice. Does your sister work? Yes, she works in a school. She teaches English. · What time does the speaker wake up?\nRead the text and answer. · cereal · eggs · bread · What do you do every morning? I wake up at seven. Then I eat breakfast. Do you eat eggs? Yes, I always eat eggs and drink orange juice. Does your sister work? Yes, she works in a school. She teaches English. · What does the speaker eat for breakfast?\nRead the text and answer. · milk · water · orange juice · What do you do every morning? I wake up at seven. Then I eat breakfast. Do you eat eggs? Yes, I always eat eggs and drink orange juice. Does your sister work? Yes, she works in a school. She teaches English. · What does the speaker drink?\nRead the text and answer. · hospital · school · office · What do you do every morning? I wake up at seven. Then I eat breakfast. Do you eat eggs? Yes, I always eat eggs and drink orange juice. Does your sister work? Yes, she works in a school. She teaches English. · Where does the speaker's sister work?\nRead the text and answer. · Maths · Science · English · What do you do every morning? I wake up at seven. Then I eat breakfast. Do you eat eggs? Yes, I always eat eggs and drink orange juice. Does your sister work? Yes, she works in a school. She teaches English. · What does the sister teach?\nRead the text and answer. · sometimes · never · always · What do you do every morning? I wake up at seven. Then I eat breakfast. Do you eat eggs? Yes, I always eat eggs and drink orange juice. Does your sister work? Yes, she works in a school. She teaches English. · How often does the speaker eat eggs?\nRead the text and answer. · work · works · workes · What do you do every morning? I wake up at seven. Then I eat breakfast. Do you eat eggs? Yes, I always eat eggs and drink orange juice. Does your sister work? Yes, she works in a school. She teaches English. · What is the third-person form of 'work'?\nRead the text and answer. · sleep · study · cook · What do you do every morning? I wake up at seven. Then I eat breakfast. Do you eat eggs? Yes, I always eat eggs and drink orange juice. Does your sister work? Yes, she works in a school. She teaches English. · Which verb means 'Estudiar'?\nRead the text and answer. · eats · eat · eatss · What do you do every morning? I wake up at seven. Then I eat breakfast. Do you eat eggs? Yes, I always eat eggs and drink orange juice. Does your sister work? Yes, she works in a school. She teaches English. · What is the 3rd person of 'eat'?\nRead the text and answer. · walk · drink · play · What do you do every morning? I wake up at seven. Then I eat breakfast. Do you eat eggs? Yes, I always eat eggs and drink orange juice. Does your sister work? Yes, she works in a school. She teaches English. · Which verb means 'Beber'?"
+      },
+      {
+        "type": "vocabulary",
+        "title": "Producción",
+        "body": "Build a sentence using these words. · Study · Sleep · Work\nBuild a sentence using these words. · Sleep · Write · Drink\nBuild a sentence using these words. · Write · Every day · Read\nBuild a sentence using these words. · Every day · Never · Cook\nComplete the sentence. · She _____ eight hours a night.\nComplete the sentence. · He _____ a book every week.\nComplete the sentence. · We _____ to school every day.\nTrue or False? · What do you do every morning?"
       }
     ]
   },
   "a1-06": {
-    "objective": "Combinar saludos, nombres y despedidas.",
+    "objective": "Name family members in English · Use possessive adjectives (his, her, our, their) · Use Saxon Genitive ('s) to express possession",
     "sections": [
       {
         "type": "grammar",
         "title": "Gramática",
-        "body": "Ordena una presentación así: saludo + nombre + “Nice to meet you”. “Nice to meet you, too” responde a esa frase.",
-        "example": "Nice to meet you, too.",
-        "exampleTranslation": "Encantado/a de conocerte también."
+        "body": "Name family members in English\n\nUse possessive adjectives (his, her, our, their)\n\nUse Saxon Genitive ('s) to express possession\n\nComplete the affirmative sentence. · This is _____ mother.\n\nComplete the affirmative sentence. · _____ name is Ana.\n\nComplete the affirmative sentence. · _____ brother is tall.\n\nComplete the affirmative sentence. · _____ family is big.\n\nChoose the correct word. · They are _____ children. · their · Her · His",
+        "example": "Complete the affirmative sentence. · This is _____ mother."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para tu primera conversación:\nHello — Hola\nI’m — Soy / Me llamo\nWhat’s your name? — ¿Cómo te llamas?\nNice to meet you — Encantado/a de conocerte\nAnd you? — ¿Y tú?\nBye — Chao"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "A: Hi! I’m Ana. What’s your name? B: I’m Leo. Nice to meet you. A: Nice to meet you, too. Goodbye!"
+        "body": "Choose the correct translation. · Mother · Madre · Padre · Hermano\nChoose the correct translation. · Father · Hermano · Padre · Hermana\nChoose the correct translation. · Brother · Hermana · Hijo · Hermano\nChoose the correct translation. · Sister · Hermana · Hijo · Hija\nChoose the correct translation. · Son · Hija · Hijo · Abuela\nChoose the correct translation. · Daughter · Abuela · Abuelo · Hija\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Sister · Grandmother · Aunt\nChoose the correct option. · Son · Grandfather · His"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · Robert · Carlos · Mark · This is a photo of my family. That is my father. His name is Robert. And that is my mother. Her name is Sarah. Do you have brothers or sisters? Yes! I have one brother and two sisters. Our family is very close. · What is the father's name?\nRead the text and answer. · Anna · Sarah · Laura · This is a photo of my family. That is my father. His name is Robert. And that is my mother. Her name is Sarah. Do you have brothers or sisters? Yes! I have one brother and two sisters. Our family is very close. · What is the mother's name?\nRead the text and answer. · Two · Three · One · This is a photo of my family. That is my father. His name is Robert. And that is my mother. Her name is Sarah. Do you have brothers or sisters? Yes! I have one brother and two sisters. Our family is very close. · How many brothers does the speaker have?\nRead the text and answer. · Two · One · Three · This is a photo of my family. That is my father. His name is Robert. And that is my mother. Her name is Sarah. Do you have brothers or sisters? Yes! I have one brother and two sisters. Our family is very close. · How many sisters does the speaker have?\nRead the text and answer. · Her · His · Their · This is a photo of my family. That is my father. His name is Robert. And that is my mother. Her name is Sarah. Do you have brothers or sisters? Yes! I have one brother and two sisters. Our family is very close. · Which possessive means 'Su (de él)'?\nRead the text and answer. · His · Our · Her · This is a photo of my family. That is my father. His name is Robert. And that is my mother. Her name is Sarah. Do you have brothers or sisters? Yes! I have one brother and two sisters. Our family is very close. · Which possessive refers to a female?\nRead the text and answer. · Aunt · Mother · Grandmother · This is a photo of my family. That is my father. His name is Robert. And that is my mother. Her name is Sarah. Do you have brothers or sisters? Yes! I have one brother and two sisters. Our family is very close. · What word means 'Abuela'?\nRead the text and answer. · My · Your · Our · This is a photo of my family. That is my father. His name is Robert. And that is my mother. Her name is Sarah. Do you have brothers or sisters? Yes! I have one brother and two sisters. Our family is very close. · What does 'Our' mean?\nRead the text and answer. · plural · possession · negation · This is a photo of my family. That is my father. His name is Robert. And that is my mother. Her name is Sarah. Do you have brothers or sisters? Yes! I have one brother and two sisters. Our family is very close. · What does Saxon Genitive 's' show?\nRead the text and answer. · Brother · Father · Daughter · This is a photo of my family. That is my father. His name is Robert. And that is my mother. Her name is Sarah. Do you have brothers or sisters? Yes! I have one brother and two sisters. Our family is very close. · What is the opposite of 'Son'?"
+      },
+      {
+        "type": "vocabulary",
+        "title": "Producción",
+        "body": "Build a sentence using these words. · Father · Son · Mother\nBuild a sentence using these words. · Son · Grandfather · Sister\nBuild a sentence using these words. · Grandfather · His · Grandmother\nBuild a sentence using these words. · His · Their · Aunt\nComplete the sentence. · I have two _____ brothers.\nComplete the sentence. · My _____ is eighty years old.\nComplete the sentence. · Her father _____ a doctor.\nTrue or False? · This is a photo of my family."
       }
     ]
   },
   "a1-07": {
-    "objective": "Reconocer y pronunciar zero, one, two, three, four y five.",
+    "objective": "Use a wide range of color adjectives · Describe physical appearance using adjectives · Place adjectives correctly before nouns",
     "sections": [
       {
         "type": "grammar",
         "title": "Gramática",
-        "body": "Para contar objetos, el número va antes del sustantivo: “one book”. Con dos o más, el sustantivo suele llevar -s: “two books”.\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "How many pens do you have?"
+        "body": "Use a wide range of color adjectives\n\nDescribe physical appearance using adjectives\n\nPlace adjectives correctly before nouns\n\nComplete the affirmative sentence. · She has _____ hair.\n\nComplete the affirmative sentence. · He is _____ and handsome.\n\nComplete the affirmative sentence. · My car _____ red.\n\nComplete the affirmative sentence. · They have _____ eyes.\n\nChoose the correct word. · It is _____ old building. · an · tall · is",
+        "example": "Complete the affirmative sentence. · She has _____ hair."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para números del 0 al 5:\nOne — Uno\nTwo — Dos\nThree — Tres\nFour — Cuatro\nFive — Cinco\nPen — Bolígrafo"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "Look at this! What is this? It is a book. It is blue. How many pens do you have? I have three pens. Two are red and one is blue. What about notebooks? I have one notebook. It is new."
+        "body": "Choose the correct translation. · Red · Rojo · Azul · Verde\nChoose the correct translation. · Blue · Verde · Azul · Amarillo\nChoose the correct translation. · Green · Amarillo · Negro · Verde\nChoose the correct translation. · Yellow · Amarillo · Negro · Blanco\nChoose the correct translation. · Black · Blanco · Negro · Alto/a\nChoose the correct translation. · White · Alto/a · Bajo/a · Blanco\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Yellow · Tall · Old\nChoose the correct option. · Black · Short · Long"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · short · medium · tall · Can you describe your best friend? Sure! She is tall with long brown hair. What color are her eyes? Her eyes are green. She is very beautiful. How old is she? She is young — only twenty years old. · What is the friend's height?\nRead the text and answer. · black · brown · blonde · Can you describe your best friend? Sure! She is tall with long brown hair. What color are her eyes? Her eyes are green. She is very beautiful. How old is she? She is young — only twenty years old. · What color is the friend's hair?\nRead the text and answer. · blue · brown · green · Can you describe your best friend? Sure! She is tall with long brown hair. What color are her eyes? Her eyes are green. She is very beautiful. How old is she? She is young — only twenty years old. · What color are the friend's eyes?\nRead the text and answer. · thirty · twenty · eighteen · Can you describe your best friend? Sure! She is tall with long brown hair. What color are her eyes? Her eyes are green. She is very beautiful. How old is she? She is young — only twenty years old. · How old is the friend?\nRead the text and answer. · after the noun · before the noun · at the end · Can you describe your best friend? Sure! She is tall with long brown hair. What color are her eyes? Her eyes are green. She is very beautiful. How old is she? She is young — only twenty years old. · Where do adjectives go in English?\nRead the text and answer. · Young · Old · Short · Can you describe your best friend? Sure! She is tall with long brown hair. What color are her eyes? Her eyes are green. She is very beautiful. How old is she? She is young — only twenty years old. · What is the opposite of 'Tall'?\nRead the text and answer. · Tall · Long · Dark · Can you describe your best friend? Sure! She is tall with long brown hair. What color are her eyes? Her eyes are green. She is very beautiful. How old is she? She is young — only twenty years old. · Which word describes hair length?\nRead the text and answer. · Short · Old · White · Can you describe your best friend? Sure! She is tall with long brown hair. What color are her eyes? Her eyes are green. She is very beautiful. How old is she? She is young — only twenty years old. · What is the opposite of 'Young'?\nRead the text and answer. · Green · Red · Blue · Can you describe your best friend? Sure! She is tall with long brown hair. What color are her eyes? Her eyes are green. She is very beautiful. How old is she? She is young — only twenty years old. · What color is the sky on a sunny day?\nRead the text and answer. · have/has · do/does · go/goes · Can you describe your best friend? Sure! She is tall with long brown hair. What color are her eyes? Her eyes are green. She is very beautiful. How old is she? She is young — only twenty years old. · Which verb is used with physical features?"
+      },
+      {
+        "type": "vocabulary",
+        "title": "Producción",
+        "body": "Build a sentence using these words. · Blue · Black · Red\nBuild a sentence using these words. · Black · Short · Yellow\nBuild a sentence using these words. · Short · Long · Tall\nBuild a sentence using these words. · Long · Hair · Old\nComplete the sentence. · She is very _____ for her age.\nComplete the sentence. · He has _____ short black hair.\nComplete the sentence. · The sky is _____.\nTrue or False? · Can you describe your best friend?"
       }
     ]
   },
   "a1-08": {
-    "objective": "Reconocer los números del six al ten.",
+    "objective": "Say and write numbers 20–100 · Ask and answer about prices using 'How much is...?' · Ask and answer about ages using 'How old are you?'",
     "sections": [
       {
         "type": "grammar",
         "title": "Gramática",
-        "body": "Los números del 6 al 10 siguen el mismo orden: primero dices el número y después el objeto. “Six pens” significa seis bolígrafos.\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "How many pens do you have?"
+        "body": "Say and write numbers 20–100\n\nAsk and answer about prices using 'How much is...?'\n\nAsk and answer about ages using 'How old are you?'\n\nComplete the affirmative sentence. · It costs _____ dollars.\n\nComplete the affirmative sentence. · He is _____ years old.\n\nComplete the affirmative sentence. · How much _____ this?\n\nComplete the affirmative sentence. · How _____ are you?\n\nChoose the correct word. · The book _____ twenty euros. · costs · thirty · is",
+        "example": "Complete the affirmative sentence. · It costs _____ dollars."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para números del 6 al 10:\nOne — Uno\nTwo — Dos\nThree — Tres\nFour — Cuatro\nFive — Cinco\nPen — Bolígrafo"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "Look at this! What is this? It is a book. It is blue. How many pens do you have? I have three pens. Two are red and one is blue. What about notebooks? I have one notebook. It is new."
+        "body": "Choose the correct translation. · Twenty · Veinte · Treinta · Cuarenta\nChoose the correct translation. · Thirty · Cuarenta · Treinta · Cincuenta\nChoose the correct translation. · Forty · Cincuenta · Sesenta · Cuarenta\nChoose the correct translation. · Fifty · Cincuenta · Sesenta · Setenta\nChoose the correct translation. · Sixty · Setenta · Sesenta · Ochenta\nChoose the correct translation. · Seventy · Ochenta · Noventa · Setenta\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Fifty · Eighty · Price\nChoose the correct option. · Sixty · Ninety · How much"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · seventy euros · forty-five euros · one hundred euros · Excuse me! How much is this? It is forty-five euros. And how much is that? That one is seventy euros. How old is your grandfather? He is eighty-two years old. He is very healthy. · How much is the first item?\nRead the text and answer. · sixty euros · eighty euros · seventy euros · Excuse me! How much is this? It is forty-five euros. And how much is that? That one is seventy euros. How old is your grandfather? He is eighty-two years old. He is very healthy. · How much is the second item?\nRead the text and answer. · seventy-two · ninety · eighty-two · Excuse me! How much is this? It is forty-five euros. And how much is that? That one is seventy euros. How old is your grandfather? He is eighty-two years old. He is very healthy. · How old is the grandfather?\nRead the text and answer. · sixty · eighty · ninety · Excuse me! How much is this? It is forty-five euros. And how much is that? That one is seventy euros. How old is your grandfather? He is eighty-two years old. He is very healthy. · What number comes after seventy?\nRead the text and answer. · How much? · How many? · How old? · Excuse me! How much is this? It is forty-five euros. And how much is that? That one is seventy euros. How old is your grandfather? He is eighty-two years old. He is very healthy. · What question asks about age?\nRead the text and answer. · How old? · How much? · How far? · Excuse me! How much is this? It is forty-five euros. And how much is that? That one is seventy euros. How old is your grandfather? He is eighty-two years old. He is very healthy. · What question asks about price?\nRead the text and answer. · seventy · ninety · eighty · Excuse me! How much is this? It is forty-five euros. And how much is that? That one is seventy euros. How old is your grandfather? He is eighty-two years old. He is very healthy. · What is fifty plus thirty?\nRead the text and answer. · Age · Price · Number · Excuse me! How much is this? It is forty-five euros. And how much is that? That one is seventy euros. How old is your grandfather? He is eighty-two years old. He is very healthy. · What word means 'Precio' in English?\nRead the text and answer. · Ninety · One hundred · Eighty · Excuse me! How much is this? It is forty-five euros. And how much is that? That one is seventy euros. How old is your grandfather? He is eighty-two years old. He is very healthy. · How do you say 100 in English?\nRead the text and answer. · Dollar · Euro · Pound · Excuse me! How much is this? It is forty-five euros. And how much is that? That one is seventy euros. How old is your grandfather? He is eighty-two years old. He is very healthy. · What currency is used in the UK?"
+      },
+      {
+        "type": "vocabulary",
+        "title": "Producción",
+        "body": "Build a sentence using these words. · Thirty · Sixty · Twenty\nBuild a sentence using these words. · Sixty · Ninety · Fifty\nBuild a sentence using these words. · Ninety · How much · Eighty\nBuild a sentence using these words. · How much · Euro · Price\nComplete the sentence. · My grandmother is _____ years old.\nComplete the sentence. · There are _____ students in the school.\nComplete the sentence. · The price _____ sixty pounds.\nTrue or False? · Excuse me! How much is this?"
       }
     ]
   },
