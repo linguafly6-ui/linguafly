@@ -24,13 +24,13 @@ describe('Speaking and Pronunciation Exercises', () => {
     reviewUnits.forEach(({ unit, name }) => {
       describe(`${name}`, () => {
         it('should have at least one pronunciation exercise', () => {
-          const content = unit.blocks[0].content;
+          const content: any[] = unit.blocks[0].content as any[];
           const pronunciationExercises = content.filter((ex: any) => ex.type === 'pronunciation');
           expect(pronunciationExercises.length).toBeGreaterThanOrEqual(1);
         });
 
         it('should have pronunciation exercise with required fields', () => {
-          const content = unit.blocks[0].content;
+          const content: any[] = unit.blocks[0].content as any[];
           const pronunciationExercise = content.find((ex: any) => ex.type === 'pronunciation');
           
           expect(pronunciationExercise).toBeDefined();
@@ -44,7 +44,7 @@ describe('Speaking and Pronunciation Exercises', () => {
         });
 
         it('should have at least 3 target sentences', () => {
-          const content = unit.blocks[0].content;
+          const content: any[] = unit.blocks[0].content as any[];
           const pronunciationExercise = content.find((ex: any) => ex.type === 'pronunciation');
           
           expect(pronunciationExercise).toBeDefined();
@@ -54,7 +54,7 @@ describe('Speaking and Pronunciation Exercises', () => {
         });
 
         it('should have target sentences with text, phonetic, and audioUrl', () => {
-          const content = unit.blocks[0].content;
+          const content: any[] = unit.blocks[0].content as any[];
           const pronunciationExercise = content.find((ex: any) => ex.type === 'pronunciation');
           
           expect(pronunciationExercise).toBeDefined();
@@ -70,7 +70,7 @@ describe('Speaking and Pronunciation Exercises', () => {
         });
 
         it('should have focusPoints array', () => {
-          const content = unit.blocks[0].content;
+          const content: any[] = unit.blocks[0].content as any[];
           const pronunciationExercise = content.find((ex: any) => ex.type === 'pronunciation');
           
           expect(pronunciationExercise).toBeDefined();
@@ -82,7 +82,7 @@ describe('Speaking and Pronunciation Exercises', () => {
         });
 
         it('should have at least one pronunciation question', () => {
-          const content = unit.blocks[0].content;
+          const content: any[] = unit.blocks[0].content as any[];
           const pronunciationExercise = content.find((ex: any) => ex.type === 'pronunciation');
           
           expect(pronunciationExercise).toBeDefined();
@@ -94,7 +94,7 @@ describe('Speaking and Pronunciation Exercises', () => {
         });
 
         it('should have pronunciation questions with valid structure', () => {
-          const content = unit.blocks[0].content;
+          const content: any[] = unit.blocks[0].content as any[];
           const pronunciationExercise = content.find((ex: any) => ex.type === 'pronunciation');
           
           expect(pronunciationExercise).toBeDefined();
@@ -118,13 +118,13 @@ describe('Speaking and Pronunciation Exercises', () => {
     reviewUnits.forEach(({ unit, name }) => {
       describe(`${name}`, () => {
         it('should have at least one speaking exercise', () => {
-          const content = unit.blocks[0].content;
+          const content: any[] = unit.blocks[0].content as any[];
           const speakingExercises = content.filter((ex: any) => ex.type === 'speaking');
           expect(speakingExercises.length).toBeGreaterThanOrEqual(1);
         });
 
         it('should have speaking exercise with required fields', () => {
-          const content = unit.blocks[0].content;
+          const content: any[] = unit.blocks[0].content as any[];
           const speakingExercise = content.find((ex: any) => ex.type === 'speaking');
           
           expect(speakingExercise).toBeDefined();
@@ -138,7 +138,7 @@ describe('Speaking and Pronunciation Exercises', () => {
         });
 
         it('should have at least 3 hints', () => {
-          const content = unit.blocks[0].content;
+          const content: any[] = unit.blocks[0].content as any[];
           const speakingExercise = content.find((ex: any) => ex.type === 'speaking');
           
           expect(speakingExercise).toBeDefined();
@@ -148,7 +148,7 @@ describe('Speaking and Pronunciation Exercises', () => {
         });
 
         it('should have targetWords array', () => {
-          const content = unit.blocks[0].content;
+          const content: any[] = unit.blocks[0].content as any[];
           const speakingExercise = content.find((ex: any) => ex.type === 'speaking');
           
           expect(speakingExercise).toBeDefined();
@@ -160,7 +160,7 @@ describe('Speaking and Pronunciation Exercises', () => {
         });
 
         it('should have a valid timeLimit', () => {
-          const content = unit.blocks[0].content;
+          const content: any[] = unit.blocks[0].content as any[];
           const speakingExercise = content.find((ex: any) => ex.type === 'speaking');
           
           expect(speakingExercise).toBeDefined();
@@ -173,7 +173,7 @@ describe('Speaking and Pronunciation Exercises', () => {
         });
 
         it('should have mastery_tag set to "speaking"', () => {
-          const content = unit.blocks[0].content;
+          const content: any[] = unit.blocks[0].content as any[];
           const speakingExercise = content.find((ex: any) => ex.type === 'speaking');
           
           expect(speakingExercise).toBeDefined();
@@ -183,7 +183,7 @@ describe('Speaking and Pronunciation Exercises', () => {
         });
 
         it('should have a meaningful prompt', () => {
-          const content = unit.blocks[0].content;
+          const content: any[] = unit.blocks[0].content as any[];
           const speakingExercise = content.find((ex: any) => ex.type === 'speaking');
           
           expect(speakingExercise).toBeDefined();
@@ -193,7 +193,7 @@ describe('Speaking and Pronunciation Exercises', () => {
         });
 
         it('should have an appropriate expected response', () => {
-          const content = unit.blocks[0].content;
+          const content: any[] = unit.blocks[0].content as any[];
           const speakingExercise = content.find((ex: any) => ex.type === 'speaking');
           
           expect(speakingExercise).toBeDefined();
@@ -208,7 +208,7 @@ describe('Speaking and Pronunciation Exercises', () => {
   describe('Exercise Integration', () => {
     it('should have both speaking and pronunciation in all review units', () => {
       reviewUnits.forEach(({ unit, name }) => {
-        const content = unit.blocks[0].content;
+        const content: any[] = unit.blocks[0].content as any[];
         const speakingExercises = content.filter((ex: any) => ex.type === 'speaking');
         const pronunciationExercises = content.filter((ex: any) => ex.type === 'pronunciation');
         
@@ -219,7 +219,7 @@ describe('Speaking and Pronunciation Exercises', () => {
 
     it('should have unique interaction_ids within each unit', () => {
       reviewUnits.forEach(({ unit, name }) => {
-        const content = unit.blocks[0].content;
+        const content: any[] = unit.blocks[0].content as any[];
         const ids = content.map((ex: any) => ex.interaction_id);
         const uniqueIds = new Set(ids);
         
@@ -233,7 +233,7 @@ describe('Speaking and Pronunciation Exercises', () => {
 
     it('should place speaking/pronunciation exercises at the end of content', () => {
       reviewUnits.forEach(({ unit, name }) => {
-        const content = unit.blocks[0].content;
+        const content: any[] = unit.blocks[0].content as any[];
         const lastTwoExercises = content.slice(-2);
         
         const types = lastTwoExercises.map((ex: any) => ex.type);
@@ -246,7 +246,7 @@ describe('Speaking and Pronunciation Exercises', () => {
   describe('Audio URL Validation', () => {
     it('should have correct audio URL patterns for pronunciation', () => {
       reviewUnits.forEach(({ unit, name }) => {
-        const content = unit.blocks[0].content;
+        const content: any[] = unit.blocks[0].content as any[];
         const pronunciationExercise = content.find((ex: any) => ex.type === 'pronunciation');
         
         if (pronunciationExercise && pronunciationExercise.targetSentences) {
@@ -261,7 +261,7 @@ describe('Speaking and Pronunciation Exercises', () => {
   describe('Content Validation', () => {
     it('should have contextually appropriate pronunciation exercises', () => {
       // Unit 10 - Module 1 Review
-      const unit10Content = unit10.blocks[0].content;
+      const unit10Content: any[] = unit10.blocks[0].content as any[];
       const unit10Pron = unit10Content.find((ex: any) => ex.type === 'pronunciation');
       expect(unit10Pron).toBeDefined();
       if (unit10Pron) {
@@ -269,7 +269,7 @@ describe('Speaking and Pronunciation Exercises', () => {
       }
 
       // Unit 20 - Giving Directions
-      const unit20Content = unit20.blocks[0].content;
+      const unit20Content: any[] = unit20.blocks[0].content as any[];
       const unit20Pron = unit20Content.find((ex: any) => ex.type === 'pronunciation');
       expect(unit20Pron).toBeDefined();
       if (unit20Pron) {
@@ -277,7 +277,7 @@ describe('Speaking and Pronunciation Exercises', () => {
       }
 
       // Unit 30 - Module 3 Review
-      const unit30Content = unit30.blocks[0].content;
+      const unit30Content: any[] = unit30.blocks[0].content as any[];
       const unit30Pron = unit30Content.find((ex: any) => ex.type === 'pronunciation');
       expect(unit30Pron).toBeDefined();
       if (unit30Pron) {
@@ -287,7 +287,7 @@ describe('Speaking and Pronunciation Exercises', () => {
 
     it('should have contextually appropriate speaking exercises', () => {
       // Unit 10 - About learning
-      const unit10Content = unit10.blocks[0].content;
+      const unit10Content: any[] = unit10.blocks[0].content as any[];
       const unit10Speaking = unit10Content.find((ex: any) => ex.type === 'speaking');
       expect(unit10Speaking).toBeDefined();
       if (unit10Speaking) {
@@ -295,7 +295,7 @@ describe('Speaking and Pronunciation Exercises', () => {
       }
 
       // Unit 20 - About directions
-      const unit20Content = unit20.blocks[0].content;
+      const unit20Content: any[] = unit20.blocks[0].content as any[];
       const unit20Speaking = unit20Content.find((ex: any) => ex.type === 'speaking');
       expect(unit20Speaking).toBeDefined();
       if (unit20Speaking) {
