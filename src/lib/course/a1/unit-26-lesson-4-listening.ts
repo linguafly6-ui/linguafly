@@ -6,7 +6,7 @@ import { Exercise } from '@/lib/exercise-generator';
 
 const LESSON_TITLE = 'Comprensión auditiva';
 const TOPIC = 'Giving Directions';
-const LISTENING_TRANSCRIPT = `[[A|A]]: [[How|Cómo]] [[do|llego]] [[I|yo]] [[get|llego]] [[to|a]] [[the|la]] [[cinema|cine]]? [[B|B]]: [[Go|Sigue]] [[straight|recto]] [[along|por]] [[this|esta]] [[street|calle]]. [[Turn|Gira]] [[left|izquierda]] [[at|en]] [[the|la]] [[corner|esquina]]. [[Past|Pasa]] [[the|el]] [[supermarket|supermercado]] [[and|y]] [[the|el]] [[cinema|cine]] [[is|está]] [[on|a la]] [[the|la]] [[right|derecha]]. [[A|A]]: [[Thanks|Gracias]]! [[B|B]]: [[You\'re welcome|De nada]].`;
+const LISTENING_TRANSCRIPT = `[[A: How do I get to the cinema?|A: ¿Cómo llego al cine?]] [[B: Go straight along this street. Turn left at the corner.|B: Sigue recto por esta calle. Gira a la izquierda en la esquina.]] [[Go past the supermarket and the cinema is on the right.|Pasa el supermercado y el cine queda a la derecha.]] [[A: Thanks!|A: ¡Gracias!]] [[B: You're welcome.|B: De nada.]]`;
 
 const INSTRUCTIONS = 'Escucha el audio. Después contesta cada pregunta.';
 
