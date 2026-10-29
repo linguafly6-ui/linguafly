@@ -93,6 +93,27 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CI: true
 
+      - name: Sync source course JSON units into D1
+        run: |
+          SEED_DIR=/tmp/d1-course-seed
+          rm -rf "$SEED_DIR"
+          mkdir -p "$SEED_DIR"
+          npx tsx scripts/sync-course-json-to-d1.ts --sql-out-dir "$SEED_DIR"
+          shopt -s nullglob
+          files=("$SEED_DIR"/batch-*.sql)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "::error::Course JSON sync produced no SQL batches; refusing to continue."
+            exit 1
+          fi
+          for f in "${files[@]}"; do
+            echo "Syncing course source $(basename "$f")"
+            npx wrangler d1 execute blog --remote --file="$f" --yes
+          done
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CI: true
+
       - name: Seed magazine and English-learning articles into D1
         run: |
           SEED_DIR=/tmp/d1-seed
