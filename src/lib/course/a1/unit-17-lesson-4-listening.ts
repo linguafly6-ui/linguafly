@@ -6,7 +6,7 @@ import { Exercise } from '@/lib/exercise-generator';
 
 const LESSON_TITLE = 'Comprensión auditiva';
 const TOPIC = 'Breakfast, Lunch & Dinner';
-const LISTENING_TRANSCRIPT = `[[A|A]]: [[What|Qué]] [[do|tomas]] [[you|tú]] [[have|desayuno]] [[for|para]] [[breakfast|desayuno]]? [[B|B]]: [[I|Yo]] [[have|tomo]] [[cereal|cereales]] [[and|y]] [[milk|leche]]. [[I|Yo]] [[like|me gusta]] [[fruit|la fruta]] [[too|tambien]]. [[A|A]]: [[Do|¿Te]] [[you|gusta]] [[like|la]] [[eggs|huevos]]? [[B|B]]: [[No|No]], [[I|yo]] [[don't|no]]. [[I|Yo]] [[hate|odio]] [[eggs|los huevos]]. [[For|Para]] [[lunch|comida]] [[I|yo]] [[have|como]] [[a|un]] [[sandwich|bocadillo]]. [[For|Para]] [[dinner|cena]] [[I|yo]] [[love|me encanta]] [[pasta|la pasta]] [[or|o]] [[rice|arroz]].`;
+const LISTENING_TRANSCRIPT = `[[A: What do you have for breakfast?|A: ¿Qué desayunas?]] [[B: I have cereal and milk. I like fruit too.|B: Tomo cereales con leche. También me gusta la fruta.]] [[A: Do you like eggs?|A: ¿Te gustan los huevos?]] [[B: No, I don't. I hate eggs.|B: No. Odio los huevos.]] [[For lunch I have a sandwich.|Como un bocadillo al mediodía.]] [[For dinner I love pasta or rice.|Para cenar me encanta la pasta o el arroz.]]`;
 
 const INSTRUCTIONS = 'Escucha el audio. Después contesta cada pregunta.';
 
