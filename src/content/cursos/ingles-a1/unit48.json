@@ -492,7 +492,7 @@
           "options": [
             {
               "id": "o1",
-              "text": "[[most famous|most famous]]"
+              "text": "[[most visited|most visited]]"
             },
             {
               "id": "o2",
@@ -631,7 +631,7 @@
             },
             {
               "id": "o3",
-              "text": "[[most famous|most famous]]"
+              "text": "[[largest|largest]]"
             }
           ],
           "correct_answer": "o1"
@@ -700,7 +700,7 @@
             },
             {
               "id": "o3",
-              "text": "[[most famous|most famous]]"
+              "text": "[[most visited|most visited]]"
             }
           ],
           "correct_answer": "o1"
