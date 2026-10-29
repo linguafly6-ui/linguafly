@@ -523,7 +523,7 @@
             },
             {
               "id": "o3",
-              "text": "[[the|the]]"
+              "text": "[[many|many]]"
             }
           ],
           "correct_answer": "o1"
@@ -696,7 +696,7 @@
             },
             {
               "id": "o2",
-              "text": "[[a|a]]"
+              "text": "[[an|an]]"
             },
             {
               "id": "o3",
