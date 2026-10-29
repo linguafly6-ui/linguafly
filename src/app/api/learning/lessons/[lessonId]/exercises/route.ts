@@ -59,7 +59,10 @@ function normalizedLegacyAnswer(item: LegacyItem): string {
   const options = item.options ?? [];
   if (item.type === "multiple-choice" || item.type === "reading-comprehension" || item.type === "listening-comprehension") {
     const correctId = String(item.correct_answer);
-    return plainText(options.find((option) => option.id === correctId)?.text);
+    const text = options.find((option) => option.id === correctId)?.text;
+    if (!text) return "";
+    const bilingual = /^\\[([^\\]|]+)\\|([^\\]]+)\\]$/.exec(text);
+    return bilingual ? bilingual[1] : plainText(text);
   }
   if (item.type === "sentence-building" && Array.isArray(item.correct_answer)) {
     const byId = new Map(options.map((option) => [option.id, plainText(option.text)]));
