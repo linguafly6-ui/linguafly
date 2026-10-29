@@ -87,6 +87,30 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
          VALUES (?, ?, ?, ?, ?, ?, ?, ?)
          ON CONFLICT(user_id, exercise_id) DO UPDATE SET answer_text = excluded.answer_text, correct = excluded.correct, explanation = excluded.explanation, review_json = excluded.review_json, updated_at = excluded.updated_at`
       ).bind(user.id, lessonId, payload.exerciseId, payload.answer, correct ? 1 : 0, question.explanation, JSON.stringify(review), now).run();
+    const userId = user?.id ?? null;
+    const previousRow = userId
+      ? await env.DB.prepare(`SELECT progress_json FROM learning_progress WHERE user_id = ? AND lesson_id = ?`).bind(userId, lessonId).first<{ progress_json: string | null }>()
+      : null;
+    let progress: Record<string, unknown> = {};
+    if (previousRow?.progress_json) {
+      try { progress = JSON.parse(String(previousRow.progress_json)); } catch { progress = {}; }
+    }
+    const previous = (progress[payload.exerciseId] as { review?: ReviewState } | undefined)?.review ?? {
+      intervalDays: 0, easeFactor: 2.5, repetitions: 0, lapses: 0
+    };
+    const review = scheduleNextReview(previous, correct ? 4 : 1);
+    if (userId) {
+      progress[payload.exerciseId] = {
+        ...(progress[payload.exerciseId] as Record<string, unknown> | undefined),
+        answer: payload.answer,
+        feedback: { correct, explanation: question.explanation },
+        review
+      };
+      await env.DB.prepare(
+        `INSERT INTO learning_progress (user_id, lesson_id, progress_json, updated_at)
+         VALUES (?, ?, ?, CURRENT_TIMESTAMP)
+         ON CONFLICT(user_id, lesson_id) DO UPDATE SET progress_json = excluded.progress_json, updated_at = CURRENT_TIMESTAMP`
+      ).bind(userId, lessonId, JSON.stringify(progress)).run();
     }
     return NextResponse.json({ correct, explanation: question.explanation, review, authenticated: Boolean(user) });
   }
@@ -107,4 +131,17 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
   } catch {
     return NextResponse.json({ error: "No se pudo corregir la respuesta." }, { status: 500 });
   }
+}
+  const { env } = await resolveCloudflareEnv();
+  const row = await env.DB.prepare(
+    `SELECT id, answer_json, explanation, lesson_id FROM learning_exercises WHERE id = ? AND lesson_id = ? LIMIT 1`
+  ).bind(payload.exerciseId, lessonId).first<Record<string, unknown>>();
+  if (!row) return NextResponse.json({ error: "Ejercicio no encontrado." }, { status: 404 });
+  let answerData: unknown;
+  try { answerData = JSON.parse(String(row.answer_json ?? "{}")); } catch { answerData = {}; }
+  const expected = typeof answerData === "object" && answerData !== null && "correct" in answerData
+    ? (answerData as { correct: unknown }).correct
+    : answerData;
+  const correct = payload.answer === expected;
+  return NextResponse.json({ correct, explanation: String(row.explanation ?? ""), review: null });
 }
