@@ -61,8 +61,7 @@ function normalizedLegacyAnswer(item: LegacyItem): string {
     const correctId = String(item.correct_answer);
     const text = options.find((option) => option.id === correctId)?.text;
     if (!text) return "";
-    const bilingual = /^\[([^\]|]+)\|([^\]]+)\]$/.exec(text);
-    return bilingual ? bilingual[1] : plainText(text);
+    return plainText(text);
   }
   if (item.type === "sentence-building" && Array.isArray(item.correct_answer)) {
     const byId = new Map(options.map((option) => [option.id, plainText(option.text)]));
@@ -88,6 +87,16 @@ function legacyExercise(item: LegacyItem, index: number) {
     passageText: item.transcript ? plainText(item.transcript) : null,
     audioText: item.mastery_tag === "listening" && item.transcript ? plainText(item.transcript) : null
   };
+}
+
+function getPrompt(item: LegacyItem): string {
+  const stimulus = plainText(item.stimulus_en);
+  const question = plainText(item.question_en);
+  const instruction = plainText(item.prompt_es);
+  if (item.type === "reading-comprehension" || item.type === "listening-comprehension") return question || stimulus || instruction;
+  if (item.type === "true-false") return `${instruction} ${stimulus}`.trim();
+  if (item.type === "sentence-building") return `${instruction} ${stimulus}`.trim();
+  return `${stimulus} ${question} ${instruction}`.trim();
 }
 
 function getA2Question(lessonId: string, exerciseId: string) {
