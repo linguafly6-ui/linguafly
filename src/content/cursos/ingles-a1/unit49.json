@@ -492,7 +492,7 @@
           "options": [
             {
               "id": "o1",
-              "text": "[[need to|need to]]"
+              "text": "[[don't need to|don't need to]]"
             },
             {
               "id": "o2",
@@ -523,7 +523,7 @@
             },
             {
               "id": "o3",
-              "text": "[[don't need to|don't need to]]"
+              "text": "[[need to|need to]]"
             }
           ],
           "correct_answer": "o1"
@@ -631,7 +631,7 @@
             },
             {
               "id": "o3",
-              "text": "[[need to|need to]]"
+              "text": "[[need|need]]"
             }
           ],
           "correct_answer": "o1"
@@ -669,7 +669,7 @@
           "options": [
             {
               "id": "o1",
-              "text": "[[don't need to|don't need to]]"
+              "text": "[[need to|need to]]"
             },
             {
               "id": "o2",
@@ -700,7 +700,7 @@
             },
             {
               "id": "o3",
-              "text": "[[need to|need to]]"
+              "text": "[[don't need to|don't need to]]"
             }
           ],
           "correct_answer": "o1"
