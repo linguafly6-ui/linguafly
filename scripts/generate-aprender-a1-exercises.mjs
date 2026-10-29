@@ -6,6 +6,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const contentDir = path.join(root, 'src/content/cursos/ingles-a1');
 const seedPath = path.join(root, 'migrations/d1/202610280002_seed_a1_course.sql');
 const outputPath = path.join(root, 'migrations/d1/202610290005_a1_15_exercises_per_section.sql');
+const correctionPath = path.join(root, 'migrations/d1/202610290007_a1_grammar_exercises_fixed.sql');
 
 const sourceUnitByLesson = [
   1, 1, 1, 1, 3, 1, 4, 4, 8, 8, 8, 8,
@@ -28,6 +29,33 @@ const toTextOptions = (options, side = 0) => (options ?? []).map((option) => ({
   text: unmark(option.text, side),
 }));
 const sectionBlock = (unit, title) => unit.blocks.find((block) => block.title === title)?.content ?? [];
+function makeOptionsUnique(options, correct) {
+  const beForms = ['am', 'is', 'are'];
+  const normalizedCorrect = String(correct).trim().toLocaleLowerCase('en');
+  if (!beForms.includes(normalizedCorrect)) return { options, repaired: false };
+  const optionFallbacks = beForms;
+  const result = [...options];
+  const correctIndex = result.indexOf(correct);
+  const seen = new Map();
+  let repaired = false;
+  for (let index = 0; index < result.length; index += 1) {
+    const normalized = result[index].trim().toLocaleLowerCase('en');
+    if (!seen.has(normalized)) {
+      seen.set(normalized, index);
+      continue;
+    }
+    const earlierIndex = seen.get(normalized);
+    const replaceIndex = index === correctIndex ? earlierIndex : index;
+    const used = new Set(result.filter((_option, optionIndex) => optionIndex !== replaceIndex).map((option) => option.trim().toLocaleLowerCase('en')));
+    const fallback = optionFallbacks.find((option) => !used.has(option.toLocaleLowerCase('en')) && option.toLocaleLowerCase('en') !== String(correct).trim().toLocaleLowerCase('en'));
+    if (!fallback) throw new Error(`Could not replace duplicate option '${result[replaceIndex]}'`);
+    result[replaceIndex] = fallback;
+    seen.set(fallback.toLocaleLowerCase('en'), replaceIndex);
+    if (replaceIndex === earlierIndex) seen.set(normalized, index);
+    repaired = true;
+  }
+  return { options: result, repaired };
+}
 
 const seed = fs.readFileSync(seedPath, 'utf8');
 const lessonMetadata = new Map();
@@ -117,6 +145,12 @@ function normalizeSourceItem(item, category, lessonNumber, exerciseNumber) {
     }
   }
 
+  let optionsRepaired = false;
+  if (type === 'multiple-choice' && correct && category === 'grammar' && exerciseNumber === 7) {
+    const result = makeOptionsUnique(options, correct);
+    options = result.options;
+    optionsRepaired = result.repaired;
+  }
   if (type === 'multiple-choice' && (!correct || !options.includes(correct))) {
     throw new Error(`Missing correct option for ${id}.`);
   }
@@ -128,6 +162,7 @@ function normalizeSourceItem(item, category, lessonNumber, exerciseNumber) {
     exerciseType: type === 'sentence-building' ? 'sentence_building' : type === 'fill-blank' ? 'fill_blank' : type === 'free-text' ? 'free_text' : 'multiple_choice',
     prompt,
     options,
+    optionsRepaired,
     answerJson: type === 'free-text' ? JSON.stringify({ selfCheck: true }) : JSON.stringify({ correct }),
     explanation: explanation ?? '',
     audioText,
@@ -152,7 +187,16 @@ for (let lessonNumber = 1; lessonNumber <= 60; lessonNumber += 1) {
     .filter((item) => item.type === 'fill-blank' || item.type === 'sentence-building')
     .slice(-5);
   const grammarForWritingIds = new Set(grammarForWriting.map((item) => item.interaction_id));
-  const grammar = grammarPool.filter((item) => !grammarForWritingIds.has(item.interaction_id));
+  const invalidGrammarItems = grammarPool.filter((item) => !grammarForWritingIds.has(item.interaction_id) && item.type === 'sentence-building');
+  const grammarAnswerItems = grammarForWriting.filter((item) => item.type === 'fill-blank').slice(0, invalidGrammarItems.length);
+  if (grammarAnswerItems.length !== invalidGrammarItems.length) {
+    throw new Error(`Unit ${lessonNumber}: not enough closed grammar exercises to replace free-writing tasks.`);
+  }
+  const replacementById = new Map(invalidGrammarItems.map((item, index) => [item.interaction_id, grammarAnswerItems[index]]));
+  const grammar = grammarPool
+    .filter((item) => !grammarForWritingIds.has(item.interaction_id))
+    .map((item) => replacementById.get(item.interaction_id) ?? item);
+  const reassignedGrammarIds = new Set(grammarAnswerItems.map((item) => item.interaction_id));
   const listening = [
     ...sectionBlock(unit, 'Reading Comprehension'),
     ...listeningVocabulary,
@@ -174,11 +218,27 @@ for (let lessonNumber = 1; lessonNumber <= 60; lessonNumber += 1) {
       prompt_es: 'Escribe un mini diálogo de dos intervenciones sobre el tema de esta unidad. Incluye una expresión de vocabulario.',
       mastery_tag: 'production',
     },
+    {
+      type: 'free-text',
+      prompt_es: 'Escribe dos frases cortas sobre la situación de esta unidad. Revisa que cada frase tenga sujeto y verbo.',
+      mastery_tag: 'production',
+    },
+    {
+      type: 'free-text',
+      prompt_es: 'Escribe una pregunta y una respuesta breves usando el vocabulario de esta unidad.',
+      mastery_tag: 'production',
+    },
   ];
-  const writing = [...production, ...grammarForWriting, ...customWriting];
+  const writing = [...production, ...grammarForWriting.filter((item) => !reassignedGrammarIds.has(item.interaction_id)), ...customWriting];
   const sections = { vocabulary, grammar, listening, writing };
   for (const [category, items] of Object.entries(sections)) {
     if (items.length !== 15) throw new Error(`Unit ${lessonNumber}: ${category} has ${items.length}, expected 15.`);
+    if (category === 'grammar' && items.some((item) => item.type === 'free-text' || item.type === 'sentence-building')) {
+      throw new Error(`Unit ${lessonNumber}: grammar must not contain free writing or invalid sentence-building tasks.`);
+    }
+    if (category === 'grammar' && (items[8].type === 'free-text' || items[9].type === 'free-text' || items[8].type === 'sentence-building' || items[9].type === 'sentence-building')) {
+      throw new Error(`Unit ${lessonNumber}: grammar exercises 9 and 10 must not be free writing.`);
+    }
     rows.push(...items.map((item, index) => normalizeSourceItem(item, category, lessonNumber, index + 1)));
   }
 }
@@ -198,5 +258,15 @@ for (const row of rows) {
 }
 
 fs.writeFileSync(outputPath, `${statements.join('\n')}\n`, 'utf8');
+const corrections = [];
+for (const row of rows) {
+  if (row.sectionType === 'grammar' && [10109, 10110].includes(row.exerciseNumber)) {
+    corrections.push(`UPDATE learning_exercises SET exercise_type = ${sql(row.exerciseType)}, prompt = ${sql(row.prompt)}, options_json = ${sql(JSON.stringify(row.options))}, answer_json = ${sql(row.answerJson)}, explanation = ${sql(row.explanation)} WHERE id = ${sql(row.id)};`);
+  } else if (row.sectionType === 'grammar' && row.exerciseNumber === 10107 && row.optionsRepaired) {
+    corrections.push(`UPDATE learning_exercises SET options_json = ${sql(JSON.stringify(row.options))} WHERE id = ${sql(row.id)};`);
+  }
+}
+fs.writeFileSync(correctionPath, `-- Replace free-writing tasks in grammar with closed A1 practice and remove duplicate answer choices.\n${corrections.join('\n')}\n`, 'utf8');
 console.log(`Generated ${rows.length} exercises (15 in each of 4 sections across 60 units): ${path.relative(root, outputPath)}`);
+console.log(`Generated ${corrections.length} corrective updates: ${path.relative(root, correctionPath)}`);
 
