@@ -6,7 +6,7 @@ import { Exercise } from '@/lib/exercise-generator';
 
 const LESSON_TITLE = 'Comprensión auditiva';
 const TOPIC = 'My Neighborhood';
-const LISTENING_TRANSCRIPT = `[[A|A]]: [[Is|¿Hay]] [[there|]] [[a|un]] [[park|parque]] [[near|cerca de]] [[here|aquí]]? [[B|B]]: [[Yes|Sí]], [[there|hay]] [[is|(sing)]]. [[The|El]] [[park|parque]] [[is|está]] [[next to|al lado de]] [[the|la]] [[library|biblioteca]]. [[A|A]]: [[Are|¿Hay]] [[there|]] [[any|algún]] [[supermarkets|supermercados]]? [[B|B]]: [[Yes|Sí]], [[there|hay]] [[are|(pl)]] [[some|algunos]]. [[There|Hay]] [[is|(sing)]] [[a|un]] [[big|gran]] [[one|uno]] [[in|en]] [[the|la]] [[street|calle]]. [[A|A]]: [[And|Y]] [[a|una]] [[pharmacy|farmacia]]? [[B|B]]: [[There|Hay]] [[is|(sing)]] [[a|una]] [[pharmacy|farmacia]] [[opposite|enfrente de]] [[the|el]] [[cinema|cine]]. [[The|El]] [[cinema|cine]] [[is|está]] [[between|entre]] [[the|la]] [[park|parque]] [[and|y]] [[the|el]] [[supermarket|supermercado]].`;
+const LISTENING_TRANSCRIPT = `[[A: Is there a park near here?|A: ¿Hay un parque cerca de aquí?]] [[B: Yes, there is. The park is next to the library.|B: Sí. El parque está al lado de la biblioteca.]] [[A: Are there any supermarkets?|A: ¿Hay supermercados?]] [[B: Yes, there are some. There is a big one in the street.|B: Sí, hay algunos. Hay uno grande en la calle.]] [[A: And a pharmacy?|A: ¿Y una farmacia?]] [[B: There is a pharmacy opposite the cinema.|B: Hay una farmacia enfrente del cine.]] [[The cinema is between the park and the supermarket.|El cine está entre el parque y el supermercado.]]`;
 
 const INSTRUCTIONS = 'Escucha el audio. Después contesta cada pregunta.';
 
