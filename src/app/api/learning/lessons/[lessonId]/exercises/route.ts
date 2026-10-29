@@ -8,12 +8,12 @@ import { getA1LegacyUnit, type A1LegacyItem as LegacyItem, type A1LegacyUnit as 
 const sectionNames = new Set(["grammar", "vocabulary", "listening", "reading", "production"]);
 function plainText(value: string | undefined): string {
   if (!value) return "";
-  return value.replace(/\\[\\[([^\\]|]+)\\|([^\\]]+)\\]\\]/g, "$2").replace(/\\s+/g, " ").trim();
+  return value.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, "$2").replace(/\s+/g, " ").trim();
 }
 
 function plainEnglish(value: string | undefined): string {
   if (!value) return "";
-  return value.replace(/\\[\\[([^\\]|]+)\\|([^\\]]+)\\]\\]/g, "$1").replace(/\\s+/g, " ").trim();
+  return value.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, "$1").replace(/\s+/g, " ").trim();
 }
 
 function getLegacySection(item: LegacyItem): string | null {
