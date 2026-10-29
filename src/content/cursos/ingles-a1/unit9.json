@@ -627,11 +627,11 @@
             },
             {
               "id": "o2",
-              "text": "[[a|a]]"
+              "text": "[[live|live]]"
             },
             {
               "id": "o3",
-              "text": "[[a|a]]"
+              "text": "[[study|study]]"
             }
           ],
           "correct_answer": "o1"
@@ -700,7 +700,7 @@
             },
             {
               "id": "o3",
-              "text": "[[a|a]]"
+              "text": "[[the|the]]"
             }
           ],
           "correct_answer": "o1"
