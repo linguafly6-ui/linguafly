@@ -6,7 +6,7 @@ import { Exercise } from '@/lib/exercise-generator';
 
 const LESSON_TITLE = 'Comprensión auditiva';
 const TOPIC = 'Prepositions of Place';
-const LISTENING_TRANSCRIPT = `[[A|A]]: [[Where|Dónde]] [[is|está]] [[the|la]] [[pharmacy|farmacia]]? [[B|B]]: [[It|Está]] [[is|(está)]] [[next to|al lado de]] [[the|la]] [[bank|banco]]. [[There|Hay]] [[is|(sing)]] [[a|un]] [[supermarket|supermercado]] [[between|entre]] [[the|la]] [[pharmacy|farmacia]] [[and|y]] [[the|la]] [[library|biblioteca]]. [[A|A]]: [[And|Y]] [[the|el]] [[cinema|cine]]? [[B|B]]: [[The|El]] [[cinema|cine]] [[is|está]] [[opposite|enfrente de]] [[the|la]] [[park|parque]]. [[There|Hay]] [[is|(sing)]] [[a|un]] [[bus stop|parada]] [[in front of|delante de]] [[the|la]] [[library|biblioteca]]. [[The|El]] [[park|parque]] [[is|está]] [[nice|bonito]].`;
+const LISTENING_TRANSCRIPT = `[[A: Where is the pharmacy?|A: ¿Dónde está la farmacia?]] [[B: It is next to the bank.|B: Está al lado del banco.]] [[There is a supermarket between the pharmacy and the library.|Hay un supermercado entre la farmacia y la biblioteca.]] [[A: And the cinema?|A: ¿Y el cine?]] [[B: The cinema is opposite the park.|B: El cine está enfrente del parque.]] [[There is a bus stop in front of the library.|Hay una parada de autobús delante de la biblioteca.]] [[The park is nice.|El parque es bonito.]]`;
 
 const INSTRUCTIONS = 'Escucha el audio. Después contesta cada pregunta.';
 
