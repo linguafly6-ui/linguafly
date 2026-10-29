@@ -145,7 +145,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
   const a1Match = /^a1-(\d{2})$/.exec(lessonId);
   if (a1Match) {
     const unitNumber = Number(a1Match[1]);
-    const unit = unitNumber >= 1 && unitNumber <= 60 ? await loadLegacyUnit(unitNumber) : null;
+    const unit = unitNumber >= 1 && unitNumber <= 60 ? getA1LegacyUnit(unitNumber) : null;
     const item = unit?.blocks.flatMap((block) => block.content).find((question) => question.interaction_id === payload.exerciseId);
     if (!item) return NextResponse.json({ error: "Ejercicio A1 no encontrado." }, { status: 404 });
     const expected = normalizedLegacyAnswer(item);
