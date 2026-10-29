@@ -15,9 +15,11 @@ type Exercise = {
 
 type Feedback = { correct: boolean | null; explanation: string };
 
-const sectionTitles: Record<string, string> = { grammar: "Gramática", vocabulary: "Vocabulario", listening: "Listening", reading: "Comprensión lectora" };
+const sectionTitles: Record<string, string> = { grammar: "Gramática", vocabulary: "Vocabulario", listening: "Listening", reading: "Reading" };
 
 export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sectionType: string }) {
+  const level = lessonId.startsWith("a2-") ? "a2" : "a1";
+  const guestStorageKey = `linguafly:${level}:guest:exercise:${lessonId}`;
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [feedback, setFeedback] = useState<Record<string, Feedback>>({});
@@ -45,7 +47,6 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
       .then((progress) => {
         if (!active) return;
         setAuthenticated(progress.authenticated);
-        let saved: string | null = null;
         if (progress.authenticated) {
           const states = progress.exercises?.[lessonId] ?? {};
           setAnswers(Object.fromEntries(Object.entries(states).filter(([, value]) => typeof value.answer === "string").map(([id, value]) => [id, value.answer as string])));
@@ -54,35 +55,19 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
           setHydratedLesson(lessonId);
           return;
         }
-        try { saved = window.localStorage.getItem(`linguafly:a1:guest:exercise:${lessonId}`); } catch { /* Guest storage is optional. */ }
-        if (saved) {
-        const parsed: unknown = JSON.parse(saved);
-        if (parsed && typeof parsed === "object") {
-          const state = parsed as { answers?: unknown; feedback?: unknown; reviews?: unknown };
-          if (state.answers && typeof state.answers === "object" && !Array.isArray(state.answers)) {
-            setAnswers(state.answers as Record<string, string>);
-          } else {
-            setAnswers({});
-          }
-          if (state.feedback && typeof state.feedback === "object" && !Array.isArray(state.feedback)) {
-            setFeedback(state.feedback as Record<string, Feedback>);
-          } else {
-            setFeedback({});
-          }
-          if (state.reviews && typeof state.reviews === "object" && !Array.isArray(state.reviews)) {
-            setReviews(state.reviews as Record<string, ReviewResult>);
-          } else {
-            setReviews({});
-          }
-        } else {
-          setAnswers({});
-          setFeedback({});
-          setReviews({});
-        }
-      } else {
-        setAnswers({});
-        setFeedback({});
-        setReviews({});
+        let saved: string | null = null;
+        try {
+          saved = window.localStorage.getItem(guestStorageKey);
+          // Keep progress made by the previous A1 implementation.
+          if (!saved && level === "a1") saved = window.localStorage.getItem(`linguafly:a1:guest:exercise:${lessonId}`);
+        } catch { /* Guest storage is optional. */ }
+        try {
+          const state = saved ? JSON.parse(saved) as { answers?: unknown; feedback?: unknown; reviews?: unknown } : {};
+          setAnswers(state.answers && typeof state.answers === "object" && !Array.isArray(state.answers) ? state.answers as Record<string, string> : {});
+          setFeedback(state.feedback && typeof state.feedback === "object" && !Array.isArray(state.feedback) ? state.feedback as Record<string, Feedback> : {});
+          setReviews(state.reviews && typeof state.reviews === "object" && !Array.isArray(state.reviews) ? state.reviews as Record<string, ReviewResult> : {});
+        } catch {
+          setAnswers({}); setFeedback({}); setReviews({});
         }
         setHydratedLesson(lessonId);
       })
@@ -90,7 +75,7 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
     fetch(`/api/learning/lessons/${encodeURIComponent(lessonId)}/exercises?section=${encodeURIComponent(sectionType)}`, { cache: "no-store" })
       .then(async (response) => {
         if (!response.ok) throw new Error("No se han podido cargar los ejercicios.");
-      return response.json() as Promise<{ exercises: Exercise[] }>;
+        return response.json() as Promise<{ exercises: Exercise[] }>;
       })
       .then((data) => { if (active) setExercises(data.exercises ?? []); })
       .catch(() => { if (active) setError("Los ejercicios estarán disponibles cuando la base de datos del curso esté actualizada."); })
@@ -101,16 +86,16 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
       if (speechTimer.current !== null) window.clearTimeout(speechTimer.current);
       window.speechSynthesis?.cancel();
     };
-  }, [lessonId, sectionType]);
+  }, [lessonId, sectionType, guestStorageKey, level]);
 
   useEffect(() => {
     if (hydratedLesson !== lessonId) return;
     try {
-      if (!authenticated) window.localStorage.setItem(`linguafly:a1:guest:exercise:${lessonId}`, JSON.stringify({ answers, feedback, reviews }));
+      if (!authenticated) window.localStorage.setItem(guestStorageKey, JSON.stringify({ answers, feedback, reviews }));
     } catch {
       // Exercise state is a convenience; storage failures must not block practice.
     }
-  }, [answers, feedback, reviews, hydratedLesson, lessonId, authenticated]);
+  }, [answers, feedback, reviews, hydratedLesson, lessonId, authenticated, guestStorageKey]);
 
   async function chooseAnswer(exerciseId: string, answer: string) {
     setAnswers((current) => ({ ...current, [exerciseId]: answer }));
@@ -134,8 +119,6 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
     };
     utterance.onend = finish;
     utterance.onerror = finish;
-    // Give the browser a moment to flush any cancelled utterance before
-    // starting the one selected by the learner.
     speechTimer.current = window.setTimeout(() => {
       speechTimer.current = null;
       if (speechGeneration.current === generation) window.speechSynthesis.speak(utterance);
@@ -144,7 +127,7 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
 
   async function checkAnswer(exercise: Exercise) {
     const answer = answers[exercise.id];
-    if (!answer || submitting) return;
+    if (!answer || submitting || feedback[exercise.id]) return;
     setSubmitting(exercise.id);
     setError("");
     try {
@@ -161,16 +144,11 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
         return;
       }
       if (result.correct === null) return;
-      const previous: ReviewState = reviews[exercise.id] ?? {
-        intervalDays: 0,
-        easeFactor: 2.5,
-        repetitions: 0,
-        lapses: 0,
-      };
+      const previous: ReviewState = reviews[exercise.id] ?? { intervalDays: 0, easeFactor: 2.5, repetitions: 0, lapses: 0 };
       const scheduled = scheduleNextReview(previous, result.correct ? 4 : 1);
       setReviews((current) => ({ ...current, [exercise.id]: scheduled }));
-    } catch {
-      setError("No se ha podido corregir la respuesta. Comprueba la conexión e inténtalo otra vez.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No se ha podido corregir la respuesta. Comprueba la conexión e inténtalo otra vez.");
     } finally {
       setSubmitting(null);
     }
@@ -184,19 +162,16 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
     <section className="mt-8 rounded-3xl border border-[#ded8ca] bg-[#fbf9f4] p-6 sm:p-8">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#b75d3b]">15 ejercicios A1</p>
+          <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#b75d3b]">15 ejercicios {level.toUpperCase()}</p>
           <h3 className="mt-2 text-2xl font-extrabold text-[#22251f]">Practica {title}</h3>
-          <p className="mt-2 text-sm text-[#65665b]">Responde a cada actividad y comprueba tu respuesta.</p>
+          <p className="mt-2 text-sm text-[#65665b]">Responde y revisa la explicación. Las respuestas erróneas vuelven antes; las correctas se espacian progresivamente.</p>
         </div>
         {exercises.length > 0 && <div className="rounded-xl bg-[#e9e3d7] px-3 py-2 text-sm font-bold text-[#56584f]">{answeredCorrectly}/{exercises.length} correctas</div>}
       </div>
-
       {loading && <p className="mt-6 rounded-xl bg-[#f0ece3] p-4 text-sm text-[#65665b]">Cargando ejercicios…</p>}
       {error && <p role="alert" className="mt-5 rounded-xl border border-[#e4c6b9] bg-[#fff2ec] p-4 text-sm text-[#8f432c]">{error}</p>}
       {!loading && !error && exercises.length === 0 && <p className="mt-6 rounded-xl bg-[#f0ece3] p-4 text-sm leading-6 text-[#65665b]">Todavía no hay ejercicios publicados para esta lección. Estamos preparando el contenido.</p>}
-
       {readingPassage && <div className="mt-6 rounded-2xl border border-[#e5dfd3] bg-[#f5f1e8] p-5"><p className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-[#a15b40]">Texto de lectura</p><p className="mt-2 whitespace-pre-line text-sm leading-7 text-[#56584f]">{readingPassage}</p></div>}
-
       <div className="mt-6 space-y-5">
         {exercises.map((exercise) => {
           const result = feedback[exercise.id];
@@ -214,14 +189,7 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
                 const wordTotal = selectedWords.filter((word) => word === option).length;
                 const isWordSelected = exercise.type === "sentence_building" && wordChosen > 0;
                 const correctOption = result && result.correct && chosen;
-                return <button
-                  key={`${option}-${exercise.options.indexOf(option)}`}
-                  type="button"
-                  disabled={Boolean(result) || Boolean(submitting)}
-                  onClick={() => { if (exercise.type !== "sentence_building") { void chooseAnswer(exercise.id, option); return; } const words = (() => { try { return JSON.parse(answers[exercise.id] || "[]") as string[]; } catch { return []; } })(); void chooseAnswer(exercise.id, JSON.stringify([...words, option])); }}
-                  className={`rounded-xl border px-4 py-3 text-left text-sm font-semibold transition disabled:cursor-default ${correctOption || (isWordSelected && result?.correct) ? "border-[#8ba58a] bg-[#eaf2e7] text-[#355a37]" : chosen || isWordSelected ? "border-[#b75d3b] bg-[#f8e8df] text-[#87452e]" : "border-[#e5dfd3] bg-[#fbf9f4] text-[#56584f] hover:border-[#c6a18e]"}`}
-                >{option}{wordTotal ? ` (${selectedWords.indexOf(option) + 1})` : ""}</button>;
-              }) : null}
+                return <button key={`${option}-${exercise.options.indexOf(option)}`} type="button" disabled={Boolean(result) || Boolean(submitting)} onClick={() => { if (exercise.type !== "sentence_building") { void chooseAnswer(exercise.id, option); return; } const words = (() => { try { return JSON.parse(answers[exercise.id] || "[]") as string[]; } catch { return []; } })(); void chooseAnswer(exercise.id, JSON.stringify([...words, option])); }} className={`rounded-xl border px-4 py-3 text-left text-sm font-semibold transition disabled:cursor-default ${correctOption || (isWordSelected && result?.correct) ? "border-[#8ba58a] bg-[#eaf2e7] text-[#355a37]" : chosen || isWordSelected ? "border-[#b75d3b] bg-[#f8e8df] text-[#87452e]" : "border-[#e5dfd3] bg-[#fbf9f4] text-[#56584f] hover:border-[#c6a18e]"}`}>{option}{wordTotal ? ` (${selectedWords.indexOf(option) + 1})` : ""}</button>) : null}
             </div>
             {!result ? <button type="button" disabled={!answers[exercise.id] || submitting === exercise.id} onClick={() => checkAnswer(exercise)} className="mt-4 rounded-xl bg-[#252a24] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[#41483e] disabled:cursor-not-allowed disabled:opacity-40">{submitting === exercise.id ? "Corrigiendo…" : exercise.type === "free_text" ? "Guardar y revisar" : "Comprobar respuesta"}</button> : <div className={`mt-4 rounded-xl p-4 ${result.correct === true ? "bg-[#eaf2e7]" : result.correct === false ? "bg-[#fff2ec]" : "bg-[#f0ece3]"}`}><p className={`text-sm font-extrabold ${result.correct === true ? "text-[#355a37]" : result.correct === false ? "text-[#8f432c]" : "text-[#56584f]"}`}>{result.correct === true ? "¡Muy bien! Respuesta correcta." : result.correct === false ? "Aún no. Revisa la explicación." : "Respuesta guardada. Revisa tu texto."}</p><p className="mt-1 text-sm leading-6 text-[#56584f]">{result.explanation}</p>{reviews[exercise.id] && <p className="mt-2 text-xs leading-5 text-[#65665b]">Próximo repaso: {new Date(reviews[exercise.id].dueAt).toLocaleString("es-ES", { dateStyle: "medium", timeStyle: "short" })}</p>}</div>}
           </article>;
