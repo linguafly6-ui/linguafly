@@ -167,10 +167,22 @@ description = excluded.description, published = 1, updated_at = strftime('%Y-%m-
       const unitNumber = file.number;
       const lessonId = `${levelConfig.level.toLowerCase()}-${String(unitNumber).padStart(2, "0")}`;
       const objective = (unit.learning_outcomes ?? []).join(" · ");
-      // Keep the complete canonical unit JSON in content_json as a lossless
-      // reference; normalized exercises live in learning_exercises.
+      // Keep public lesson metadata and readable section text here, but never
+      // expose answer keys/options through the public lessons endpoint. The
+      // full lossless source JSON is stored separately in learning_course_json_units.
       const safeContent = {
-        ...unit,
+        objective,
+        learningOutcomes: unit.learning_outcomes ?? [],
+        masteryTags: unit.mastery_tags ?? [],
+        sections: unit.blocks.map((block) => ({
+          type: "learn",
+          title: block.title,
+          body: block.content.map((item) => [item.question_en, item.stimulus_en, item.prompt_es, item.main_text]
+            .filter((value) => typeof value === "string" && value.trim()).join(" · ")).join("\\n"),
+          ...(block.content.some((item) => item.type.toLowerCase().includes("listening"))
+            ? { audioText: block.content.map((item) => item.transcript ?? item.stimulus_en ?? "").filter(Boolean).join("\\n") } : {}),
+        })),
+        reviewEnabled: true,
         source: { courseKey: levelConfig.folder, unitId: unit.course.unit_id, file: path.relative(ROOT, absolute).split(path.sep).join("/") },
       };
       const estimated = Math.min(60, Math.max(1, Math.round((unit.course.total_duration_minutes ?? 20) / 30)));
