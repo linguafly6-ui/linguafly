@@ -406,7 +406,7 @@
           "prompt_es": "[[Complete|Completa]] [[the|la]] [[affirmative|afirmativa]] [[sentence|frase]].",
           "mastery_tag": "grammar",
           "complexity": 2,
-          "stimulus_en": "[[I|Yo]] ______ [[English|inglés]] [[every day|todos los días]].",
+          "stimulus_en": "[[I|Yo]] ______ [[English|inglés]] [[at|a]] [[the|la]] [[moment|ahora]].",
           "correct_answer": "study"
         },
         {
@@ -415,7 +415,7 @@
           "prompt_es": "[[Complete|Completa]] [[the|la]] [[affirmative|afirmativa]] [[sentence|frase]].",
           "mastery_tag": "grammar",
           "complexity": 2,
-          "stimulus_en": "[[She|Ella]] ______ [[in|en]] [[a|un]] [[hospital|hospital]].",
+          "stimulus_en": "[[My|Mi]] [[sister|hermana]] ______ [[in|en]] [[a|un]] [[hospital|hospital]].",
           "correct_answer": "works"
         },
         {
@@ -424,7 +424,7 @@
           "prompt_es": "[[Complete|Completa]] [[the|la]] [[affirmative|afirmativa]] [[sentence|frase]].",
           "mastery_tag": "grammar",
           "complexity": 2,
-          "stimulus_en": "[[He|Él]] ______ [[pizza|pizza]] [[for|para]] [[lunch|el almuerzo]].",
+          "stimulus_en": "[[My|Mi]] [[brother|hermano]] ______ [[rice|arroz]] [[for|para]] [[dinner|la cena]].",
           "correct_answer": "eats"
         },
         {
@@ -592,8 +592,8 @@
           "prompt_es": "[[Complete|Completa]] [[the|la]] [[sentence|frase]].",
           "mastery_tag": "grammar",
           "complexity": 2,
-          "stimulus_en": "[[He|Él]] ______ [[pizza|pizza]] [[for|para]] [[lunch|el almuerzo]].",
-          "correct_answer": "eats"
+          "stimulus_en": "[[He|Él]] ______ [[lunch|el almuerzo]] [[at|a]] [[one|la una]].",
+          "correct_answer": "has"
         },
         {
           "interaction_id": "A1_U5_I32",
@@ -601,7 +601,7 @@
           "prompt_es": "[[Complete|Completa]] [[the|la]] [[sentence|frase]].",
           "mastery_tag": "grammar",
           "complexity": 2,
-          "stimulus_en": "[[They|Ellos]] ______ [[football|fútbol]] [[on|los]] [[Saturdays|sábados]].",
+          "stimulus_en": "[[They|Ellos]] ______ [[basketball|baloncesto]] [[after|después de]] [[school|clase]].",
           "correct_answer": "play"
         },
         {
