@@ -1,16 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { resolveCloudflareEnv } from "@/lib/db/client";
 import a1LearningSections from "@/content/cursos/ingles-a1/aprender-sections.json";
+import a2LearningSections from "@/content/cursos/ingles-a2/aprender-sections.json";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /**
- * GET /api/learning/lessons?level=A1
+ * GET /api/learning/lessons?level=A1 or level=A2
  *
  * Public course outline. Deliberately excludes exercise answer keys and
- * learner-specific progress. Progress writes must be added only after the
- * production authentication identity is verified server-side.
+ * learner-specific progress.
  */
 export async function GET(request: NextRequest) {
   try {
@@ -82,7 +82,9 @@ export async function GET(request: NextRequest) {
             estimated_minutes: row.estimated_minutes,
             content: level === "A1"
               ? (a1LearningSections as Record<string, { objective: string; sections: unknown[] }>)[row.lesson_id] ?? content
-              : content,
+              : level === "A2"
+                ? (a2LearningSections as Record<string, { objective: string; sections: unknown[] }>)[row.lesson_id] ?? content
+                : content,
           };
         }),
       },
@@ -100,4 +102,3 @@ export async function GET(request: NextRequest) {
     );
   }
 }
-

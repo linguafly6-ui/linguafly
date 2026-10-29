@@ -125,7 +125,7 @@ export default function A1LearningPage() {
             </div>
           </div>
 
-          <Link href="/curso-a2" className="mb-6 block rounded-2xl border border-[#d8a58a] bg-white p-4 transition hover:border-[#b75d3b] hover:shadow-sm">
+          <Link href="/aprender/a2" className="mb-6 block rounded-2xl border border-[#d8a58a] bg-white p-4 transition hover:border-[#b75d3b] hover:shadow-sm">
             <p className="text-xs font-extrabold uppercase tracking-[0.15em] text-[#b75d3b]">Siguiente nivel</p>
             <div className="mt-1 flex items-center justify-between gap-3">
               <div>
