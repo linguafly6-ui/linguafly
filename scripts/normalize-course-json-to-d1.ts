@@ -54,6 +54,11 @@ function sqlString(value: unknown): string {
   return "'" + String(value ?? "").replace(/'/g, "''") + "'";
 }
 function json(value: unknown): string { return JSON.stringify(value ?? null); }
+function validateExerciseId(id: string, file: string): void {
+  if (!/^[a-zA-Z0-9_-]{1,100}$/.test(id)) {
+    throw new Error(`Exercise ID is incompatible with learner-progress API validation in ${file}: ${id}`);
+  }
+}
 function sectionFor(item: Interaction, blockTitle: string): string {
   const text = [item.mastery_tag, ...(item.concept_tags ?? []), blockTitle, item.type].join(" ").toLowerCase();
   if (/listening|audio|listen/.test(text)) return "listening";
@@ -190,7 +195,10 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
             for (let pairIndex = 0; pairIndex < item.pairs.length; pairIndex++) {
               const pair = item.pairs[pairIndex];
               const id = `${item.interaction_id}__match_${pair.id || String(pairIndex + 1)}`;
-              if (seenIds.has(id)) throw new Error(`Duplicate exercise ID ${id} in ${levelConfig.folder}/${file.name}`);
+              validateExerciseId(id, `${levelConfig.folder}/${file.name}`);
+              validateExerciseId(id, `${levelConfig.folder}/${file.name}`);
+              validateExerciseId(id, `${levelConfig.folder}/${file.name}`);
+          if (seenIds.has(id)) throw new Error(`Duplicate exercise ID ${id} in ${levelConfig.folder}/${file.name}`);
               seenIds.add(id); exerciseNumber++;
               statements.push(exerciseStatement(lessonId, id, exerciseNumber, section, "multiple_choice",
                 pair.left, matchingOptions, pair.right, explanation, { ...sourceMeta, interaction: item, variant: "match", pairId: pair.id || String(pairIndex + 1) }, audioText));
