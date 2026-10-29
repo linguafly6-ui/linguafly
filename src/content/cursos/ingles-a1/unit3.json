@@ -589,10 +589,10 @@
         {
           "interaction_id": "A1_U3_I31",
           "type": "fill-blank",
-          "prompt_es": "[[Complete|Completa]] [[the|la]] [[sentence|frase]].",
+          "prompt_es": "[[Complete|Completa]] [[the|la]] [[question|pregunta]].",
           "mastery_tag": "grammar",
           "complexity": 2,
-          "stimulus_en": "[[They|Ellos]] ______ [[not|no]] [[hungry|hambrientos]].",
+          "stimulus_en": "[[Are|Están]] [[they|ellos]] [[hungry|hambrientos]]?",
           "correct_answer": "are"
         },
         {
