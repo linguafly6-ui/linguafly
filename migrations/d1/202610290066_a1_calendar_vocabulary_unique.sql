@@ -387,8 +387,8 @@ UPDATE learning_exercises SET
 WHERE id = 'a1-u56-voc-13';
 
 UPDATE learning_exercises SET
- prompt = '¿Qué expresión significa «el mes que viene»?',
- options_json = '["last month","next month","this month","every month"]',
- answer_json = '{"correct":"next month"}',
- explanation = '«Next month» significa «el mes que viene».'
+ prompt = '¿Qué expresión significa «el martes»?',
+ options_json = '["on Tuesday","in Tuesday","at Tuesday","by Tuesday"]',
+ answer_json = '{"correct":"on Tuesday"}',
+ explanation = 'Usamos «on» con los días de la semana.'
 WHERE id = 'a1-u56-voc-14';
