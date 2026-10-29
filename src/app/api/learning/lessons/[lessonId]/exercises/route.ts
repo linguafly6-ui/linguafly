@@ -74,7 +74,7 @@ function legacyExercise(item: LegacyItem, index: number) {
     ? (item.options ?? []).map((option) => plainText(option.text))
     : (item.options ?? []).map((option) => {
         const bilingual = option.text;
-        const match = /^\\[([^\\]|]+)\\|([^\\]]+)\\]$/.exec(bilingual);
+        const match = /^\[([^\]|]+)\|([^\]]+)\]$/.exec(bilingual);
         return match ? match[1] : plainText(bilingual);
       });
   if (item.type === "true-false") options.splice(0, options.length, "True", "False");
