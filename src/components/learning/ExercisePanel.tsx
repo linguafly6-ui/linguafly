@@ -9,17 +9,13 @@ type Exercise = {
   type: string;
   prompt: string;
   options: string[];
-  type?: string;
   audioText?: string | null;
   passageText?: string | null;
 };
 
 type Feedback = { correct: boolean | null; explanation: string };
 
-type ExerciseOption = { value: string; label: string };
-
-
-const sectionTitles: Record<string, string> = { grammar: "Gramática", vocabulary: "Vocabulario", listening: "Listening", reading: "Reading" };
+const sectionTitles: Record<string, string> = { grammar: "Gramática", vocabulary: "Vocabulario", listening: "Comprensión auditiva", reading: "Comprensión lectora", production: "Producción" };
 
 export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sectionType: string }) {
   const level = lessonId.startsWith("a2-") ? "a2" : "a1";
