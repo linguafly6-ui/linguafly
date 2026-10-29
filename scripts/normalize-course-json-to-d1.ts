@@ -178,9 +178,9 @@ description = excluded.description, published = 1, updated_at = strftime('%Y-%m-
           type: "learn",
           title: block.title,
           body: block.content.map((item) => [item.question_en, item.stimulus_en, item.prompt_es, item.main_text]
-            .filter((value) => typeof value === "string" && value.trim()).join(" · ")).join("\\n"),
+            .filter((value) => typeof value === "string" && value.trim()).join(" · ")).join("\n"),
           ...(block.content.some((item) => item.type.toLowerCase().includes("listening"))
-            ? { audioText: block.content.map((item) => item.transcript ?? item.stimulus_en ?? "").filter(Boolean).join("\\n") } : {}),
+            ? { audioText: block.content.map((item) => item.transcript ?? item.stimulus_en ?? "").filter(Boolean).join("\n") } : {}),
         })),
         reviewEnabled: true,
         source: { courseKey: levelConfig.folder, unitId: unit.course.unit_id, file: path.relative(ROOT, absolute).split(path.sep).join("/") },
