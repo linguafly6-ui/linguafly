@@ -6,7 +6,7 @@ import { Exercise } from '@/lib/exercise-generator';
 
 const LESSON_TITLE = 'Comprensión auditiva';
 const TOPIC = 'Rooms in a House';
-const LISTENING_TRANSCRIPT = `[[A|A]]: [[Do|¿Tienes]] [[you|tu]] [[have|tienes]] [[a|una]] [[big|gran]] [[house|casa]]? [[B|B]]: [[Yes|Sí]], [[we|nosotros]] [[have|tenemos]] [[four|cuatro]] [[bedrooms|dormitorios]] [[and|y]] [[two|dos]] [[bathrooms|baños]]. [[A|A]]: [[Is|¿Es]] [[the|la]] [[kitchen|cocina]] [[big|grande]]? [[B|B]]: [[Yes|Sí]], [[it|es]] [[is|(está)]] [[bright|luminosa]] [[and|y]] [[we|nosotros]] [[have|tenemos]] [[a|una]] [[dining room|comedor]] [[next to|al lado]]. [[A|A]]: [[Do|¿Tienen]] [[you|vosotros]] [[have|tenéis]] [[a|un]] [[garden|jardín]]? [[B|B]]: [[Yes|Sí]], [[a|un]] [[small|pequeño]] [[garden|jardín]] [[at the back|detrás]]. [[My|Mi]] [[favourite|favorita]] [[room|habitación]] [[is|es]] [[the|el]] [[living room|salón]] [[because|porque]] [[it|es]] [[is|(está)]] [[so|tan]] [[cozy|acogedor]].`;
+const LISTENING_TRANSCRIPT = `[[A: Do you have a big house?|A: ¿Tienes una casa grande?]] [[B: Yes, we have four bedrooms and two bathrooms.|B: Sí, tenemos cuatro dormitorios y dos baños.]] [[A: Is the kitchen big?|A: ¿Es grande la cocina?]] [[B: Yes, it is bright, and we have a dining room next to it.|B: Sí, es luminosa y tenemos un comedor al lado.]] [[A: Do you have a garden?|A: ¿Tienes jardín?]] [[B: Yes, a small garden at the back.|B: Sí, un jardín pequeño en la parte de atrás.]] [[My favourite room is the living room because it is so cosy.|Mi habitación favorita es el salón porque es muy acogedor.]]`;
 
 const INSTRUCTIONS = 'Escucha el audio. Después contesta cada pregunta.';
 
