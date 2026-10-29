@@ -1,0 +1,162 @@
+{
+  "a2-01": {
+    "objective": "Contar acciones terminadas en el pasado utilizando verbos regulares.",
+    "sections": [
+      {"type":"learn","title":"Past Simple: verbos regulares","body":"Usamos el Past Simple para acciones que empezaron y terminaron en un momento pasado. En afirmativa, los verbos regulares suelen acabar en -ed."},
+      {"type":"example","title":"Ejemplos","body":"I watched a film yesterday = Vi una película ayer. She visited her aunt = Ella visitó a su tía."},
+      {"type":"practice","title":"Negativas y preguntas","body":"Negativa: sujeto + didn’t + verbo base. Pregunta: Did + sujeto + verbo base? Ejemplo: Did you work yesterday?"}
+    ]
+  },
+  "a2-02": {
+    "objective": "Utilizar verbos irregulares frecuentes para hablar de experiencias pasadas.",
+    "sections": [
+      {"type":"learn","title":"Verbos clave","body":"go → went; have → had; see → saw; buy → bought; eat → ate; make → made."},
+      {"type":"example","title":"Ejemplos","body":"We went to the beach = Fuimos a la playa. I saw my friends = Vi a mis amigos."},
+      {"type":"practice","title":"Recuerda","body":"Con did y didn’t, el verbo vuelve a su forma base: Did you go? / I didn’t go."}
+    ]
+  },
+  "a2-03": {
+    "objective": "Formar preguntas y respuestas breves sobre acontecimientos pasados.",
+    "sections": [
+      {"type":"learn","title":"Estructura","body":"Did + sujeto + verbo base? What did you do? Where did she go?"},
+      {"type":"example","title":"Respuestas breves","body":"Yes, I did. / No, I didn’t. Para el verbo be: Was he tired? Were they at home?"},
+      {"type":"practice","title":"Diálogo","body":"Where did you go? — I went to Madrid. = ¿Adónde fuiste? — Fui a Madrid."}
+    ]
+  },
+  "a2-04": {
+    "objective": "Comparar personas, lugares y objetos utilizando adjetivos.",
+    "sections": [
+      {"type":"learn","title":"Adjetivos cortos","body":"Añade -er: small → smaller, cheap → cheaper. Después usa than."},
+      {"type":"example","title":"Adjetivos largos","body":"Usa more + adjetivo: more expensive, more comfortable."},
+      {"type":"practice","title":"Irregulares","body":"good → better; bad → worse. This hotel is cheaper than that one."}
+    ]
+  },
+  "a2-05": {
+    "objective": "Describir el extremo de una cualidad en un grupo.",
+    "sections": [
+      {"type":"learn","title":"Regla","body":"Adjetivo corto + -est: the smallest. Adjetivo largo: the most interesting."},
+      {"type":"example","title":"Irregulares","body":"good → the best; bad → the worst."},
+      {"type":"practice","title":"Ejemplo","body":"It’s the best restaurant in town = Es el mejor restaurante de la ciudad."}
+    ]
+  },
+  "a2-06": {
+    "objective": "Explicar cómo se realiza una acción.",
+    "sections": [
+      {"type":"learn","title":"Formación","body":"Muchos adverbios se forman con adjetivo + -ly: slow → slowly, careful → carefully."},
+      {"type":"example","title":"Irregulares","body":"good → well; fast → fast; hard → hard."},
+      {"type":"practice","title":"Ejemplo","body":"She speaks English slowly = Ella habla inglés despacio."}
+    ]
+  },
+  "a2-07": {
+    "objective": "Usar in, on y at para indicar cuándo sucede algo.",
+    "sections": [
+      {"type":"learn","title":"IN","body":"Meses, años y partes del día: in July, in 2026, in the morning."},
+      {"type":"example","title":"ON","body":"Días y fechas: on Monday, on 5 May."},
+      {"type":"practice","title":"AT","body":"Horas y expresiones concretas: at 7 o’clock, at night."}
+    ]
+  },
+  "a2-08": {
+    "objective": "Indicar ubicación y desplazamiento en situaciones cotidianas.",
+    "sections": [
+      {"type":"learn","title":"Lugar","body":"next to = al lado de; between = entre; opposite = enfrente de; behind = detrás de."},
+      {"type":"example","title":"Movimiento","body":"across = cruzando; through = a través de; towards = hacia."},
+      {"type":"practice","title":"Ejemplo","body":"The bank is opposite the station = El banco está enfrente de la estación."}
+    ]
+  },
+  "a2-09": {
+    "objective": "Hablar sobre experiencias y acontecimientos que han sido importantes.",
+    "sections": [
+      {"type":"learn","title":"Useful phrases","body":"I visited…; I tried…; I enjoyed…; It was exciting."},
+      {"type":"example","title":"Conectores","body":"First, then, after that y finally ayudan a ordenar una historia."},
+      {"type":"practice","title":"Mini tarea","body":"Cuenta tres cosas que hiciste el fin de semana pasado."}
+    ]
+  },
+  "a2-10": {
+    "objective": "Consolidar el pasado simple y las descripciones.",
+    "sections": [
+      {"type":"learn","title":"Past Simple","body":"I went / I didn’t go / Did you go? Usa la forma base después de did y didn’t."},
+      {"type":"example","title":"Comparaciones","body":"cheaper than; more interesting than; the best; the most beautiful."},
+      {"type":"practice","title":"Reto","body":"Escribe cinco frases sobre un viaje y compara dos lugares."}
+    ]
+  },
+  "a2-11": {
+    "objective": "Introducir el Present Perfect para conectar experiencias pasadas con el presente.",
+    "sections": [
+      {"type":"learn","title":"Forma","body":"Sujeto + have/has + participio pasado."},
+      {"type":"example","title":"Ejemplos","body":"I have visited Rome = He visitado Roma. She has tried sushi = Ella ha probado sushi."},
+      {"type":"practice","title":"Have o has","body":"I/you/we/they have; he/she/it has."}
+    ]
+  },
+  "a2-12": {
+    "objective": "Preguntar y hablar de experiencias que alguna vez se han tenido.",
+    "sections": [
+      {"type":"learn","title":"Ever","body":"Have you ever…? significa ¿Has… alguna vez?"},
+      {"type":"example","title":"Never","body":"I have never flown = Nunca he volado. Never ya da sentido negativo."},
+      {"type":"practice","title":"Respuestas","body":"Yes, I have. / No, I haven’t."}
+    ]
+  },
+  "a2-13": {
+    "objective": "Expresar si algo ya ha sucedido o todavía no.",
+    "sections": [
+      {"type":"learn","title":"Already","body":"Se usa principalmente en afirmativas: I have already finished."},
+      {"type":"example","title":"Yet","body":"Suele aparecer al final de preguntas y negativas: Have you finished yet? I haven’t finished yet."},
+      {"type":"practice","title":"Traducción","body":"already = ya; yet = ya/todavía, según el contexto."}
+    ]
+  },
+  "a2-14": {
+    "objective": "Decir que una acción acaba de suceder.",
+    "sections": [
+      {"type":"learn","title":"Posición","body":"Have/has + just + participio."},
+      {"type":"example","title":"Ejemplos","body":"I’ve just arrived = Acabo de llegar. She’s just called = Ella acaba de llamar."},
+      {"type":"practice","title":"Práctica","body":"Completa: They have just ____ (leave). Respuesta: left."}
+    ]
+  },
+  "a2-15": {
+    "objective": "Diferenciar experiencias sin fecha concreta de acciones en un pasado terminado.",
+    "sections": [
+      {"type":"learn","title":"Present Perfect","body":"I have seen that film: experiencia, sin decir cuándo."},
+      {"type":"example","title":"Past Simple","body":"I saw that film last night: se especifica cuándo."},
+      {"type":"practice","title":"Pistas","body":"yesterday, last week, in 2024 → Past Simple; ever, never, already → a menudo Present Perfect."}
+    ]
+  },
+  "a2-16": {
+    "objective": "Describir una acción que estaba en progreso en un momento pasado.",
+    "sections": [
+      {"type":"learn","title":"Forma","body":"was/were + verbo-ing."},
+      {"type":"example","title":"Ejemplos","body":"I was studying at 8 pm = Estaba estudiando a las ocho."},
+      {"type":"practice","title":"Uso","body":"I was cooking when he arrived = Estaba cocinando cuando llegó."}
+    ]
+  },
+  "a2-17": {
+    "objective": "Narrar sucesos y acciones en progreso al mismo tiempo.",
+    "sections": [
+      {"type":"learn","title":"Contraste","body":"Past Continuous describe el fondo; Past Simple la acción que ocurre."},
+      {"type":"example","title":"Ejemplo","body":"We were walking when it started to rain."},
+      {"type":"practice","title":"While y when","body":"While suele acompañar una acción en progreso; when introduce el acontecimiento."}
+    ]
+  },
+  "a2-18": {
+    "objective": "Expresar cuánto tiempo dura una situación.",
+    "sections": [
+      {"type":"learn","title":"For","body":"Se usa con un periodo: for two years, for a week."},
+      {"type":"example","title":"Since","body":"Se usa con un punto de inicio: since Monday, since 2022."},
+      {"type":"practice","title":"Ejemplo","body":"I have lived here for three years / since 2023."}
+    ]
+  },
+  "a2-19": {
+    "objective": "Preguntar por duración, frecuencia, cantidad y forma.",
+    "sections": [
+      {"type":"learn","title":"How long","body":"How long have you lived here? = ¿Cuánto tiempo llevas viviendo aquí?"},
+      {"type":"example","title":"How often","body":"How often do you exercise? = ¿Con qué frecuencia haces ejercicio?"},
+      {"type":"practice","title":"How much/many","body":"How much water? How many books?"}
+    ]
+  },
+  "a2-20": {
+    "objective": "Consolidar las formas del presente perfecto y del pasado continuo.",
+    "sections": [
+      {"type":"learn","title":"Repaso","body":"Have/has + participio; was/were + -ing."},
+      {"type":"example","title":"Contraste temporal","body":"I’ve just finished vs I finished an hour ago."},
+      {"type":"practice","title":"Reto","body":"Cuenta una experiencia y describe qué estaba pasando cuando ocurrió."}
+    ]
+  }
+}
