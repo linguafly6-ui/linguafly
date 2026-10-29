@@ -109,7 +109,7 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
   const match = /^a2-(\d{2})$/.exec(lessonId);
     const unitNumber = Number(match[1]);
     const unit = a2Units.find((item) => item.n === unitNumber);
-    const questions = a2QuestionSets[unitNumber]?.[section as keyof typeof a2QuestionSets[number]] ?? [];
+    const questions = section === "production" ? [] : a2QuestionSets[unitNumber]?.[section as keyof typeof a2QuestionSets[number]] ?? [];
     if (!unit || questions.length !== 15) return NextResponse.json({ error: "Unidad A2 no disponible." }, { status: 404 });
     return NextResponse.json({ exercises: questions.map((item) => ({
       id: item.id, number: item.number, type: "multiple_choice", prompt: item.prompt, options: item.options,
