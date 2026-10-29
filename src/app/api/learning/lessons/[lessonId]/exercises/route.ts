@@ -44,6 +44,7 @@ function advancedExpectedAnswer(item: LegacyAdvancedItem): string {
     if (option) return option.text;
   }
   if (Array.isArray(answer)) return answer.map(String).join(" ");
+  if (answer == null && item.pairs?.length) return item.pairs.map((pair) => pair.left + " — " + pair.right).join("; ");
   return answer == null ? "" : String(answer);
 }
 function advancedPlainText(value: unknown): string {
