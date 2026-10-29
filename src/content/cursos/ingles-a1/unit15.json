@@ -523,7 +523,7 @@
             },
             {
               "id": "o3",
-              "text": "[[Does|Does]]"
+              "text": "[[Do|Do]]"
             }
           ],
           "correct_answer": "o1"
@@ -669,7 +669,7 @@
           "options": [
             {
               "id": "o1",
-              "text": "[[Does|Does]]"
+              "text": "[[Do|Do]]"
             },
             {
               "id": "o2",
