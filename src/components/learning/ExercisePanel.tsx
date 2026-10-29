@@ -21,6 +21,7 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
   const level = lessonId.split("-")[0] || "a1";
   const guestStorageKey = `linguafly:${level}:guest:exercise:${lessonId}`;
   const [exercises, setExercises] = useState<Exercise[]>([]);
+  const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [feedback, setFeedback] = useState<Record<string, Feedback>>({});
   const [reviews, setReviews] = useState<Record<string, ReviewResult>>({});
@@ -78,7 +79,7 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
         if (!response.ok) throw new Error("No se han podido cargar los ejercicios.");
         return response.json() as Promise<{ exercises: Exercise[] }>;
       })
-      .then((data) => { if (active) { setExercises(data.exercises ?? []); setSentenceWords({}); } })
+      .then((data) => { if (active) { setExercises(data.exercises ?? []); setCurrentExerciseIndex(0); setSentenceWords({}); } })
       .catch(() => { if (active) setError("Los ejercicios estarán disponibles cuando la base de datos del curso esté actualizada."); })
       .finally(() => { if (active) setLoading(false); });
     return () => {
@@ -160,7 +161,7 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
   const readingPassage = sectionType === "reading" ? exercises.find((exercise) => exercise.passageText)?.passageText : null;
 
   return (
-    <section className="mt-8 rounded-3xl border border-[#ded8ca] bg-[#fbf9f4] p-6 sm:p-8">
+    <section className="mt-4 flex min-h-[calc(100dvh-2rem)] w-full flex-col rounded-3xl border border-[#ded8ca] bg-[#fbf9f4] p-4 sm:mt-6 sm:min-h-[calc(100dvh-3rem)] sm:p-8">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#b75d3b]">{level === "a2" ? "Práctica de inglés A2" : `Práctica de inglés ${level.toUpperCase()}`}</p>
@@ -173,11 +174,15 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
       {error && <p role="alert" className="mt-5 rounded-xl border border-[#e4c6b9] bg-[#fff2ec] p-4 text-sm text-[#8f432c]">{error}</p>}
       {!loading && !error && exercises.length === 0 && <p className="mt-6 rounded-xl bg-[#f0ece3] p-4 text-sm leading-6 text-[#65665b]">Todavía no hay ejercicios publicados para esta lección. Estamos preparando el contenido.</p>}
       {readingPassage && <div className="mt-6 rounded-2xl border border-[#e5dfd3] bg-[#f5f1e8] p-5"><p className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-[#a15b40]">Texto de lectura</p><p className="mt-2 whitespace-pre-line text-sm leading-7 text-[#56584f]">{readingPassage}</p></div>}
-      <div className="mt-6 space-y-5">
-        {exercises.map((exercise) => {
+      {exercises.length > 0 && !loading && !error && <div className="mt-5 h-1.5 overflow-hidden rounded-full bg-[#e9e3d7]" aria-label="Progreso del ejercicio">
+        <div className="h-full rounded-full bg-[#b75d3b] transition-all duration-300" style={{ width: (((currentExerciseIndex + 1) / exercises.length) * 100) + "%" }} />
+      </div>}
+      <div className="flex flex-1 flex-col">
+        {exercises[currentExerciseIndex] && !loading && !error && (() => {
+          const exercise = exercises[currentExerciseIndex];
           const result = feedback[exercise.id];
-          return <article key={exercise.id} className="rounded-2xl border border-[#e5dfd3] bg-white/70 p-5">
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#898779]">{title} · {exercise.number % 100}</p>
+          return <article key={exercise.id} className="my-4 flex flex-1 flex-col justify-center rounded-2xl border border-[#e5dfd3] bg-white/70 p-5 sm:my-6 sm:p-8">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#898779]">{title} · Pregunta {currentExerciseIndex + 1} de {exercises.length}</p>
             <h4 className="mt-2 text-base font-bold leading-6 text-[#30352d]">{exercise.prompt}</h4>
             {sectionType === "listening" && exercise.audioText && <button type="button" disabled={Boolean(playingAudioId && playingAudioId !== exercise.id)} onClick={() => playExerciseAudio(exercise)} aria-live="polite" className="mt-3 rounded-xl bg-[#252a24] px-4 py-2.5 text-sm font-bold text-white disabled:cursor-wait disabled:opacity-60">{playingAudioId === exercise.id ? "♫ Reproduciendo…" : "▶ Escuchar"}</button>}
             {exercise.type === "free_text" || exercise.type === "fill_blank" ? <label className="mt-4 block"><span className="sr-only">Tu respuesta en inglés</span><input type="text" value={answers[exercise.id] ?? ""} onChange={(event) => void chooseAnswer(exercise.id, event.target.value)} maxLength={500} disabled={Boolean(result) || Boolean(submitting)} placeholder="Escribe tu respuesta en inglés…" className="w-full rounded-xl border border-[#ded8ca] bg-[#fbf9f4] px-4 py-3 text-sm text-[#30352d] outline-none focus:border-[#b75d3b]" /></label> : null}
@@ -207,8 +212,15 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
             </div>
             {!result ? <button type="button" disabled={!answers[exercise.id] || submitting === exercise.id} onClick={() => checkAnswer(exercise)} className="mt-4 rounded-xl bg-[#252a24] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[#41483e] disabled:cursor-not-allowed disabled:opacity-40">{submitting === exercise.id ? "Corrigiendo…" : exercise.type === "free_text" ? "Guardar y revisar" : "Comprobar respuesta"}</button> : <div className={`mt-4 rounded-xl p-4 ${result.correct === true ? "bg-[#eaf2e7]" : result.correct === false ? "bg-[#fff2ec]" : "bg-[#f0ece3]"}`}><p className={`text-sm font-extrabold ${result.correct === true ? "text-[#355a37]" : result.correct === false ? "text-[#8f432c]" : "text-[#56584f]"}`}>{result.correct === true ? "¡Muy bien! Respuesta correcta." : result.correct === false ? "Aún no. Revisa la explicación." : "Respuesta guardada. Revisa tu texto."}</p><p className="mt-1 text-sm leading-6 text-[#56584f]">{result.explanation}</p>{reviews[exercise.id] && <p className="mt-2 text-xs leading-5 text-[#65665b]">Próximo repaso: {new Date(reviews[exercise.id].dueAt).toLocaleString("es-ES", { dateStyle: "medium", timeStyle: "short" })}</p>}</div>}
           </article>;
-        })}
+        })()}
       </div>
+      {exercises.length > 0 && !loading && !error && <div className="mt-auto flex items-center justify-between gap-3 border-t border-[#e5dfd3] pt-4">
+        <button type="button" onClick={() => setCurrentExerciseIndex((index) => Math.max(0, index - 1))} disabled={currentExerciseIndex === 0} className="rounded-xl border border-[#ded8ca] px-5 py-3 text-sm font-bold text-[#56584f] transition hover:bg-[#f0ece3] disabled:cursor-not-allowed disabled:opacity-35">← Anterior</button>
+        <span className="text-xs font-semibold text-[#898779]">{answeredCorrectly} de {exercises.length} correctas</span>
+        {currentExerciseIndex < exercises.length - 1
+          ? <button type="button" onClick={() => setCurrentExerciseIndex((index) => Math.min(exercises.length - 1, index + 1))} className="rounded-xl bg-[#252a24] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#41483e]">Siguiente →</button>
+          : <button type="button" onClick={() => setCurrentExerciseIndex(0)} className="rounded-xl bg-[#252a24] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#41483e]">Repasar de nuevo ↻</button>}
+      </div>}
     </section>
   );
 }
