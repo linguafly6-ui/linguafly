@@ -477,7 +477,7 @@
             },
             {
               "id": "o3",
-              "text": "[[by|by]]"
+              "text": "[[arrives|arrives]]"
             }
           ],
           "correct_answer": "o2"
@@ -492,7 +492,7 @@
           "options": [
             {
               "id": "o1",
-              "text": "[[by|by]]"
+              "text": "[[on|on]]"
             },
             {
               "id": "o2",
@@ -631,7 +631,7 @@
             },
             {
               "id": "o3",
-              "text": "[[by|by]]"
+              "text": "[[on|on]]"
             }
           ],
           "correct_answer": "o1"
@@ -696,11 +696,11 @@
             },
             {
               "id": "o2",
-              "text": "[[by|by]]"
+              "text": "[[on|on]]"
             },
             {
               "id": "o3",
-              "text": "[[by|by]]"
+              "text": "[[with|with]]"
             }
           ],
           "correct_answer": "o1"
