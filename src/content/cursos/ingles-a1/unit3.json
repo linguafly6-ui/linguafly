@@ -450,7 +450,7 @@
             },
             {
               "id": "o2",
-              "text": "[[is|is]]"
+              "text": "[[am|am]]"
             },
             {
               "id": "o3",
@@ -477,7 +477,7 @@
             },
             {
               "id": "o3",
-              "text": "[[Are|Are]]"
+              "text": "[[is|is]]"
             }
           ],
           "correct_answer": "o2"
@@ -496,7 +496,7 @@
             },
             {
               "id": "o2",
-              "text": "[[Is|Is]]"
+              "text": "[[am|am]]"
             },
             {
               "id": "o3",
@@ -646,7 +646,7 @@
           "options": [
             {
               "id": "o1",
-              "text": "[[is|is]]"
+              "text": "[[am|am]]"
             },
             {
               "id": "o2",
