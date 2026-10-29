@@ -454,7 +454,7 @@
             },
             {
               "id": "o3",
-              "text": "[[was|was]]"
+              "text": "[[be|be]]"
             }
           ],
           "correct_answer": "o1"
@@ -477,7 +477,7 @@
             },
             {
               "id": "o3",
-              "text": "[[were|were]]"
+              "text": "[[be|be]]"
             }
           ],
           "correct_answer": "o2"
@@ -496,7 +496,7 @@
             },
             {
               "id": "o2",
-              "text": "[[was|was]]"
+              "text": "[[be|be]]"
             },
             {
               "id": "o3",
@@ -523,7 +523,7 @@
             },
             {
               "id": "o3",
-              "text": "[[were|were]]"
+              "text": "[[be|be]]"
             }
           ],
           "correct_answer": "o1"
@@ -627,7 +627,7 @@
             },
             {
               "id": "o2",
-              "text": "[[were|were]]"
+              "text": "[[are|are]]"
             },
             {
               "id": "o3",
@@ -646,7 +646,7 @@
           "options": [
             {
               "id": "o1",
-              "text": "[[was|was]]"
+              "text": "[[be|be]]"
             },
             {
               "id": "o2",
@@ -669,7 +669,7 @@
           "options": [
             {
               "id": "o1",
-              "text": "[[were|were]]"
+              "text": "[[be|be]]"
             },
             {
               "id": "o2",
@@ -696,7 +696,7 @@
             },
             {
               "id": "o2",
-              "text": "[[was|was]]"
+              "text": "[[be|be]]"
             },
             {
               "id": "o3",
