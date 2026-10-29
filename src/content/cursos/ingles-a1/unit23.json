@@ -469,7 +469,7 @@
           "options": [
             {
               "id": "o1",
-              "text": "[[a|a]]"
+              "text": "[[some|some]]"
             },
             {
               "id": "o2",
@@ -477,7 +477,7 @@
             },
             {
               "id": "o3",
-              "text": "[[any|any]]"
+              "text": "[[many|many]]"
             }
           ],
           "correct_answer": "o2"
@@ -627,7 +627,7 @@
             },
             {
               "id": "o2",
-              "text": "[[any|any]]"
+              "text": "[[some|some]]"
             },
             {
               "id": "o3",
