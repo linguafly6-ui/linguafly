@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "@/lib/db/client";
+import { NextRequest, NextResponse } from "next/server";
 import { resolveCloudflareEnv } from "@/lib/db/client";
 import a1LearningSections from "@/content/cursos/ingles-a1/aprender-sections.json";
 import a2LearningSections from "@/content/cursos/ingles-a2/aprender-sections.json";
