@@ -78,15 +78,27 @@ export async function GET(request: NextRequest) {
           const unit = advancedLevel ? getLegacyAdvancedUnit(level.toLowerCase(), row.unit_number) : null;
           const advancedSections = unit
             ? ["grammar", "vocabulary", "listening", "reading", "production"].map((type) => {
-                const items = unit.blocks.flatMap((block) => block.content
-                  .filter((item) => getLegacyAdvancedSection(item, block.title) === type)
-                  .map((item) => ({ item, blockTitle: block.title })));
+                const blocks = unit.blocks.filter((block) =>
+                  block.content.some((item) => getLegacyAdvancedSection(item, block.title) === type)
+                );
                 const titles: Record<string, string> = { grammar: "Gramática", vocabulary: "Vocabulario", listening: "Comprensión auditiva", reading: "Comprensión lectora", production: "Producción" };
-                return {
-                  type, title: titles[type],
-                  body: items.map(({ item, blockTitle }) => [blockTitle, item.prompt_es, item.stimulus_en, item.question_en].filter(Boolean).join(" · ")).join("\\n"),
-                  example: items[0]?.item.stimulus_en ?? "",
-                };
+                const body = type === "grammar"
+                  ? ["Teoría para tener en cuenta antes de practicar", ...blocks.map((block) => {
+                      const explanations = [...new Set(block.content
+                        .filter((item) => getLegacyAdvancedSection(item, block.title) === type)
+                        .map((item) => item.explanation?.trim())
+                        .filter((explanation): explanation is string => Boolean(explanation)))]
+                        .slice(0, 3);
+                      return [block.title, ...explanations.map((explanation) => "• " + explanation)].join("\n");
+                    })].join("\n\n")
+                  : blocks.map((block) => block.title).join("\n");
+                const example = type === "grammar"
+                  ? blocks.flatMap((block) => block.content
+                      .filter((item) => getLegacyAdvancedSection(item, block.title) === type)
+                      .map((item) => item.stimulus_en?.split("\n")[0]?.trim())
+                      .filter((value): value is string => Boolean(value)))[0] ?? ""
+                  : "";
+                return { type, title: titles[type], body, example };
               }).filter((section) => section.body)
             : null;
           return {
