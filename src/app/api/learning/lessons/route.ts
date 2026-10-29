@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { resolveCloudflareEnv } from "@/lib/db/client";
+import a1LearningSections from "@/content/cursos/ingles-a1/aprender-sections.json";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -79,7 +80,9 @@ export async function GET(request: NextRequest) {
             title: row.lesson_title,
             objective: row.objective,
             estimated_minutes: row.estimated_minutes,
-            content,
+            content: level === "A1"
+              ? (a1LearningSections as Record<string, { objective: string; sections: unknown[] }>)[row.lesson_id] ?? content
+              : content,
           };
         }),
       },
@@ -97,3 +100,4 @@ export async function GET(request: NextRequest) {
     );
   }
 }
+
