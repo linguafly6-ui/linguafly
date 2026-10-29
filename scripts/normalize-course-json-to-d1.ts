@@ -126,7 +126,7 @@ function exerciseStatement(
 WHERE id = ${sqlString(id)};
 INSERT INTO learning_exercises
   (id, lesson_id, exercise_number, exercise_type, prompt, options_json, answer_json, explanation, ai_generated, section_type, audio_text)
-SELECT ${values} WHERE NOT EXISTS (SELECT 1 FROM learning_exercises WHERE id = ${sqlString(id)});`;
+SELECT ${values.slice(1, -1)} WHERE NOT EXISTS (SELECT 1 FROM learning_exercises WHERE id = ${sqlString(id)});`;
 }
 
 function distinctPrompt(prompt: string, section: string, seen: Map<string, number>): string {
