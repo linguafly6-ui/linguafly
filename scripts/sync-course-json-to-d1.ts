@@ -1,5 +1,5 @@
 /**
- * Syncs src/content/cursos/**/unitN.json to a lossless D1 JSON mirror.
+ * Syncs unitN.json files under src/content/cursos/<course>/ to a lossless D1 JSON mirror.
  *
  * Usage:
  *   npx tsx scripts/sync-course-json-to-d1.ts --sql-out-dir /tmp/d1-course-seed
