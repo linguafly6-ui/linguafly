@@ -496,7 +496,7 @@
             },
             {
               "id": "o2",
-              "text": "[[is|is]]"
+              "text": "[[am|am]]"
             },
             {
               "id": "o3",
@@ -646,7 +646,7 @@
           "options": [
             {
               "id": "o1",
-              "text": "[[are|are]]"
+              "text": "[[am|am]]"
             },
             {
               "id": "o2",
@@ -669,11 +669,11 @@
           "options": [
             {
               "id": "o1",
-              "text": "[[am|am]]"
+              "text": "[[are|are]]"
             },
             {
               "id": "o2",
-              "text": "[[is|is]]"
+              "text": "[[am|am]]"
             },
             {
               "id": "o3",
