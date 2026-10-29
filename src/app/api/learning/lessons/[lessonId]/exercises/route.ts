@@ -296,7 +296,7 @@ async function getA1Items(lessonId: string) {
   if (!match) return null;
   const unitNumber = Number(match[1]);
   if (unitNumber < 1 || unitNumber > 60) return null;
-  const unit = await loadLegacyUnit(unitNumber);
+  const unit = getA1LegacyUnit(unitNumber);
   if (!unit) return [];
   return unit.blocks.flatMap((block) => block.content).filter((item) => getLegacySection(item) !== null);
 }
