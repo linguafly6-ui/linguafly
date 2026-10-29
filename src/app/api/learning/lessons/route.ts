@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { resolveCloudflareEnv } from "@/lib/db/client";
 import a1LearningSections from "@/content/cursos/ingles-a1/aprender-sections.json";
 import a2LearningSections from "@/content/cursos/ingles-a2/aprender-sections.json";
+import { getLegacyAdvancedUnit, getLegacyAdvancedSection } from "@/lib/learning/legacy-advanced-units";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -73,18 +74,33 @@ export async function GET(request: NextRequest) {
             content = {};
           }
 
+          const advancedLevel = ["B1", "B2", "C1", "C2"].includes(level);
+          const unit = advancedLevel ? getLegacyAdvancedUnit(level.toLowerCase(), row.unit_number) : null;
+          const advancedSections = unit
+            ? ["grammar", "vocabulary", "listening", "reading", "production"].map((type) => {
+                const items = unit.blocks.flatMap((block) => block.content
+                  .filter((item) => getLegacyAdvancedSection(item, block.title) === type)
+                  .map((item) => ({ item, blockTitle: block.title })));
+                const titles: Record<string, string> = { grammar: "Gramática", vocabulary: "Vocabulario", listening: "Comprensión auditiva", reading: "Comprensión lectora", production: "Producción" };
+                return {
+                  type, title: titles[type],
+                  body: items.map(({ item, blockTitle }) => [blockTitle, item.prompt_es, item.stimulus_en, item.question_en].filter(Boolean).join(" · ")).join("\\n"),
+                  example: items[0]?.item.stimulus_en ?? "",
+                };
+              }).filter((section) => section.body)
+            : null;
           return {
-            id: row.lesson_id,
-            number: row.lesson_number,
-            unit: row.unit_number,
-            title: row.lesson_title,
-            objective: row.objective,
+            id: row.lesson_id, number: row.lesson_number, unit: row.unit_number,
+            title: unit?.course?.unit_title || row.lesson_title,
+            objective: unit?.learning_outcomes?.join(" · ") || row.objective,
             estimated_minutes: row.estimated_minutes,
-            content: level === "A1"
-              ? (a1LearningSections as Record<string, { objective: string; sections: unknown[] }>)[row.lesson_id] ?? content
-              : level === "A2"
-                ? (a2LearningSections as Record<string, { objective: string; sections: unknown[] }>)[row.lesson_id] ?? content
-                : content,
+            content: advancedSections
+              ? { objective: unit?.learning_outcomes?.join(" · ") || row.objective, sections: advancedSections, reviewEnabled: true }
+              : level === "A1"
+                ? (a1LearningSections as Record<string, { objective: string; sections: unknown[] }>)[row.lesson_id] ?? content
+                : level === "A2"
+                  ? (a2LearningSections as Record<string, { objective: string; sections: unknown[] }>)[row.lesson_id] ?? content
+                  : content,
           };
         }),
       },

@@ -4,6 +4,7 @@ import { scheduleNextReview, type ReviewState } from "@/lib/learning/spaced-repe
 import { getSessionUser } from "@/lib/learning/auth";
 import { resolveCloudflareEnv } from "@/lib/db/client";
 import { getA1LegacyUnit, type A1LegacyItem as LegacyItem, type A1LegacyUnit as LegacyUnit } from "@/lib/learning/a1-legacy-units";
+import { getLegacyAdvancedUnit, getLegacyAdvancedItem, getLegacyAdvancedSection, type LegacyAdvancedItem } from "@/lib/learning/legacy-advanced-units";
 
 const sectionNames = new Set(["grammar", "vocabulary", "listening", "reading", "production"]);
 
@@ -33,6 +34,23 @@ function plainText(value: string | undefined): string {
 function plainEnglish(value: string | undefined): string {
   if (!value) return "";
   return value.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, (_whole, left: string, right: string) => bilingualPart(left + "|" + right, "english")).replace(/\s+/g, " ").trim();
+}
+
+
+function advancedExpectedAnswer(item: LegacyAdvancedItem): string {
+  const answer = item.correct_answer;
+  if (typeof answer === "string" && item.options?.length) {
+    const option = item.options.find((candidate) => candidate.id === answer);
+    if (option) return option.text;
+  }
+  if (Array.isArray(answer)) return answer.map(String).join(" ");
+  return answer == null ? "" : String(answer);
+}
+function advancedPlainText(value: unknown): string {
+  return typeof value === "string" ? value.replace(/\\s+/g, " ").trim() : "";
+}
+function advancedPrompt(item: LegacyAdvancedItem): string {
+  return [item.stimulus_en, item.question_en, item.prompt_es].map(advancedPlainText).filter(Boolean).join("\\n");
 }
 
 function getLegacySection(item: LegacyItem): string | null {
@@ -117,6 +135,27 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
   const { lessonId } = await context.params;
   const section = request.nextUrl.searchParams.get("section") ?? "grammar";
   if (!sectionNames.has(section)) return NextResponse.json({ error: "Sección no válida." }, { status: 400 });
+
+
+  const advancedMatch = /^(b1|b2|c1|c2)-(\\d{2})$/.exec(lessonId);
+  if (advancedMatch) {
+    const unit = getLegacyAdvancedUnit(advancedMatch[1], Number(advancedMatch[2]));
+    if (!unit) return NextResponse.json({ error: "Unidad no disponible." }, { status: 404 });
+    const selected = unit.blocks.flatMap((block) => block.content
+      .filter((item) => getLegacyAdvancedSection(item, block.title) === section)
+      .map((item) => ({ item, blockTitle: block.title })));
+    return NextResponse.json({ exercises: selected.map(({ item }, index) => {
+      const options = (item.options ?? []).map((option) => option.text);
+      const type = options.length ? "multiple_choice"
+        : /fill.?blank|open.?cloze/i.test(item.type) ? "fill_blank" : "free_text";
+      return {
+        id: item.interaction_id, number: index + 1, type,
+        prompt: advancedPrompt(item), options,
+        audioText: section === "listening" && item.transcript ? item.transcript : null,
+        passageText: section === "reading" && item.transcript ? item.transcript : null
+      };
+    }) });
+  }
 
   const a1Items = await getA1Items(lessonId);
   if (a1Items !== null) {
