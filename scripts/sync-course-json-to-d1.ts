@@ -4,7 +4,7 @@
  * Usage:
  *   npx tsx scripts/sync-course-json-to-d1.ts --sql-out-dir /tmp/d1-course-seed
  *
- * Generates one idempotent SQL file per source unit. It does not connect to D1;
+ * Generates batched idempotent SQL files, one per ten source units. It does not connect to D1;
  * the deploy workflow executes the generated files after applying migrations.
  */
 import fs from "node:fs";
@@ -110,7 +110,7 @@ ON CONFLICT(course_key, unit_number) DO UPDATE SET
   for (let start = 0; start < statements.length; start += chunkSize) {
     const chunk = statements.slice(start, start + chunkSize);
     const filename = `batch-${String(Math.floor(start / chunkSize) + 1).padStart(3, "0")}.sql`;
-    fs.writeFileSync(path.join(OUT, filename), chunk.join("\\n"));
+    fs.writeFileSync(path.join(OUT, filename), chunk.join("\n"));
   }
 
   const byCourse = records.reduce<Record<string, number>>((counts, record) => {
