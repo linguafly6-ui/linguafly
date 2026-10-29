@@ -8,7 +8,7 @@ import { Exercise } from '@/lib/exercise-generator';
 const LESSON_TITLE = 'Comprensión auditiva';
 const TOPIC = 'Colors & Physical Descriptions';
 
-const LISTENING_TRANSCRIPT = `[[Lisa|Lisa]]: [[Who|Quién]] [[is|es]] [[that|esa]] [[woman|mujer]] [[with|con]] [[the|el]] [[long|largo]] [[red|rojo]] [[hair|pelo]]? [[Tom|Tom]]: [[She|Ella]] [[is|es]] [[my|mi]] [[sister|hermana]] [[Emma|Emma]]. [[Lisa|Lisa]]: [[She|Ella]] [[is|es]] [[very|muy]] [[tall|alta]]. [[How old is she?|¿Cuántos años tiene ella?]] [[Tom|Tom]]: [[She|Ella]] [[is|es]] [[twenty-five|veinticinco]] [[years|años]] [[old|de edad]]. [[She|Ella]] [[has|tiene]] [[blue|azules]] [[eyes|ojos]] [[too|también]]. [[Lisa|Lisa]]: [[My|Mi]] [[brother|hermano]] [[is|es]] [[short|bajo]] [[and|y]] [[he|él]] [[has|tiene]] [[brown|castaño]] [[hair|pelo]]. [[Tom|Tom]]: [[Is|Es]] [[he|él]] [[young|joven]]? [[Lisa|Lisa]]: [[Yes|Sí]], [[he|él]] [[is|es]] [[only|solo]] [[eighteen|dieciocho]].`;
+const LISTENING_TRANSCRIPT = `[[Lisa: Who is that woman with the long red hair?|Lisa: ¿Quién es esa mujer de pelo largo y rojo?]] [[Tom: She is my sister Emma.|Tom: Es mi hermana Emma.]] [[Lisa: She is very tall. How old is she?|Lisa: Es muy alta. ¿Cuántos años tiene?]] [[Tom: She is twenty-five years old. She has blue eyes too.|Tom: Tiene veinticinco años. También tiene los ojos azules.]] [[Lisa: My brother is short and he has brown hair.|Lisa: Mi hermano es bajo y tiene el pelo castaño.]] [[Tom: Is he young?|Tom: ¿Es joven?]] [[Lisa: Yes, he is only eighteen.|Lisa: Sí, solo tiene dieciocho años.]]`;
 
 const INSTRUCTIONS = 'Escucha el audio. Después contesta cada pregunta.';
 
