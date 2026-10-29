@@ -48,7 +48,7 @@ function advancedExpectedAnswer(item: LegacyAdvancedItem): string {
   return answer == null ? "" : String(answer);
 }
 function advancedPlainText(value: unknown): string {
-  return typeof value === "string" ? value.replace(/\\s+/g, " ").trim() : "";
+  return typeof value === "string" ? value.replace(/\s+/g, " ").trim() : "";
 }
 function advancedPrompt(item: LegacyAdvancedItem): string {
   // Prefer the actual question, then the stimulus, and use the instruction only
@@ -156,8 +156,7 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
         main_text?: string;
       }).gaps;
       if (/cloze/i.test(item.type) && Array.isArray(gaps) && gaps.length) {
-        const mainText = advancedPlainText((item as LegacyAdvancedItem & { main_text?: string }).main_text)
-          || String((item as LegacyAdvancedItem & { main_text?: string }).main_text ?? "");
+        const mainText = String((item as LegacyAdvancedItem & { main_text?: string }).main_text ?? "");
         return gaps.map((gap, gapIndex) => {
           const gapNumber = Number(gap.id) || gapIndex + 1;
           const line = mainText.split("\n").map((part) => part.trim())
