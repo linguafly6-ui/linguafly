@@ -163,7 +163,7 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
     <section className="mt-8 rounded-3xl border border-[#ded8ca] bg-[#fbf9f4] p-6 sm:p-8">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#b75d3b]">{level === "a1" ? "Ejercicios del curso original A1" : level === "a2" ? "15 ejercicios A2" : `Ejercicios del curso original ${level.toUpperCase()}`}</p>
+          <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#b75d3b]">{level === "a2" ? "Práctica de inglés A2" : `Práctica de inglés ${level.toUpperCase()}`}</p>
           <h3 className="mt-2 text-2xl font-extrabold text-[#22251f]">Practica {title}</h3>
           <p className="mt-2 text-sm text-[#65665b]">Responde y revisa la explicación. Las respuestas erróneas vuelven antes; las correctas se espacian progresivamente.</p>
         </div>
