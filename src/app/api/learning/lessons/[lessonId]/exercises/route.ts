@@ -16,14 +16,6 @@ function plainEnglish(value: string | undefined): string {
   return value.replace(/\\[\\[([^\\]|]+)\\|([^\\]]+)\\]\\]/g, "$1").replace(/\\s+/g, " ").trim();
 }
 
-function bilingualSide(value: string | undefined, preferred: "english" | "spanish"): string {
-  if (!value) return "";
-  return value.replace(/\\[\\[([^\\]|]+)\\|([^\\]]+)\\]\\]/g, (_whole, first: string, second: string) => {
-    if (first.toLocaleLowerCase("en") === second.toLocaleLowerCase("en")) return first;
-    return preferred === "english" ? (first.length <= second.length && /[A-Za-z]/.test(first) ? first : first) : second;
-  }).replace(/\\s+/g, " ").trim();
-}
-
 function getLegacySection(item: LegacyItem): string | null {
   if (item.mastery_tag === "grammar" || item.mastery_tag === "vocabulary" || item.mastery_tag === "reading" || item.mastery_tag === "listening" || item.mastery_tag === "production") {
     return item.mastery_tag;
