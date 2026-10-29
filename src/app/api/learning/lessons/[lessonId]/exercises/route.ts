@@ -61,7 +61,7 @@ function normalizedLegacyAnswer(item: LegacyItem): string {
     const correctId = String(item.correct_answer);
     const text = options.find((option) => option.id === correctId)?.text;
     if (!text) return "";
-    const bilingual = /^\\[([^\\]|]+)\\|([^\\]]+)\\]$/.exec(text);
+    const bilingual = /^\[([^\]|]+)\|([^\]]+)\]$/.exec(text);
     return bilingual ? bilingual[1] : plainText(text);
   }
   if (item.type === "sentence-building" && Array.isArray(item.correct_answer)) {
