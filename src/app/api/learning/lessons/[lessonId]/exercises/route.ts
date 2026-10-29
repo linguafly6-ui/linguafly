@@ -51,7 +51,9 @@ function advancedPlainText(value: unknown): string {
   return typeof value === "string" ? value.replace(/\\s+/g, " ").trim() : "";
 }
 function advancedPrompt(item: LegacyAdvancedItem): string {
-  return [item.stimulus_en, item.question_en, item.prompt_es].map(advancedPlainText).filter(Boolean).join("\\n");
+  // Prefer the actual question, then the stimulus, and use the instruction only
+  // as a fallback. Concatenating all fields caused repeated/conflicting prompts.
+  return [item.question_en, item.stimulus_en, item.prompt_es].map(advancedPlainText).find(Boolean) ?? "";
 }
 
 function getLegacySection(item: LegacyItem): string | null {
@@ -145,16 +147,41 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
     const selected = unit.blocks.flatMap((block) => block.content
       .filter((item) => getLegacyAdvancedSection(item, block.title) === section)
       .map((item) => ({ item, blockTitle: block.title })));
-    return NextResponse.json({ exercises: selected.map(({ item }, index) => {
+    return NextResponse.json({ exercises: selected.flatMap(({ item }, index) => {
+      // Legacy cloze items store one option set and one answer per numbered gap.
+      // Render each numbered item as its own multiple-choice exercise so it uses
+      // the same interaction and correction path as the original course.
+      const gaps = (item as LegacyAdvancedItem & {
+        gaps?: { id: string; options: { id: string; text: string }[] }[];
+        main_text?: string;
+      }).gaps;
+      if (/cloze/i.test(item.type) && Array.isArray(gaps) && gaps.length) {
+        const mainText = advancedPlainText((item as LegacyAdvancedItem & { main_text?: string }).main_text)
+          || String((item as LegacyAdvancedItem & { main_text?: string }).main_text ?? "");
+        return gaps.map((gap, gapIndex) => {
+          const gapNumber = Number(gap.id) || gapIndex + 1;
+          const line = mainText.split("\n").map((part) => part.trim())
+            .find((part) => new RegExp("^" + gapNumber + "\\.").test(part))
+            || mainText;
+          const prompt = line.replace(/^\d+\.\s*/, "").replace(/\[GAP\s*\d+\]/gi, "_____").replace(/\(\d+\)/g, "").trim();
+          return {
+            id: item.interaction_id + "__gap_" + gap.id,
+            number: index * gaps.length + gapIndex + 1,
+            type: "multiple_choice",
+            prompt: prompt || advancedPrompt(item),
+            options: (gap.options ?? []).map((option) => option.text),
+          };
+        });
+      }
       const options = (item.options ?? []).map((option) => option.text);
       const type = options.length ? "multiple_choice"
         : /fill.?blank|open.?cloze/i.test(item.type) ? "fill_blank" : "free_text";
-      return {
+      return [{
         id: item.interaction_id, number: index + 1, type,
         prompt: advancedPrompt(item), options,
         audioText: section === "listening" && item.transcript ? item.transcript : null,
         passageText: section === "reading" && item.transcript ? item.transcript : null
-      };
+      }];
     }) });
   }
 
@@ -240,9 +267,21 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
 
 
   if (/^(b1|b2|c1|c2)-\d{2}$/.test(lessonId)) {
-    const item = getLegacyAdvancedItem(lessonId, payload.exerciseId);
+    const gapMatch = /^(.*)__gap_(\d+)$/.exec(payload.exerciseId);
+    const item = getLegacyAdvancedItem(lessonId, gapMatch ? gapMatch[1] : payload.exerciseId);
     if (!item) return NextResponse.json({ error: "Ejercicio no encontrado." }, { status: 404 });
-    const expected = advancedExpectedAnswer(item);
+    let expected = advancedExpectedAnswer(item);
+    if (gapMatch) {
+      const gapId = gapMatch[2];
+      const gapItem = item as LegacyAdvancedItem & {
+        gaps?: { id: string; options: { id: string; text: string }[] }[];
+        correct_answer?: Record<string, string>;
+      };
+      const gap = gapItem.gaps?.find((candidate) => candidate.id === gapId);
+      const correctOptionId = gapItem.correct_answer && typeof gapItem.correct_answer === "object"
+        ? gapItem.correct_answer[gapId] : undefined;
+      expected = gap?.options.find((option) => option.id === correctOptionId)?.text ?? "";
+    }
     const normalize = (value: string) => value.trim().replace(/\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, "");
     const correct = Boolean(expected) && normalize(payload.answer) === normalize(expected);
     const explanation = advancedPlainText(item.explanation) || (expected ? "Respuesta correcta: " + expected : "Revisa la explicación del ejercicio.");
