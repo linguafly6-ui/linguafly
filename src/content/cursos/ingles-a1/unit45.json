@@ -454,7 +454,7 @@
             },
             {
               "id": "o3",
-              "text": "[[season|season]]"
+              "text": "[[weather|weather]]"
             }
           ],
           "correct_answer": "o1"
@@ -492,7 +492,7 @@
           "options": [
             {
               "id": "o1",
-              "text": "[[in|in]]"
+              "text": "[[at|at]]"
             },
             {
               "id": "o2",
@@ -631,7 +631,7 @@
             },
             {
               "id": "o3",
-              "text": "[[in|in]]"
+              "text": "[[at|at]]"
             }
           ],
           "correct_answer": "o1"
@@ -654,7 +654,7 @@
             },
             {
               "id": "o3",
-              "text": "[[in|in]]"
+              "text": "[[at|at]]"
             }
           ],
           "correct_answer": "o2"
@@ -700,7 +700,7 @@
             },
             {
               "id": "o3",
-              "text": "[[in|in]]"
+              "text": "[[at|at]]"
             }
           ],
           "correct_answer": "o1"
