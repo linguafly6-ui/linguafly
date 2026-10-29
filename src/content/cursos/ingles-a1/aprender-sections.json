@@ -208,219 +208,170 @@
     ]
   },
   "a1-09": {
-    "objective": "Identificar y practicar los números del 11 al 20.",
+    "objective": "Name common professions in English · Use 'to be' to describe professions · Ask and answer 'What do you do?' and 'Where do you work?'",
     "sections": [
       {
         "type": "grammar",
-        "title": "Gramática",
-        "body": "Los números del 13 al 19 suelen terminar en -teen. Escucha la sílaba tónica para distinguir “thirteen” de “thirty”.\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "How much is this?"
+        "title": "Gramática y objetivos",
+        "body": "Name common professions in English\n\nUse 'to be' to describe professions\n\nAsk and answer 'What do you do?' and 'Where do you work?'\n\nComplete the affirmative sentence. · I am _____ engineer.\n\nComplete the affirmative sentence. · She is _____ nurse.\n\nComplete the affirmative sentence. · He _____ in a hospital.\n\nComplete the affirmative sentence. · Where do you _____?\n\nChoose the correct word. · They are _____ police officers. · very good · a · works\n\nBuild a sentence using these words. · Doctor · Waiter · Teacher\n\nBuild a sentence using these words. · Waiter · Chef · Student\n\nBuild a sentence using these words. · Chef · Office · Police officer\n\nBuild a sentence using these words. · Office · Where · Lawyer",
+        "example": "Complete the affirmative sentence. · I am _____ engineer."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para números del 11 al 20:\nTwenty — Veinte\nThirty — Treinta\nForty — Cuarenta\nFifty — Cincuenta\nSixty — Sesenta\nSeventy — Setenta"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "Excuse me! How much is this? It is forty-five euros. And how much is that? That one is seventy euros. How old is your grandfather? He is eighty-two years old. He is very healthy."
+        "body": "Choose the correct translation. · Teacher · Profesor/a · Médico/a · Ingeniero/a\nChoose the correct translation. · Doctor · Ingeniero/a · Médico/a · Estudiante\nChoose the correct translation. · Engineer · Estudiante · Camarero/a · Ingeniero/a\nChoose the correct translation. · Student · Estudiante · Camarero/a · Enfermero/a\nChoose the correct translation. · Waiter · Enfermero/a · Camarero/a · Policía\nChoose the correct translation. · Nurse · Policía · Cocinero/a · Enfermero/a\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Student · Police officer · Lawyer\nChoose the correct option. · Waiter · Chef · Office"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · teacher · doctor · engineer · What do you do for work? I am a doctor. I work in the city hospital. That is interesting! Does your wife work too? Yes, she is a teacher. She teaches at the primary school. And what about your children? My son is a student and my daughter wants to be a pilot. · What is the speaker's job?\nRead the text and answer. · school · office · hospital · What do you do for work? I am a doctor. I work in the city hospital. That is interesting! Does your wife work too? Yes, she is a teacher. She teaches at the primary school. And what about your children? My son is a student and my daughter wants to be a pilot. · Where does the speaker work?\nRead the text and answer. · nurse · teacher · lawyer · What do you do for work? I am a doctor. I work in the city hospital. That is interesting! Does your wife work too? Yes, she is a teacher. She teaches at the primary school. And what about your children? My son is a student and my daughter wants to be a pilot. · What is the wife's job?\nRead the text and answer. · hospital · restaurant · school · What do you do for work? I am a doctor. I work in the city hospital. That is interesting! Does your wife work too? Yes, she is a teacher. She teaches at the primary school. And what about your children? My son is a student and my daughter wants to be a pilot. · Where does the wife work?\nRead the text and answer. · working · studying · traveling · What do you do for work? I am a doctor. I work in the city hospital. That is interesting! Does your wife work too? Yes, she is a teacher. She teaches at the primary school. And what about your children? My son is a student and my daughter wants to be a pilot. · What is the son doing?\nRead the text and answer. · doctor · nurse · pilot · What do you do for work? I am a doctor. I work in the city hospital. That is interesting! Does your wife work too? Yes, she is a teacher. She teaches at the primary school. And what about your children? My son is a student and my daughter wants to be a pilot. · What does the daughter want to be?\nRead the text and answer. · a · an · the · What do you do for work? I am a doctor. I work in the city hospital. That is interesting! Does your wife work too? Yes, she is a teacher. She teaches at the primary school. And what about your children? My son is a student and my daughter wants to be a pilot. · Which article goes before 'engineer'?\nRead the text and answer. · Chef · Driver · Waiter · What do you do for work? I am a doctor. I work in the city hospital. That is interesting! Does your wife work too? Yes, she is a teacher. She teaches at the primary school. And what about your children? My son is a student and my daughter wants to be a pilot. · What word means 'Camarero'?\nRead the text and answer. · Pilot · Waiter · Lawyer · What do you do for work? I am a doctor. I work in the city hospital. That is interesting! Does your wife work too? Yes, she is a teacher. She teaches at the primary school. And what about your children? My son is a student and my daughter wants to be a pilot. · Which job works in a restaurant?\nRead the text and answer. · How old are you? · Where are you from? · What do you do? · What do you do for work? I am a doctor. I work in the city hospital. That is interesting! Does your wife work too? Yes, she is a teacher. She teaches at the primary school. And what about your children? My son is a student and my daughter wants to be a pilot. · What question asks about job?"
       }
     ]
   },
   "a1-10": {
-    "objective": "Aprender twenty, thirty, forty y las demás decenas.",
+    "objective": "Review all Module 1 grammar: verb 'to be', pronouns, possessives · Demonstrate vocabulary from units 1–9 · Produce a short personal profile in English",
     "sections": [
       {
         "type": "grammar",
-        "title": "Gramática",
-        "body": "Las decenas terminan normalmente en -ty: twenty, thirty, forty. “Forty” no lleva la u de “four”.\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "How much is this?"
+        "title": "Gramática y objetivos",
+        "body": "Review all Module 1 grammar: verb 'to be', pronouns, possessives\n\nDemonstrate vocabulary from units 1–9\n\nProduce a short personal profile in English\n\nComplete the affirmative sentence. · I _____ a teacher from Spain.\n\nComplete the affirmative sentence. · His name _____ Carlos.\n\nComplete the affirmative sentence. · They _____ students.\n\nComplete the affirmative sentence. · How _____ are you?\n\nChoose the correct word. · This _____ my family. · is · am · are\n\nBuild a sentence using these words. · Assessment · Introduce · Review\n\nBuild a sentence using these words. · Introduce · Choose · Wrong\n\nBuild a sentence using these words. · Choose · Information · Complete\n\nBuild a sentence using these words. · Information · Practice · Profile",
+        "example": "Complete the affirmative sentence. · I _____ a teacher from Spain."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para las decenas hasta 100:\nTwenty — Veinte\nThirty — Treinta\nForty — Cuarenta\nFifty — Cincuenta\nSixty — Sesenta\nSeventy — Setenta"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "Excuse me! How much is this? It is forty-five euros. And how much is that? That one is seventy euros. How old is your grandfather? He is eighty-two years old. He is very healthy."
+        "body": "Choose the correct translation. · Review · Repaso · Evaluación · Correcto/a\nChoose the correct translation. · Assessment · Correcto/a · Evaluación · Incorrecto/a\nChoose the correct translation. · Correct · Incorrecto/a · Presentar · Correcto/a\nChoose the correct translation. · Wrong · Incorrecto/a · Presentar · Describir\nChoose the correct translation. · Introduce · Describir · Presentar · Completar\nChoose the correct translation. · Describe · Completar · Elegir · Describir\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Wrong · Complete · Profile\nChoose the correct option. · Introduce · Choose · Information"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · Spanish · Mexican · Italian · Hello! My name is Sofia. I am twenty-five years old. I am from Mexico and I am a lawyer. I have a big family. My father is a doctor. My mother is a teacher and she has brown hair and green eyes. My brother is thirty years old. He works in an office. I am very happy to meet you! · What is Sofia's nationality?\nRead the text and answer. · doctor · teacher · lawyer · Hello! My name is Sofia. I am twenty-five years old. I am from Mexico and I am a lawyer. I have a big family. My father is a doctor. My mother is a teacher and she has brown hair and green eyes. My brother is thirty years old. He works in an office. I am very happy to meet you! · What is Sofia's job?\nRead the text and answer. · twenty · thirty · twenty-five · Hello! My name is Sofia. I am twenty-five years old. I am from Mexico and I am a lawyer. I have a big family. My father is a doctor. My mother is a teacher and she has brown hair and green eyes. My brother is thirty years old. He works in an office. I am very happy to meet you! · How old is Sofia?\nRead the text and answer. · lawyer · doctor · engineer · Hello! My name is Sofia. I am twenty-five years old. I am from Mexico and I am a lawyer. I have a big family. My father is a doctor. My mother is a teacher and she has brown hair and green eyes. My brother is thirty years old. He works in an office. I am very happy to meet you! · What is Sofia's father's job?\nRead the text and answer. · nurse · doctor · teacher · Hello! My name is Sofia. I am twenty-five years old. I am from Mexico and I am a lawyer. I have a big family. My father is a doctor. My mother is a teacher and she has brown hair and green eyes. My brother is thirty years old. He works in an office. I am very happy to meet you! · What is Sofia's mother's job?\nRead the text and answer. · blue · green · brown · Hello! My name is Sofia. I am twenty-five years old. I am from Mexico and I am a lawyer. I have a big family. My father is a doctor. My mother is a teacher and she has brown hair and green eyes. My brother is thirty years old. He works in an office. I am very happy to meet you! · What color are Sofia's mother's eyes?\nRead the text and answer. · twenty · forty · thirty · Hello! My name is Sofia. I am twenty-five years old. I am from Mexico and I am a lawyer. I have a big family. My father is a doctor. My mother is a teacher and she has brown hair and green eyes. My brother is thirty years old. He works in an office. I am very happy to meet you! · How old is Sofia's brother?\nRead the text and answer. · hospital · office · school · Hello! My name is Sofia. I am twenty-five years old. I am from Mexico and I am a lawyer. I have a big family. My father is a doctor. My mother is a teacher and she has brown hair and green eyes. My brother is thirty years old. He works in an office. I am very happy to meet you! · Where does Sofia's brother work?\nRead the text and answer. · small · medium · big · Hello! My name is Sofia. I am twenty-five years old. I am from Mexico and I am a lawyer. I have a big family. My father is a doctor. My mother is a teacher and she has brown hair and green eyes. My brother is thirty years old. He works in an office. I am very happy to meet you! · What does Sofia describe her family?\nRead the text and answer. · sad · tired · happy · Hello! My name is Sofia. I am twenty-five years old. I am from Mexico and I am a lawyer. I have a big family. My father is a doctor. My mother is a teacher and she has brown hair and green eyes. My brother is thirty years old. He works in an office. I am very happy to meet you! · How does Sofia feel about meeting you?"
       }
     ]
   },
   "a1-11": {
-    "objective": "Combinar decenas y unidades para decir números.",
+    "objective": "Tell and ask for the time in English · Use o'clock, half past, quarter past/to · Use the preposition 'at' with times",
     "sections": [
       {
         "type": "grammar",
-        "title": "Gramática",
-        "body": "Forma números como 21 uniendo decena y unidad con guion: “twenty-one”, “thirty-five”.\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "How much is this?"
+        "title": "Gramática y objetivos",
+        "body": "Tell and ask for the time in English\n\nUse o'clock, half past, quarter past/to\n\nUse the preposition 'at' with times\n\nComplete the affirmative sentence. · _____ time is it?\n\nComplete the affirmative sentence. · It _____ three o'clock.\n\nComplete the affirmative sentence. · My class starts _____ nine.\n\nComplete the affirmative sentence. · The party is _____ half past seven.\n\nChoose the correct word. · It quarter _____ ten. · past · is · at\n\nBuild a sentence using these words. · Half past · Minute · O'clock\n\nBuild a sentence using these words. · Minute · Afternoon · Quarter to\n\nBuild a sentence using these words. · Afternoon · Early · Morning\n\nBuild a sentence using these words. · Early · Schedule · Night",
+        "example": "Complete the affirmative sentence. · _____ time is it?"
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para formar números:\nTwenty — Veinte\nThirty — Treinta\nForty — Cuarenta\nFifty — Cincuenta\nSixty — Sesenta\nSeventy — Setenta"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "Excuse me! How much is this? It is forty-five euros. And how much is that? That one is seventy euros. How old is your grandfather? He is eighty-two years old. He is very healthy."
+        "body": "Choose the correct translation. · O'clock · En punto · Y media · Y cuarto\nChoose the correct translation. · Half past · Y cuarto · Y media · Menos cuarto\nChoose the correct translation. · Quarter past · Menos cuarto · Minuto · Y cuarto\nChoose the correct translation. · Quarter to · Menos cuarto · Minuto · Hora\nChoose the correct translation. · Minute · Hora · Minuto · Mañana (parte del día)\nChoose the correct translation. · Hour · Mañana (parte del día) · Tarde · Hora\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Quarter to · Morning · Night\nChoose the correct option. · Minute · Afternoon · Early"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · Quarter past eight · Half past eight · Nine o'clock · Excuse me, what time is it? It half past eight. Oh! I am late! My class starts at nine o'clock. Don't worry. You have thirty minutes. What time does your class finish? · What time is it in the conversation?\nRead the text and answer. · At nine o'clock · At eight o'clock · At ten o'clock · Excuse me, what time is it? It half past eight. Oh! I am late! My class starts at nine o'clock. Don't worry. You have thirty minutes. What time does your class finish? · What time does the class start?\nRead the text and answer. · Twenty · Forty · Thirty · Excuse me, what time is it? It half past eight. Oh! I am late! My class starts at nine o'clock. Don't worry. You have thirty minutes. What time does your class finish? · How many minutes does the speaker have?\nRead the text and answer. · Hungry · Late · Tired · Excuse me, what time is it? It half past eight. Oh! I am late! My class starts at nine o'clock. Don't worry. You have thirty minutes. What time does your class finish? · Why is the speaker worried?\nRead the text and answer. · Eight and half · Half past eight · Eight half · Excuse me, what time is it? It half past eight. Oh! I am late! My class starts at nine o'clock. Don't worry. You have thirty minutes. What time does your class finish? · How do you say 'las ocho y media' in English?\nRead the text and answer. · in · on · at · Excuse me, what time is it? It half past eight. Oh! I am late! My class starts at nine o'clock. Don't worry. You have thirty minutes. What time does your class finish? · Which preposition goes before a time?\nRead the text and answer. · Exact hour · Half hour · Quarter hour · Excuse me, what time is it? It half past eight. Oh! I am late! My class starts at nine o'clock. Don't worry. You have thirty minutes. What time does your class finish? · What does 'o'clock' indicate?\nRead the text and answer. · Late · Early · Now · Excuse me, what time is it? It half past eight. Oh! I am late! My class starts at nine o'clock. Don't worry. You have thirty minutes. What time does your class finish? · Which word means 'Temprano'?\nRead the text and answer. · 30 minutes · 20 minutes · 15 minutes · Excuse me, what time is it? It half past eight. Oh! I am late! My class starts at nine o'clock. Don't worry. You have thirty minutes. What time does your class finish? · What does 'Quarter' mean when telling the time?\nRead the text and answer. · Where is the time? · What time is it? · When is it? · Excuse me, what time is it? It half past eight. Oh! I am late! My class starts at nine o'clock. Don't worry. You have thirty minutes. What time does your class finish? · How do you ask for the time in English?"
       }
     ]
   },
   "a1-12": {
-    "objective": "Preguntar y decir la edad y un número de teléfono.",
+    "objective": "Name and spell the days of the week · Use 'on' with days of the week · Talk about weekly plans and habits",
     "sections": [
       {
         "type": "grammar",
-        "title": "Gramática",
-        "body": "Pregunta la edad con “How old are you?” y responde “I am … years old”. Para un teléfono, di cada cifra por separado.\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "How much is this?"
+        "title": "Gramática y objetivos",
+        "body": "Name and spell the days of the week\n\nUse 'on' with days of the week\n\nTalk about weekly plans and habits\n\nComplete the affirmative sentence. · I always go to the gym _____ Mondays.\n\nComplete the affirmative sentence. · _____ Saturday I relax at home.\n\nComplete the affirmative sentence. · She works _____ Monday to Friday.\n\nComplete the affirmative sentence. · Do you work _____ weekends?\n\nChoose the correct word. · Today _____ Wednesday. · is · On · from\n\nBuild a sentence using these words. · Tuesday · Friday · Monday\n\nBuild a sentence using these words. · Friday · Weekend · Thursday\n\nBuild a sentence using these words. · Weekend · Tomorrow · Sunday\n\nBuild a sentence using these words. · Tomorrow · Day · Today",
+        "example": "Complete the affirmative sentence. · I always go to the gym _____ Mondays."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para edad y teléfono:\nTwenty — Veinte\nThirty — Treinta\nForty — Cuarenta\nFifty — Cincuenta\nSixty — Sesenta\nSeventy — Setenta"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "Excuse me! How much is this? It is forty-five euros. And how much is that? That one is seventy euros. How old is your grandfather? He is eighty-two years old. He is very healthy."
+        "body": "Choose the correct translation. · Monday · Lunes · Martes · Miércoles\nChoose the correct translation. · Tuesday · Miércoles · Martes · Jueves\nChoose the correct translation. · Wednesday · Jueves · Viernes · Miércoles\nChoose the correct translation. · Thursday · Jueves · Viernes · Sábado\nChoose the correct translation. · Friday · Sábado · Viernes · Domingo\nChoose the correct translation. · Saturday · Domingo · Fin de semana · Sábado\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Thursday · Sunday · Today\nChoose the correct option. · Friday · Weekend · Tomorrow"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · Monday · Wednesday · Friday · What day is it today? It is Wednesday. We have a test tomorrow. Do you work on Saturdays? No, I don't work on weekends. I relax at home. That sounds great! What do you do on Fridays? · What day is it in the conversation?\nRead the text and answer. · Today · Tomorrow · On Friday · What day is it today? It is Wednesday. We have a test tomorrow. Do you work on Saturdays? No, I don't work on weekends. I relax at home. That sounds great! What do you do on Fridays? · When is the test?\nRead the text and answer. · Yes · No · Sometimes · What day is it today? It is Wednesday. We have a test tomorrow. Do you work on Saturdays? No, I don't work on weekends. I relax at home. That sounds great! What do you do on Fridays? · Does the speaker work on Saturdays?\nRead the text and answer. · Works · Relaxes at home · Goes to the gym · What day is it today? It is Wednesday. We have a test tomorrow. Do you work on Saturdays? No, I don't work on weekends. I relax at home. That sounds great! What do you do on Fridays? · What does the speaker do on weekends?\nRead the text and answer. · at · in · on · What day is it today? It is Wednesday. We have a test tomorrow. Do you work on Saturdays? No, I don't work on weekends. I relax at home. That sounds great! What do you do on Fridays? · Which preposition goes before [[days|días] ] of the week?\nRead the text and answer. · Tuesday · Thursday · Wednesday · What day is it today? It is Wednesday. We have a test tomorrow. Do you work on Saturdays? No, I don't work on weekends. I relax at home. That sounds great! What do you do on Fridays? · How do you say 'Miércoles' in English?\nRead the text and answer. · Monday to Friday · Saturday and Sunday · Any free day · What day is it today? It is Wednesday. We have a test tomorrow. Do you work on Saturdays? No, I don't work on weekends. I relax at home. That sounds great! What do you do on Fridays? · What does 'Weekend' mean?\nRead the text and answer. · Today · The day before today · The next day · What day is it today? It is Wednesday. We have a test tomorrow. Do you work on Saturdays? No, I don't work on weekends. I relax at home. That sounds great! What do you do on Fridays? · What does 'Yesterday' mean?\nRead the text and answer. · Five · Six · Seven · What day is it today? It is Wednesday. We have a test tomorrow. Do you work on Saturdays? No, I don't work on weekends. I relax at home. That sounds great! What do you do on Fridays? · How many days are in a week?\nRead the text and answer. · Tuesday · Thursday · Friday · What day is it today? It is Wednesday. We have a test tomorrow. Do you work on Saturdays? No, I don't work on weekends. I relax at home. That sounds great! What do you do on Fridays? · What is the day after Wednesday?"
       }
     ]
   },
   "a1-13": {
-    "objective": "Aprender Monday, Tuesday, Wednesday y Thursday.",
+    "objective": "Describe a daily routine using sequence adverbs · Use First, Then, After that, Finally · Talk about morning activities in English",
     "sections": [
       {
         "type": "grammar",
-        "title": "Gramática",
-        "body": "Usa “on” delante de un día: “on Monday”. Los nombres de los días empiezan con mayúscula en inglés.\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "What day is it today?"
+        "title": "Gramática y objetivos",
+        "body": "Describe a daily routine using sequence adverbs\n\nUse First, Then, After that, Finally\n\nTalk about morning activities in English\n\nComplete the affirmative sentence. · _____, I wake up at seven.\n\nComplete the affirmative sentence. · Then, _____ take a shower.\n\nComplete the affirmative sentence. · After that, I _____ breakfast.\n\nComplete the affirmative sentence. · I _____ to work at nine.\n\nChoose the correct word. · Finally, I _____ to bed at eleven. · go · I · have\n\nBuild a sentence using these words. · Brush teeth · Have lunch · Wake up\n\nBuild a sentence using these words. · Have lunch · Take a shower · Go to work\n\nBuild a sentence using these words. · Take a shower · First · Go to bed\n\nBuild a sentence using these words. · First · Finally · Come home",
+        "example": "Complete the affirmative sentence. · _____, I wake up at seven."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para días de la semana i:\nMonday — Lunes\nTuesday — Martes\nWednesday — Miércoles\nThursday — Jueves\nFriday — Viernes\nSaturday — Sábado"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "What day is it today? It is Wednesday. We have a test tomorrow. Do you work on Saturdays? No, I don't work on weekends. I relax at home. That sounds great! What do you do on Fridays?"
+        "body": "Choose the correct translation. · Wake up · Despertarse · Cepillarse los dientes · Desayunar\nChoose the correct translation. · Brush teeth · Desayunar · Cepillarse los dientes · Ir al trabajo\nChoose the correct translation. · Have breakfast · Ir al trabajo · Almorzar · Desayunar\nChoose the correct translation. · Go to work · Ir al trabajo · Almorzar · Cenar\nChoose the correct translation. · Have lunch · Cenar · Almorzar · Irse a la cama\nChoose the correct translation. · Have dinner · Irse a la cama · Ducharse · Cenar\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Go to work · Go to bed · Come home\nChoose the correct option. · Have lunch · Take a shower · First"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · Six o'clock · Six thirty · Seven o'clock · Can you describe your daily routine? Sure! First, I wake up at six thirty. Then, I take a shower and get dressed. After that, I have breakfast — usually toast and coffee. Finally, I go to work at eight o'clock. · What time does the speaker wake up?\nRead the text and answer. · Has breakfast · Wakes up · Goes to work · Can you describe your daily routine? Sure! First, I wake up at six thirty. Then, I take a shower and get dressed. After that, I have breakfast — usually toast and coffee. Finally, I go to work at eight o'clock. · What does the speaker do first?\nRead the text and answer. · Has breakfast · Gets dressed · Takes a shower · Can you describe your daily routine? Sure! First, I wake up at six thirty. Then, I take a shower and get dressed. After that, I have breakfast — usually toast and coffee. Finally, I go to work at eight o'clock. · What does the speaker after waking up?\nRead the text and answer. · Eggs and milk · Toast and coffee · Cereal and juice · Can you describe your daily routine? Sure! First, I wake up at six thirty. Then, I take a shower and get dressed. After that, I have breakfast — usually toast and coffee. Finally, I go to work at eight o'clock. · What does the speaker eat for breakfast?\nRead the text and answer. · At seven · At nine · At eight · Can you describe your daily routine? Sure! First, I wake up at six thirty. Then, I take a shower and get dressed. After that, I have breakfast — usually toast and coffee. Finally, I go to work at eight o'clock. · What time does the speaker go to work?\nRead the text and answer. · Then · Finally · First · Can you describe your daily routine? Sure! First, I wake up at six thirty. Then, I take a shower and get dressed. After that, I have breakfast — usually toast and coffee. Finally, I go to work at eight o'clock. · Which sequence adverb means 'Primero'?\nRead the text and answer. · First · Then · Finally · Can you describe your daily routine? Sure! First, I wake up at six thirty. Then, I take a shower and get dressed. After that, I have breakfast — usually toast and coffee. Finally, I go to work at eight o'clock. · Which word means 'Finalmente'?\nRead the text and answer. · Go to bed · Get dressed · Wake up · Can you describe your daily routine? Sure! First, I wake up at six thirty. Then, I take a shower and get dressed. After that, I have breakfast — usually toast and coffee. Finally, I go to work at eight o'clock. · What does 'Wake up' mean?\nRead the text and answer. · Before · Then · After that · Can you describe your daily routine? Sure! First, I wake up at six thirty. Then, I take a shower and get dressed. After that, I have breakfast — usually toast and coffee. Finally, I go to work at eight o'clock. · What does 'After that' mean?\nRead the text and answer. · Goes to work · Has breakfast · Takes a shower · Can you describe your daily routine? Sure! First, I wake up at six thirty. Then, I take a shower and get dressed. After that, I have breakfast — usually toast and coffee. Finally, I go to work at eight o'clock. · What does the speaker do after getting dressed?"
       }
     ]
   },
   "a1-14": {
-    "objective": "Aprender Friday, Saturday y Sunday.",
+    "objective": "Form Present Simple negatives with don't · Ask yes/no questions with Do...? · Talk about habits and leisure activities",
     "sections": [
       {
         "type": "grammar",
-        "title": "Gramática",
-        "body": "El patrón “on + day” también sirve para planes: “on Friday”. Los días siempre empiezan con mayúscula.\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "What day is it today?"
+        "title": "Gramática y objetivos",
+        "body": "Form Present Simple negatives with don't\n\nAsk yes/no questions with Do...?\n\nTalk about habits and leisure activities\n\nComplete the affirmative sentence. · I _____ watch TV on Mondays.\n\nComplete the affirmative sentence. · Do you _____ the dishes?\n\nComplete the affirmative sentence. · We _____ exercise every day.\n\nComplete the affirmative sentence. · _____ they go shopping together?\n\nChoose the correct word. · I don't _____ the house on weekdays. · clean · do · don't\n\nBuild a sentence using these words. · Listen to music · Go shopping · Watch TV\n\nBuild a sentence using these words. · Go shopping · Relax · Do homework\n\nBuild a sentence using these words. · Relax · Do · Call a friend\n\nBuild a sentence using these words. · Do · Every week · Don't",
+        "example": "Complete the affirmative sentence. · I _____ watch TV on Mondays."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para días de la semana ii:\nMonday — Lunes\nTuesday — Martes\nWednesday — Miércoles\nThursday — Jueves\nFriday — Viernes\nSaturday — Sábado"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "What day is it today? It is Wednesday. We have a test tomorrow. Do you work on Saturdays? No, I don't work on weekends. I relax at home. That sounds great! What do you do on Fridays?"
+        "body": "Choose the correct translation. · Watch TV · Ver la televisión · Escuchar música · Limpiar la casa\nChoose the correct translation. · Listen to music · Limpiar la casa · Escuchar música · Hacer los deberes\nChoose the correct translation. · Clean the house · Hacer los deberes · Ir de compras · Limpiar la casa\nChoose the correct translation. · Do homework · Hacer los deberes · Ir de compras · Hacer ejercicio\nChoose the correct translation. · Go shopping · Hacer ejercicio · Ir de compras · Llamar a un amigo\nChoose the correct translation. · Exercise · Llamar a un amigo · Relajarse · Hacer ejercicio\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Do homework · Call a friend · Don't\nChoose the correct option. · Go shopping · Relax · Do"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · Yes, always · Sometimes · No, never · Do you watch TV in the evening? Sometimes, but I usually listen to music. Do you and your friends exercise together? Yes! We go to the gym three times a week. We don't call each other — we just meet there. · Does the speaker watch TV every evening?\nRead the text and answer. · Watches TV · Listens to music · Exercises · Do you watch TV in the evening? Sometimes, but I usually listen to music. Do you and your friends exercise together? Yes! We go to the gym three times a week. We don't call each other — we just meet there. · What does the speaker usually do in the evening?\nRead the text and answer. · Twice · Four times · Three times · Do you watch TV in the evening? Sometimes, but I usually listen to music. Do you and your friends exercise together? Yes! We go to the gym three times a week. We don't call each other — we just meet there. · How many times do they go to the gym per week?\nRead the text and answer. · They call first · They meet at the gym · They go together · Do you watch TV in the evening? Sometimes, but I usually listen to music. Do you and your friends exercise together? Yes! We go to the gym three times a week. We don't call each other — we just meet there. · How do they meet?\nRead the text and answer. · I don't work on Mondays · I doesn't work on Mondays · I am not work on Mondays · Do you watch TV in the evening? Sometimes, but I usually listen to music. Do you and your friends exercise together? Yes! We go to the gym three times a week. We don't call each other — we just meet there. · What is the negative of 'I work on Mondays'?\nRead the text and answer. · Do + subject + verb? · Does + subject + verb? · Is + subject + verb? · Do you watch TV in the evening? Sometimes, but I usually listen to music. Do you and your friends exercise together? Yes! We go to the gym three times a week. We don't call each other — we just meet there. · How do you form a question with 'Do'?\nRead the text and answer. · Never · Often · Sometimes · Do you watch TV in the evening? Sometimes, but I usually listen to music. Do you and your friends exercise together? Yes! We go to the gym three times a week. We don't call each other — we just meet there. · Which word means 'A veces'?\nRead the text and answer. · Do not · Does not · Did not · Do you watch TV in the evening? Sometimes, but I usually listen to music. Do you and your friends exercise together? Yes! We go to the gym three times a week. We don't call each other — we just meet there. · What does 'Don't' mean?\nRead the text and answer. · We doesn't exercise · We don't exercise · We not exercise · Do you watch TV in the evening? Sometimes, but I usually listen to music. Do you and your friends exercise together? Yes! We go to the gym three times a week. We don't call each other — we just meet there. · Which sentence is correct?\nRead the text and answer. · Go to a shop to look · Do housework · Go to buy things · Do you watch TV in the evening? Sometimes, but I usually listen to music. Do you and your friends exercise together? Yes! We go to the gym three times a week. We don't call each other — we just meet there. · What does 'Go shopping' mean?"
       }
     ]
   },
   "a1-15": {
-    "objective": "Reconocer y ordenar los siete días de la semana.",
+    "objective": "Form Present Simple negatives with doesn't · Ask yes/no questions with Does...? · Apply the 3rd person singular spelling rules",
     "sections": [
       {
         "type": "grammar",
-        "title": "Gramática",
-        "body": "Para decir qué día es: “What day is it?” — “It’s Monday”. “It’s” significa “It is”.\n\nFíjate en el modelo y repite la estructura en voz alta:",
-        "example": "What day is it today?"
+        "title": "Gramática y objetivos",
+        "body": "Form Present Simple negatives with doesn't\n\nAsk yes/no questions with Does...?\n\nApply the 3rd person singular spelling rules\n\nComplete the affirmative sentence. · She _____ teach on Sundays.\n\nComplete the affirmative sentence. · _____ he live near here?\n\nComplete the affirmative sentence. · My cat _____ at night.\n\nComplete the affirmative sentence. · She _____ to work by car.\n\nChoose the correct word. · He doesn't _____ early on weekends. · wake · Does · sleeps\n\nBuild a sentence using these words. · Lives · Flies · Teach\n\nBuild a sentence using these words. · Flies · Doesn't · Watches\n\nBuild a sentence using these words. · Doesn't · Rarely · Drives\n\nBuild a sentence using these words. · Rarely · Together · Usually",
+        "example": "Complete the affirmative sentence. · She _____ teach on Sundays."
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para repaso de los días:\nMonday — Lunes\nTuesday — Martes\nWednesday — Miércoles\nThursday — Jueves\nFriday — Viernes\nSaturday — Sábado"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "What day is it today? It is Wednesday. We have a test tomorrow. Do you work on Saturdays? No, I don't work on weekends. I relax at home. That sounds great! What do you do on Fridays?"
+        "body": "Choose the correct translation. · Teach · Enseñar · Vive · Estudia\nChoose the correct translation. · Lives · Estudia · Vive · Ve (televisión)\nChoose the correct translation. · Studies · Ve (televisión) · Vuela · Estudia\nChoose the correct translation. · Watches · Ve (televisión) · Vuela · Ladra\nChoose the correct translation. · Flies · Ladra · Vuela · Conduce\nChoose the correct translation. · Barks · Conduce · No (negación 3ra persona) · Ladra\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Watches · Drives · Usually\nChoose the correct option. · Flies · Doesn't · Rarely"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · Doctor · Teacher · Engineer · Tell me about your sister. What does she do? She is a teacher. She teaches science at a high school. Does she leave early in the morning? Yes, she leaves at seven. She doesn't like being late. What does she do in the afternoon? · What is the sister's job?\nRead the text and answer. · Maths · English · Science · Tell me about your sister. What does she do? She is a teacher. She teaches science at a high school. Does she leave early in the morning? Yes, she leaves at seven. She doesn't like being late. What does she do in the afternoon? · What subject does the sister teach?\nRead the text and answer. · At six · At eight · At seven · Tell me about your sister. What does she do? She is a teacher. She teaches science at a high school. Does she leave early in the morning? Yes, she leaves at seven. She doesn't like being late. What does she do in the afternoon? · What time does she leave home?\nRead the text and answer. · Yes · No · Sometimes · Tell me about your sister. What does she do? She is a teacher. She teaches science at a high school. Does she leave early in the morning? Yes, she leaves at seven. She doesn't like being late. What does she do in the afternoon? · Does she like being late?\nRead the text and answer. · She don't work · She doesn't work · She isn't work · Tell me about your sister. What does she do? She is a teacher. She teaches science at a high school. Does she leave early in the morning? Yes, she leaves at seven. She doesn't like being late. What does she do in the afternoon? · What is the negative form of 'She works'?\nRead the text and answer. · Do he...? · Does he...? · Is he...? · Tell me about your sister. What does she do? She is a teacher. She teaches science at a high school. Does she leave early in the morning? Yes, she leaves at seven. She doesn't like being late. What does she do in the afternoon? · How do you form a question about 'he/she'?\nRead the text and answer. · teachs · teachies · teaches · Tell me about your sister. What does she do? She is a teacher. She teaches science at a high school. Does she leave early in the morning? Yes, she leaves at seven. She doesn't like being late. What does she do in the afternoon? · What is the third person of 'teach'?\nRead the text and answer. · Rarely · Usually · Never · Tell me about your sister. What does she do? She is a teacher. She teaches science at a high school. Does she leave early in the morning? Yes, she leaves at seven. She doesn't like being late. What does she do in the afternoon? · Which word means 'Normalmente'?\nRead the text and answer. · gos · goes · go · Tell me about your sister. What does she do? She is a teacher. She teaches science at a high school. Does she leave early in the morning? Yes, she leaves at seven. She doesn't like being late. What does she do in the afternoon? · What is the third person of 'go'?\nRead the text and answer. · watchs · watchies · watches · Tell me about your sister. What does she do? She is a teacher. She teaches science at a high school. Does she leave early in the morning? Yes, she leaves at seven. She doesn't like being late. What does she do in the afternoon? · What is the third person of 'watch'?"
       }
     ]
   },
   "a1-16": {
-    "objective": "Hablar de ayer, hoy y mañana con frases sencillas.",
+    "objective": "Order food and drinks in English · Use 'Can I have...?' and 'I'd like...' · Understand a simple menu and prices",
     "sections": [
       {
         "type": "grammar",
-        "title": "Gramática",
-        "body": "“Yesterday” habla del día anterior, “today” del presente y “tomorrow” del día siguiente. Usa “Yesterday was…”, “Today is…” y “Tomorrow is…”.",
-        "example": "Yesterday was Monday. Today is Tuesday.",
-        "exampleTranslation": "Ayer fue lunes. Hoy es martes."
+        "title": "Gramática y objetivos",
+        "body": "Order food and drinks in English\n\nUse 'Can I have...?' and 'I'd like...'\n\nUnderstand a simple menu and prices\n\nComplete the affirmative sentence. · Can I _____ a coffee, please?\n\nComplete the affirmative sentence. · _____ like a sandwich, please.\n\nComplete the affirmative sentence. · Could I _____ the menu?\n\nComplete the affirmative sentence. · I _____ like a large tea.\n\nChoose the correct word. · Can we _____ the bill, please? · have · I'd · has\n\nBuild a sentence using these words. · Tea · Sandwich · Coffee\n\nBuild a sentence using these words. · Sandwich · Waiter · Water\n\nBuild a sentence using these words. · Waiter · Large · Menu\n\nBuild a sentence using these words. · Large · Here you are · Order",
+        "example": "Complete the affirmative sentence. · Can I _____ a coffee, please?"
       },
       {
         "type": "vocabulary",
         "title": "Vocabulario",
-        "body": "Palabras y expresiones útiles para yesterday, today, tomorrow:\nYesterday — Ayer\nToday — Hoy\nTomorrow — Mañana\nDay — Día\nMonday — Lunes\nTuesday — Martes"
-      },
-      {
-        "type": "listening",
-        "title": "Listening",
-        "body": "Escucha el diálogo completo una vez. Después, vuelve a escucharlo e intenta reconocer las expresiones de vocabulario.",
-        "audioText": "A: What day is it today? B: It’s Tuesday. A: What day was it yesterday? B: It was Monday. A: What day is it tomorrow? B: It’s Wednesday."
+        "body": "Choose the correct translation. · Coffee · Café · Té · Zumo de naranja\nChoose the correct translation. · Tea · Zumo de naranja · Té · Agua\nChoose the correct translation. · Orange juice · Agua · Sándwich · Zumo de naranja\nChoose the correct translation. · Water · Agua · Sándwich · Tarta\nChoose the correct translation. · Sandwich · Tarta · Sándwich · Menú\nChoose the correct translation. · Cake · Menú · Camarero · Tarta\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nComplete the translation. · _____\nChoose the correct option. · Water · Menu · Order\nChoose the correct option. · Sandwich · Waiter · Large"
       },
       {
         "type": "reading",
         "title": "Comprensión lectora",
-        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
+        "body": "Read the text and answer. · Tea and biscuits · Coffee and sandwich · Juice and cake · Good morning! What can I get you? I'd like a large coffee and a sandwich, please. Of course! Anything else? Yes, can I have a piece of cake, please? That will be eight euros, please. · What does the customer order?\nRead the text and answer. · Small · Medium · Large · Good morning! What can I get you? I'd like a large coffee and a sandwich, please. Of course! Anything else? Yes, can I have a piece of cake, please? That will be eight euros, please. · What size of coffee does the customer want?\nRead the text and answer. · No · Yes, a piece of cake · Yes, another coffee · Good morning! What can I get you? I'd like a large coffee and a sandwich, please. Of course! Anything else? Yes, can I have a piece of cake, please? That will be eight euros, please. · Does the customer order anything else?\nRead the text and answer. · Six euros · Ten euros · Eight euros · Good morning! What can I get you? I'd like a large coffee and a sandwich, please. Of course! Anything else? Yes, can I have a piece of cake, please? That will be eight euros, please. · How much does the order cost?\nRead the text and answer. · Give me... · I want... · Can I have...? · Good morning! What can I get you? I'd like a large coffee and a sandwich, please. Of course! Anything else? Yes, can I have a piece of cake, please? That will be eight euros, please. · How do you politely ask for something in English?\nRead the text and answer. · I like · I would like · I don't like · Good morning! What can I get you? I'd like a large coffee and a sandwich, please. Of course! Anything else? Yes, can I have a piece of cake, please? That will be eight euros, please. · What does 'I'd like' mean?\nRead the text and answer. · Menu · Bill · Waiter · Good morning! What can I get you? I'd like a large coffee and a sandwich, please. Of course! Anything else? Yes, can I have a piece of cake, please? That will be eight euros, please. · Which word means 'Camarero'?\nRead the text and answer. · Menu · Table · Check/Account · Good morning! What can I get you? I'd like a large coffee and a sandwich, please. Of course! Anything else? Yes, can I have a piece of cake, please? That will be eight euros, please. · What does 'Bill' mean in a restaurant?\nRead the text and answer. · No problem · Certainly/Yes · I understand · Good morning! What can I get you? I'd like a large coffee and a sandwich, please. Of course! Anything else? Yes, can I have a piece of cake, please? That will be eight euros, please. · What does 'Of course' mean?\nRead the text and answer. · Good afternoon! · Good morning! · Good evening! · Good morning! What can I get you? I'd like a large coffee and a sandwich, please. Of course! Anything else? Yes, can I have a piece of cake, please? That will be eight euros, please. · How does the waiter greet the customer?"
       }
     ]
   },
