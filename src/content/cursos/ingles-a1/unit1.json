@@ -296,7 +296,7 @@
           "prompt_es": "[[Complete|Completa]] [[the|la]] [[sentence|frase]].",
           "mastery_tag": "vocabulary",
           "complexity": 2,
-          "stimulus_en": "[[I|Yo]] ______ [[a|un]] [[student|estudiante]].",
+          "stimulus_en": "[[I|Yo]] ______ [[ready|listo]].",
           "correct_answer": "am"
         },
         {
@@ -305,7 +305,7 @@
           "prompt_es": "[[Complete|Completa]] [[the|la]] [[sentence|frase]].",
           "mastery_tag": "vocabulary",
           "complexity": 2,
-          "stimulus_en": "[[You|Tú]] ______ [[my|mi]] [[teacher|profesor]].",
+          "stimulus_en": "[[You|Tú]] ______ [[welcome|bienvenido]].",
           "correct_answer": "are"
         },
         {
@@ -314,7 +314,7 @@
           "prompt_es": "[[Complete|Completa]] [[the|la]] [[sentence|frase]].",
           "mastery_tag": "vocabulary",
           "complexity": 2,
-          "stimulus_en": "[[My|Mi]] [[name|nombre]] ______ [[Anna|Anna]].",
+          "stimulus_en": "[[My|Mi]] [[surname|apellido]] ______ [[Green|Green]].",
           "correct_answer": "is"
         },
         {
