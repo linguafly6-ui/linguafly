@@ -237,6 +237,7 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
 
   if (/^a2-\d{2}$/.test(lessonId)) {
     const match = /^a2-(\d{2})$/.exec(lessonId);
+    if (!match) return NextResponse.json({ error: "Unidad A2 no disponible." }, { status: 404 });
     const unitNumber = Number(match[1]);
     const unit = a2Units.find((item) => item.n === unitNumber);
     const questions = section === "production" ? [] : a2QuestionSets[unitNumber]?.[section as keyof typeof a2QuestionSets[number]] ?? [];
