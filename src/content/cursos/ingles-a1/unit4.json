@@ -296,7 +296,7 @@
           "prompt_es": "[[Complete|Completa]] [[the|la]] [[sentence|frase]].",
           "mastery_tag": "vocabulary",
           "complexity": 2,
-          "stimulus_en": "[[This|Este]] [[is|es]] ______ [[pen|bolígrafo]].",
+          "stimulus_en": "[[It|Esto]] [[is|es]] ______ [[bag|bolso]].",
           "correct_answer": "a"
         },
         {
@@ -305,7 +305,7 @@
           "prompt_es": "[[Complete|Completa]] [[the|la]] [[sentence|frase]].",
           "mastery_tag": "vocabulary",
           "complexity": 2,
-          "stimulus_en": "[[This|Esta]] [[is|es]] ______ [[apple|manzana]].",
+          "stimulus_en": "[[It|Esto]] [[is|es]] ______ [[orange|naranja]].",
           "correct_answer": "an"
         },
         {
@@ -314,7 +314,7 @@
           "prompt_es": "[[Complete|Completa]] [[the|la]] [[sentence|frase]].",
           "mastery_tag": "vocabulary",
           "complexity": 2,
-          "stimulus_en": "[[I|Yo]] [[have|tengo]] ______ [[books|libros]].",
+          "stimulus_en": "[[There|Hay]] [[are|hay]] ______ [[windows|ventanas]].",
           "correct_answer": "two"
         },
         {
@@ -434,7 +434,7 @@
           "prompt_es": "[[Complete|Completa]] [[the|la]] [[affirmative|afirmativa]] [[sentence|frase]].",
           "mastery_tag": "grammar",
           "complexity": 2,
-          "stimulus_en": "[[There|Hay]] [[are|están]] ______ [[chairs|sillas]].",
+          "stimulus_en": "[[There|Hay]] [[are|hay]] ______ [[bags|bolsos]].",
           "correct_answer": "three"
         },
         {
