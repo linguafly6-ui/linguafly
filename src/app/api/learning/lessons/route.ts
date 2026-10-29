@@ -13,6 +13,21 @@ export const dynamic = "force-dynamic";
  * Public course outline. Deliberately excludes exercise answer keys and
  * learner-specific progress.
  */
+function normalizeCourseSections(value: unknown): unknown {
+  if (!value || typeof value !== "object" || !("sections" in value)) return value;
+  const content = value as { sections: unknown[]; [key: string]: unknown };
+  const sections = content.sections.filter((section) => {
+    if (!section || typeof section !== "object") return true;
+    const item = section as { type?: unknown; title?: unknown };
+    const title = String(item.title ?? "").toLowerCase();
+    return item.type !== "production" && !title.includes("producción") && !title.includes("production");
+  });
+  if (!sections.some((section) => section && typeof section === "object" && (section as { type?: unknown }).type === "listening")) {
+    sections.push({ type: "listening", title: "Comprensión auditiva", body: "Comprensión auditiva" });
+  }
+  return { ...content, sections };
+}
+
 export async function GET(request: NextRequest) {
   try {
     const { env } = await resolveCloudflareEnv();
@@ -77,15 +92,18 @@ export async function GET(request: NextRequest) {
           const advancedLevel = ["B1", "B2", "C1", "C2"].includes(level);
           const unit = advancedLevel ? getLegacyAdvancedUnit(level.toLowerCase(), row.unit_number) : null;
           const advancedSections = unit
-            ? ["grammar", "vocabulary", "listening", "reading", "production"].map((type) => {
+            ? ["grammar", "vocabulary", "listening", "reading"].map((type) => {
                 const items = unit.blocks.flatMap((block) => block.content
                   .filter((item) => getLegacyAdvancedSection(item, block.title) === type)
                   .map((item) => ({ item, blockTitle: block.title })));
                 const titles: Record<string, string> = { grammar: "Gramática", vocabulary: "Vocabulario", listening: "Comprensión auditiva", reading: "Comprensión lectora", production: "Producción" };
+                const firstItem = items[0]?.item;
                 return {
                   type, title: titles[type],
-                  body: items.map(({ item, blockTitle }) => [blockTitle, item.prompt_es, item.stimulus_en, item.question_en].filter(Boolean).join(" · ")).join("\\n"),
-                  example: items[0]?.item.stimulus_en ?? "",
+                  body: items.map(({ item, blockTitle }) => [blockTitle, item.prompt_es, item.stimulus_en, item.question_en].filter(Boolean).join(" · ")).join("\\n") || (type === "listening" ? "Comprensión auditiva" : ""),
+                  example: type === "grammar" ? firstItem?.stimulus_en ?? "" : "",
+                  audioText: type === "listening" ? (typeof firstItem?.transcript === "string" ? firstItem.transcript : firstItem?.stimulus_en ?? "") : undefined,
+                  transcript: type === "listening" && typeof firstItem?.transcript === "string" ? firstItem.transcript : undefined,
                 };
               }).filter((section) => section.body)
             : null;
@@ -97,9 +115,9 @@ export async function GET(request: NextRequest) {
             content: advancedSections
               ? { objective: unit?.learning_outcomes?.join(" · ") || row.objective, sections: advancedSections, reviewEnabled: true }
               : level === "A1"
-                ? (a1LearningSections as Record<string, { objective: string; sections: unknown[] }>)[row.lesson_id] ?? content
+                ? normalizeCourseSections((a1LearningSections as Record<string, { objective: string; sections: unknown[] }>)[row.lesson_id] ?? content)
                 : level === "A2"
-                  ? (a2LearningSections as Record<string, { objective: string; sections: unknown[] }>)[row.lesson_id] ?? content
+                  ? normalizeCourseSections((a2LearningSections as Record<string, { objective: string; sections: unknown[] }>)[row.lesson_id] ?? content)
                   : content,
           };
         }),
