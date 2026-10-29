@@ -6,7 +6,7 @@ import { Exercise } from '@/lib/exercise-generator';
 
 const LESSON_TITLE = 'Comprensión auditiva';
 const TOPIC = 'Months & Dates';
-const LISTENING_TRANSCRIPT = `[[A|A]]: [[When|Cuándo]] [[is|es]] [[your|tu]] [[birthday|cumpleaños]], [[Jake|Jake]]? [[B|B]]: [[It's|Es]] [[on|el]] [[the|el]] [[8th|8]] [[of|de]] [[November|noviembre]]. [[A|A]]: [[Oh|Oh]], [[so|así que]] [[in|en]] [[autumn|otoño]]! [[B|B]]: [[Yes|Sí]]. [[And|Y]] [[you|tú]]? [[A|A]]: [[My|Mi]] [[birthday|cumpleaños]] [[is|es]] [[on|el]] [[the|el]] [[22nd|22]] [[of|de]] [[June|junio]]. [[B|B]]: [[Nice|Bien]], [[summer|verano]]! [[Do|¿]] [[you|tienes]] [[have|una]] [[a|fiesta]] [[party|fiesta]]? [[A|A]]: [[Sometimes|A veces]]. [[Last|El]] [[year|año pasado]] [[I|yo]] [[had|tuve]] [[a|una]] [[party|fiesta]] [[on|el]] [[the|el]] [[21st|21]] [[because|porque]] [[the|el]] [[22nd|22]] [[was|era]] [[Monday|lunes]].`;
+const LISTENING_TRANSCRIPT = `[[A: When is your birthday, Jake?|A: ¿Cuándo es tu cumpleaños, Jake?]] [[B: It's on the 8th of November.|B: Es el ocho de noviembre.]] [[A: Oh, so in autumn!|A: ¡Ah, entonces es en otoño!]] [[B: Yes. And you?|B: Sí. ¿Y el tuyo?]] [[A: My birthday is on the 22nd of June.|A: Mi cumpleaños es el veintidós de junio.]] [[B: Nice, summer! Do you have a party?|B: ¡Qué bien, en verano! ¿Haces una fiesta?]] [[A: Sometimes. Last year I had a party on the 21st because the 22nd was Monday.|A: A veces. El año pasado hice una fiesta el día 21 porque el 22 era lunes.]]`;
 
 const INSTRUCTIONS = 'Escucha el audio. Después contesta cada pregunta.';
 
