@@ -238,8 +238,4 @@ try { if (existingProgress?.review_json) previous = JSON.parse(existingProgress.
   } catch {
     return NextResponse.json({ error: "No se pudo corregir la respuesta." }, { status: 500 });
   }
-}function plainText(value: string | undefined): string {
-  if (!value) return "";
-  return value.replace(/\[([^\]|]+)\|([^\]]+)\]/g, "$2").replace(/\s+/g, " ").trim();
-}
 
