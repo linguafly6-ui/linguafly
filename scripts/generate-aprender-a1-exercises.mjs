@@ -6,7 +6,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const contentDir = path.join(root, 'src/content/cursos/ingles-a1');
 const seedPath = path.join(root, 'migrations/d1/202610280002_seed_a1_course.sql');
 const outputPath = path.join(root, 'migrations/d1/202610290005_a1_15_exercises_per_section.sql');
-const correctionPath = path.join(root, 'migrations/d1/202610290009_a1_reading_comprehension.sql');
+const migrationDir = path.join(root, 'migrations/d1');
 
 const sourceUnitByLesson = [
   1, 1, 1, 1, 3, 1, 4, 4, 8, 8, 8, 8,
@@ -239,15 +239,17 @@ for (let lessonNumber = 1; lessonNumber <= 60; lessonNumber += 1) {
   const passage = unmark(readingPool[0].transcript, 0);
   const usedAnswers = new Set(reading.map((item) => unmark(item.options.find((option) => option.id === item.correct_answer)?.text, 0).toLocaleLowerCase('en')));
   const stopWords = new Set(['the','and','you','your','his','her','she','him','they','their','this','that','with','from','have','has','are','was','were','for','not','but','too','what','where','when','who','how','can','could','would','there','here','then','than','into','very','some','many','much','does','did','will','are','our','its','one']);
-  const candidateWords = [...new Set((passage.match(/[A-Za-z]+(?:'[A-Za-z]+)?/g) ?? []).filter((word) => word.length >= 3 && !stopWords.has(word.toLocaleLowerCase('en'))))];
+  const tokenMatches = [...passage.matchAll(/[A-Za-z]+(?:'[A-Za-z]+)?/g)];
+  const candidateWords = [...new Map(tokenMatches.map((match) => match[0]).filter((word) => word.length >= 3 && !stopWords.has(word.toLocaleLowerCase('en'))).map((word) => [word.toLocaleLowerCase('en'), word])).values()];
   for (const answer of candidateWords) {
     if (reading.length === 15) break;
-    const answerIndex = passage.toLocaleLowerCase('en').indexOf(answer.toLocaleLowerCase('en'));
+    const answerIndex = tokenMatches.find((match) => match[0].toLocaleLowerCase('en') === answer.toLocaleLowerCase('en'))?.index ?? -1;
+    if (answerIndex < 0) continue;
     const left = Math.max(passage.lastIndexOf('.', answerIndex), passage.lastIndexOf('!', answerIndex), passage.lastIndexOf('?', answerIndex)) + 1;
     const ends = ['.', '!', '?'].map((mark) => passage.indexOf(mark, answerIndex)).filter((index) => index >= 0);
     const right = ends.length ? Math.min(...ends) + 1 : passage.length;
     const sentence = passage.slice(left, right).trim();
-    const relativeIndex = sentence.toLocaleLowerCase('en').indexOf(answer.toLocaleLowerCase('en'));
+    const relativeIndex = answerIndex - left;
     if (relativeIndex < 0) continue;
     const clozeSentence = sentence.slice(0, relativeIndex) + '______' + sentence.slice(relativeIndex + answer.length);
     const distractors = candidateWords.filter((word) => word.toLocaleLowerCase('en') !== answer.toLocaleLowerCase('en')).slice(0, 2);
@@ -298,6 +300,14 @@ const readingUpdates = rows.filter((row) => row.sectionType === 'reading').map((
   `UPDATE learning_exercises SET exercise_number = ${row.exerciseNumber}, exercise_type = ${sql(row.exerciseType)}, prompt = ${sql(row.prompt)}, options_json = ${sql(JSON.stringify(row.options))}, answer_json = ${sql(row.answerJson)}, explanation = ${sql(row.explanation)}, section_type = 'reading', audio_text = ${sql(row.passageText)} WHERE id = ${sql(row.id)};`
 );
 const descriptionUpdate = `UPDATE learning_courses SET description = 'Curso A1 desde cero con 60 unidades y apartados de gramática, vocabulario, listening y comprensión lectora.', updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now') WHERE id = 'english-a1';`;
-fs.writeFileSync(correctionPath, `-- Replace the former Writing section with closed A1 reading comprehension.\nDELETE FROM learning_exercise_progress WHERE exercise_id LIKE 'a1-u%-wri-%';\n${descriptionUpdate}\n${readingUpdates.join('\n')}\n`, 'utf8');
+const readingChunks = [];
+for (let index = 0; index < readingUpdates.length; index += 50) readingChunks.push(readingUpdates.slice(index, index + 50));
+readingChunks.forEach((chunk, index) => {
+  const migrationNumber = String(9 + index).padStart(3, '0');
+  const suffix = index === 0 ? '' : `_${String(index + 1).padStart(2, '0')}`;
+  const migrationPath = path.join(migrationDir, `202610290${migrationNumber}_a1_reading_comprehension${suffix}.sql`);
+  const preamble = index === 0 ? `-- Replace the former Writing section with closed A1 reading comprehension.\nDELETE FROM learning_exercise_progress WHERE exercise_id LIKE 'a1-u%-wri-%';\n${descriptionUpdate}\n` : `-- Continue the A1 reading comprehension conversion (batch ${index + 1}/${readingChunks.length}).\n`;
+  fs.writeFileSync(migrationPath, `${preamble}${chunk.join('\n')}\n`, 'utf8');
+});
 console.log(`Generated ${rows.length} exercises (15 in each of 4 sections across 60 units): ${path.relative(root, outputPath)}`);
-console.log(`Generated ${readingUpdates.length} reading conversions: ${path.relative(root, correctionPath)}`);
+console.log(`Generated ${readingUpdates.length} reading conversions in ${readingChunks.length} D1-safe migrations.`);
