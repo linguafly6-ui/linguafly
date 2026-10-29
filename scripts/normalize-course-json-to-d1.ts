@@ -188,7 +188,8 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
           const sourceMeta = { blockId: block.block_id ?? "", blockTitle: block.title, masteryTag: item.mastery_tag ?? "", conceptTags: item.concept_tags ?? [] };
           const baseOptions = optionTexts(item.options ?? []);
           const audioText = String(item.transcript ?? (section === "listening" ? item.stimulus_en ?? "" : ""));
-          const explanation = String(item.explanation ?? "");
+          const rawExplanation = String(item.explanation ?? "");
+          const explanation = /\\bundefined\\b/i.test(rawExplanation) ? "" : rawExplanation;
 
           if (/matching|match/i.test(item.type) && Array.isArray(item.pairs) && item.pairs.length) {
             const matchingOptions = item.pairs.map((pair) => pair.right);
@@ -201,7 +202,28 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
           if (seenIds.has(id)) throw new Error(`Duplicate exercise ID ${id} in ${levelConfig.folder}/${file.name}`);
               seenIds.add(id); exerciseNumber++;
               statements.push(exerciseStatement(lessonId, id, exerciseNumber, section, "multiple_choice",
-                pair.left, matchingOptions, pair.right, explanation, { ...sourceMeta, interaction: item, variant: "match", pairId: pair.id || String(pairIndex + 1) }, audioText));
+                pair.left, matchingOptions, pair.right, explanation, { ...sourceMeta, sourceInteractionId: item.interaction_id, sourceType: item.type, variant: "match", pairId: pair.id || String(pairIndex + 1) }, audioText));
+              summary[levelConfig.level].exercises++;
+              summary[levelConfig.level].bySection[section] = (summary[levelConfig.level].bySection[section] ?? 0) + 1;
+            }
+            continue;
+          }
+
+          if (/fill.?blanks?/i.test(item.type) && Array.isArray(item.correct_answer) && item.correct_answer.length > 1) {
+            const mainText = String(item.main_text ?? item.stimulus_en ?? "");
+            for (let gapIndex = 0; gapIndex < item.correct_answer.length; gapIndex++) {
+              const gapNumber = gapIndex + 1;
+              const id = `${item.interaction_id}__gap_${gapNumber}`;
+              validateExerciseId(id, `${levelConfig.folder}/${file.name}`);
+              if (seenIds.has(id)) throw new Error(`Duplicate exercise ID ${id} in ${levelConfig.folder}/${file.name}`);
+              seenIds.add(id);
+              const correct = String(item.correct_answer[gapIndex] ?? "");
+              const textWithTarget = mainText.replace(new RegExp("\\(" + gapNumber + "\\)\\s*_{2,}"), "_____");
+              const prompt = `${String(item.prompt_es ?? "Complete the text")} (hueco ${gapNumber} de ${item.correct_answer.length})\\n\\n${textWithTarget}`;
+              exerciseNumber++;
+              statements.push(exerciseStatement(lessonId, id, exerciseNumber, section, "fill_blank",
+                prompt, [], correct, explanation || `Respuesta correcta: ${correct}`,
+                { ...sourceMeta, sourceInteractionId: item.interaction_id, sourceType: item.type, variant: "fill_blank", gapNumber }, audioText));
               summary[levelConfig.level].exercises++;
               summary[levelConfig.level].bySection[section] = (summary[levelConfig.level].bySection[section] ?? 0) + 1;
             }
@@ -224,7 +246,7 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
               exerciseNumber++;
               statements.push(exerciseStatement(lessonId, id, exerciseNumber, section, "multiple_choice",
                 prompt || promptFor(item), optionTexts(gap.options ?? []), correct, explanation,
-                { ...sourceMeta, interaction: item, variant: "gap", gapId: gap.id }, audioText));
+                { ...sourceMeta, sourceInteractionId: item.interaction_id, sourceType: item.type, variant: "gap", gapId: gap.id }, audioText));
               summary[levelConfig.level].exercises++;
               summary[levelConfig.level].bySection[section] = (summary[levelConfig.level].bySection[section] ?? 0) + 1;
             }
@@ -238,7 +260,7 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
           const options = /true.?false/i.test(item.type) ? ["True", "False"] : baseOptions;
           const type = typeFor(item, options);
           statements.push(exerciseStatement(lessonId, id, exerciseNumber, section, type,
-            promptFor(item), options, correct, explanation, { ...sourceMeta, interaction: item }, audioText));
+            promptFor(item), options, correct, explanation, { ...sourceMeta, sourceInteractionId: item.interaction_id, sourceType: item.type }, audioText));
           summary[levelConfig.level].exercises++;
           summary[levelConfig.level].bySection[section] = (summary[levelConfig.level].bySection[section] ?? 0) + 1;
         }
