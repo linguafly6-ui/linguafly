@@ -82,7 +82,7 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
         if (!response.ok) throw new Error("No se han podido cargar los ejercicios.");
         return response.json() as Promise<{ exercises: Exercise[] }>;
       })
-      .then((data) => { if (active) setExercises(data.exercises ?? []); })
+      .then((data) => { if (active) { setExercises(data.exercises ?? []); setSentenceWords({}); } })
       .catch(() => { if (active) setError("Los ejercicios estarán disponibles cuando la base de datos del curso esté actualizada."); })
       .finally(() => { if (active) setLoading(false); });
     return () => {
