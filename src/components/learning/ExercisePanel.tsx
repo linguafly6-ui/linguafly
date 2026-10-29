@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { scheduleNextReview, type ReviewState, type ReviewResult } from "@/lib/learning/spaced-repetition";
 
 type Exercise = {
@@ -26,6 +26,9 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
   const [submitting, setSubmitting] = useState<string | null>(null);
   const [hydratedLesson, setHydratedLesson] = useState<string | null>(null);
   const [authenticated, setAuthenticated] = useState(false);
+  const [playingAudioId, setPlayingAudioId] = useState<string | null>(null);
+  const speechTimer = useRef<number | null>(null);
+  const speechGeneration = useRef(0);
 
   useEffect(() => {
     let active = true;
@@ -91,7 +94,12 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
       .then((data) => { if (active) setExercises(data.exercises ?? []); })
       .catch(() => { if (active) setError("Los ejercicios estarán disponibles cuando la base de datos del curso esté actualizada."); })
       .finally(() => { if (active) setLoading(false); });
-    return () => { active = false; };
+    return () => {
+      active = false;
+      speechGeneration.current += 1;
+      if (speechTimer.current !== null) window.clearTimeout(speechTimer.current);
+      window.speechSynthesis?.cancel();
+    };
   }, [lessonId, sectionType]);
 
   useEffect(() => {
@@ -109,6 +117,28 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
     try {
       await fetch("/api/learning/progress", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "answer", lessonId, exerciseId, answer }) });
     } catch { /* The selected answer remains available in the current session. */ }
+  }
+
+  function playExerciseAudio(exercise: Exercise) {
+    if (!exercise.audioText || !("speechSynthesis" in window)) return;
+    const generation = ++speechGeneration.current;
+    if (speechTimer.current !== null) window.clearTimeout(speechTimer.current);
+    window.speechSynthesis.cancel();
+    setPlayingAudioId(exercise.id);
+    const utterance = new SpeechSynthesisUtterance(exercise.audioText);
+    utterance.lang = "en-GB";
+    utterance.rate = 0.84;
+    const finish = () => {
+      if (speechGeneration.current === generation) setPlayingAudioId(null);
+    };
+    utterance.onend = finish;
+    utterance.onerror = finish;
+    // Give the browser a moment to flush any cancelled utterance before
+    // starting the one selected by the learner.
+    speechTimer.current = window.setTimeout(() => {
+      speechTimer.current = null;
+      if (speechGeneration.current === generation) window.speechSynthesis.speak(utterance);
+    }, 100);
   }
 
   async function checkAnswer(exercise: Exercise) {
@@ -169,7 +199,7 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
           return <article key={exercise.id} className="rounded-2xl border border-[#e5dfd3] bg-white/70 p-5">
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#898779]">{title} · {exercise.number % 100}</p>
             <h4 className="mt-2 text-base font-bold leading-6 text-[#30352d]">{exercise.prompt}</h4>
-            {sectionType === "listening" && exercise.audioText && <button type="button" onClick={() => { if (!("speechSynthesis" in window)) return; window.speechSynthesis.cancel(); const utterance = new SpeechSynthesisUtterance(exercise.audioText ?? ""); utterance.lang = "en-GB"; utterance.rate = 0.84; window.speechSynthesis.speak(utterance); }} className="mt-3 rounded-xl bg-[#252a24] px-4 py-2.5 text-sm font-bold text-white">▶ Escuchar</button>}
+            {sectionType === "listening" && exercise.audioText && <button type="button" disabled={Boolean(playingAudioId && playingAudioId !== exercise.id)} onClick={() => playExerciseAudio(exercise)} aria-live="polite" className="mt-3 rounded-xl bg-[#252a24] px-4 py-2.5 text-sm font-bold text-white disabled:cursor-wait disabled:opacity-60">{playingAudioId === exercise.id ? "♫ Reproduciendo…" : "▶ Escuchar"}</button>}
             {exercise.type === "free_text" || exercise.type === "fill_blank" ? <label className="mt-4 block"><span className="sr-only">Tu respuesta en inglés</span><input type="text" value={answers[exercise.id] ?? ""} onChange={(event) => void chooseAnswer(exercise.id, event.target.value)} maxLength={500} disabled={Boolean(result) || Boolean(submitting)} placeholder="Escribe tu respuesta en inglés…" className="w-full rounded-xl border border-[#ded8ca] bg-[#fbf9f4] px-4 py-3 text-sm text-[#30352d] outline-none focus:border-[#b75d3b]" /></label> : null}
             {exercise.type === "sentence_building" && answers[exercise.id] && <p className="mt-3 rounded-xl bg-[#f0ece3] p-3 text-sm font-semibold text-[#30352d]">{(() => { try { return (JSON.parse(answers[exercise.id]) as string[]).join(" "); } catch { return answers[exercise.id]; } })()}</p>}
             <div className="mt-4 grid gap-2 sm:grid-cols-2">

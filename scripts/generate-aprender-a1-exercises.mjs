@@ -59,8 +59,12 @@ function normalizeSourceItem(item, category, lessonNumber, exerciseNumber) {
 
   if (category === 'listening' && item.transcript) {
     type = 'multiple-choice';
-    audioText = unmark(item.transcript, 0);
-    prompt = `Escucha el diálogo y responde: ${unmark(item.question_en, 1)}`;
+    // The ten comprehension questions share one dialogue. Attach its playback
+    // control only to the first question so every question does not replay it.
+    audioText = exerciseNumber === 1 ? unmark(item.transcript, 0) : null;
+    prompt = exerciseNumber === 1
+      ? `Escucha el diálogo y responde: ${unmark(item.question_en, 1)}`
+      : `Según el diálogo del ejercicio 1, responde: ${unmark(item.question_en, 1)}`;
     options = toTextOptions(item.options, 0).map((option) => option.text);
     correct = options[(item.options ?? []).findIndex((option) => option.id === item.correct_answer)];
     explanation = `Transcripción: ${audioText}`;
