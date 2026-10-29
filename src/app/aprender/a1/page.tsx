@@ -141,7 +141,7 @@ export default function A1LearningPage() {
                   <span className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[11px] font-bold ${done ? "bg-[#48634a] text-white" : active ? "bg-[#b75d3b] text-white" : "bg-[#e9e3d7] text-[#68695f]"}`}>{done ? "✓" : String(unit).padStart(2, "0")}</span>
                   <span className="min-w-0 flex-1">
                     <span className={`block text-sm font-semibold leading-5 ${active ? "text-[#22251f]" : "text-[#56584f]"}`}>{lesson.title}</span>
-                    <span className="mt-1 block text-xs text-[#8a897d]">{lesson.estimated_minutes} min · Gramática · Vocabulario · Listening · Writing</span>
+                    <span className="mt-1 block text-xs text-[#8a897d]">{lesson.estimated_minutes} min · Gramática · Vocabulario · Listening · Comprensión lectora</span>
                   </span>
                 </button>;
               }))}
@@ -188,4 +188,3 @@ export default function A1LearningPage() {
     </main>
   );
 }
-

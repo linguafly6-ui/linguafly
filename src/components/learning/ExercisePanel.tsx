@@ -10,11 +10,12 @@ type Exercise = {
   prompt: string;
   options: string[];
   audioText?: string | null;
+  passageText?: string | null;
 };
 
 type Feedback = { correct: boolean | null; explanation: string };
 
-const sectionTitles: Record<string, string> = { grammar: "Gramática", vocabulary: "Vocabulario", listening: "Listening", writing: "Writing" };
+const sectionTitles: Record<string, string> = { grammar: "Gramática", vocabulary: "Vocabulario", listening: "Listening", reading: "Comprensión lectora" };
 
 export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sectionType: string }) {
   const [exercises, setExercises] = useState<Exercise[]>([]);
@@ -177,6 +178,7 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
 
   const answeredCorrectly = exercises.filter((exercise) => feedback[exercise.id]?.correct).length;
   const title = sectionTitles[sectionType] ?? "Práctica";
+  const readingPassage = sectionType === "reading" ? exercises.find((exercise) => exercise.passageText)?.passageText : null;
 
   return (
     <section className="mt-8 rounded-3xl border border-[#ded8ca] bg-[#fbf9f4] p-6 sm:p-8">
@@ -192,6 +194,8 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
       {loading && <p className="mt-6 rounded-xl bg-[#f0ece3] p-4 text-sm text-[#65665b]">Cargando ejercicios…</p>}
       {error && <p role="alert" className="mt-5 rounded-xl border border-[#e4c6b9] bg-[#fff2ec] p-4 text-sm text-[#8f432c]">{error}</p>}
       {!loading && !error && exercises.length === 0 && <p className="mt-6 rounded-xl bg-[#f0ece3] p-4 text-sm leading-6 text-[#65665b]">Todavía no hay ejercicios publicados para esta lección. Estamos preparando el contenido.</p>}
+
+      {readingPassage && <div className="mt-6 rounded-2xl border border-[#e5dfd3] bg-[#f5f1e8] p-5"><p className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-[#a15b40]">Texto de lectura</p><p className="mt-2 whitespace-pre-line text-sm leading-7 text-[#56584f]">{readingPassage}</p></div>}
 
       <div className="mt-6 space-y-5">
         {exercises.map((exercise) => {
@@ -226,4 +230,3 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
     </section>
   );
 }
-

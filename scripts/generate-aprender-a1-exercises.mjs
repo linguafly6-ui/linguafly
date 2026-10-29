@@ -6,7 +6,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const contentDir = path.join(root, 'src/content/cursos/ingles-a1');
 const seedPath = path.join(root, 'migrations/d1/202610280002_seed_a1_course.sql');
 const outputPath = path.join(root, 'migrations/d1/202610290005_a1_15_exercises_per_section.sql');
-const correctionPath = path.join(root, 'migrations/d1/202610290008_a1_vocab_and_grammar_quality.sql');
+const correctionPath = path.join(root, 'migrations/d1/202610290009_a1_reading_comprehension.sql');
 
 const sourceUnitByLesson = [
   1, 1, 1, 1, 3, 1, 4, 4, 8, 8, 8, 8,
@@ -84,7 +84,8 @@ if (lessonMetadata.size !== 60 || sourceUnitByLesson.length !== 60) {
 
 function normalizeSourceItem(item, category, lessonNumber, exerciseNumber) {
   const lessonId = `a1-${String(lessonNumber).padStart(2, '0')}`;
-  const id = `a1-u${String(lessonNumber).padStart(2, '0')}-${category.slice(0, 3)}-${String(exerciseNumber).padStart(2, '0')}`;
+  const idSection = category === 'reading' ? 'wri' : category.slice(0, 3);
+  const id = `a1-u${String(lessonNumber).padStart(2, '0')}-${idSection}-${String(exerciseNumber).padStart(2, '0')}`;
   const promptEs = unmark(item.prompt_es, 1);
   const stimulusEn = unmark(item.stimulus_en, 0);
   const stimulusEs = unmark(item.stimulus_en, 1);
@@ -92,6 +93,7 @@ function normalizeSourceItem(item, category, lessonNumber, exerciseNumber) {
   let prompt = promptEs;
   let options = [];
   let audioText = null;
+  let passageText = null;
   let correct;
   let explanation;
 
@@ -101,11 +103,24 @@ function normalizeSourceItem(item, category, lessonNumber, exerciseNumber) {
     // control only to the first question so every question does not replay it.
     audioText = exerciseNumber === 1 ? unmark(item.transcript, 0) : null;
     prompt = exerciseNumber === 1
-      ? `Escucha el diálogo y responde: ${unmark(item.question_en, 1)}`
-      : `Según el diálogo del ejercicio 1, responde: ${unmark(item.question_en, 1)}`;
+      ? `Escucha el diálogo y responde: ${unmark(item.question_en, 0)}`
+      : `Según el diálogo del ejercicio 1, responde: ${unmark(item.question_en, 0)}`;
     options = toTextOptions(item.options, 0).map((option) => option.text);
     correct = options[(item.options ?? []).findIndex((option) => option.id === item.correct_answer)];
     explanation = `Transcripción: ${audioText}`;
+  } else if (category === 'reading') {
+    type = 'multiple-choice';
+    const transcript = unmark(item.transcript, 0);
+    options = toTextOptions(item.options, 0).map((option) => option.text);
+    correct = options[(item.options ?? []).findIndex((option) => option.id === item.correct_answer)];
+    if (item.clozeSentence) {
+      prompt = `Lee el texto y completa la frase: ${item.clozeSentence}`;
+      explanation = `En el texto, la frase completa es “${item.completedSentence}”.`;
+    } else {
+      prompt = `Lee el texto y responde: ${unmark(item.question_en, 0)}`;
+      passageText = transcript;
+      explanation = `Busca en el texto la información que confirma «${correct}».`;
+    }
   } else if (category === 'listening') {
     if (item.type === 'fill-blank') {
       type = 'fill-blank';
@@ -173,7 +188,7 @@ function normalizeSourceItem(item, category, lessonNumber, exerciseNumber) {
   return {
     id,
     lessonId,
-    exerciseNumber: 10000 + ({ vocabulary: 0, grammar: 100, listening: 200, writing: 300 }[category]) + exerciseNumber,
+    exerciseNumber: 10000 + ({ vocabulary: 0, grammar: 100, listening: 200, reading: 400 }[category]) + exerciseNumber,
     sectionType: category,
     exerciseType: type === 'sentence-building' ? 'sentence_building' : type === 'fill-blank' ? 'fill_blank' : type === 'free-text' ? 'free_text' : 'multiple_choice',
     prompt,
@@ -182,6 +197,7 @@ function normalizeSourceItem(item, category, lessonNumber, exerciseNumber) {
     answerJson: type === 'free-text' ? JSON.stringify({ selfCheck: true }) : JSON.stringify({ correct }),
     explanation: explanation ?? '',
     audioText,
+    passageText,
   };
 }
 
@@ -217,36 +233,30 @@ for (let lessonNumber = 1; lessonNumber <= 60; lessonNumber += 1) {
     ...sectionBlock(unit, 'Reading Comprehension'),
     ...listeningVocabulary,
   ];
-  const production = sectionBlock(unit, 'Production').filter((item) => item.type !== 'true-false');
-  const customWriting = [
-    {
-      type: 'free-text',
-      prompt_es: 'Escribe una frase verdadera sobre ti relacionada con el tema de esta unidad. Usa una estructura que acabas de aprender.',
-      mastery_tag: 'production',
-    },
-    {
-      type: 'free-text',
-      prompt_es: 'Escribe una pregunta corta en inglés que podrías usar en esta situación. Revisa el orden de las palabras.',
-      mastery_tag: 'production',
-    },
-    {
-      type: 'free-text',
-      prompt_es: 'Escribe un mini diálogo de dos intervenciones sobre el tema de esta unidad. Incluye una expresión de vocabulario.',
-      mastery_tag: 'production',
-    },
-    {
-      type: 'free-text',
-      prompt_es: 'Escribe dos frases cortas sobre la situación de esta unidad. Revisa que cada frase tenga sujeto y verbo.',
-      mastery_tag: 'production',
-    },
-    {
-      type: 'free-text',
-      prompt_es: 'Escribe una pregunta y una respuesta breves usando el vocabulario de esta unidad.',
-      mastery_tag: 'production',
-    },
-  ];
-  const writing = [...production, ...grammarForWriting.filter((item) => !reassignedGrammarIds.has(item.interaction_id)), ...customWriting];
-  const sections = { vocabulary, grammar, listening, writing };
+  const readingPool = sectionBlock(unit, 'Reading Comprehension');
+  if (readingPool.length < 10) throw new Error(`Unit ${lessonNumber}: expected ten reading comprehension questions.`);
+  const reading = [...readingPool.slice(0, 10)];
+  const passage = unmark(readingPool[0].transcript, 0);
+  const usedAnswers = new Set(reading.map((item) => unmark(item.options.find((option) => option.id === item.correct_answer)?.text, 0).toLocaleLowerCase('en')));
+  const stopWords = new Set(['the','and','you','your','his','her','she','him','they','their','this','that','with','from','have','has','are','was','were','for','not','but','too','what','where','when','who','how','can','could','would','there','here','then','than','into','very','some','many','much','does','did','will','are','our','its','one']);
+  const candidateWords = [...new Set((passage.match(/[A-Za-z]+(?:'[A-Za-z]+)?/g) ?? []).filter((word) => word.length >= 3 && !stopWords.has(word.toLocaleLowerCase('en'))))];
+  for (const answer of candidateWords) {
+    if (reading.length === 15) break;
+    const answerIndex = passage.toLocaleLowerCase('en').indexOf(answer.toLocaleLowerCase('en'));
+    const left = Math.max(passage.lastIndexOf('.', answerIndex), passage.lastIndexOf('!', answerIndex), passage.lastIndexOf('?', answerIndex)) + 1;
+    const ends = ['.', '!', '?'].map((mark) => passage.indexOf(mark, answerIndex)).filter((index) => index >= 0);
+    const right = ends.length ? Math.min(...ends) + 1 : passage.length;
+    const sentence = passage.slice(left, right).trim();
+    const relativeIndex = sentence.toLocaleLowerCase('en').indexOf(answer.toLocaleLowerCase('en'));
+    if (relativeIndex < 0) continue;
+    const clozeSentence = sentence.slice(0, relativeIndex) + '______' + sentence.slice(relativeIndex + answer.length);
+    const distractors = candidateWords.filter((word) => word.toLocaleLowerCase('en') !== answer.toLocaleLowerCase('en')).slice(0, 2);
+    if (distractors.length < 2) continue;
+    reading.push({ transcript: readingPool[0].transcript, question_en: '', options: [{id:'r1',text:`[[${answer}|${answer}]]`},{id:'r2',text:`[[${distractors[0]}|${distractors[0]}]]`},{id:'r3',text:`[[${distractors[1]}|${distractors[1]}]]`}], correct_answer: 'r1', clozeSentence, completedSentence: sentence });
+    usedAnswers.add(answer.toLocaleLowerCase('en'));
+  }
+  if (reading.length !== 15) throw new Error(`Unit ${lessonNumber}: could only build ${reading.length - 10} additional closed reading tasks.`);
+  const sections = { vocabulary, grammar, listening, reading };
   for (const [category, items] of Object.entries(sections)) {
     if (items.length !== 15) throw new Error(`Unit ${lessonNumber}: ${category} has ${items.length}, expected 15.`);
     if (category === 'grammar' && items.some((item) => item.type === 'free-text' || item.type === 'sentence-building')) {
@@ -265,7 +275,7 @@ const statements = [
   'ALTER TABLE learning_exercises ADD COLUMN audio_text TEXT;',
   'CREATE INDEX IF NOT EXISTS idx_learning_exercises_lesson_section ON learning_exercises(lesson_id, section_type, exercise_number);',
   '',
-  '-- 15 skill-targeted exercises for each of 60 units: vocabulary, grammar, listening and writing.',
+  '-- 15 skill-targeted exercises for each of 60 units: vocabulary, grammar, listening and reading.',
 ];
 for (const row of rows) {
   statements.push(`INSERT INTO learning_exercises (id, lesson_id, exercise_number, exercise_type, prompt, options_json, answer_json, explanation, section_type, audio_text) VALUES (${[
@@ -284,7 +294,10 @@ for (const row of rows) {
     corrections.push(`UPDATE learning_exercises SET options_json = ${sql(JSON.stringify(row.options))} WHERE id = ${sql(row.id)};`);
   }
 }
-fs.writeFileSync(correctionPath, `-- Replace free-writing tasks in grammar with closed A1 practice and remove duplicate answer choices.\n${corrections.join('\n')}\n`, 'utf8');
+const readingUpdates = rows.filter((row) => row.sectionType === 'reading').map((row) =>
+  `UPDATE learning_exercises SET exercise_number = ${row.exerciseNumber}, exercise_type = ${sql(row.exerciseType)}, prompt = ${sql(row.prompt)}, options_json = ${sql(JSON.stringify(row.options))}, answer_json = ${sql(row.answerJson)}, explanation = ${sql(row.explanation)}, section_type = 'reading', audio_text = ${sql(row.passageText)} WHERE id = ${sql(row.id)};`
+);
+const descriptionUpdate = `UPDATE learning_courses SET description = 'Curso A1 desde cero con 60 unidades y apartados de gramática, vocabulario, listening y comprensión lectora.', updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now') WHERE id = 'english-a1';`;
+fs.writeFileSync(correctionPath, `-- Replace the former Writing section with closed A1 reading comprehension.\nDELETE FROM learning_exercise_progress WHERE exercise_id LIKE 'a1-u%-wri-%';\n${descriptionUpdate}\n${readingUpdates.join('\n')}\n`, 'utf8');
 console.log(`Generated ${rows.length} exercises (15 in each of 4 sections across 60 units): ${path.relative(root, outputPath)}`);
-console.log(`Generated ${corrections.length} corrective updates: ${path.relative(root, correctionPath)}`);
-
+console.log(`Generated ${readingUpdates.length} reading conversions: ${path.relative(root, correctionPath)}`);

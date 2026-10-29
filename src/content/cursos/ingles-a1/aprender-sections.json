@@ -21,10 +21,9 @@
         "audioText": "A: Hi! My name is Ana. B: Hello, Ana. I’m Leo. How do you spell your name? A: A-N-A."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Saludos, sonidos y presentaciones». Practica este objetivo: Reconocer sonidos iniciales y usar saludos y frases básicas para presentarte. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -50,10 +49,9 @@
         "audioText": "A: Good morning, Tom. B: Good morning, Sara. A: How are you? B: I’m fine, thanks."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Saludos básicos». Practica este objetivo: Saludar y responder a saludos sencillos. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -79,10 +77,9 @@
         "audioText": "A: Here you are. B: Thank you. A: You’re welcome. B: Goodbye! A: See you later!"
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Despedidas y agradecimientos». Practica este objetivo: Decir goodbye, please y thank you en contexto. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -108,10 +105,9 @@
         "audioText": "A: What’s your name? B: My name is Leo Martin. A: How do you spell Leo? B: L-E-O."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Decir tu nombre». Practica este objetivo: Presentarte usando I’m y My name is. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -137,10 +133,9 @@
         "audioText": "A: Hi, Laura. How are you? B: I’m not very well. I’m tired. A: I’m sorry. B: Thanks."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Preguntar cómo está alguien». Practica este objetivo: Preguntar y responder How are you?. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -166,10 +161,9 @@
         "audioText": "A: Hi! I’m Ana. What’s your name? B: I’m Leo. Nice to meet you. A: Nice to meet you, too. Goodbye!"
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Tu primera conversación». Practica este objetivo: Combinar saludos, nombres y despedidas. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -194,10 +188,9 @@
         "audioText": "Look at this! What is this? It is a book. It is blue. How many pens do you have? I have three pens. Two are red and one is blue. What about notebooks? I have one notebook. It is new."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Números del 0 al 5». Practica este objetivo: Reconocer y pronunciar zero, one, two, three, four y five. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -222,10 +215,9 @@
         "audioText": "Look at this! What is this? It is a book. It is blue. How many pens do you have? I have three pens. Two are red and one is blue. What about notebooks? I have one notebook. It is new."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Números del 6 al 10». Practica este objetivo: Reconocer los números del six al ten. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -250,10 +242,9 @@
         "audioText": "Excuse me! How much is this? It is forty-five euros. And how much is that? That one is seventy euros. How old is your grandfather? He is eighty-two years old. He is very healthy."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Números del 11 al 20». Practica este objetivo: Identificar y practicar los números del 11 al 20. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -278,10 +269,9 @@
         "audioText": "Excuse me! How much is this? It is forty-five euros. And how much is that? That one is seventy euros. How old is your grandfather? He is eighty-two years old. He is very healthy."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Las decenas hasta 100». Practica este objetivo: Aprender twenty, thirty, forty y las demás decenas. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -306,10 +296,9 @@
         "audioText": "Excuse me! How much is this? It is forty-five euros. And how much is that? That one is seventy euros. How old is your grandfather? He is eighty-two years old. He is very healthy."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Formar números». Practica este objetivo: Combinar decenas y unidades para decir números. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -334,10 +323,9 @@
         "audioText": "Excuse me! How much is this? It is forty-five euros. And how much is that? That one is seventy euros. How old is your grandfather? He is eighty-two years old. He is very healthy."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Edad y teléfono». Practica este objetivo: Preguntar y decir la edad y un número de teléfono. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -362,10 +350,9 @@
         "audioText": "What day is it today? It is Wednesday. We have a test tomorrow. Do you work on Saturdays? No, I don't work on weekends. I relax at home. That sounds great! What do you do on Fridays?"
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Días de la semana I». Practica este objetivo: Aprender Monday, Tuesday, Wednesday y Thursday. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -390,10 +377,9 @@
         "audioText": "What day is it today? It is Wednesday. We have a test tomorrow. Do you work on Saturdays? No, I don't work on weekends. I relax at home. That sounds great! What do you do on Fridays?"
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Días de la semana II». Practica este objetivo: Aprender Friday, Saturday y Sunday. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -418,10 +404,9 @@
         "audioText": "What day is it today? It is Wednesday. We have a test tomorrow. Do you work on Saturdays? No, I don't work on weekends. I relax at home. That sounds great! What do you do on Fridays?"
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Redacta un texto corto de 5–6 frases para resolver la situación de «Repaso de los días». Combina lo aprendido y revisa que cada frase tenga sujeto y verbo."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -447,10 +432,9 @@
         "audioText": "A: What day is it today? B: It’s Tuesday. A: What day was it yesterday? B: It was Monday. A: What day is it tomorrow? B: It’s Wednesday."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Yesterday, today, tomorrow». Practica este objetivo: Hablar de ayer, hoy y mañana con frases sencillas. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -475,10 +459,9 @@
         "audioText": "What day is it today? It is Wednesday. We have a test tomorrow. Do you work on Saturdays? No, I don't work on weekends. I relax at home. That sounds great! What do you do on Fridays?"
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Preguntar qué día es». Practica este objetivo: Preguntar y responder What day is it?. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -503,10 +486,9 @@
         "audioText": "Can you describe your daily routine? Sure! First, I wake up at six thirty. Then, I take a shower and get dressed. After that, I have breakfast — usually toast and coffee. Finally, I go to work at eight o'clock."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Actividades por días». Practica este objetivo: Decir qué haces en distintos días de la semana. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -531,10 +513,9 @@
         "audioText": "When is your birthday? My birthday is on the fifteenth of August. That's in summer! What do you usually do? I usually have a party with my family and friends. And when is Christmas?"
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Meses del año I». Practica este objetivo: Aprender January, February, March y April. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -559,10 +540,9 @@
         "audioText": "When is your birthday? My birthday is on the fifteenth of August. That's in summer! What do you usually do? I usually have a party with my family and friends. And when is Christmas?"
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Meses del año II». Practica este objetivo: Aprender May, June, July y August. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -587,10 +567,9 @@
         "audioText": "When is your birthday? My birthday is on the fifteenth of August. That's in summer! What do you usually do? I usually have a party with my family and friends. And when is Christmas?"
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Meses del año III». Practica este objetivo: Aprender September, October, November y December. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -615,10 +594,9 @@
         "audioText": "When is your birthday? My birthday is on the fifteenth of August. That's in summer! What do you usually do? I usually have a party with my family and friends. And when is Christmas?"
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Fechas sencillas». Practica este objetivo: Reconocer y expresar fechas comunes. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -643,10 +621,9 @@
         "audioText": "When is your birthday? My birthday is on the fifteenth of August. That's in summer! What do you usually do? I usually have a party with my family and friends. And when is Christmas?"
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Cumpleaños». Practica este objetivo: Preguntar y responder cuándo es un cumpleaños. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -671,10 +648,9 @@
         "audioText": "When is your birthday? My birthday is on the fifteenth of August. That's in summer! What do you usually do? I usually have a party with my family and friends. And when is Christmas?"
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Redacta un texto corto de 5–6 frases para resolver la situación de «Repaso de calendario». Combina lo aprendido y revisa que cada frase tenga sujeto y verbo."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -699,10 +675,9 @@
         "audioText": "Hi! This is my friend Carlos. He is from Spain. And this is Ana. She is from Italy. We are students at the same school. They are my classmates."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Pronombres personales». Practica este objetivo: Usar I, you, he, she, it, we y they. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -727,10 +702,9 @@
         "audioText": "Hi! This is my friend Carlos. He is from Spain. And this is Ana. She is from Italy. We are students at the same school. They are my classmates."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «El verbo to be». Practica este objetivo: Relacionar am, is y are con los pronombres. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -755,10 +729,9 @@
         "audioText": "Hi! This is my friend Carlos. He is from Spain. And this is Ana. She is from Italy. We are students at the same school. They are my classmates."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Frases afirmativas». Practica este objetivo: Crear frases afirmativas sencillas con to be. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -783,10 +756,9 @@
         "audioText": "Hi Laura! How are you? I am not very well. I am tired. Are you sick? No, I am not sick. Just very tired. Is Tom here? Is he happy? No, he is not here. He is sad today."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Frases negativas». Practica este objetivo: Usar isn’t, aren’t y am not. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -811,10 +783,9 @@
         "audioText": "Hi Laura! How are you? I am not very well. I am tired. Are you sick? No, I am not sick. Just very tired. Is Tom here? Is he happy? No, he is not here. He is sad today."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Preguntas con to be». Practica este objetivo: Formar preguntas como Are you…? e Is she…?. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -839,10 +810,9 @@
         "audioText": "Hello! My name is Mark Davis. I am a student from London. Nice to meet you, Mark! Nice to meet you too! What is your surname? My surname is Davis."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Información personal». Practica este objetivo: Dar información básica sobre ti. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -867,10 +837,9 @@
         "audioText": "This is a photo of my family. That is my father. His name is Robert. And that is my mother. Her name is Sarah. Do you have brothers or sisters? Yes! I have one brother and two sisters. Our family is very close."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «La familia». Practica este objetivo: Nombrar familiares cercanos en inglés. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -895,10 +864,9 @@
         "audioText": "This is a photo of my family. That is my father. His name is Robert. And that is my mother. Her name is Sarah. Do you have brothers or sisters? Yes! I have one brother and two sisters. Our family is very close."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Adjetivos posesivos». Practica este objetivo: Usar my, your, his, her, our y their. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -923,10 +891,9 @@
         "audioText": "What do you do for work? I am a doctor. I work in the city hospital. That is interesting! Does your wife work too? Yes, she is a teacher. She teaches at the primary school. And what about your children? My son is a student and my daughter wants to be a pilot."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Profesiones». Practica este objetivo: Nombrar profesiones comunes. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -951,10 +918,9 @@
         "audioText": "Hi! This is my friend Carlos. He is from Spain. And this is Ana. She is from Italy. We are students at the same school. They are my classmates."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Países y nacionalidades». Practica este objetivo: Decir de dónde eres y tu nacionalidad. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -979,10 +945,9 @@
         "audioText": "Can you describe your best friend? Sure! She is tall with long brown hair. What color are her eyes? Her eyes are green. She is very beautiful. How old is she? She is young — only twenty years old."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Describir personas». Practica este objetivo: Usar adjetivos básicos para describir personas. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1007,10 +972,9 @@
         "audioText": "This is a photo of my family. That is my father. His name is Robert. And that is my mother. Her name is Sarah. Do you have brothers or sisters? Yes! I have one brother and two sisters. Our family is very close."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Mi familia y yo». Practica este objetivo: Presentar a tu familia con frases sencillas. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1035,10 +999,9 @@
         "audioText": "What do you do every morning? I wake up at seven. Then I eat breakfast. Do you eat eggs? Yes, I always eat eggs and drink orange juice. Does your sister work? Yes, she works in a school. She teaches English."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Verbos cotidianos». Practica este objetivo: Aprender verbos básicos para las rutinas. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1063,10 +1026,9 @@
         "audioText": "Do you watch TV in the evening? Sometimes, but I usually listen to music. Do you and your friends exercise together? Yes! We go to the gym three times a week. We don't call each other — we just meet there."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Present simple: I/you/we/they». Practica este objetivo: Describir hábitos con el presente simple. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1091,10 +1053,9 @@
         "audioText": "Tell me about your sister. What does she do? She is a teacher. She teaches science at a high school. Does she leave early in the morning? Yes, she leaves at seven. She doesn't like being late. What does she do in the afternoon?"
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Present simple: he/she». Practica este objetivo: Practicar la terminación -s en tercera persona. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1119,10 +1080,9 @@
         "audioText": "Tell me about your sister. What does she do? She is a teacher. She teaches science at a high school. Does she leave early in the morning? Yes, she leaves at seven. She doesn't like being late. What does she do in the afternoon?"
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Preguntas con do y does». Practica este objetivo: Preguntar por rutinas y hábitos. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1147,10 +1107,9 @@
         "audioText": "Excuse me, what time is it? It half past eight. Oh! I am late! My class starts at nine o'clock. Don't worry. You have thirty minutes. What time does your class finish?"
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Decir la hora». Practica este objetivo: Preguntar y decir la hora de forma básica. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1175,10 +1134,9 @@
         "audioText": "Can you describe your daily routine? Sure! First, I wake up at six thirty. Then, I take a shower and get dressed. After that, I have breakfast — usually toast and coffee. Finally, I go to work at eight o'clock."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Describir tu rutina». Practica este objetivo: Ordenar actividades de un día normal. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1203,10 +1161,9 @@
         "audioText": "Look at this! What is this? It is a book. It is blue. How many pens do you have? I have three pens. Two are red and one is blue. What about notebooks? I have one notebook. It is new."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Objetos cotidianos». Practica este objetivo: Nombrar objetos frecuentes de casa y clase. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1232,10 +1189,9 @@
         "audioText": "A: What is this? B: It’s a pen. A: What are those? B: They’re two books and an apple."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Singular, plural, a y an». Practica este objetivo: Formar plurales regulares y elegir a o an antes de un sustantivo. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1260,10 +1216,9 @@
         "audioText": "Tell me about your house. What rooms does it have? We have a large living room, a kitchen, three bedrooms and two bathrooms. Oh, that's spacious! Is there a garden? Yes! We have a small garden with flowers and a table outside. My favourite room is the living room — it's so bright and cozy!"
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Habitaciones de la casa». Practica este objetivo: Nombrar las habitaciones principales. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1288,10 +1243,9 @@
         "audioText": "I love your flat! Is that sofa new? Yes! I bought it last month past. It's very comfortable. And what about that lamp? Is it yours? No, that lamp is my flatmate's. The carpet and the curtains are mine, though. I chose them myself."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Muebles y objetos». Practica este objetivo: Identificar muebles y objetos domésticos. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1316,10 +1270,9 @@
         "audioText": "I can't find my keys. Can you help me? Where did you leave them last night? I think they are on the table next to the door. No, they're not there. Oh! They're between the sofa cushions! Thank you! I always lose things in front of my eyes!"
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «In, on y under». Practica este objetivo: Indicar dónde está un objeto. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1344,10 +1297,9 @@
         "audioText": "Excuse, is there a bank near here? Yes, there is one on the main street. It's next to the supermarket. Are there any ATMs inside? Yes, there are two ATMs inside and one outside. Is there a café nearby? There isn't one on my street."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Describir tu habitación». Practica este objetivo: Combinar vocabulario de casa y preposiciones. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1372,10 +1324,9 @@
         "audioText": "What do you usually eat for breakfast? I have cereal and milk or toast with butter. Do you like eggs? Yes! I love scrambled eggs. What about you? I usually have fruit — apples or bananas."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Comida y bebidas». Practica este objetivo: Nombrar alimentos y bebidas comunes. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1400,10 +1351,9 @@
         "audioText": "Good morning! What can I get you? I'd like a large coffee and a sandwich, please. Of course! Anything else? Yes, can I have a piece of cake, please? That will be eight euros, please."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Pedir algo: I’d like». Practica este objetivo: Pedir algo educadamente en una cafetería. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1428,10 +1378,9 @@
         "audioText": "Excuse me! How much is this? It is forty-five euros. And how much is that? That one is seventy euros. How old is your grandfather? He is eighty-two years old. He is very healthy."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Precios y cantidades». Practica este objetivo: Entender precios y cantidades básicas. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1456,10 +1405,9 @@
         "audioText": "Excuse me. Do you know where the dairy products are? Yes, they're in aisle four, next to the frozen food section. Thank you. And where can I find organic vegetables? They're at the back of the store, near the fresh produce section. Great! Oh and is there a special offer on fish today?"
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Comprar en una tienda». Practica este objetivo: Practicar preguntas y respuestas de compra. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1484,10 +1432,9 @@
         "audioText": "Excuse, how do I get to the train station? Go straight for two minutes, then turn left at the traffic lights. Then, take the second street on the right. The station is at the end of that road, on the left. Is it far? Can I walk there?"
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Lugares y direcciones». Practica este objetivo: Nombrar lugares de la ciudad y pedir o dar direcciones sencillas. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1512,10 +1459,9 @@
         "audioText": "Good morning! What can I get you? I'd like a large coffee and a sandwich, please. Of course! Anything else? Yes, can I have a piece of cake, please? That will be eight euros, please."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Simulación: en una cafetería». Practica este objetivo: Combinar saludos, pedidos y precios. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1540,10 +1486,9 @@
         "audioText": "Excuse me! How much is this? It is forty-five euros. And how much is that? That one is seventy euros. How old is your grandfather? He is eighty-two years old. He is very healthy."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Redacta un texto corto de 5–6 frases para resolver la situación de «Repaso de números y datos». Combina lo aprendido y revisa que cada frase tenga sujeto y verbo."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1568,10 +1513,9 @@
         "audioText": "When is your birthday? My birthday is on the fifteenth of August. That's in summer! What do you usually do? I usually have a party with my family and friends. And when is Christmas?"
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Redacta un texto corto de 5–6 frases para resolver la situación de «Repaso de días y fechas». Combina lo aprendido y revisa que cada frase tenga sujeto y verbo."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1596,10 +1540,9 @@
         "audioText": "Hello! My name is Sofia. I am twenty-five years old. I am from Mexico and I am a lawyer. I have a big family. My father is a doctor. My mother is a teacher and she has brown hair and green eyes. My brother is thirty years old. He works in an office. I am very happy to meet you!"
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Redacta un texto corto de 5–6 frases para resolver la situación de «Repaso de gramática básica». Combina lo aprendido y revisa que cada frase tenga sujeto y verbo."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1624,10 +1567,9 @@
         "audioText": "Hello! My name is Mark Davis. I am a student from London. Nice to meet you, Mark! Nice to meet you too! What is your surname? My surname is Davis."
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Escribe 3–5 frases sobre «Comprender diálogos breves». Practica este objetivo: Practicar la comprensión de conversaciones A1. Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1652,10 +1594,9 @@
         "audioText": "Congratulations! You've completed Module 6 — Shopping and Food! In this module, we learned to navigate supermarkets, restaurants and clothing stores. You practised countable and uncountable nouns with some/any and how much/many. We also covered health vocabulary, cooking and money and how to handle transactions. You now have the language tools to shop, eat out and stay healthy in English! Well done!"
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Redacta un texto corto de 5–6 frases para resolver la situación de «Misión práctica final». Combina lo aprendido y revisa que cada frase tenga sujeto y verbo."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   },
@@ -1680,12 +1621,10 @@
         "audioText": "Congratulations! You've completed Module 6 — Shopping and Food! In this module, we learned to navigate supermarkets, restaurants and clothing stores. You practised countable and uncountable nouns with some/any and how much/many. We also covered health vocabulary, cooking and money and how to handle transactions. You now have the language tools to shop, eat out and stay healthy in English! Well done!"
       },
       {
-        "type": "writing",
-        "title": "Writing",
-        "body": "Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.",
-        "prompt": "Redacta un texto corto de 5–6 frases para resolver la situación de «Evaluación final A1». Combina lo aprendido y revisa que cada frase tenga sujeto y verbo."
+        "type": "reading",
+        "title": "Comprensión lectora",
+        "body": "Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta."
       }
     ]
   }
 }
-

@@ -42,7 +42,7 @@ export async function GET(
        FROM learning_exercises
        WHERE lesson_id = ? AND section_type = ?
        ORDER BY exercise_number ASC`
-    ).bind(lessonId, sectionType && ["grammar", "vocabulary", "listening", "writing"].includes(sectionType) ? sectionType : "practice").all<ExerciseRow>();
+    ).bind(lessonId, sectionType && ["grammar", "vocabulary", "listening", "reading"].includes(sectionType) ? sectionType : "practice").all<ExerciseRow>();
 
     const exercises = (result.results || []).map((row) => {
       let options: unknown = [];
@@ -52,7 +52,7 @@ export async function GET(
       } catch {
         options = [];
       }
-      return { id: row.id, number: row.exercise_number, type: row.exercise_type, prompt: row.prompt, options, audioText: row.audio_text };
+      return { id: row.id, number: row.exercise_number, type: row.exercise_type, prompt: row.prompt, options, audioText: row.audio_text, passageText: row.section_type === "reading" ? row.audio_text : null };
     });
 
     return NextResponse.json(
@@ -176,4 +176,3 @@ export async function POST(
     );
   }
 }
-

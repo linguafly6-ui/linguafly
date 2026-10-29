@@ -19,7 +19,7 @@ type Props = {
   section: LearningSection;
 };
 
-const sectionMarks: Record<string, string> = { grammar: "Aa", vocabulary: "Ab", listening: "♫", writing: "✎" };
+const sectionMarks: Record<string, string> = { grammar: "Aa", vocabulary: "Ab", listening: "♫", reading: "Aa" };
 
 export function LearningContentSection({ lessonId, section }: Props) {
   function playListening() {
@@ -43,11 +43,8 @@ export function LearningContentSection({ lessonId, section }: Props) {
       {section.type === "listening" && <div className="mt-4">
         <button type="button" onClick={playListening} disabled={!section.audioText} className="rounded-xl bg-[#252a24] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[#41483e] disabled:opacity-50">▶ Escuchar diálogo</button>
       </div>}
-      {section.type === "writing" && <div className="mt-4">
-        {section.prompt && <p className="mb-3 rounded-xl bg-[#e9e3d7] p-4 text-sm font-semibold leading-6 text-[#30352d]">{section.prompt}</p>}
-      </div>}
-      {["grammar", "vocabulary", "listening", "writing"].includes(section.type ?? "") && <ExercisePanel lessonId={lessonId} sectionType={section.type ?? "grammar"} />}
+      
+      {["grammar", "vocabulary", "listening", "reading"].includes(section.type ?? "") && <ExercisePanel lessonId={lessonId} sectionType={section.type ?? "grammar"} />}
     </article>
   );
 }
-

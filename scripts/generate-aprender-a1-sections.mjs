@@ -194,9 +194,7 @@ for (let number = 1; number <= 60; number += 1) {
   const audioText = override?.listening ?? listeningText;
   const example = override?.example ?? grammarExample;
   const exampleTranslation = override?.exampleTranslation;
-  const writingPrompt = /repaso|evaluación|misión/i.test(metadata.title)
-    ? `Redacta un texto corto de 5–6 frases para resolver la situación de «${metadata.title}». Combina lo aprendido y revisa que cada frase tenga sujeto y verbo.`
-    : `Escribe 3–5 frases sobre «${metadata.title}». Practica este objetivo: ${metadata.objective} Añade al menos tres palabras de la lista y revisa el orden de la frase y la puntuación.`;
+
 
   output[lessonId] = {
     objective: metadata.objective,
@@ -220,10 +218,9 @@ for (let number = 1; number <= 60; number += 1) {
         audioText,
       },
       {
-        type: 'writing',
-        title: 'Writing',
-        body: 'Escribe primero sin traducir palabra por palabra. Usa el modelo de gramática y revisa mayúsculas, orden y puntuación.',
-        prompt: writingPrompt,
+        type: 'reading',
+        title: 'Comprensión lectora',
+        body: 'Lee el texto de cada actividad y localiza en él la información necesaria antes de elegir tu respuesta.',
       },
     ],
   };
@@ -231,4 +228,3 @@ for (let number = 1; number <= 60; number += 1) {
 
 fs.writeFileSync(outputPath, `${JSON.stringify(output, null, 2)}\n`, 'utf8');
 console.log(`Generated ${Object.keys(output).length} A1 units with four learning sections: ${path.relative(root, outputPath)}`);
-
