@@ -207,6 +207,28 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
             continue;
           }
 
+          if (/fill.?blanks?/i.test(item.type) && Array.isArray(item.correct_answer) && item.correct_answer.length > 1) {
+            const mainText = String(item.main_text ?? item.stimulus_en ?? "");
+            for (let gapIndex = 0; gapIndex < item.correct_answer.length; gapIndex++) {
+              const gapNumber = gapIndex + 1;
+              const id = `${item.interaction_id}__gap_${gapNumber}`;
+              validateExerciseId(id, `${levelConfig.folder}/${file.name}`);
+              if (seenIds.has(id)) throw new Error(`Duplicate exercise ID ${id} in ${levelConfig.folder}/${file.name}`);
+              seenIds.add(id);
+              const correct = String(item.correct_answer[gapIndex] ?? "");
+              const targetPattern = new RegExp("\\(" + gapNumber + "\\)\\s*_{2,}");
+              const visibleText = mainText.replace(targetPattern, "_____");
+              const prompt = `${String(item.prompt_es ?? "Complete the text")} — gap ${gapNumber} of ${item.correct_answer.length}\\n\\n${visibleText}`;
+              exerciseNumber++;
+              statements.push(exerciseStatement(lessonId, id, exerciseNumber, section, "fill_blank",
+                prompt, [], correct, explanation || `Respuesta correcta: ${correct}`,
+                { ...sourceMeta, sourceInteractionId: item.interaction_id, sourceType: item.type, variant: "fill_blank", gapNumber }, audioText));
+              summary[levelConfig.level].exercises++;
+              summary[levelConfig.level].bySection[section] = (summary[levelConfig.level].bySection[section] ?? 0) + 1;
+            }
+            continue;
+          }
+
           if (/cloze/i.test(item.type) && Array.isArray(item.gaps) && item.gaps.length) {
             const mainText = String(item.main_text ?? "");
             for (let gapIndex = 0; gapIndex < item.gaps.length; gapIndex++) {
