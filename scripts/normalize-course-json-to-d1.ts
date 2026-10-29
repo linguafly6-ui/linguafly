@@ -160,15 +160,10 @@ description = excluded.description, published = 1, updated_at = strftime('%Y-%m-
       const unitNumber = file.number;
       const lessonId = `${levelConfig.level.toLowerCase()}-${String(unitNumber).padStart(2, "0")}`;
       const objective = (unit.learning_outcomes ?? []).join(" · ");
+      // Keep the complete canonical unit JSON in content_json as a lossless
+      // reference; normalized exercises live in learning_exercises.
       const safeContent = {
-        objective,
-        learningOutcomes: unit.learning_outcomes ?? [],
-        masteryTags: unit.mastery_tags ?? [],
-        sections: unit.blocks.map((block) => ({
-          type: "learn", title: block.title,
-          body: `${block.content.length} actividades · ${block.duration_minutes ?? 0} min`,
-        })),
-        reviewEnabled: true,
+        ...unit,
         source: { courseKey: levelConfig.folder, unitId: unit.course.unit_id, file: path.relative(ROOT, absolute).split(path.sep).join("/") },
       };
       const estimated = Math.min(60, Math.max(1, Math.round((unit.course.total_duration_minutes ?? 20) / 30)));
