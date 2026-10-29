@@ -492,7 +492,7 @@
           "options": [
             {
               "id": "o1",
-              "text": "[[like|like]]"
+              "text": "[[likes|likes]]"
             },
             {
               "id": "o2",
@@ -631,7 +631,7 @@
             },
             {
               "id": "o3",
-              "text": "[[like|like]]"
+              "text": "[[likes|likes]]"
             }
           ],
           "correct_answer": "o1"
@@ -700,7 +700,7 @@
             },
             {
               "id": "o3",
-              "text": "[[like|like]]"
+              "text": "[[likes|likes]]"
             }
           ],
           "correct_answer": "o1"
