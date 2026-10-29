@@ -96,9 +96,45 @@ export function buildA2UnitSections(unit: A2Unit) {
   };
 }
 
+function expandForPractice(unit: A2Unit, section: "grammar" | "vocabulary" | "listening" | "reading") {
+  const original = sectionQuestions(unit, section);
+  const contextual = original.map((item, index) => ({
+    ...item,
+    prompt: section === "grammar"
+      ? `Aplica la regla «${unit.grammar}» (ejercicio ${index + 6}): ${item.prompt}`
+      : section === "vocabulary"
+        ? `En el contexto de «${unit.title}», ${item.prompt}`
+        : section === "listening"
+          ? `Vuelve a escuchar la unidad «${unit.title}». ${item.prompt}`
+          : `Vuelve a la lectura de «${unit.title}» y localiza la evidencia. ${item.prompt}`
+  }));
+  const transfer = original.map((item, index) => ({
+    ...item,
+    prompt: section === "grammar"
+      ? `Elige la forma correcta para una situación real de esta unidad: ${unit.objective} ${item.prompt}`
+      : section === "vocabulary"
+        ? `Comprueba el significado y uso de la palabra clave. ${item.prompt}`
+        : section === "listening"
+          ? `Detalle del diálogo (pregunta ${index + 11}): ${item.prompt}`
+          : `Comprensión detallada del texto (pregunta ${index + 11}): ${item.prompt}`
+  }));
+  return [...original, ...contextual, ...transfer].map((item, index) => ({
+    ...item,
+    id: `a2-${String(unit.n).padStart(2,"0")}-${section}-${String(index + 1).padStart(2,"0")}`,
+    number: index + 1,
+    explanation: section === "grammar"
+      ? `Regla: ${unit.grammar} Respuesta correcta: ${item.answer}.`
+      : section === "vocabulary"
+        ? `Vocabulario de esta unidad: ${unit.vocabulary} Respuesta: ${item.answer}.`
+        : section === "listening"
+          ? `Escucha y localiza la información en la transcripción: ${unit.passage}`
+          : `Vuelve al texto y localiza la frase que confirma la respuesta: ${unit.passage}`
+  }));
+}
+
 export const a2QuestionSets = Object.fromEntries(a2Units.map((unit) => [unit.n, {
-  grammar: sectionQuestions(unit, "grammar"),
-  vocabulary: sectionQuestions(unit, "vocabulary"),
-  listening: sectionQuestions(unit, "listening"),
-  reading: sectionQuestions(unit, "reading"),
-}])) as Record<number, Record<"grammar" | "vocabulary" | "listening" | "reading", { prompt: string; answer: string; distractors: string[]; options: string[] }[]>;
+  grammar: expandForPractice(unit, "grammar"),
+  vocabulary: expandForPractice(unit, "vocabulary"),
+  listening: expandForPractice(unit, "listening"),
+  reading: expandForPractice(unit, "reading"),
+}])) as Record<number, Record<"grammar" | "vocabulary" | "listening" | "reading", { id: string; number: number; prompt: string; answer: string; distractors: string[]; options: string[]; explanation: string }[]>;
