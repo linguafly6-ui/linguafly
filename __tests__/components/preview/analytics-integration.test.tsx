@@ -16,10 +16,18 @@ const mockUnit = {
   exerciseCount: 15,
   estimatedDuration: 30,
   exerciseBreakdown: {
-    'multiple-choice': 5,
-    'fill-in-the-blank': 5,
-    'listening': 3,
-    'speaking': 2,
+    multiple_choice: 5,
+    fill_in_the_blank: 5,
+    matching: 0,
+    drag_and_drop: 0,
+    categorization: 0,
+    short_answer: 0,
+    audio_matching: 0,
+    listening: 3,
+    video_narrative: 0,
+    flashcards: 0,
+    other: 2,
+    total: 15,
   }
 };
 

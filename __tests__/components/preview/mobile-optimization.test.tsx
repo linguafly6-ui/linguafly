@@ -10,11 +10,19 @@ const mockUnits: UnitMetadata[] = Array.from({ length: 60 }, (_, i) => ({
   difficulty: Math.min(5, Math.floor(i / 12) + 1),
   exerciseCount: 10,
   estimatedDuration: 30,
-  exerciseTypeBreakdown: {
-    'multiple-choice': 3,
-    'fill-in-the-blank': 3,
-    'matching': 2,
-    'listening': 2,
+  exerciseBreakdown: {
+    multiple_choice: 3,
+    fill_in_the_blank: 3,
+    matching: 2,
+    drag_and_drop: 0,
+    categorization: 0,
+    short_answer: 0,
+    audio_matching: 0,
+    listening: 2,
+    video_narrative: 0,
+    flashcards: 0,
+    other: 0,
+    total: 10,
   },
 }));
 
