@@ -160,7 +160,10 @@ function normalizeSourceItem(item, category, lessonNumber, exerciseNumber) {
         : '';
     } else if (item.type === 'fill-blank') {
       const sentence = stimulusEn ? `${stimulusEn}${stimulusEs && stimulusEs !== stimulusEn ? ` (${stimulusEs})` : ''}` : '';
-      prompt = `${promptEs}${sentence ? `\n${sentence}` : ''}`.trim();
+      const grammarBlankContext = [stimulusEn, String(item.correct_answer ?? '')].join(' ');
+      prompt = category === 'grammar'
+        ? /\?\s*$/.test(stimulusEn) ? 'Completa la pregunta.' : /\b(?:not|don't|doesn't|isn't|aren't|wasn't|weren't|can't|won't)\b/i.test(grammarBlankContext) ? 'Completa la frase en negativo.' : 'Completa la frase.'
+        : `${promptEs}${sentence ? `\n${sentence}` : ''}`.trim();
       correct = String(item.correct_answer ?? '');
       explanation = `La palabra que completa la frase es “${correct}”. Léela dentro de la oración completa.`;
     } else if (item.type === 'sentence-building') {
@@ -314,5 +317,18 @@ readingChunks.forEach((chunk, index) => {
     fs.writeFileSync(migrationPath, `${preamble}${part.join('\n')}\n`, 'utf8');
   });
 });
+const grammarPromptUpdates = rows.filter((row) => row.sectionType === 'grammar' && row.exerciseType === 'fill_blank').map((row) =>
+  `UPDATE learning_exercises SET prompt = ${sql(row.prompt)} WHERE id = ${sql(row.id)};`
+);
+const grammarPromptBatchSize = 40;
+for (let index = 0; index < grammarPromptUpdates.length; index += grammarPromptBatchSize) {
+  const batch = grammarPromptUpdates.slice(index, index + grammarPromptBatchSize);
+  const migrationNumber = String(28 + Math.floor(index / grammarPromptBatchSize)).padStart(3, '0');
+  const migrationPath = path.join(migrationDir, `202610290${migrationNumber}_a1_grammar_prompt_alignment.sql`);
+  fs.writeFileSync(migrationPath, `-- Align grammar fill-in prompts with statement polarity and questions.\n${batch.join('\n')}\n`, 'utf8');
+}
+for (const row of rows.filter((item) => item.sectionType === 'grammar' && item.exerciseType === 'fill_blank')) {
+  if (/afirmativa|affirmative/i.test(row.prompt)) throw new Error(`Misleading affirmative instruction remains on ${row.id}`);
+}
 console.log(`Generated ${rows.length} exercises (15 in each of 4 sections across 60 units): ${path.relative(root, outputPath)}`);
-console.log(`Generated ${readingUpdates.length} reading conversions in ${readingChunks.length + 1} D1-safe migrations.`);
+console.log(`Aligned ${grammarPromptUpdates.length} grammar fill-in prompts across ${Math.ceil(grammarPromptUpdates.length / grammarPromptBatchSize)} D1-safe migrations.`);
