@@ -40,18 +40,18 @@ export default function SubscriptionPage() {
 
         <form onSubmit={startCheckout} className="mt-8 space-y-5 rounded-2xl border border-neutral-200 p-6 shadow-sm">
           <fieldset className="grid gap-3 sm:grid-cols-2">
-            <legend className="mb-3 text-sm font-semibold">Elige tu plan</legend>
+            <legend className="mb-3 text-sm font-semibold">Elige cómo quieres continuar después del lanzamiento</legend>
             <label className={`cursor-pointer rounded-xl border p-4 ${plan === "monthly" ? "border-[#b75d3b] bg-orange-50" : "border-neutral-200"}`}>
               <input type="radio" name="plan" value="monthly" checked={plan === "monthly"} onChange={() => setPlan("monthly")} className="mr-2 accent-[#b75d3b]" />
               <span className="font-semibold">Mensual</span>
-              <p className="mt-2 text-2xl font-bold">19,99 €<span className="text-sm font-normal text-neutral-500">/mes</span></p>
-              <p className="mt-1 text-xs text-neutral-500">Se renueva cada mes.</p>
+              <p className="mt-2 text-2xl font-bold">0,99 €<span className="text-sm font-normal text-neutral-500">/mes</span></p>
+              <p className="mt-1 text-xs leading-5 text-neutral-600">Durante los 3 primeros meses. Después, 19,99 €/mes.</p>
             </label>
             <label className={`cursor-pointer rounded-xl border p-4 ${plan === "annual" ? "border-[#b75d3b] bg-orange-50" : "border-neutral-200"}`}>
               <input type="radio" name="plan" value="annual" checked={plan === "annual"} onChange={() => setPlan("annual")} className="mr-2 accent-[#b75d3b]" />
-              <span className="font-semibold">Anual</span>
-              <p className="mt-2 text-2xl font-bold">199,99 €<span className="text-sm font-normal text-neutral-500">/año</span></p>
-              <p className="mt-1 text-xs text-neutral-500">Ahorra frente al pago mensual.</p>
+              <span className="font-semibold">Después, anual</span>
+              <p className="mt-2 text-2xl font-bold">0,99 €<span className="text-sm font-normal text-neutral-500">/mes</span></p>
+              <p className="mt-1 text-xs leading-5 text-neutral-600">Durante los 3 primeros meses. Después, 199,99 €/año.</p>
             </label>
           </fieldset>
 
@@ -63,10 +63,11 @@ export default function SubscriptionPage() {
           <button type="submit" disabled={busy} className="w-full rounded-lg bg-[#b75d3b] px-4 py-3 font-semibold text-white disabled:opacity-50">
             {busy ? "Conectando con Stripe…" : "Continuar al pago seguro"}
           </button>
-          <p className="text-center text-xs leading-5 text-neutral-500">Pago procesado de forma segura por Stripe. La suscripción se renueva automáticamente según el plan elegido.</p>
+          <p className="text-center text-xs leading-5 text-neutral-500">Hoy pagarás 0,99 €. Se cobrarán 0,99 € al mes durante los 3 primeros pagos; después se aplicará el precio indicado para el plan que has elegido. La renovación es automática y puedes solicitar la cancelación antes del siguiente cobro.</p>
         </form>
         {message && <p role="alert" className="mt-4 rounded-lg bg-red-50 p-4 text-sm text-red-700">{message}</p>}
       </div>
     </main>
   );
 }
+
