@@ -13,6 +13,21 @@ export const dynamic = "force-dynamic";
  * Public course outline. Deliberately excludes exercise answer keys and
  * learner-specific progress.
  */
+
+function filterProductionSections(value: unknown): unknown {
+  if (!value || typeof value !== "object" || !("sections" in value)) return value;
+  const content = value as { sections: unknown[]; [key: string]: unknown };
+  return {
+    ...content,
+    sections: content.sections.filter((section) => {
+      if (!section || typeof section !== "object") return true;
+      const item = section as { type?: unknown; title?: unknown };
+      const title = String(item.title ?? "").toLowerCase();
+      return item.type !== "production" && !title.includes("producción") && !title.includes("production");
+    }),
+  };
+}
+
 export async function GET(request: NextRequest) {
   try {
     const { env } = await resolveCloudflareEnv();
@@ -77,7 +92,7 @@ export async function GET(request: NextRequest) {
           const advancedLevel = ["B1", "B2", "C1", "C2"].includes(level);
           const unit = advancedLevel ? getLegacyAdvancedUnit(level.toLowerCase(), row.unit_number) : null;
           const advancedSections = unit
-            ? ["grammar", "vocabulary", "listening", "reading", "production"].map((type) => {
+            ? ["grammar", "vocabulary", "listening", "reading"].map((type) => {
                 const items = unit.blocks.flatMap((block) => block.content
                   .filter((item) => getLegacyAdvancedSection(item, block.title) === type)
                   .map((item) => ({ item, blockTitle: block.title })));
@@ -97,9 +112,9 @@ export async function GET(request: NextRequest) {
             content: advancedSections
               ? { objective: unit?.learning_outcomes?.join(" · ") || row.objective, sections: advancedSections, reviewEnabled: true }
               : level === "A1"
-                ? (a1LearningSections as Record<string, { objective: string; sections: unknown[] }>)[row.lesson_id] ?? content
+                ? filterProductionSections((a1LearningSections as Record<string, { objective: string; sections: unknown[] }>)[row.lesson_id] ?? content)
                 : level === "A2"
-                  ? (a2LearningSections as Record<string, { objective: string; sections: unknown[] }>)[row.lesson_id] ?? content
+                  ? filterProductionSections((a2LearningSections as Record<string, { objective: string; sections: unknown[] }>)[row.lesson_id] ?? content)
                   : content,
           };
         }),
