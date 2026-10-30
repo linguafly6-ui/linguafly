@@ -5,6 +5,7 @@ import a2LearningSections from "@/content/cursos/ingles-a2/aprender-sections.jso
 import { getLegacyAdvancedUnit, getLegacyAdvancedSection } from "@/lib/learning/legacy-advanced-units";
 import { a2Units } from "@/lib/learning/a2-units";
 import { C1_COURSE } from "@/lib/course/c1";
+import { C2_COURSE } from "@/lib/course/c2";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -36,6 +37,39 @@ export async function GET(request: NextRequest) {
       .trim()
       .toUpperCase()
       .slice(0, 8);
+
+    // C2 uses only the authored catalog units. Writing is intentionally omitted.
+    if (level === "C2") {
+      const labels: Record<string, string> = {
+        grammar: "Gramática", vocabulary: "Vocabulario",
+        listening: "Comprensión auditiva", reading: "Comprensión lectora",
+      };
+      const lessons = C2_COURSE.units.map((unit) => {
+        const sections = ["grammar", "vocabulary", "listening", "reading"].map((type) => {
+          const selected = unit.exercises.filter((exercise) => (exercise.topicName ?? "").toLowerCase() === type);
+          const body = selected.map((exercise) => {
+            const question = (exercise.content as any)?.questions?.[0];
+            return typeof question?.question === "string" ? question.question : "";
+          }).filter(Boolean).join("\n");
+          return { type, title: labels[type], body };
+        });
+        return {
+          id: `c2-${String(unit.id).padStart(2, "0")}`,
+          number: unit.id, unit: unit.id, title: unit.title,
+          objective: `Unidad C2: ${unit.title}`,
+          estimated_minutes: 45,
+          content: { sections, reviewEnabled: true },
+        };
+      });
+      return NextResponse.json({
+        course: {
+          id: "ingles-c2", title: "Inglés dominio experto", level: "C2",
+          description: "Unidades C2 disponibles en el catálogo, con gramática, vocabulario, comprensión auditiva y comprensión lectora.",
+          lesson_count: lessons.length,
+        },
+        lessons,
+      }, { headers: { "Cache-Control": "no-store" } });
+    }
 
     // C1 is served from its authored catalog in this review branch. Do not let
     // stale/partial D1 publication rows shadow the complete catalog fallback.
