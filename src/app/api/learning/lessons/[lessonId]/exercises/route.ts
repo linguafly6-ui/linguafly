@@ -230,7 +230,7 @@ async function getC2D1Unit(lessonId: string): Promise<C2D1Unit | null> {
 
 function getC2D1Section(item: C2D1Interaction, blockTitle: string): string {
   // Respect the authored C2 lesson slot instead of guessing from titles/tags.
-  const lessonMatch = /^c2-u\d+-l([1-6])-\d+$/i.exec(String(item.interaction_id ?? ""));
+  const lessonMatch = /^c2-u\d+-l([1-6])-\d+(?:__q\d+)?$/i.exec(String(item.interaction_id ?? ""));
   if (lessonMatch) {
     const lessonSections: Record<string, string> = {
       "1": "grammar",
