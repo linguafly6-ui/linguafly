@@ -60,7 +60,11 @@ function validateExerciseId(id: string, file: string): void {
   }
 }
 function sectionFor(item: Interaction, blockTitle: string): string {
-  const text = [item.mastery_tag, ...(item.concept_tags ?? []), blockTitle, item.type].join(" ").toLowerCase();
+  const mastery = String(item.mastery_tag ?? "").toLowerCase();
+  for (const section of REQUIRED_B1_SECTIONS) {
+    if (mastery.startsWith(section + ":")) return section;
+  }
+  const text = [...(item.concept_tags ?? []), blockTitle, item.type].join(" ").toLowerCase();
   if (/listening|audio|listen/.test(text)) return "listening";
   if (/reading|comprehension|read/.test(text)) return "reading";
   if (/vocab|idiom|word-formation|word formation|collocation/.test(text)) return "vocabulary";
