@@ -29,7 +29,7 @@ type CourseUnitJson = {
 function sectionFor(item: CourseInteraction, blockTitle: string): string {
   // C2 catalog IDs are authoritative: l1 grammar, l2 vocabulary/context,
   // l3 reading, l4 listening, l5 writing, l6 speaking.
-  const lessonMatch = /^c2-u\\d+-l([1-6])-\\d+$/i.exec(String(item.interaction_id ?? ""));
+  const lessonMatch = /^c2-u\d+-l([1-6])-\d+$/i.exec(String(item.interaction_id ?? ""));
   if (lessonMatch) {
     const lessonSections: Record<string, string> = {
       "1": "grammar",
