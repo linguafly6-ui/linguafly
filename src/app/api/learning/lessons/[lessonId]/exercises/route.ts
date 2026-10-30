@@ -193,6 +193,169 @@ async function getNormalizedD1Exercises(lessonId: string, section: string) {
   }
 }
 
+
+type C2D1Interaction = {
+  interaction_id?: string;
+  type?: string;
+  mastery_tag?: string;
+  concept_tags?: string[];
+  prompt_es?: string;
+  question_en?: string;
+  stimulus_en?: string;
+  main_text?: string;
+  transcript?: string;
+  options?: { id?: string; text?: string }[];
+  correct_answer?: unknown;
+  explanation?: string;
+  pairs?: { id?: string; left: string; right: string }[];
+  gaps?: { id: string; options: { id?: string; text?: string }[] }[];
+  [key: string]: unknown;
+};
+type C2D1Unit = {
+  course?: { unit_title?: string; unit_id?: string };
+  blocks?: { title?: string; content?: C2D1Interaction[] }[];
+};
+
+async function getC2D1Unit(lessonId: string): Promise<C2D1Unit | null> {
+  const match = /^c2-(\d{2})$/.exec(lessonId);
+  if (!match) return null;
+  const { env } = await resolveCloudflareEnv();
+  const row = await env.DB.prepare(
+    \`SELECT content_json FROM learning_course_json_units
+     WHERE course_key = ? AND level = ? AND unit_number = ? LIMIT 1\`
+  ).bind("ingles-c2", "C2", Number(match[1])).first<{ content_json: string }>();
+  if (!row) return null;
+  const unit = JSON.parse(row.content_json) as C2D1Unit;
+  return Array.isArray(unit.blocks) ? unit : null;
+}
+
+function getC2D1Section(item: C2D1Interaction, blockTitle: string): string {
+  const tags = Array.isArray(item.concept_tags) ? item.concept_tags.join(" ") : "";
+  const source = [item.mastery_tag, tags, blockTitle, item.type].join(" ").toLowerCase();
+  if (/listening|audio|listen/.test(source)) return "listening";
+  if (/reading|comprehension|read/.test(source)) return "reading";
+  if (/vocab|idiom|collocation|word.?formation/.test(source)) return "vocabulary";
+  if (/writing|speaking|production/.test(source)) return "production";
+  return "grammar";
+}
+
+function c2BlankPrompt(mainText: string, blankNumber: number): string {
+  const sentences = mainText.split(/(?<=[.!?])\s+/);
+  const sentence = sentences.find((part) =>
+    new RegExp("\\\\(" + blankNumber + "\\\\)|\\\\[" + blankNumber + "\\\\]|\\\\b" + blankNumber + "\\\\b").test(part)
+  ) ?? mainText;
+  return sentence.replace(
+    new RegExp("\\\\(?" + blankNumber + "\\\\)?\\\\s*(?:_+|\\\\(\\\\s*" + blankNumber + "\\\\s*\\\\)_+)", "g"),
+    "_____"
+  ).trim();
+}
+
+function getC2D1PracticeExercises(unit: C2D1Unit, section: string) {
+  const items = (unit.blocks ?? []).flatMap((block) =>
+    (block.content ?? [])
+      .filter((item) => getC2D1Section(item, String(block.title ?? "")) === section)
+      .map((item) => ({ item, blockTitle: String(block.title ?? "") }))
+  );
+  return items.flatMap(({ item }, itemIndex) => {
+    const id = String(item.interaction_id ?? \`c2-item-\${itemIndex + 1}\`);
+    const type = String(item.type ?? "").toLowerCase();
+    const prompt = [item.stimulus_en, item.question_en, item.prompt_es]
+      .filter((value) => typeof value === "string" && value.trim())
+      .map((value) => plainEnglish(String(value))).join("\\n");
+    const passage = typeof item.main_text === "string" ? plainEnglish(item.main_text)
+      : typeof item.transcript === "string" ? plainEnglish(item.transcript) : null;
+
+    if (/matching|match/i.test(type) && Array.isArray(item.pairs)) {
+      const options = item.pairs.map((pair) => plainEnglish(pair.right));
+      return item.pairs.map((pair, pairIndex) => ({
+        id: id + "__match_" + (pair.id || String(pairIndex + 1)),
+        number: itemIndex * item.pairs!.length + pairIndex + 1,
+        type: "multiple_choice",
+        prompt: plainEnglish(pair.left),
+        options,
+        audioText: null,
+        passageText: null,
+      }));
+    }
+
+    if (Array.isArray(item.gaps) && item.gaps.length) {
+      const answers = item.correct_answer && typeof item.correct_answer === "object"
+        ? item.correct_answer as Record<string, unknown> : {};
+      return item.gaps.map((gap, gapIndex) => ({
+        id: id + "__gap_" + gap.id,
+        number: itemIndex * item.gaps!.length + gapIndex + 1,
+        type: "multiple_choice",
+        prompt: c2BlankPrompt(String(item.main_text ?? prompt), Number(gap.id)) || prompt,
+        options: (gap.options ?? []).map((option) => plainEnglish(String(option.text ?? ""))),
+        audioText: section === "listening" ? passage : null,
+        passageText: section === "reading" ? passage : null,
+      }));
+    }
+
+    if (/cloze|fill.?blanks?/i.test(type) && Array.isArray(item.correct_answer) && item.correct_answer.length) {
+      return item.correct_answer.map((_answer, answerIndex) => ({
+        id: id + "__gap_" + String(answerIndex + 1),
+        number: itemIndex * item.correct_answer!.length + answerIndex + 1,
+        type: "free_text",
+        prompt: c2BlankPrompt(String(item.main_text ?? prompt), answerIndex + 1) || prompt,
+        options: [],
+        audioText: section === "listening" ? passage : null,
+        passageText: section === "reading" ? passage : null,
+      }));
+    }
+
+    const options = (item.options ?? []).map((option) => plainEnglish(String(option.text ?? "")));
+    if (/true.?false/i.test(type)) options.splice(0, options.length, "True", "False");
+    return [{
+      id,
+      number: itemIndex + 1,
+      type: options.length ? "multiple_choice" : "free_text",
+      prompt,
+      options,
+      audioText: section === "listening" ? passage : null,
+      passageText: section === "reading" ? passage : null,
+    }];
+  });
+}
+
+function gradeC2D1Interaction(item: C2D1Interaction, exerciseId: string, submitted: string) {
+  const special = /^(.*)__(gap|match)_([^_]+)$/.exec(exerciseId);
+  let expected: string[] = [];
+  if (special?.[2] === "match") {
+    const pairs = item.pairs ?? [];
+    const pair = pairs.find((candidate, index) =>
+      (candidate.id || String(index + 1)) === special[3]
+    );
+    if (pair) expected = [pair.right];
+  } else if (special?.[2] === "gap") {
+    const answer = item.correct_answer;
+    if (Array.isArray(answer)) {
+      const value = answer[Number(special[3]) - 1];
+      if (value != null) expected = [String(value)];
+    } else if (answer && typeof answer === "object") {
+      const value = (answer as Record<string, unknown>)[special[3]];
+      if (value != null) {
+        const options = item.gaps?.find((gap) => gap.id === special[3])?.options ?? [];
+        expected = [options.find((option) => option.id === String(value))?.text ?? String(value)];
+      }
+    }
+  } else {
+    const answer = item.correct_answer;
+    if (Array.isArray(answer)) expected = answer.map(String);
+    else if (typeof answer === "boolean") expected = [answer ? "True" : "False"];
+    else if (typeof answer === "number") expected = [String(answer)];
+    else if (typeof answer === "string") {
+      expected = [item.options?.find((option) => option.id === answer)?.text ?? answer];
+    }
+  }
+  const normalize = (value: string) => value.trim().replace(/\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, "");
+  const correct = expected.some((value) => normalize(value) === normalize(submitted));
+  return {
+    correct,
+    explanation: plainText(item.explanation) || (expected.length ? "Respuesta correcta: " + expected.join(" / ") : ""),
+  };
+}
+
 export async function GET(request: NextRequest, context: { params: Promise<{ lessonId: string }> }) {
   const { lessonId } = await context.params;
   const section = request.nextUrl.searchParams.get("section") ?? "grammar";
