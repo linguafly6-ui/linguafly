@@ -86,7 +86,7 @@ function expectedText(answer: unknown, options: Option[]): string {
     }).join(" "));
   }
   if (typeof answer === "boolean") return answer ? "True" : "False";
-  return answer == null ? "" : String(answer);
+  return answer == null ? "" : englishBilingualText(String(answer));
 }
 function typeFor(item: Interaction, options: string[]): string {
   const type = item.type.toLowerCase();
@@ -262,12 +262,12 @@ function ensureB1Sections(unit: Unit, n: number, file: string): void {
     const items = unit.blocks.filter((block) => block.content.some((item) => sectionFor(item, block.title) === section))
       .flatMap((block) => block.content.filter((item) => sectionFor(item, block.title) === section));
     if (section === "reading") {
-      const hasPassage = items.some((item) => Boolean(item.main_text || item.transcript || item.stimulus_en));
+      const hasPassage = items.some((item) => Boolean(item.main_text || item.transcript));
       const questionCount = items.filter((item) => item.options?.length).length;
       if (!hasPassage || questionCount < 5) unit.blocks.push(generatedSection(unit, n, "reading"));
     }
     if (section === "listening") {
-      const hasTranscript = items.some((item) => Boolean(item.transcript || item.main_text || item.stimulus_en));
+      const hasTranscript = items.some((item) => Boolean(item.transcript));
       const questionCount = items.filter((item) => item.options?.length).length;
       if (!hasTranscript || questionCount < 5) unit.blocks.push(generatedSection(unit, n, "listening"));
     }
