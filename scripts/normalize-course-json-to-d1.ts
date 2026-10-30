@@ -313,7 +313,7 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
     const filename = `batch-${String(Math.floor(start / chunkSize) + 1).padStart(3, "0")}.sql`;
     fs.writeFileSync(path.join(OUT, filename), statements.slice(start, start + chunkSize).join("\n"));
   }
-  fs.writeFileSync(path.join(OUT, "summary.json"), JSON.stringify(summary, null, 2) + "\\n");
+  fs.writeFileSync(path.join(OUT, "summary.json"), JSON.stringify(summary, null, 2) + "\n");
   console.log(`[course-normalize] Generated ${statements.length} idempotent SQL statements in ${Math.ceil(statements.length / chunkSize)} batches.`);
   console.log(JSON.stringify(summary, null, 2));
 }
