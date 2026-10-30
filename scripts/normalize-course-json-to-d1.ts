@@ -162,7 +162,7 @@ function generatedReading(unit: Unit, n: number): Interaction[] {
     "At first, not everyone agreed with the plan. Some people were worried about the time it would take, while others wanted to see clear results before getting involved. The team listened carefully and changed the schedule so that more people could take part. They also shared regular updates, which helped build trust.",
     "After a few months, the project had become part of the local routine. The most useful lesson was not that every idea worked perfectly, but that people made better decisions when they compared information, discussed different points of view and learned from mistakes. The organisers now recommend starting with one realistic goal and reviewing progress regularly."
   ].join("\n\n");
-  const qs = [
+  const qs: [string, string[], string, string][] = [
     ["What is the main purpose of the text?", ["To describe how a community project developed", "To advertise a new business", "To explain how to apply for a job", "To compare two holiday destinations"], "o1", "The text follows a community project from its beginning to its results."],
     ["Why did some people hesitate at first?", ["They did not understand the language", "They were concerned about the time and wanted evidence", "They had already completed the project", "They preferred to work alone"], "o2", "The text says people worried about the time and wanted clear results."],
     ["What did the organisers do after listening to residents?", ["Cancelled the project", "Ignored the suggestions", "Changed the schedule and shared updates", "Moved the project to another town"], "o3", "They adapted the schedule and communicated progress."],
@@ -220,7 +220,7 @@ function generatedSection(unit: Unit, n: number, section: typeof REQUIRED_B1_SEC
   };
   if (section === "reading") return { block_id: "AUTO_READING", title: titles.reading, duration_minutes: 20, content: generatedReading(unit, n) };
   if (section === "listening") return { block_id: "AUTO_LISTENING", title: titles.listening, duration_minutes: 15, content: generatedListening(unit, n) };
-  const tasks = section === "grammar"
+  const tasks: [string, string[], string][] = section === "grammar"
     ? [
       ["Choose the correct form: If people plan carefully, they ___ better decisions.", ["make", "makes", "making", "made"], "o1"],
       ["Choose the correct sentence.", ["She has worked here since 2022.", "She work here since 2022.", "She is work here since 2022.", "She working here since 2022."], "o1"],
