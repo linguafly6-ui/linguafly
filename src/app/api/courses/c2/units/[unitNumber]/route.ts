@@ -88,6 +88,20 @@ function toExercise(item: CourseInteraction, blockTitle: string, index: number) 
         .find((part) => new RegExp("^\\s*" + Number(gap.id) + "\\.").test(part)) ?? "";
       return makeQuestion(item, line.replace(/^\s*\d+\.\s*/, "") || prompt, options, answerMap[gap.id]);
     });
+  } else if (/cloze|fill.?blanks?/i.test(type) && Array.isArray(item.correct_answer) && item.correct_answer.length) {
+    const passage = String(item.main_text ?? "");
+    const sentences = passage.split(/(?<=[.!?])\s+/);
+    questions = item.correct_answer.map((answer, answerIndex) => {
+      const marker = answerIndex + 1;
+      const sentence = sentences.find((part) =>
+        new RegExp("\\(" + marker + "\\)|\\[" + marker + "\\]|\\b" + marker + "\\b").test(part)
+      ) ?? passage;
+      const questionText = sentence.replace(
+        new RegExp("\\(?" + marker + "\\)?\\s*(?:_+|\\(\\s*" + marker + "\\s*\\)_+)", "g"),
+        "_____"
+      );
+      return makeQuestion(item, questionText || prompt || instruction, [], answer);
+    });
   } else {
     questions = [makeQuestion(item, prompt || instruction || stimulus || questionText)];
   }
