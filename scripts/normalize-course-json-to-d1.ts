@@ -61,7 +61,7 @@ function validateExerciseId(id: string, file: string): void {
 }
 function sectionFor(item: Interaction, blockTitle: string): string {
   const mastery = String(item.mastery_tag ?? "").toLowerCase();
-  if (mastery.startsWith("production:")) return "ignored";
+  if (mastery.startsWith("production:")) return "production";
   for (const section of REQUIRED_B1_SECTIONS) {
     if (mastery.startsWith(section + ":")) return section;
   }
@@ -69,7 +69,7 @@ function sectionFor(item: Interaction, blockTitle: string): string {
   if (/listening|audio|listen/.test(text)) return "listening";
   if (/reading|comprehension|read/.test(text)) return "reading";
   if (/vocab|idiom|word-formation|word formation|collocation/.test(text)) return "vocabulary";
-  if (/production|speaking|writing/.test(text)) return "ignored";
+  if (/production|speaking|writing/.test(text)) return "production";
   return "grammar";
 }
 function promptFor(item: Interaction): string {
@@ -270,7 +270,7 @@ function ensureB1Sections(unit: Unit, n: number, file: string): void {
   // Remove those source activities before building public lesson content or exercises.
   unit.blocks = unit.blocks
     .filter((block) => !/production|speaking|writing/i.test(block.title))
-    .map((block) => ({ ...block, content: block.content.filter((item) => sectionFor(item, block.title) !== "ignored") }))
+    .map((block) => ({ ...block, content: block.content.filter((item) => sectionFor(item, block.title) !== "production") }))
     .filter((block) => block.content.length > 0);
   for (const section of REQUIRED_B1_SECTIONS) {
     const items = unit.blocks
@@ -287,6 +287,9 @@ function ensureB1Sections(unit: Unit, n: number, file: string): void {
     }
   }
   const finalItems = unit.blocks.flatMap((block) => block.content.map((item) => ({ item, section: sectionFor(item, block.title) })));
+  if (unit.blocks.some((block) => /production|speaking|writing/i.test(block.title))) {
+    throw new Error("B1 production content must not be published in " + file);
+  }
   const missing = REQUIRED_B1_SECTIONS.filter((section) => {
     const items = finalItems.filter((entry) => entry.section === section).map((entry) => entry.item);
     return countSectionExercises(items) < 5;
@@ -372,7 +375,7 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
             throw new Error(`Missing interaction_id in ${levelConfig.folder}/${file.name}`);
           }
           const section = sectionFor(item, block.title);
-          if (section === "ignored") continue;
+          if (levelConfig.level === "B1" && section === "production") continue;
           const sourceMeta = { blockId: block.block_id ?? "", blockTitle: block.title, masteryTag: item.mastery_tag ?? "", conceptTags: item.concept_tags ?? [] };
           const baseOptions = optionTexts(item.options ?? []);
           const audioText = englishBilingualText(String(item.transcript || (section === "listening" ? item.main_text || item.stimulus_en || "" : section === "reading" ? item.main_text || item.transcript || item.stimulus_en || "" : "")));
