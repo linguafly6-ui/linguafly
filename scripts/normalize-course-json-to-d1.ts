@@ -24,7 +24,6 @@ if (argIndex < 0 || !process.argv[argIndex + 1]) {
   process.exit(1);
 }
 const OUT = path.resolve(process.argv[argIndex + 1]);
-const RESET_TEST_PROGRESS = process.argv.includes("--reset-test-progress");
 
 type Option = { id?: string; text?: string };
 type Interaction = {
@@ -337,16 +336,6 @@ VALUES (${sqlString(lessonId)}, ${sqlString(levelConfig.courseId)}, ${unitNumber
   ${sqlString(unit.course.unit_title)}, ${sqlString(objective)}, ${estimated}, ${sqlString(json(safeContent))}, 1)
 ON CONFLICT(id) DO UPDATE SET title = excluded.title, objective = excluded.objective,
 estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_json, published = 1;`);
-
-      if (RESET_TEST_PROGRESS) {
-        // Explicitly opt-in, test-only reset. Delete dependent history first.
-        statements.push(`DELETE FROM learning_review_history WHERE lesson_id = ${sqlString(lessonId)};`);
-        statements.push(`DELETE FROM learning_review_items WHERE lesson_id = ${sqlString(lessonId)};`);
-        statements.push(`DELETE FROM learning_exercise_progress WHERE lesson_id = ${sqlString(lessonId)};`);
-        statements.push(`DELETE FROM learning_lesson_progress WHERE lesson_id = ${sqlString(lessonId)};`);
-        statements.push(`DELETE FROM learning_writing_drafts WHERE lesson_id = ${sqlString(lessonId)};`);
-        statements.push(`DELETE FROM learning_exercises WHERE lesson_id = ${sqlString(lessonId)};`);
-      }
 
       let exerciseNumber = 0;
       const seenIds = new Set<string>();
