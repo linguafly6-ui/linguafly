@@ -6,7 +6,6 @@ import { resolveCloudflareEnv } from "@/lib/db/client";
 import { getA1LegacyUnit, type A1LegacyItem as LegacyItem, type A1LegacyUnit as LegacyUnit } from "@/lib/learning/a1-legacy-units";
 import { getLegacyAdvancedUnit, getLegacyAdvancedItem, getLegacyAdvancedSection, type LegacyAdvancedItem } from "@/lib/learning/legacy-advanced-units";
 import { C1_COURSE } from "@/lib/course/c1";
-import { C2_COURSE } from "@/lib/course/c2";
 
 const sectionNames = new Set(["grammar", "vocabulary", "listening", "reading", "production"]);
 
@@ -58,28 +57,6 @@ function advancedPrompt(item: LegacyAdvancedItem): string {
   return [item.question_en, item.stimulus_en, item.prompt_es].map(advancedPlainText).find(Boolean) ?? "";
 }
 
-
-function getC2CatalogExercise(lessonId: string, exerciseId: string) {
-  const match = /^c2-(\d{2})$/.exec(lessonId);
-  if (!match) return null;
-  const unit = C2_COURSE.units.find((candidate) => candidate.id === Number(match[1]));
-  return unit?.exercises.find((exercise) => exercise.id === exerciseId) ?? null;
-}
-
-function c2ExerciseSection(exercise: { topicName?: string }): string | null {
-  const section = (exercise.topicName ?? "").toLowerCase();
-  return ["grammar", "vocabulary", "listening", "reading"].includes(section) ? section : null;
-}
-
-function c2Question(exercise: { content: any }) {
-  return exercise.content?.questions?.[0] ?? null;
-}
-
-function c2Options(question: any): string[] {
-  return Array.isArray(question?.options) ? question.options.map((option: unknown) =>
-    typeof option === "string" ? plainEnglish(option) : String(option ?? "")
-  ) : [];
-}
 
 function getC1CatalogExercise(lessonId: string, exerciseId: string) {
   const match = /^c1-(\d{2})$/.exec(lessonId);
@@ -222,30 +199,12 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
 
 
 
-  const c2Match = /^c2-(\d{2})$/.exec(lessonId);
+  const c2Match = /^c2-(\\d{2})$/.exec(lessonId);
   if (c2Match) {
-    const unit = C2_COURSE.units.find((candidate) => candidate.id === Number(c2Match[1]));
-    if (!unit) return NextResponse.json({ error: "Unidad C2 no disponible." }, { status: 404 });
-    const selected = unit.exercises.filter((exercise) => c2ExerciseSection(exercise) === section);
-    return NextResponse.json({ exercises: selected.map((exercise, index) => {
-      const question = c2Question(exercise);
-      const options = c2Options(question);
-      const parts = [
-        typeof exercise.content?.instructions === "string" ? plainEnglish(exercise.content.instructions) : "",
-        typeof question?.question === "string" ? plainEnglish(question.question) : "",
-        typeof question?.sentence === "string" ? plainEnglish(question.sentence) : "",
-        typeof question?.keyWord === "string" ? "KEY WORD: " + question.keyWord : "",
-        typeof question?.startOfAnswer === "string" ? "Start your answer: " + plainEnglish(question.startOfAnswer) : "",
-      ].filter(Boolean);
-      const type = options.length ? "multiple_choice"
-        : /open-cloze|fill-blank|gap-fill/i.test(exercise.type) ? "fill_blank" : "free_text";
-      const transcript = typeof exercise.transcript === "string" ? plainEnglish(exercise.transcript) : null;
-      return {
-        id: exercise.id, number: index + 1, type, prompt: parts.join("\n"),
-        options, audioText: section === "listening" ? transcript : null,
-        passageText: section === "reading" ? transcript : null,
-      };
-    }) });
+    const exercises = await getNormalizedD1Exercises(lessonId, section);
+    return NextResponse.json({ exercises: exercises ?? [] }, {
+      headers: { "Cache-Control": "no-store" },
+    });
   }
 
   const c1Match = /^c1-(\d{2})$/.exec(lessonId);
@@ -411,25 +370,6 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
 
 
 
-  const c2MatchForGrading = /^c2-(\d{2})$/.exec(lessonId);
-  if (c2MatchForGrading) {
-    const exercise = getC2CatalogExercise(lessonId, payload.exerciseId);
-    if (!exercise) return NextResponse.json({ error: "Ejercicio C2 no encontrado." }, { status: 404 });
-    const question = c2Question(exercise);
-    if (!question) return NextResponse.json({ error: "El ejercicio no contiene una pregunta corregible." }, { status: 422 });
-    const options = c2Options(question);
-    const rawCorrect = question.correctAnswer;
-    const expected = typeof rawCorrect === "number"
-      ? options[rawCorrect] ?? ""
-      : typeof rawCorrect === "string" ? plainEnglish(rawCorrect) : "";
-    const accepted = [expected, ...(Array.isArray(question.acceptableAnswers)
-      ? question.acceptableAnswers.map((value: unknown) => plainEnglish(String(value))) : [])].filter(Boolean);
-    const normalize = (value: string) => value.trim().replace(/\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, "");
-    const correct = accepted.some((answer) => normalize(payload.answer as string) === normalize(answer));
-    const explanation = typeof question.explanation === "string" ? plainEnglish(question.explanation) : "";
-    return NextResponse.json({ correct, explanation, review: null, authenticated: false });
-  }
-
   const c1MatchForGrading = /^c1-(\d{2})$/.exec(lessonId);
   if (c1MatchForGrading) {
     const exercise = getC1CatalogExercise(lessonId, payload.exerciseId);
@@ -530,6 +470,9 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
       }
     } catch (error) {
       console.error("[learning/exercises] D1 normalized grading failed; using legacy source:", error);
+    }
+    if (lessonId.startsWith("c2-")) {
+      return NextResponse.json({ error: "Ejercicio C2 no encontrado en D1." }, { status: 404 });
     }
     const specialMatch = /^(.*)__(gap|match)_([^_]+)$/.exec(payload.exerciseId);
     const item = getLegacyAdvancedItem(lessonId, specialMatch ? specialMatch[1] : payload.exerciseId);
