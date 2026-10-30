@@ -1,0 +1,90 @@
+name: Sync C2 content to linguafly-preview D1
+
+on:
+  push:
+    branches:
+      - review/c2-course-100-units
+    paths:
+      - "src/content/cursos/ingles-c2/**"
+      - "scripts/sync-course-json-to-d1.ts"
+      - "scripts/sync-c2-catalog-to-d1.ts"
+      - "migrations/d1/202610290074_course_json_units.sql"
+      - "wrangler.jsonc"
+      - ".github/workflows/sync-c2-preview-d1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: c2-preview-d1-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create the lossless course-unit table in preview D1
+        run: npx wrangler d1 execute linguafly-preview --remote --file=migrations/d1/202610290074_course_json_units.sql --yes
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CI: true
+
+      - name: Generate canonical course JSON batches
+        run: npx tsx scripts/sync-course-json-to-d1.ts --sql-out-dir /tmp/c2-preview-d1-seed
+
+      - name: Sync canonical JSON into preview D1
+        run: |
+          shopt -s nullglob
+          files=(/tmp/c2-preview-d1-seed/batch-*.sql)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "::error::No course JSON batches were generated."
+            exit 1
+          fi
+          for file in "${files[@]}"; do
+            npx wrangler d1 execute linguafly-preview --remote --file="$file" --yes
+          done
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CI: true
+
+      - name: Generate missing C2 catalog rows
+        run: npx tsx scripts/sync-c2-catalog-to-d1.ts --sql-out-dir /tmp/c2-catalog-d1-seed
+
+      - name: Insert missing C2 units into preview D1
+        run: |
+          shopt -s nullglob
+          files=(/tmp/c2-catalog-d1-seed/batch-*.sql)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "::error::No C2 catalog batches were generated."
+            exit 1
+          fi
+          for file in "${files[@]}"; do
+            npx wrangler d1 execute linguafly-preview --remote --file="$file" --yes
+          done
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CI: true
+
+      - name: Verify C2 unit count in preview D1
+        run: npx wrangler d1 execute linguafly-preview --remote --command="SELECT COUNT(*) AS c2_units FROM learning_course_json_units WHERE course_key = 'ingles-c2' AND level = 'C2'" --json
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CI: true

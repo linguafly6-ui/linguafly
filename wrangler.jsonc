@@ -64,7 +64,7 @@
     "d1_databases": [
       {
         "binding": "DB",
-        "database_name": "linguafly preview",
+        "database_name": "linguafly-preview",
         "database_id": "b159641b-1910-49ec-b2ed-fbfae2440377",
         "migrations_dir": "migrations/d1"
       }

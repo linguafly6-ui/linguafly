@@ -1,6 +1,7 @@
 import { UnitData, PremiumInteraction, PremiumBlock, A1CourseMetadata, UnitMetadata } from '@/types/premium-course';
 import { UserPerformanceRecord } from '../course-engine/adaptive';
 import { extractUnitMetadata } from '@/lib/utils/course-metadata';
+import { resolveCloudflareEnv } from '@/lib/db/client';
 import fs from 'fs';
 import path from 'path';
 
@@ -196,7 +197,24 @@ export const premiumCourseServerService = {
   },
 
   async getC2UnitsWithMetadata(): Promise<A1CourseMetadata> {
-    return this.getUnitsWithMetadata('ingles-c2');
+    const { env } = await resolveCloudflareEnv();
+    const result = await env.DB.prepare(
+      `SELECT content_json
+       FROM learning_course_json_units
+       WHERE course_key = ? AND level = ?
+       ORDER BY unit_number ASC`
+    ).bind('ingles-c2', 'C2').all<{ content_json: string }>();
+
+    const units: UnitMetadata[] = [];
+    let totalDuration = 0;
+    for (const row of result.results ?? []) {
+      const unitData: UnitData = JSON.parse(row.content_json);
+      const metadata = extractUnitMetadata(unitData);
+      units.push(metadata);
+      totalDuration += metadata.estimatedDuration;
+    }
+
+    return { totalUnits: units.length, totalDuration, units };
   },
 
   async getUnitsWithMetadata(courseId: string): Promise<A1CourseMetadata> {

@@ -38,7 +38,6 @@ const EXCLUDED_APP_DIRS = [
   'curso-b1',
   'curso-b2',
   'curso-c1',
-  'curso-c2',
   'curso-camarero-a1',
   'curso-camarero-a2',
   'curso-camarero-b1',
