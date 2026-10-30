@@ -45,10 +45,7 @@
       }
     }
   ],
-  // D1 (SQLite) — origen de verdad del contenido público.
-  // Migraciones: wrangler d1 migrations apply blog --remote
-  "previews": {
-    "d1_databases": [
+  "d1_databases": [
       {
         "binding": "DB",
         "database_id": "b159641b-1910-49ec-b2ed-fbfae2440377"
@@ -78,8 +75,7 @@
     {
       "binding": "COURSE_DB",
       "database_name": "linguafly-preview",
-      "database_id": "b159641b-1910-49ec-b2ed-fbfae2440377",
-      "migrations_dir": "migrations/d1"
+      "database_id": "b159641b-1910-49ec-b2ed-fbfae2440377"
     }
   ],
   // Configuración aislada para Cloudflare Preview. No usar la D1 de producción.
@@ -94,8 +90,7 @@
       {
         "binding": "COURSE_DB",
         "database_name": "linguafly-preview",
-        "database_id": "b159641b-1910-49ec-b2ed-fbfae2440377",
-        "migrations_dir": "migrations/d1"
+        "database_id": "b159641b-1910-49ec-b2ed-fbfae2440377"
       }
     ],
     // Deshabilitado en Preview: no se autoriza el envío de correos desde pruebas.
