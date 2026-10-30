@@ -38,6 +38,11 @@ jobs:
           SEED_DIR=/tmp/d1-normalized-seed
           npx tsx scripts/normalize-course-json-to-d1.ts --sql-out-dir "$SEED_DIR"
           test -n "$(find "$SEED_DIR" -maxdepth 1 -name 'batch-*.sql' -print -quit)"
+          unit_count="$(find src/content/cursos/ingles-b1 -maxdepth 1 -type f -name 'unit*.json' | wc -l | tr -d ' ')"
+          if [ "$unit_count" -ne 60 ]; then
+            echo "::error::Expected exactly 60 B1 source units; found $unit_count."
+            exit 1
+          fi
           if grep -R -nE "undefined|NaN" "$SEED_DIR"; then
             echo "::error::Generated SQL contains a suspicious missing value."
             exit 1
