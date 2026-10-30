@@ -45,26 +45,8 @@
       }
     }
   ],
-  "d1_databases": [
-      {
-        "binding": "DB",
-        "database_id": "b159641b-1910-49ec-b2ed-fbfae2440377"
-      }
-    ],
-    "ratelimits": [
-      {
-        "name": "AI_RATE_LIMITER",
-        "namespace_id": "610154782",
-        "simple": {
-          "limit": 30,
-          "period": 60
-        }
-      }
-    ],
-    "images": {
-      "binding": "IMAGES"
-    }
-  },
+  // D1 (SQLite) — origen de verdad del contenido público.
+  // Migraciones: wrangler d1 migrations apply blog --remote
   "d1_databases": [
     {
       "binding": "DB",
