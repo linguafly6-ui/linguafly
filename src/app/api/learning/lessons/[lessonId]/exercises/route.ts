@@ -363,7 +363,7 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
 
 
 
-  const c2Match = /^c2-(\\d{2})$/.exec(lessonId);
+  const c2Match = /^c2-(\d{2})$/.exec(lessonId);
   if (c2Match) {
     try {
       const unit = await getC2D1Unit(lessonId);
