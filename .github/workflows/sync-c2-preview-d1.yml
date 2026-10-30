@@ -7,6 +7,7 @@ on:
     paths:
       - "src/content/cursos/ingles-c2/**"
       - "scripts/sync-course-json-to-d1.ts"
+      - "scripts/sync-c2-catalog-to-d1.ts"
       - "migrations/d1/202610290074_course_json_units.sql"
       - "wrangler.jsonc"
       - ".github/workflows/sync-c2-preview-d1.yml"
@@ -62,8 +63,27 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CI: true
 
+      - name: Generate missing C2 catalog rows
+        run: npx tsx scripts/sync-c2-catalog-to-d1.ts --sql-out-dir /tmp/c2-catalog-d1-seed
+
+      - name: Insert missing C2 units into preview D1
+        run: |
+          shopt -s nullglob
+          files=(/tmp/c2-catalog-d1-seed/batch-*.sql)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "::error::No C2 catalog batches were generated."
+            exit 1
+          fi
+          for file in "${files[@]}"; do
+            npx wrangler d1 execute linguafly-preview --remote --file="$file" --yes
+          done
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CI: true
+
       - name: Verify C2 unit count in preview D1
-        run: npx wrangler d1 execute linguafly-preview --remote --command="SELECT 'json_mirror' AS source, COUNT(*) AS records FROM learning_course_json_units WHERE course_key = 'ingles-c2' AND level = 'C2' UNION ALL SELECT 'learning_lessons', COUNT(*) FROM learning_lessons WHERE course_id = 'english-c2' UNION ALL SELECT 'learning_exercises', COUNT(DISTINCT lesson_id) FROM learning_exercises WHERE lesson_id LIKE 'c2-%'" --json
+        run: npx wrangler d1 execute linguafly-preview --remote --command="SELECT COUNT(*) AS c2_units FROM learning_course_json_units WHERE course_key = 'ingles-c2' AND level = 'C2'" --json
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
