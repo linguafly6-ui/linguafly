@@ -43,7 +43,7 @@ jobs:
             exit 1
           fi
           for section in grammar vocabulary listening reading production; do
-            if ! grep -R -q "''$section''" "$SEED_DIR"; then
+            if ! grep -R -q "'$section'" "$SEED_DIR"; then
               echo "::error::Normalized course data is missing the required B1 section: $section"
               exit 1
             fi
