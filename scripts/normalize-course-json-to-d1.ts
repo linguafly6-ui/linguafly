@@ -3,11 +3,12 @@
  * learning_lessons and learning_exercises. A1/A2 are intentionally excluded:
  * their curated D1 exercise IDs and learner history require a separate mapping.
  *
- * Usage: npx tsx scripts/normalize-course-json-to-d1.ts --sql-out-dir /tmp/d1-normalized-seed [--reset-test-progress]
+ * Usage: npx tsx scripts/normalize-course-json-to-d1.ts --sql-out-dir /tmp/d1-normalized-seed [--levels B1,B2] [--reset-test-progress]
  * This generates idempotent SQL; it does not connect to D1.
  */
 import fs from "node:fs";
 import path from "node:path";
+import { getLegacyB1ListeningExercises } from "../src/lib/learning/legacy-b1-listening";
 
 const ROOT = path.join(import.meta.dirname, "..");
 const SOURCE_ROOT = path.join(ROOT, "src", "content", "cursos");
@@ -25,6 +26,12 @@ if (argIndex < 0 || !process.argv[argIndex + 1]) {
 }
 const OUT = path.resolve(process.argv[argIndex + 1]);
 const RESET_TEST_PROGRESS = process.argv.includes("--reset-test-progress");
+const levelsArgIndex = process.argv.findIndex((arg) => arg === "--levels");
+const requestedLevels = levelsArgIndex >= 0 ? (process.argv[levelsArgIndex + 1] ?? "").split(",").map((level) => level.trim().toUpperCase()).filter(Boolean) : null;
+if (requestedLevels && (!requestedLevels.length || requestedLevels.some((level) => !LEVELS.some((config) => config.level === level)))) {
+  throw new Error("--levels must contain one or more of: B1, B2, C1, C2");
+}
+const SELECTED_LEVELS = requestedLevels ? LEVELS.filter((config) => requestedLevels.includes(config.level)) : LEVELS;
 
 type Option = { id?: string; text?: string };
 type Interaction = {
@@ -138,7 +145,7 @@ function distinctPrompt(prompt: string, section: string, seen: Map<string, numbe
 function main() {
   const statements: string[] = [];
   const summary: Record<string, { units: number; exercises: number; bySection: Record<string, number> }> = {};
-  for (const levelConfig of LEVELS) {
+  for (const levelConfig of SELECTED_LEVELS) {
     const dir = path.join(SOURCE_ROOT, levelConfig.folder);
     if (!fs.existsSync(dir)) throw new Error(`Missing canonical course folder: ${levelConfig.folder}`);
     const files = fs.readdirSync(dir).map((name) => {
@@ -294,6 +301,57 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
           summary[levelConfig.level].bySection[section] = (summary[levelConfig.level].bySection[section] ?? 0) + 1;
         }
       }
+      // The newer B1 JSON units do not carry the original 15-question
+      // Listening lesson. Restore it from the preserved lesson modules only
+      // when the canonical JSON has no Listening content, avoiding duplicates.
+      const hasCanonicalListening = unit.blocks.some((block) =>
+        block.content.some((item) => sectionFor(item, block.title) === "listening")
+      );
+      if (levelConfig.level === "B1" && !hasCanonicalListening) {
+        const legacyListening = getLegacyB1ListeningExercises(unitNumber);
+        for (const legacyExercise of legacyListening) {
+          const question = legacyExercise.content?.questions?.[0];
+          if (!question) continue;
+          const id = legacyExercise.id;
+          validateExerciseId(id, `legacy B1 Listening unit ${unitNumber}`);
+          if (seenIds.has(id)) throw new Error(`Duplicate legacy Listening exercise ID ${id}`);
+          seenIds.add(id);
+          exerciseNumber++;
+
+          const options = question.options.map(String);
+          const answerIndex = typeof question.correctAnswer === "number"
+            ? question.correctAnswer
+            : Number(question.correctAnswer);
+          const correct = Number.isInteger(answerIndex) && answerIndex >= 0 && answerIndex < options.length
+            ? options[answerIndex]
+            : String(question.correctAnswer ?? "");
+          const transcript = String(legacyExercise.transcript ?? "");
+          const prompt = String(question.question ?? "");
+          const explanation = String(question.explanation ?? "");
+          statements.push(exerciseStatement(
+            lessonId,
+            id,
+            exerciseNumber,
+            "listening",
+            "multiple_choice",
+            distinctPrompt(prompt, "listening", seenPrompts),
+            options,
+            correct,
+            explanation || (correct ? `Respuesta correcta: ${correct}` : ""),
+            {
+              source: "legacy-b1-listening",
+              sourceInteractionId: id,
+              sourceType: "listening",
+              unitNumber,
+            },
+            transcript
+          ));
+          summary[levelConfig.level].exercises++;
+          summary[levelConfig.level].bySection.listening =
+            (summary[levelConfig.level].bySection.listening ?? 0) + 1;
+        }
+      }
+
       if (!exerciseNumber) throw new Error(`No exercises found in ${levelConfig.folder}/${file.name}`);
     }
   }

@@ -134,6 +134,7 @@ import c2unit2 from "@/content/cursos/ingles-c2/unit2.json";
 import c2unit3 from "@/content/cursos/ingles-c2/unit3.json";
 import c2unit4 from "@/content/cursos/ingles-c2/unit4.json";
 import c2unit5 from "@/content/cursos/ingles-c2/unit5.json";
+import { getLegacyB1ListeningExercises } from "./legacy-b1-listening";
 
 export type LegacyAdvancedItem = {
   interaction_id: string;
@@ -301,7 +302,49 @@ const units: Record<string, Record<number, LegacyAdvancedUnit>> = {
   },
 };
 export function getLegacyAdvancedUnit(level: string, unitNumber: number): LegacyAdvancedUnit | null {
-  return units[level.toLowerCase()]?.[unitNumber] ?? null;
+  const normalizedLevel = level.toLowerCase();
+  const unit = units[normalizedLevel]?.[unitNumber] ?? null;
+  if (!unit || normalizedLevel !== "b1") return unit;
+
+  // Preserve the current JSON curriculum and append the original Listening
+  // lesson only when the canonical unit does not already contain one.
+  const alreadyHasListening = unit.blocks.some((block) =>
+    block.content.some((item) => getLegacyAdvancedSection(item, block.title) === "listening")
+  );
+  if (alreadyHasListening) return unit;
+
+  const listeningItems: LegacyAdvancedItem[] = getLegacyB1ListeningExercises(unitNumber)
+    .flatMap((exercise) => {
+      const question = exercise.content?.questions?.[0];
+      if (!question) return [];
+      const correctAnswer = question.correctAnswer;
+      return [{
+        interaction_id: exercise.id,
+        type: "listening-comprehension",
+        mastery_tag: "listening",
+        concept_tags: ["listening", "b1"],
+        question_en: question.question,
+        prompt_es: question.question,
+        options: question.options.map((text, index) => ({ id: String(index), text })),
+        // Numeric legacy answers are option indexes; True/False answers are literal text.
+        correct_answer: typeof correctAnswer === "number" ? String(correctAnswer) : String(correctAnswer ?? ""),
+        explanation: question.explanation ?? "",
+        transcript: exercise.transcript ?? "",
+      }];
+    });
+
+  if (!listeningItems.length) return unit;
+  return {
+    ...unit,
+    blocks: [
+      ...unit.blocks,
+      {
+        block_id: `B1_U${unitNumber}_LISTENING`,
+        title: "Listening",
+        content: listeningItems,
+      },
+    ],
+  };
 }
 export function getLegacyAdvancedItem(lessonId: string, exerciseId: string): LegacyAdvancedItem | null {
   const match = /^(b1|b2|c1|c2)-(\d{2})$/.exec(lessonId);
