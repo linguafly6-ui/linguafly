@@ -113,7 +113,7 @@ function getPrompt(item: LegacyItem): string {
 }
 
 function getB1Exercise(lessonId: string, exerciseId: string) {
-  const match = /^b1-(\\d{2})$/.exec(lessonId);
+  const match = /^b1-(\d{2})$/.exec(lessonId);
   if (!match) return null;
   const unit = B1_COURSE.units.find((item) => item.id === Number(match[1]));
   return unit?.exercises.find((exercise) => exercise.id === exerciseId) ?? null;
@@ -198,7 +198,7 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
   if (!sectionNames.has(section)) return NextResponse.json({ error: "Sección no válida." }, { status: 400 });
 
 
-  const b1Match = /^b1-(\\d{2})$/.exec(lessonId);
+  const b1Match = /^b1-(\d{2})$/.exec(lessonId);
   if (b1Match) {
     const unit = B1_COURSE.units.find((item) => item.id === Number(b1Match[1]));
     if (!unit) return NextResponse.json({ error: "Unidad B1 no disponible." }, { status: 404 });
@@ -347,7 +347,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
   }
 
 
-  if (/^b1-\\d{2}$/.test(lessonId)) {
+  if (/^b1-\d{2}$/.test(lessonId)) {
     const exercise = getB1Exercise(lessonId, payload.exerciseId);
     if (!exercise) return NextResponse.json({ error: "Ejercicio B1 no encontrado." }, { status: 404 });
     const expected = b1ExpectedAnswer(exercise);
