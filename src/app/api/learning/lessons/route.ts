@@ -5,7 +5,6 @@ import a2LearningSections from "@/content/cursos/ingles-a2/aprender-sections.jso
 import { getLegacyAdvancedUnit, getLegacyAdvancedSection } from "@/lib/learning/legacy-advanced-units";
 import { a2Units } from "@/lib/learning/a2-units";
 import { C1_COURSE } from "@/lib/course/c1";
-import { C2_COURSE } from "@/lib/course/c2";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
