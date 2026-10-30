@@ -3,7 +3,6 @@ import { resolveCloudflareEnv } from "@/lib/db/client";
 import a1LearningSections from "@/content/cursos/ingles-a1/aprender-sections.json";
 import a2LearningSections from "@/content/cursos/ingles-a2/aprender-sections.json";
 import { getLegacyAdvancedUnit, getLegacyAdvancedSection } from "@/lib/learning/legacy-advanced-units";
-import { B1_COURSE } from "@/lib/course/b1";
 import { a2Units } from "@/lib/learning/a2-units";
 
 
@@ -32,33 +31,81 @@ function normalizeCourseSections(value: unknown): unknown {
 }
 
 
-function buildStaticB1Lessons(): CourseResponse {
-  const lessons: Lesson[] = B1_COURSE.units.map((unit) => {
-    const objective = `Practicar inglés B1: ${unit.title}.`;
+type Lesson = {
+  id: string;
+  number: number;
+  unit: number;
+  title: string;
+  objective: string;
+  estimated_minutes: number;
+  content?: { sections?: unknown[]; objective?: string; reviewEnabled?: boolean };
+};
+type CourseResponse = {
+  course: { id: string; title: string; level: string; description: string; lesson_count: number } | null;
+  lessons: Lesson[];
+};
+
+const ADVANCED_LEVELS = ["B1", "B2", "C1", "C2"] as const;
+
+function buildStaticAdvancedLessons(level: (typeof ADVANCED_LEVELS)[number]): CourseResponse {
+  const levelKey = level.toLowerCase();
+  const lessons: Lesson[] = [];
+  for (let unitNumber = 1; unitNumber <= 60; unitNumber += 1) {
+    const unit = getLegacyAdvancedUnit(levelKey, unitNumber);
+    if (!unit) continue;
     const sectionTypes = ["grammar", "vocabulary", "listening", "reading"] as const;
     const titles: Record<(typeof sectionTypes)[number], string> = {
-      grammar: "Gramática", vocabulary: "Vocabulario",
-      listening: "Comprensión auditiva", reading: "Comprensión lectora",
+      grammar: "Gramática",
+      vocabulary: "Vocabulario",
+      listening: "Comprensión auditiva",
+      reading: "Comprensión lectora",
     };
     const sections = sectionTypes.map((type) => {
-      const items = unit.exercises.filter((exercise) => exercise.topicName.toLowerCase() === type);
-      const body = items.map((exercise) => exercise.content?.questions?.[0]?.question).filter(Boolean).join("\\n");
-      const first = items[0];
+      const items = unit.blocks.flatMap((block) => block.content
+        .filter((item) => getLegacyAdvancedSection(item, block.title) === type)
+        .map((item) => ({ item, blockTitle: block.title })));
+      const firstItem = items[0]?.item;
       return {
-        type, title: titles[type], body: body || titles[type],
-        ...(type === "grammar" ? { example: first?.content?.questions?.[0]?.question ?? "" } : {}),
-        ...(type === "listening" && first?.transcript ? { audioText: first.transcript, transcript: first.transcript } : {}),
+        type,
+        title: titles[type],
+        body: items.map(({ item, blockTitle }) =>
+          [blockTitle, item.prompt_es, item.stimulus_en, item.question_en, item.main_text, item.transcript]
+            .filter(Boolean).join(" · ")
+        ).join("\\n") || (type === "listening" ? "Comprensión auditiva" : ""),
+        example: type === "grammar" ? firstItem?.stimulus_en ?? "" : "",
+        audioText: type === "listening"
+          ? (typeof firstItem?.transcript === "string" ? firstItem.transcript : firstItem?.stimulus_en ?? "")
+          : undefined,
+        transcript: type === "listening" && typeof firstItem?.transcript === "string"
+          ? firstItem.transcript
+          : undefined,
       };
-    });
-    return {
-      id: `b1-${String(unit.id).padStart(2, "0")}`, number: unit.id, unit: unit.id,
-      title: unit.title, objective, estimated_minutes: 30,
+    }).filter((section) => section.body);
+    const objective = unit.learning_outcomes?.join(" · ") || `Practicar inglés de nivel ${level}.`;
+    lessons.push({
+      id: `${levelKey}-${String(unitNumber).padStart(2, "0")}`,
+      number: unitNumber,
+      unit: unitNumber,
+      title: unit.course.unit_title,
+      objective,
+      estimated_minutes: unit.course.total_duration_minutes ?? 30,
       content: { objective, sections, reviewEnabled: true },
-    };
-  });
+    });
+  }
+  const titles: Record<(typeof ADVANCED_LEVELS)[number], string> = {
+    B1: "English B1: Independent User",
+    B2: "English B2: Upper Intermediate",
+    C1: "English C1: Advanced",
+    C2: "English C2: Proficiency",
+  };
   return {
-    course: { id: "english-b1", title: "English B1: Independent User", level: "B1",
-      description: "Curso B1 con gramática, vocabulario, comprensión auditiva y lectura.", lesson_count: lessons.length },
+    course: {
+      id: `english-${levelKey}`,
+      title: titles[level],
+      level,
+      description: `Curso ${level} con unidades completas y práctica por destreza.`,
+      lesson_count: lessons.length,
+    },
     lessons,
   };
 }
@@ -69,8 +116,13 @@ export async function GET(request: NextRequest) {
     .toUpperCase()
     .slice(0, 8);
 
-  // All advanced levels use the canonical JSON units via getLegacyAdvancedUnit.
-  // Avoid the old partial static B1 outline, which hid most canonical units.
+  // Serve the complete canonical unit catalogue independently of D1 publication.
+  // Exercise endpoints still prefer normalized D1 records and fall back to source JSON.
+  if ((ADVANCED_LEVELS as readonly string[]).includes(level)) {
+    return NextResponse.json(buildStaticAdvancedLessons(level as (typeof ADVANCED_LEVELS)[number]), {
+      headers: { "Cache-Control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600" },
+    });
+  }
 
   try {
 
