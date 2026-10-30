@@ -167,7 +167,8 @@ async function getA1Items(lessonId: string) {
 async function getNormalizedD1Exercises(lessonId: string, section: string) {
   try {
     const { env } = await resolveCloudflareEnv();
-    const result = await env.DB.prepare(
+    const courseDb = env.COURSE_DB ?? env.DB;
+    const result = await courseDb.prepare(
       `SELECT id, exercise_number, exercise_type, prompt, options_json, section_type, audio_text
        FROM learning_exercises WHERE lesson_id = ? AND section_type = ? ORDER BY exercise_number ASC`
     ).bind(lessonId, section).all<Record<string, unknown>>();
