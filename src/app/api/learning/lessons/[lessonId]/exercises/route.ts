@@ -229,6 +229,20 @@ async function getC2D1Unit(lessonId: string): Promise<C2D1Unit | null> {
 }
 
 function getC2D1Section(item: C2D1Interaction, blockTitle: string): string {
+  // Respect the authored C2 lesson slot instead of guessing from titles/tags.
+  const lessonMatch = /^c2-u\\d+-l([1-6])-\\d+$/i.exec(String(item.interaction_id ?? ""));
+  if (lessonMatch) {
+    const lessonSections: Record<string, string> = {
+      "1": "grammar",
+      "2": "vocabulary",
+      "3": "reading",
+      "4": "listening",
+      "5": "production",
+      "6": "production",
+    };
+    return lessonSections[lessonMatch[1]];
+  }
+
   const tags = Array.isArray(item.concept_tags) ? item.concept_tags.join(" ") : "";
   const source = [item.mastery_tag, tags, blockTitle, item.type].join(" ").toLowerCase();
   if (/listening|audio|listen/.test(source)) return "listening";
