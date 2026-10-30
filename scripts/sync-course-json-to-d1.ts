@@ -19,6 +19,10 @@ if (outputArg < 0 || !process.argv[outputArg + 1]) {
   process.exit(1);
 }
 const OUT = path.resolve(process.argv[outputArg + 1]);
+const levelsArg = process.argv.findIndex((arg) => arg === "--levels");
+const selectedLevels = levelsArg >= 0 && process.argv[levelsArg + 1]
+  ? new Set(process.argv[levelsArg + 1].split(",").map((level) => level.trim().toUpperCase()).filter(Boolean))
+  : null;
 
 function sqlString(value: string): string {
   return "'" + value.replace(/'/g, "''") + "'";
@@ -42,6 +46,13 @@ function main() {
   }> = [];
 
   for (const courseKey of courseDirs) {
+    if (selectedLevels) {
+      const dir = path.join(SOURCE_ROOT, courseKey);
+      const firstFile = fs.readdirSync(dir).find((file) => unitNumberFromFile(file) !== null);
+      if (!firstFile) continue;
+      const sample = JSON.parse(fs.readFileSync(path.join(dir, firstFile), "utf8"));
+      if (!selectedLevels.has(String(sample.course?.level ?? "").toUpperCase())) continue;
+    }
     const dir = path.join(SOURCE_ROOT, courseKey);
     const files = fs.readdirSync(dir)
       .filter((file) => unitNumberFromFile(file) !== null)
