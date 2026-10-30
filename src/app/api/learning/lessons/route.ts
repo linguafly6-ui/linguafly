@@ -131,7 +131,7 @@ export async function GET(request: NextRequest) {
                 const firstItem = items[0]?.item;
                 return {
                   type, title: titles[type],
-                  body: items.map(({ item, blockTitle }) => [blockTitle, item.prompt_es, item.stimulus_en, item.question_en].filter(Boolean).join(" · ")).join("\\n") || (type === "listening" ? "Comprensión auditiva" : ""),
+                  body: items.map(({ item, blockTitle }) => [blockTitle, item.prompt_es, item.stimulus_en, item.question_en, item.main_text, item.transcript].filter(Boolean).join(" · ")).join("\\n") || (type === "listening" ? "Comprensión auditiva" : ""),
                   example: type === "grammar" ? firstItem?.stimulus_en ?? "" : "",
                   audioText: type === "listening" ? (typeof firstItem?.transcript === "string" ? firstItem.transcript : firstItem?.stimulus_en ?? "") : undefined,
                   transcript: type === "listening" && typeof firstItem?.transcript === "string" ? firstItem.transcript : undefined,
