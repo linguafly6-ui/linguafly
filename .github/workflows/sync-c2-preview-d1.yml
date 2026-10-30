@@ -61,3 +61,10 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CI: true
+
+      - name: Verify C2 unit count in preview D1
+        run: npx wrangler d1 execute linguafly-preview --remote --command="SELECT level, COUNT(*) AS units FROM learning_course_json_units GROUP BY level ORDER BY level" --json
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CI: true
