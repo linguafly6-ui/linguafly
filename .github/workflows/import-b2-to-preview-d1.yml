@@ -1,0 +1,116 @@
+name: Import B2 course into preview D1
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_import:
+        description: "Confirm writing B2 (60 units / 3,600 exercises) to the preview D1 database"
+        required: true
+        type: choice
+        options:
+          - "I CONFIRM B2 PREVIEW IMPORT"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: import-b2-preview-d1
+  cancel-in-progress: false
+
+jobs:
+  import-b2-preview:
+    if: ${{ inputs.confirm_import == 'I CONFIRM B2 PREVIEW IMPORT' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      PREVIEW_D1_DATABASE_ID: "b159641b-1910-49ec-b2ed-fbfae2440377"
+      PRODUCTION_D1_DATABASE_ID: "476f34d4-5622-4a56-923e-c4fb571578c2"
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CI: "true"
+    steps:
+      - name: Checkout selected branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Guard preview target and credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo "::error::Missing CLOUDFLARE_API_TOKEN"; exit 1; }
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "::error::Missing CLOUDFLARE_ACCOUNT_ID"; exit 1; }
+          test "$PREVIEW_D1_DATABASE_ID" = "b159641b-1910-49ec-b2ed-fbfae2440377"
+          test "$PREVIEW_D1_DATABASE_ID" != "$PRODUCTION_D1_DATABASE_ID"
+          cat > /tmp/wrangler-preview.toml <<EOF
+          name = "linguafly-preview-d1-import"
+          main = "src/index.ts"
+          compatibility_date = "2026-09-07"
+          compatibility_flags = ["nodejs_compat"]
+
+          [[d1_databases]]
+          binding = "DB"
+          database_name = "blog"
+          database_id = "$PREVIEW_D1_DATABASE_ID"
+          EOF
+          echo "D1 target pinned to preview database ID $PREVIEW_D1_DATABASE_ID"
+
+      - name: Generate B2 SQL only
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/b2-preview-d1-import
+          npx tsx scripts/normalize-course-json-to-d1.ts --level B2 --sql-out-dir /tmp/b2-preview-d1-import
+          node --input-type=module <<'NODE'
+          import fs from "node:fs";
+          const summary = JSON.parse(fs.readFileSync("/tmp/b2-preview-d1-import/summary.json", "utf8"));
+          const b2 = summary.B2;
+          if (!b2) throw new Error("Normalizer did not produce a B2 summary.");
+          const expected = { units: 60, exercises: 3600 };
+          for (const [key, value] of Object.entries(expected)) {
+            if (b2[key] !== value) throw new Error(`B2 ${key}: expected ${value}, got ${b2[key]}`);
+          }
+          for (const section of ["grammar", "vocabulary", "listening", "reading"]) {
+            if (b2.bySection[section] !== 900) {
+              throw new Error(`B2 ${section}: expected 900 exercises (15 x 60), got ${b2.bySection[section] ?? 0}`);
+            }
+          }
+          if (Object.keys(b2.bySection).some((key) => !["grammar", "vocabulary", "listening", "reading"].includes(key))) {
+            throw new Error("Unexpected B2 exercise section found; refusing to import.");
+          }
+          console.log("B2 preflight passed: 60 units, 3,600 exercises, 15 per section per unit.");
+          NODE
+          shopt -s nullglob
+          files=(/tmp/b2-preview-d1-import/batch-*.sql)
+          test "${#files[@]}" -gt 0 || { echo "::error::No SQL batches generated"; exit 1; }
+
+      - name: Verify preview D1 schema
+        run: |
+          set -euo pipefail
+          npx wrangler d1 execute blog --remote --config /tmp/wrangler-preview.toml --command "SELECT name FROM sqlite_master WHERE type='table' AND name IN ('learning_courses','learning_lessons','learning_exercises');" --yes
+
+      - name: Write B2 content to preview D1 only
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          files=(/tmp/b2-preview-d1-import/batch-*.sql)
+          for file in "${files[@]}"; do
+            echo "Importing $(basename "$file") into preview D1"
+            npx wrangler d1 execute blog --remote --config /tmp/wrangler-preview.toml --file="$file" --yes
+          done
+
+      - name: Verify B2 import
+        run: |
+          set -euo pipefail
+          npx wrangler d1 execute blog --remote --config /tmp/wrangler-preview.toml --command "SELECT CASE WHEN COUNT(DISTINCT l.id) = 60 AND COUNT(e.id) = 3600 THEN 'PASS' ELSE 'FAIL' END AS result, COUNT(DISTINCT l.id) AS units, COUNT(e.id) AS exercises FROM learning_courses c JOIN learning_lessons l ON l.course_id = c.id LEFT JOIN learning_exercises e ON e.lesson_id = l.id WHERE c.id = 'english-b2';" --yes | tee /tmp/b2-count-check.txt
+          grep -q PASS /tmp/b2-count-check.txt || { echo "::error::B2 unit/exercise count verification failed"; exit 1; }
+          npx wrangler d1 execute blog --remote --config /tmp/wrangler-preview.toml --command "SELECT CASE WHEN COUNT(*) = 0 THEN 'PASS' ELSE 'FAIL' END AS result, COUNT(*) AS mismatches FROM (SELECT l.unit_number, e.section_type, COUNT(e.id) AS questions FROM learning_lessons l LEFT JOIN learning_exercises e ON e.lesson_id = l.id WHERE l.course_id = 'english-b2' GROUP BY l.unit_number, e.section_type HAVING COUNT(e.id) != 15);" --yes | tee /tmp/b2-section-check.txt
+          grep -q PASS /tmp/b2-section-check.txt || { echo "::error::B2 per-unit section verification failed"; exit 1; }
