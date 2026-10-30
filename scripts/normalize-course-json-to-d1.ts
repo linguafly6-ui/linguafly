@@ -204,7 +204,7 @@ function generatedListening(unit: Unit, n: number): Interaction[] {
     "Presenter: So the most important thing is to stay flexible?",
     "Guest: Exactly. Being prepared is useful, but listening to other people and learning from experience are just as important."
   ].join("\n");
-  const qs = [
+  const qs: [string, string[], string, string][] = [
     ["What is the guest mainly discussing?", ["An experience related to the topic", "A recent sports result", "A problem with public transport", "A plan to move abroad"], "o1", "The guest describes experience and lessons connected with the unit topic."],
     ["How did the guest develop a better understanding?", ["By avoiding other opinions", "By speaking to people and reading reports", "By following one person's advice", "By waiting for someone else to decide"], "o2", "The guest mentions speaking to several people and reading reports."],
     ["What does the guest recommend doing first?", ["Making a large investment", "Finding reliable information", "Changing the plan every day", "Working without help"], "o2", "The guest says to find reliable information before making a small plan."],
