@@ -38,8 +38,17 @@ export default function AdvancedLearningPage() {
           if (Array.isArray(parsed) && parsed.every((x) => typeof x === "string")) setCompleted(parsed);
         } catch { /* Guest progress is best-effort. */ }
       }
-    }).catch(() => { if (active) setError("No se ha podido cargar tu progreso. Inténtalo de nuevo."); })
-      .finally(() => { if (active) setProgressLoaded(true); });
+    }).catch(() => {
+      if (!active) return;
+      // Progress is optional for guests and must not block loading course lessons
+      // when the Preview D1 database has not been initialized yet.
+      setAuthenticated(false);
+      try {
+        const saved = localStorage.getItem(`linguafly:${levelKey}:guest:completed`);
+        const parsed: unknown = saved ? JSON.parse(saved) : [];
+        if (Array.isArray(parsed) && parsed.every((x) => typeof x === "string")) setCompleted(parsed);
+      } catch { /* Guest progress is best-effort. */ }
+    }).finally(() => { if (active) setProgressLoaded(true); });
     return () => { active = false; };
   }, [levelKey]);
 
