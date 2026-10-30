@@ -290,6 +290,176 @@
             "lifestyles",
             "routines"
           ]
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_GRAMMAR_Q11",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "If I ___ enough time tomorrow, I'll go swimming.",
+          "options": [
+            {
+              "id": "o1",
+              "text": "have"
+            },
+            {
+              "id": "o2",
+              "text": "had"
+            },
+            {
+              "id": "o3",
+              "text": "will have"
+            },
+            {
+              "id": "o4",
+              "text": "having"
+            }
+          ],
+          "correct_answer": "o1",
+          "explanation": "First conditional uses present simple in the if-clause.",
+          "mastery_tag": "grammar:b1-lifestyles-routines",
+          "concept_tags": [
+            "grammar",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_GRAMMAR_Q12",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "If she studied more, she ___ better marks.",
+          "options": [
+            {
+              "id": "o1",
+              "text": "gets"
+            },
+            {
+              "id": "o2",
+              "text": "will get"
+            },
+            {
+              "id": "o3",
+              "text": "would get"
+            },
+            {
+              "id": "o4",
+              "text": "got"
+            }
+          ],
+          "correct_answer": "o3",
+          "explanation": "Second conditional uses would + infinitive in the result clause.",
+          "mastery_tag": "grammar:b1-lifestyles-routines",
+          "concept_tags": [
+            "grammar",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_GRAMMAR_Q13",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "We ___ dinner when the lights went out.",
+          "options": [
+            {
+              "id": "o1",
+              "text": "had"
+            },
+            {
+              "id": "o2",
+              "text": "were having"
+            },
+            {
+              "id": "o3",
+              "text": "have"
+            },
+            {
+              "id": "o4",
+              "text": "are having"
+            }
+          ],
+          "correct_answer": "o2",
+          "explanation": "Past continuous describes an action in progress when another event happened.",
+          "mastery_tag": "grammar:b1-lifestyles-routines",
+          "concept_tags": [
+            "grammar",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_GRAMMAR_Q14",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "While they ___, it started to rain.",
+          "options": [
+            {
+              "id": "o1",
+              "text": "walked"
+            },
+            {
+              "id": "o2",
+              "text": "were walking"
+            },
+            {
+              "id": "o3",
+              "text": "are walking"
+            },
+            {
+              "id": "o4",
+              "text": "have walked"
+            }
+          ],
+          "correct_answer": "o2",
+          "explanation": "Past continuous follows while for an ongoing past action.",
+          "mastery_tag": "grammar:b1-lifestyles-routines",
+          "concept_tags": [
+            "grammar",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_GRAMMAR_Q15",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "If he doesn't hurry, he ___ the bus.",
+          "options": [
+            {
+              "id": "o1",
+              "text": "misses"
+            },
+            {
+              "id": "o2",
+              "text": "would miss"
+            },
+            {
+              "id": "o3",
+              "text": "will miss"
+            },
+            {
+              "id": "o4",
+              "text": "missed"
+            }
+          ],
+          "correct_answer": "o3",
+          "explanation": "First conditional: if + present simple, will + infinitive.",
+          "mastery_tag": "grammar:b1-lifestyles-routines",
+          "concept_tags": [
+            "grammar",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
         }
       ]
     },
@@ -472,6 +642,346 @@
             "routines",
             "grammar"
           ]
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_VOCABULARY_Q6",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "Which word means the things you do regularly every day?",
+          "options": [
+            {
+              "id": "o1",
+              "text": "routine"
+            },
+            {
+              "id": "o2",
+              "text": "habit"
+            },
+            {
+              "id": "o3",
+              "text": "schedule"
+            },
+            {
+              "id": "o4",
+              "text": "custom"
+            }
+          ],
+          "correct_answer": "o2",
+          "explanation": "A routine is a set of regular daily activities.",
+          "mastery_tag": "vocabulary:b1-lifestyles-routines",
+          "concept_tags": [
+            "vocabulary",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_VOCABULARY_Q7",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "Choose the adjective: A ___ diet includes different kinds of food.",
+          "options": [
+            {
+              "id": "o1",
+              "text": "healthy"
+            },
+            {
+              "id": "o2",
+              "text": "health"
+            },
+            {
+              "id": "o3",
+              "text": "healthily"
+            },
+            {
+              "id": "o4",
+              "text": "healthier"
+            }
+          ],
+          "correct_answer": "o1",
+          "explanation": "Healthy is the adjective describing a good diet.",
+          "mastery_tag": "vocabulary:b1-lifestyles-routines",
+          "concept_tags": [
+            "vocabulary",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_VOCABULARY_Q8",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "I ___ have breakfast at seven, but at weekends I eat later.",
+          "options": [
+            {
+              "id": "o1",
+              "text": "usually"
+            },
+            {
+              "id": "o2",
+              "text": "neverly"
+            },
+            {
+              "id": "o3",
+              "text": "usual"
+            },
+            {
+              "id": "o4",
+              "text": "use"
+            }
+          ],
+          "correct_answer": "o1",
+          "explanation": "Usually describes something that happens most of the time.",
+          "mastery_tag": "vocabulary:b1-lifestyles-routines",
+          "concept_tags": [
+            "vocabulary",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_VOCABULARY_Q9",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "After a busy day, I feel ___ when I listen to music.",
+          "options": [
+            {
+              "id": "o1",
+              "text": "relax"
+            },
+            {
+              "id": "o2",
+              "text": "relaxing"
+            },
+            {
+              "id": "o3",
+              "text": "relaxed"
+            },
+            {
+              "id": "o4",
+              "text": "relaxes"
+            }
+          ],
+          "correct_answer": "o3",
+          "explanation": "Relaxed describes how a person feels.",
+          "mastery_tag": "vocabulary:b1-lifestyles-routines",
+          "concept_tags": [
+            "vocabulary",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_VOCABULARY_Q10",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "My father has a long ___ to work by train.",
+          "options": [
+            {
+              "id": "o1",
+              "text": "commute"
+            },
+            {
+              "id": "o2",
+              "text": "journey"
+            },
+            {
+              "id": "o3",
+              "text": "travel"
+            },
+            {
+              "id": "o4",
+              "text": "trip"
+            }
+          ],
+          "correct_answer": "o1",
+          "explanation": "A commute is the regular journey between home and work.",
+          "mastery_tag": "vocabulary:b1-lifestyles-routines",
+          "concept_tags": [
+            "vocabulary",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_VOCABULARY_Q11",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "I do the household ___ on Saturday mornings.",
+          "options": [
+            {
+              "id": "o1",
+              "text": "chores"
+            },
+            {
+              "id": "o2",
+              "text": "choreses"
+            },
+            {
+              "id": "o3",
+              "text": "workings"
+            },
+            {
+              "id": "o4",
+              "text": "dutieses"
+            }
+          ],
+          "correct_answer": "o1",
+          "explanation": "Chores are routine jobs at home.",
+          "mastery_tag": "vocabulary:b1-lifestyles-routines",
+          "concept_tags": [
+            "vocabulary",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_VOCABULARY_Q12",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "We ___ exercise three times a week.",
+          "options": [
+            {
+              "id": "o1",
+              "text": "take"
+            },
+            {
+              "id": "o2",
+              "text": "make"
+            },
+            {
+              "id": "o3",
+              "text": "do"
+            },
+            {
+              "id": "o4",
+              "text": "have"
+            }
+          ],
+          "correct_answer": "o2",
+          "explanation": "The collocation is 'do exercise'.",
+          "mastery_tag": "vocabulary:b1-lifestyles-routines",
+          "concept_tags": [
+            "vocabulary",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_VOCABULARY_Q13",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "She gets up ___ to go running before work.",
+          "options": [
+            {
+              "id": "o1",
+              "text": "early"
+            },
+            {
+              "id": "o2",
+              "text": "earliest"
+            },
+            {
+              "id": "o3",
+              "text": "earlier"
+            },
+            {
+              "id": "o4",
+              "text": "more early"
+            }
+          ],
+          "correct_answer": "o1",
+          "explanation": "Early means before the usual time.",
+          "mastery_tag": "vocabulary:b1-lifestyles-routines",
+          "concept_tags": [
+            "vocabulary",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_VOCABULARY_Q14",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "How much time do you ___ watching television?",
+          "options": [
+            {
+              "id": "o1",
+              "text": "spend"
+            },
+            {
+              "id": "o2",
+              "text": "cost"
+            },
+            {
+              "id": "o3",
+              "text": "pay"
+            },
+            {
+              "id": "o4",
+              "text": "take"
+            }
+          ],
+          "correct_answer": "o1",
+          "explanation": "The collocation is 'spend time'.",
+          "mastery_tag": "vocabulary:b1-lifestyles-routines",
+          "concept_tags": [
+            "vocabulary",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_VOCABULARY_Q15",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "A ___ lifestyle includes work, rest and physical activity.",
+          "options": [
+            {
+              "id": "o1",
+              "text": "balanced"
+            },
+            {
+              "id": "o2",
+              "text": "balance"
+            },
+            {
+              "id": "o3",
+              "text": "balancing"
+            },
+            {
+              "id": "o4",
+              "text": "balances"
+            }
+          ],
+          "correct_answer": "o1",
+          "explanation": "Balanced describes something in the right proportions.",
+          "mastery_tag": "vocabulary:b1-lifestyles-routines",
+          "concept_tags": [
+            "vocabulary",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
         }
       ]
     },
@@ -655,6 +1165,346 @@
             "b1"
           ],
           "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_LISTENING_Q6",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "What time does Maya wake up now?",
+          "options": [
+            {
+              "id": "o1",
+              "text": "At six o'clock"
+            },
+            {
+              "id": "o2",
+              "text": "At half past six"
+            },
+            {
+              "id": "o3",
+              "text": "At seven o'clock"
+            },
+            {
+              "id": "o4",
+              "text": "At eight o'clock"
+            }
+          ],
+          "correct_answer": "o2",
+          "explanation": "Maya says she wakes up at half past six.",
+          "mastery_tag": "listening:b1-lifestyles-routines",
+          "concept_tags": [
+            "listening",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_LISTENING_Q7",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "Why does Maya walk to the station?",
+          "options": [
+            {
+              "id": "o1",
+              "text": "She feels more relaxed"
+            },
+            {
+              "id": "o2",
+              "text": "Her car is broken"
+            },
+            {
+              "id": "o3",
+              "text": "The station is closed"
+            },
+            {
+              "id": "o4",
+              "text": "She wants to meet a friend"
+            }
+          ],
+          "correct_answer": "o1",
+          "explanation": "She says the walk takes longer but makes her feel more relaxed.",
+          "mastery_tag": "listening:b1-lifestyles-routines",
+          "concept_tags": [
+            "listening",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_LISTENING_Q8",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "What did Maya use to do for hours?",
+          "options": [
+            {
+              "id": "o1",
+              "text": "Read books"
+            },
+            {
+              "id": "o2",
+              "text": "Watch television"
+            },
+            {
+              "id": "o3",
+              "text": "Cook dinner"
+            },
+            {
+              "id": "o4",
+              "text": "Walk outside"
+            }
+          ],
+          "correct_answer": "o2",
+          "explanation": "She used to spend hours watching television.",
+          "mastery_tag": "listening:b1-lifestyles-routines",
+          "concept_tags": [
+            "listening",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_LISTENING_Q9",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "How long does Maya read in the evening?",
+          "options": [
+            {
+              "id": "o1",
+              "text": "Ten minutes"
+            },
+            {
+              "id": "o2",
+              "text": "Fifteen minutes"
+            },
+            {
+              "id": "o3",
+              "text": "Twenty minutes"
+            },
+            {
+              "id": "o4",
+              "text": "An hour"
+            }
+          ],
+          "correct_answer": "o3",
+          "explanation": "She reads for twenty minutes.",
+          "mastery_tag": "listening:b1-lifestyles-routines",
+          "concept_tags": [
+            "listening",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_LISTENING_Q10",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "What does Maya try not to do before bed?",
+          "options": [
+            {
+              "id": "o1",
+              "text": "Drink water"
+            },
+            {
+              "id": "o2",
+              "text": "Check her phone"
+            },
+            {
+              "id": "o3",
+              "text": "Prepare breakfast"
+            },
+            {
+              "id": "o4",
+              "text": "Listen to music"
+            }
+          ],
+          "correct_answer": "o2",
+          "explanation": "She avoids checking her phone just before bed.",
+          "mastery_tag": "listening:b1-lifestyles-routines",
+          "concept_tags": [
+            "listening",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_LISTENING_Q11",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "What happens when Maya has a busy week?",
+          "options": [
+            {
+              "id": "o1",
+              "text": "She follows every habit perfectly"
+            },
+            {
+              "id": "o2",
+              "text": "She sometimes cannot do everything"
+            },
+            {
+              "id": "o3",
+              "text": "She stops going to work"
+            },
+            {
+              "id": "o4",
+              "text": "She changes her job"
+            }
+          ],
+          "correct_answer": "o2",
+          "explanation": "She admits that busy weeks make it difficult to do everything.",
+          "mastery_tag": "listening:b1-lifestyles-routines",
+          "concept_tags": [
+            "listening",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_LISTENING_Q12",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "What does Maya say is better than changing everything at once?",
+          "options": [
+            {
+              "id": "o1",
+              "text": "Making small regular changes"
+            },
+            {
+              "id": "o2",
+              "text": "Buying new equipment"
+            },
+            {
+              "id": "o3",
+              "text": "Working longer hours"
+            },
+            {
+              "id": "o4",
+              "text": "Sleeping less"
+            }
+          ],
+          "correct_answer": "o1",
+          "explanation": "She recommends small changes followed regularly.",
+          "mastery_tag": "listening:b1-lifestyles-routines",
+          "concept_tags": [
+            "listening",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_LISTENING_Q13",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "What is the interview mainly about?",
+          "options": [
+            {
+              "id": "o1",
+              "text": "Travel plans"
+            },
+            {
+              "id": "o2",
+              "text": "Daily routines and habits"
+            },
+            {
+              "id": "o3",
+              "text": "Learning a new language"
+            },
+            {
+              "id": "o4",
+              "text": "Healthy cooking"
+            }
+          ],
+          "correct_answer": "o2",
+          "explanation": "The speakers discuss changes to daily routines.",
+          "mastery_tag": "listening:b1-lifestyles-routines",
+          "concept_tags": [
+            "listening",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_LISTENING_Q14",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "How does Maya feel about her new routine?",
+          "options": [
+            {
+              "id": "o1",
+              "text": "More relaxed"
+            },
+            {
+              "id": "o2",
+              "text": "More worried"
+            },
+            {
+              "id": "o3",
+              "text": "Bored"
+            },
+            {
+              "id": "o4",
+              "text": "Angry"
+            }
+          ],
+          "correct_answer": "o1",
+          "explanation": "She says she feels much more relaxed.",
+          "mastery_tag": "listening:b1-lifestyles-routines",
+          "concept_tags": [
+            "listening",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_LISTENING_Q15",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "What does Maya do when she cannot follow her plan?",
+          "options": [
+            {
+              "id": "o1",
+              "text": "She gives up permanently"
+            },
+            {
+              "id": "o2",
+              "text": "She tries to keep making small changes"
+            },
+            {
+              "id": "o3",
+              "text": "She stops reading"
+            },
+            {
+              "id": "o4",
+              "text": "She watches more television"
+            }
+          ],
+          "correct_answer": "o2",
+          "explanation": "Her message is to make realistic changes and continue regularly.",
+          "mastery_tag": "listening:b1-lifestyles-routines",
+          "concept_tags": [
+            "listening",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
         }
       ]
     },
@@ -836,6 +1686,346 @@
             "lifestyles",
             "routines",
             "b1"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_READING_Q6",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "What was one unhealthy part of Daniel's old routine?",
+          "options": [
+            {
+              "id": "o1",
+              "text": "He walked to work"
+            },
+            {
+              "id": "o2",
+              "text": "He skipped breakfast"
+            },
+            {
+              "id": "o3",
+              "text": "He cooked every evening"
+            },
+            {
+              "id": "o4",
+              "text": "He exercised at lunchtime"
+            }
+          ],
+          "correct_answer": "o2",
+          "explanation": "The text says he often skipped breakfast.",
+          "mastery_tag": "reading:b1-lifestyles-routines",
+          "concept_tags": [
+            "reading",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_READING_Q7",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "How did Daniel usually travel to work before?",
+          "options": [
+            {
+              "id": "o1",
+              "text": "By car"
+            },
+            {
+              "id": "o2",
+              "text": "By bicycle"
+            },
+            {
+              "id": "o3",
+              "text": "By train"
+            },
+            {
+              "id": "o4",
+              "text": "On foot"
+            }
+          ],
+          "correct_answer": "o1",
+          "explanation": "He travelled to work by car.",
+          "mastery_tag": "reading:b1-lifestyles-routines",
+          "concept_tags": [
+            "reading",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_READING_Q8",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "Why was Daniel tired in the evening?",
+          "options": [
+            {
+              "id": "o1",
+              "text": "He worked outdoors"
+            },
+            {
+              "id": "o2",
+              "text": "He stayed at his desk most of the day"
+            },
+            {
+              "id": "o3",
+              "text": "He walked too far"
+            },
+            {
+              "id": "o4",
+              "text": "He got up very early to exercise"
+            }
+          ],
+          "correct_answer": "o2",
+          "explanation": "He spent most of the day sitting at his desk.",
+          "mastery_tag": "reading:b1-lifestyles-routines",
+          "concept_tags": [
+            "reading",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_READING_Q9",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "When does Daniel prepare breakfast?",
+          "options": [
+            {
+              "id": "o1",
+              "text": "At lunchtime"
+            },
+            {
+              "id": "o2",
+              "text": "The night before"
+            },
+            {
+              "id": "o3",
+              "text": "On the bus"
+            },
+            {
+              "id": "o4",
+              "text": "After work"
+            }
+          ],
+          "correct_answer": "o2",
+          "explanation": "He prepares breakfast the night before.",
+          "mastery_tag": "reading:b1-lifestyles-routines",
+          "concept_tags": [
+            "reading",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_READING_Q10",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "How much earlier does Daniel get off the bus?",
+          "options": [
+            {
+              "id": "o1",
+              "text": "One stop"
+            },
+            {
+              "id": "o2",
+              "text": "Two stops"
+            },
+            {
+              "id": "o3",
+              "text": "Three stops"
+            },
+            {
+              "id": "o4",
+              "text": "Four stops"
+            }
+          ],
+          "correct_answer": "o1",
+          "explanation": "He gets off one stop earlier to walk.",
+          "mastery_tag": "reading:b1-lifestyles-routines",
+          "concept_tags": [
+            "reading",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_READING_Q11",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "What improvement did Daniel notice after a few weeks?",
+          "options": [
+            {
+              "id": "o1",
+              "text": "He had more energy in the morning"
+            },
+            {
+              "id": "o2",
+              "text": "He needed less sleep"
+            },
+            {
+              "id": "o3",
+              "text": "He changed his job"
+            },
+            {
+              "id": "o4",
+              "text": "He stopped using the bus"
+            }
+          ],
+          "correct_answer": "o1",
+          "explanation": "He noticed more energy in the morning.",
+          "mastery_tag": "reading:b1-lifestyles-routines",
+          "concept_tags": [
+            "reading",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_READING_Q12",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "How often does Daniel meet a friend for a walk?",
+          "options": [
+            {
+              "id": "o1",
+              "text": "Every day"
+            },
+            {
+              "id": "o2",
+              "text": "Once a week"
+            },
+            {
+              "id": "o3",
+              "text": "Twice a week"
+            },
+            {
+              "id": "o4",
+              "text": "Once a month"
+            }
+          ],
+          "correct_answer": "o3",
+          "explanation": "The text says twice a week.",
+          "mastery_tag": "reading:b1-lifestyles-routines",
+          "concept_tags": [
+            "reading",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_READING_Q13",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "Does Daniel follow his plan perfectly every day?",
+          "options": [
+            {
+              "id": "o1",
+              "text": "Yes, always"
+            },
+            {
+              "id": "o2",
+              "text": "No, he sometimes has busy days"
+            },
+            {
+              "id": "o3",
+              "text": "Only at weekends"
+            },
+            {
+              "id": "o4",
+              "text": "The text does not say"
+            }
+          ],
+          "correct_answer": "o2",
+          "explanation": "The text explains that he sometimes cannot follow the plan.",
+          "mastery_tag": "reading:b1-lifestyles-routines",
+          "concept_tags": [
+            "reading",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_READING_Q14",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "What does Daniel do after a day when he misses his routine?",
+          "options": [
+            {
+              "id": "o1",
+              "text": "He gives up"
+            },
+            {
+              "id": "o2",
+              "text": "He starts again the next day"
+            },
+            {
+              "id": "o3",
+              "text": "He changes his job"
+            },
+            {
+              "id": "o4",
+              "text": "He stops exercising"
+            }
+          ],
+          "correct_answer": "o2",
+          "explanation": "He returns to his routine the next day.",
+          "mastery_tag": "reading:b1-lifestyles-routines",
+          "concept_tags": [
+            "reading",
+            "b1",
+            "lifestyles",
+            "routines"
+          ],
+          "complexity": 2
+        },
+        {
+          "interaction_id": "B1_U1_AUTO_READING_Q15",
+          "type": "multiple_choice",
+          "prompt_es": "Choose the correct answer.",
+          "question_en": "Which statement best summarises the text?",
+          "options": [
+            {
+              "id": "o1",
+              "text": "Only strict schedules work"
+            },
+            {
+              "id": "o2",
+              "text": "Small habits can improve a lifestyle"
+            },
+            {
+              "id": "o3",
+              "text": "People should avoid walking"
+            },
+            {
+              "id": "o4",
+              "text": "Healthy routines take no effort"
+            }
+          ],
+          "correct_answer": "o2",
+          "explanation": "The final paragraph highlights consistent, realistic habits.",
+          "mastery_tag": "reading:b1-lifestyles-routines",
+          "concept_tags": [
+            "reading",
+            "b1",
+            "lifestyles",
+            "routines"
           ],
           "complexity": 2
         }
