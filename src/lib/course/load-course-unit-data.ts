@@ -5,8 +5,8 @@ export type CourseUnitPayload = {
 };
 
 /**
- * Carga unidad desde asset estático (public/course-data).
- * Evita meter el contenido del curso en el bundle del Worker.
+ * Loads C2 units from the Cloudflare D1-backed API. Other courses continue
+ * using their existing public/course-data JSON assets.
  */
 export async function loadCourseUnitData(
   courseFolder: string,
@@ -14,11 +14,8 @@ export async function loadCourseUnitData(
 ): Promise<CourseUnitPayload> {
   const n = String(unitNumber);
 
-  // C2 exercises are authored in the TypeScript catalog. The old static URL
-  // /course-data/c2/unit-N.json is not present in the repository, so the C2
-  // course page was receiving a 404 before the renderer could show any content.
-  // Serve the canonical catalog through the API instead of relying on missing
-  // generated public assets.
+  // C2 is served exclusively from the preview D1 binding through this API.
+  // Do not add a bundled/static fallback: preview must show the database data.
   const isC2 = courseFolder.toLowerCase() === "c2";
   const url = isC2
     ? `/api/courses/c2/units/${encodeURIComponent(n)}`
