@@ -331,7 +331,6 @@ function ensureB1Sections(unit: Unit, n: number, file: string): void {
 function main() {
   const statements: string[] = [];
   const summary: Record<string, { units: number; exercises: number; bySection: Record<string, number> }> = {};
-  for (const levelConfig of selectedLevels) {
   for (const levelConfig of SELECTED_LEVELS) {
     const dir = path.join(SOURCE_ROOT, levelConfig.folder);
     if (!fs.existsSync(dir)) throw new Error(`Missing canonical course folder: ${levelConfig.folder}`);
