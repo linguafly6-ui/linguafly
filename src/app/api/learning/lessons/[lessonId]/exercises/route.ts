@@ -187,6 +187,7 @@ async function getNormalizedD1Exercises(lessonId: string, section: string) {
       };
     });
   } catch (error) {
+    if (lessonId.startsWith("c2-")) throw error;
     console.error("[learning/exercises] D1 normalized read failed; using legacy source:", error);
     return null;
   }
