@@ -317,9 +317,7 @@ export function getLegacyAdvancedUnit(level: string, unitNumber: number): Legacy
     .flatMap((exercise) => {
       const question = exercise.content?.questions?.[0];
       if (!question) return [];
-      const correctIndex = typeof question.correctAnswer === "number"
-        ? question.correctAnswer
-        : Number(question.correctAnswer);
+      const correctAnswer = question.correctAnswer;
       return [{
         interaction_id: exercise.id,
         type: "listening-comprehension",
@@ -328,7 +326,8 @@ export function getLegacyAdvancedUnit(level: string, unitNumber: number): Legacy
         question_en: question.question,
         prompt_es: question.question,
         options: question.options.map((text, index) => ({ id: String(index), text })),
-        correct_answer: String(correctIndex),
+        // Numeric legacy answers are option indexes; True/False answers are literal text.
+        correct_answer: typeof correctAnswer === "number" ? String(correctAnswer) : String(correctAnswer ?? ""),
         explanation: question.explanation ?? "",
         transcript: exercise.transcript ?? "",
       }];
