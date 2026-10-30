@@ -24,6 +24,12 @@ if (argIndex < 0 || !process.argv[argIndex + 1]) {
   process.exit(1);
 }
 const OUT = path.resolve(process.argv[argIndex + 1]);
+const levelArgIndex = process.argv.findIndex((arg) => arg === "--level");
+const selectedLevel = levelArgIndex >= 0 ? String(process.argv[levelArgIndex + 1] ?? "").toUpperCase() : "";
+if (selectedLevel && !["B1", "B2", "C1", "C2"].includes(selectedLevel)) {
+  throw new Error("--level must be one of B1, B2, C1 or C2");
+}
+const selectedLevels = selectedLevel ? LEVELS.filter((level) => level.level === selectedLevel) : LEVELS;
 
 type Option = { id?: string; text?: string };
 type Interaction = {
@@ -301,7 +307,7 @@ function ensureB1Sections(unit: Unit, n: number, file: string): void {
 function main() {
   const statements: string[] = [];
   const summary: Record<string, { units: number; exercises: number; bySection: Record<string, number> }> = {};
-  for (const levelConfig of LEVELS) {
+  for (const levelConfig of selectedLevels) {
     const dir = path.join(SOURCE_ROOT, levelConfig.folder);
     if (!fs.existsSync(dir)) throw new Error(`Missing canonical course folder: ${levelConfig.folder}`);
     const files = fs.readdirSync(dir).map((name) => {
