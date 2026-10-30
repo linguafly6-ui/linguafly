@@ -5,21 +5,6 @@ import a2LearningSections from "@/content/cursos/ingles-a2/aprender-sections.jso
 import { getLegacyAdvancedUnit, getLegacyAdvancedSection } from "@/lib/learning/legacy-advanced-units";
 import { B1_COURSE } from "@/lib/course/b1";
 import { a2Units } from "@/lib/learning/a2-units";
-import { B2_COURSE } from "@/lib/course/b2";
-
-function isB2ExerciseInSection(exercise: { topicName?: unknown; type?: unknown }, section: string): boolean {
-  const normalize = (value: unknown) => String(value ?? "").trim().toLowerCase().replace(/[^a-z]+/g, " ");
-  const topicName = normalize(exercise.topicName);
-  const exerciseType = normalize(exercise.type);
-  const aliases: Record<string, string[]> = {
-    grammar: ["grammar"],
-    vocabulary: ["vocabulary", "lexis"],
-    listening: ["listening", "listening comprehension", "audio comprehension"],
-    reading: ["reading", "reading comprehension", "text comprehension"],
-  };
-  const terms = aliases[section] ?? [section];
-  return terms.some((term) => topicName.includes(term) || exerciseType.includes(term));
-}
 
 
 export const runtime = "nodejs";
@@ -84,19 +69,11 @@ export async function GET(request: NextRequest) {
     .toUpperCase()
     .slice(0, 8);
 
-  // B1 lesson outlines are bundled with the Worker so Preview can serve the
-  // course without depending on a pre-seeded D1 database.
-  if (level === "B1") {
-    return NextResponse.json(buildStaticB1Lessons(), {
-      headers: { "Cache-Control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600" },
-    });
-  }
+  // All advanced levels use the canonical JSON units via getLegacyAdvancedUnit.
+  // Avoid the old partial static B1 outline, which hid most canonical units.
 
   try {
-    if (level === "B2") {
-      const lessons = B2_COURSE.units.map((unit) => ({ id: `b2-${String(unit.id).padStart(2, "0")}`, number: unit.id, unit: unit.id, title: unit.title, objective: unit.title, estimated_minutes: 30, content: { objective: unit.title, sections: ["grammar", "vocabulary", "listening", "reading"].map((type) => ({ type, title: type === "grammar" ? "Gramática" : type === "vocabulary" ? "Vocabulario" : type === "listening" ? "Comprensión auditiva" : "Comprensión lectora", body: unit.exercises.filter((exercise) => isB2ExerciseInSection(exercise, type)).length + " ejercicios", exercise_count: unit.exercises.filter((exercise) => isB2ExerciseInSection(exercise, type)).length })), reviewEnabled: true } }));
-      return NextResponse.json({ course: { id: "ingles-b2", title: "Inglés avanzado B2", level: "B2", description: "Curso B2", lesson_count: lessons.length }, lessons });
-    }
+
     const { env } = await resolveCloudflareEnv();
     const courseDb = env.COURSE_DB ?? env.DB;
     const result = await courseDb.prepare(
