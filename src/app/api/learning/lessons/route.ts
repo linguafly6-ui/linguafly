@@ -38,33 +38,60 @@ export async function GET(request: NextRequest) {
       .toUpperCase()
       .slice(0, 8);
 
-    // C2 uses only the authored catalog units. Writing is intentionally omitted.
+    // C2 outline comes from the same D1 JSON mirror as the unit player.
+    // Do not fall back to bundled TypeScript data if preview D1 is empty.
     if (level === "C2") {
-      const labels: Record<string, string> = {
-        grammar: "Gramática", vocabulary: "Vocabulario",
-        listening: "Comprensión auditiva", reading: "Comprensión lectora",
-      };
-      const lessons = C2_COURSE.units.map((unit) => {
-        const sections = ["grammar", "vocabulary", "listening", "reading"].map((type) => {
-          const selected = unit.exercises.filter((exercise) => (exercise.topicName ?? "").toLowerCase() === type);
-          const body = selected.map((exercise) => {
-            const question = (exercise.content as any)?.questions?.[0];
-            return typeof question?.question === "string" ? question.question : "";
-          }).filter(Boolean).join("\n");
-          return { type, title: labels[type], body };
-        });
+      const { env } = await resolveCloudflareEnv();
+      const result = await env.DB.prepare(
+        `SELECT unit_number, title, content_json
+         FROM learning_course_json_units
+         WHERE course_key = ? AND level = ?
+         ORDER BY unit_number ASC`
+      ).bind("ingles-c2", "C2").all<{
+        unit_number: number;
+        title: string;
+        content_json: string;
+      }>();
+      const rows = result.results ?? [];
+      const lessons = rows.map((row) => {
+        let source: any = {};
+        try { source = JSON.parse(row.content_json || "{}"); } catch { source = {}; }
+        const groups = new Map<string, string[]>();
+        for (const block of Array.isArray(source.blocks) ? source.blocks : []) {
+          for (const item of Array.isArray(block.content) ? block.content : []) {
+            const tags = Array.isArray(item.concept_tags) ? item.concept_tags.join(" ") : "";
+            const classifier = [tags, item.mastery_tag, block.title, item.type].join(" ").toLowerCase();
+            const section = /listening|audio|listen/.test(classifier) ? "listening"
+              : /reading|comprehension|read/.test(classifier) ? "reading"
+              : /vocab|idiom|collocation|word.?formation/.test(classifier) ? "vocabulary"
+              : /writing|speaking|production/.test(classifier) ? "writing" : "grammar";
+            const prompt = [item.stimulus_en, item.question_en, item.prompt_es]
+              .filter((value: unknown) => typeof value === "string" && value.trim()).join(" · ");
+            if (prompt) groups.set(section, [...(groups.get(section) ?? []), prompt]);
+          }
+        }
+        const labels: Record<string, string> = {
+          grammar: "Gramática", vocabulary: "Vocabulario",
+          listening: "Comprensión auditiva", reading: "Comprensión lectora",
+          writing: "Expresión escrita",
+        };
+        const sections = ["grammar", "vocabulary", "listening", "reading", "writing"].map((type) => ({
+          type, title: labels[type], body: (groups.get(type) ?? []).join("\\n"),
+        }));
         return {
-          id: `c2-${String(unit.id).padStart(2, "0")}`,
-          number: unit.id, unit: unit.id, title: unit.title,
-          objective: `Unidad C2: ${unit.title}`,
-          estimated_minutes: 45,
+          id: `c2-${String(row.unit_number).padStart(2, "0")}`,
+          number: row.unit_number,
+          unit: row.unit_number,
+          title: row.title,
+          objective: Array.isArray(source.learning_outcomes) ? source.learning_outcomes.join(" · ") : `Unidad C2: ${row.title}`,
+          estimated_minutes: Number(source.course?.total_duration_minutes ?? 45),
           content: { sections, reviewEnabled: true },
         };
       });
       return NextResponse.json({
         course: {
-          id: "ingles-c2", title: "Inglés dominio experto", level: "C2",
-          description: "Unidades C2 disponibles en el catálogo, con gramática, vocabulario, comprensión auditiva y comprensión lectora.",
+          id: "english-c2", title: "English C2: Proficiency", level: "C2",
+          description: "Curso C2 cargado desde el contenido canónico almacenado en D1.",
           lesson_count: lessons.length,
         },
         lessons,
