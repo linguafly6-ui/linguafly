@@ -8,6 +8,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import { getLegacyB1ListeningExercises } from "../src/lib/learning/legacy-b1-listening";
 
 const ROOT = path.join(import.meta.dirname, "..");
 const SOURCE_ROOT = path.join(ROOT, "src", "content", "cursos");
@@ -294,6 +295,57 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
           summary[levelConfig.level].bySection[section] = (summary[levelConfig.level].bySection[section] ?? 0) + 1;
         }
       }
+      // The newer B1 JSON units do not carry the original 15-question
+      // Listening lesson. Restore it from the preserved lesson modules only
+      // when the canonical JSON has no Listening content, avoiding duplicates.
+      const hasCanonicalListening = unit.blocks.some((block) =>
+        block.content.some((item) => sectionFor(item, block.title) === "listening")
+      );
+      if (levelConfig.level === "B1" && !hasCanonicalListening) {
+        const legacyListening = getLegacyB1ListeningExercises(unitNumber);
+        for (const legacyExercise of legacyListening) {
+          const question = legacyExercise.content?.questions?.[0];
+          if (!question) continue;
+          const id = legacyExercise.id;
+          validateExerciseId(id, `legacy B1 Listening unit ${unitNumber}`);
+          if (seenIds.has(id)) throw new Error(`Duplicate legacy Listening exercise ID ${id}`);
+          seenIds.add(id);
+          exerciseNumber++;
+
+          const options = question.options.map(String);
+          const answerIndex = typeof question.correctAnswer === "number"
+            ? question.correctAnswer
+            : Number(question.correctAnswer);
+          const correct = Number.isInteger(answerIndex) && answerIndex >= 0 && answerIndex < options.length
+            ? options[answerIndex]
+            : String(question.correctAnswer ?? "");
+          const transcript = String(legacyExercise.transcript ?? "");
+          const prompt = String(question.question ?? "");
+          const explanation = String(question.explanation ?? "");
+          statements.push(exerciseStatement(
+            lessonId,
+            id,
+            exerciseNumber,
+            "listening",
+            "multiple_choice",
+            distinctPrompt(prompt, "listening", seenPrompts),
+            options,
+            correct,
+            explanation || (correct ? `Respuesta correcta: ${correct}` : ""),
+            {
+              source: "legacy-b1-listening",
+              sourceInteractionId: id,
+              sourceType: "listening",
+              unitNumber,
+            },
+            transcript
+          ));
+          summary[levelConfig.level].exercises++;
+          summary[levelConfig.level].bySection.listening =
+            (summary[levelConfig.level].bySection.listening ?? 0) + 1;
+        }
+      }
+
       if (!exerciseNumber) throw new Error(`No exercises found in ${levelConfig.folder}/${file.name}`);
     }
   }
