@@ -29,13 +29,78 @@ function normalizeCourseSections(value: unknown): unknown {
   return { ...content, sections };
 }
 
+
+function buildStaticB1Lessons(): CourseResponse {
+  const lessons: Lesson[] = Array.from({ length: 60 }, (_, index) => {
+    const unitNumber = index + 1;
+    const unit = getLegacyAdvancedUnit("b1", unitNumber);
+    const objective = unit?.learning_outcomes?.join(" · ")
+      || `Practicar inglés B1 en la unidad ${unitNumber}.`;
+    const sectionTypes = ["grammar", "vocabulary", "listening", "reading"] as const;
+    const titles: Record<(typeof sectionTypes)[number], string> = {
+      grammar: "Gramática",
+      vocabulary: "Vocabulario",
+      listening: "Comprensión auditiva",
+      reading: "Comprensión lectora",
+    };
+    const sections = sectionTypes.map((type) => {
+      const items = (unit?.blocks ?? []).flatMap((block) => block.content
+        .filter((item) => getLegacyAdvancedSection(item, block.title) === type)
+        .map((item) => ({ item, blockTitle: block.title })));
+      const firstItem = items[0]?.item;
+      const body = items.map(({ item, blockTitle }) => [
+        blockTitle, item.prompt_es, item.stimulus_en, item.question_en,
+        item.main_text, item.transcript,
+      ].filter(Boolean).join(" · ")).join("\\n");
+      return {
+        type,
+        title: titles[type],
+        body: body || (type === "listening" ? "Comprensión auditiva: escucha y comprende el inglés en contexto." : `${titles[type]}: contenido de la unidad.`),
+        ...(type === "grammar" ? { example: firstItem?.stimulus_en ?? "" } : {}),
+        ...(type === "listening" ? {
+          audioText: typeof firstItem?.transcript === "string" ? firstItem.transcript : firstItem?.stimulus_en ?? "",
+          ...(typeof firstItem?.transcript === "string" ? { transcript: firstItem.transcript } : {}),
+        } : {}),
+      };
+    });
+    return {
+      id: `b1-${String(unitNumber).padStart(2, "0")}`,
+      number: unitNumber,
+      unit: unitNumber,
+      title: unit?.course?.unit_title || `Unidad ${unitNumber} · Inglés B1`,
+      objective,
+      estimated_minutes: unit?.course?.total_duration_minutes || 15,
+      content: { objective, sections, reviewEnabled: true },
+    };
+  });
+  return {
+    course: {
+      id: "english-b1",
+      title: "English B1: Independent User",
+      level: "B1",
+      description: "Curso B1 con contenido original, gramática, vocabulario, comprensión auditiva y lectura.",
+      lesson_count: lessons.length,
+    },
+    lessons,
+  };
+}
+
 export async function GET(request: NextRequest) {
+  const level = (new URL(request.url).searchParams.get("level") || "A1")
+    .trim()
+    .toUpperCase()
+    .slice(0, 8);
+
+  // B1 lesson outlines are bundled with the Worker so Preview can serve the
+  // course without depending on a pre-seeded D1 database.
+  if (level === "B1") {
+    return NextResponse.json(buildStaticB1Lessons(), {
+      headers: { "Cache-Control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600" },
+    });
+  }
+
   try {
     const { env } = await resolveCloudflareEnv();
-    const level = (new URL(request.url).searchParams.get("level") || "A1")
-      .trim()
-      .toUpperCase()
-      .slice(0, 8);
 
     const result = await env.DB.prepare(
       `SELECT
