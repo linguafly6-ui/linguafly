@@ -47,16 +47,20 @@ jobs:
             echo "::error::Generated SQL contains a suspicious missing value."
             exit 1
           fi
-          for section in grammar vocabulary listening reading production; do
+          for section in grammar vocabulary listening reading; do
             if ! grep -R -q "'$section'" "$SEED_DIR"; then
               echo "::error::Normalized course data is missing the required B1 section: $section"
               exit 1
             fi
           done
+          if grep -R -nE "'production'|\\"production\\"|AUTO_PRODUCTION" "$SEED_DIR"; then
+            echo "::error::B1 production section must not be published."
+            exit 1
+          fi
           if grep -R -n -- "--reset-test-progress" scripts/normalize-course-json-to-d1.ts .github/workflows/deploy-cloudflare.yml; then
             echo "::error::A destructive learner-progress reset must never run during deployment."
             exit 1
           fi
-          echo "Generated $(find "$SEED_DIR" -maxdepth 1 -name 'batch-*.sql' | wc -l) SQL batches with all five B1 sections."
+          echo "Generated $(find "$SEED_DIR" -maxdepth 1 -name 'batch-*.sql' | wc -l) SQL batches with all four B1 sections."
       - name: Type-check application
         run: npm run type-check
