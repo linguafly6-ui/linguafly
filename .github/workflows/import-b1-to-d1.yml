@@ -1,0 +1,84 @@
+name: Import B1 course into D1 blog
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_import:
+        description: "Confirm writing B1 units 1–60 to the remote D1 database blog"
+        required: true
+        type: choice
+        options:
+          - "I CONFIRM B1 IMPORT"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: import-b1-d1-blog
+  cancel-in-progress: false
+
+jobs:
+  import-b1:
+    if: ${{ inputs.confirm_import == 'I CONFIRM B1 IMPORT' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout selected branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check Cloudflare credentials and D1 schema
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CI: "true"
+        run: |
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo "::error::Missing CLOUDFLARE_API_TOKEN"; exit 1; }
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "::error::Missing CLOUDFLARE_ACCOUNT_ID"; exit 1; }
+          npx wrangler d1 execute blog --remote --command "SELECT name FROM sqlite_master WHERE type='table' AND name IN ('learning_courses','learning_lessons','learning_exercises');" --yes
+
+      - name: Generate SQL for B1 only
+        run: |
+          rm -rf /tmp/b1-d1-import
+          mkdir -p /tmp/b1-d1-import
+          npx tsx scripts/normalize-course-json-to-d1.ts --level B1 --sql-out-dir /tmp/b1-d1-import
+          shopt -s nullglob
+          files=(/tmp/b1-d1-import/batch-*.sql)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "::error::B1 normalization generated no SQL batches."
+            exit 1
+          fi
+          echo "Generated ${#files[@]} SQL batches for B1."
+
+      - name: Write B1 content to remote D1 blog
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CI: "true"
+        run: |
+          shopt -s nullglob
+          files=(/tmp/b1-d1-import/batch-*.sql)
+          for file in "${files[@]}"; do
+            echo "Importing $(basename "$file") into D1 blog"
+            npx wrangler d1 execute blog --remote --file="$file" --yes
+          done
+
+      - name: Verify B1 units and exercise distribution
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CI: "true"
+        run: |
+          npx wrangler d1 execute blog --remote --command "SELECT c.level, COUNT(DISTINCT l.id) AS units, COUNT(e.id) AS exercises FROM learning_courses c JOIN learning_lessons l ON l.course_id = c.id LEFT JOIN learning_exercises e ON e.lesson_id = l.id WHERE c.id = 'english-b1' GROUP BY c.level;" --yes
+          npx wrangler d1 execute blog --remote --command "SELECT e.section_type, COUNT(*) AS questions FROM learning_exercises e JOIN learning_lessons l ON l.id = e.lesson_id WHERE l.course_id = 'english-b1' GROUP BY e.section_type ORDER BY e.section_type;" --yes
+          npx wrangler d1 execute blog --remote --command "SELECT l.unit_number, e.section_type, COUNT(e.id) AS questions FROM learning_lessons l LEFT JOIN learning_exercises e ON e.lesson_id = l.id WHERE l.course_id = 'english-b1' GROUP BY l.unit_number, e.section_type HAVING COUNT(e.id) != 15 ORDER BY l.unit_number, e.section_type;" --yes
