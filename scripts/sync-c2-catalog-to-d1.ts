@@ -139,13 +139,15 @@ function main() {
 
   fs.rmSync(OUT, { recursive: true, force: true });
   fs.mkdirSync(OUT, { recursive: true });
-  const statements = records.map((record) => \`INSERT INTO learning_course_json_units
-  (course_key, level, unit_number, unit_id, title, source_path, content_hash, content_json, updated_at)
-VALUES
-  (\${sqlString(record.courseKey)}, \${sqlString(record.level)}, \${record.unitNumber},
-   \${sqlString(record.unitId)}, \${sqlString(record.title)}, \${sqlString(record.sourcePath)},
-   \${sqlString(record.hash)}, \${sqlString(record.content)}, strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
-ON CONFLICT(course_key, unit_number) DO NOTHING;\`);
+  const statements = records.map((record) =>
+    "INSERT INTO learning_course_json_units\n" +
+    "  (course_key, level, unit_number, unit_id, title, source_path, content_hash, content_json, updated_at)\n" +
+    "VALUES\n" +
+    "  (" + sqlString(record.courseKey) + ", " + sqlString(record.level) + ", " + record.unitNumber + ",\n" +
+    "   " + sqlString(record.unitId) + ", " + sqlString(record.title) + ", " + sqlString(record.sourcePath) + ",\n" +
+    "   " + sqlString(record.hash) + ", " + sqlString(record.content) + ", strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))\n" +
+    "ON CONFLICT(course_key, unit_number) DO NOTHING;"
+  );
 
   for (let start = 0; start < statements.length; start += 10) {
     const filename = "batch-" + String(Math.floor(start / 10) + 1).padStart(3, "0") + ".sql";
