@@ -38,6 +38,10 @@ export async function GET(request: NextRequest) {
       .toUpperCase()
       .slice(0, 8);
 
+    if (level === "B2") {
+      const lessons = B2_COURSE.units.map((unit) => ({ id: `b2-${String(unit.id).padStart(2, "0")}`, number: unit.id, unit: unit.id, title: unit.title, objective: unit.title, estimated_minutes: 30, content: { objective: unit.title, sections: [], reviewEnabled: true } }));
+      return NextResponse.json({ course: { id: "ingles-b2", title: "Inglés avanzado B2", level: "B2", description: "Curso B2", lesson_count: lessons.length }, lessons });
+    }
     const result = await env.DB.prepare(
       `SELECT
          c.id AS course_id,
