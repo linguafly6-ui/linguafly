@@ -181,7 +181,7 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
   if (!sectionNames.has(section)) return NextResponse.json({ error: "Sección no válida." }, { status: 400 });
 
 
-  const b2Match = /^b2-(\d{2})$/.exec(lessonId);
+  const b2Match = /^b2-(\d{2,3})$/.exec(lessonId);
   if (b2Match) {
     const unitNumber = Number(b2Match[1]);
     const unit = B2_COURSE.units.find((candidate) => candidate.id === unitNumber);
@@ -197,7 +197,7 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
     });
     return NextResponse.json({ exercises });
   }
-  const advancedMatch = /^(b1|b2|c1|c2)-(\d{2})$/.exec(lessonId);
+  const advancedMatch = /^(b1|b2|c1|c2)-(\d{2,3})$/.exec(lessonId);
   if (advancedMatch) {
     const normalizedExercises = await getNormalizedD1Exercises(lessonId, section);
     if (normalizedExercises) return NextResponse.json({ exercises: normalizedExercises });
