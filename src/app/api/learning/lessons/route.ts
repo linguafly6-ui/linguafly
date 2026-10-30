@@ -4,6 +4,22 @@ import a1LearningSections from "@/content/cursos/ingles-a1/aprender-sections.jso
 import a2LearningSections from "@/content/cursos/ingles-a2/aprender-sections.json";
 import { getLegacyAdvancedUnit, getLegacyAdvancedSection } from "@/lib/learning/legacy-advanced-units";
 import { a2Units } from "@/lib/learning/a2-units";
+import { B2_COURSE } from "@/lib/course/b2";
+
+function isB2ExerciseInSection(exercise: { topicName?: unknown; type?: unknown }, section: string): boolean {
+  const normalize = (value: unknown) => String(value ?? "").trim().toLowerCase().replace(/[^a-z]+/g, " ");
+  const topicName = normalize(exercise.topicName);
+  const exerciseType = normalize(exercise.type);
+  const aliases: Record<string, string[]> = {
+    grammar: ["grammar"],
+    vocabulary: ["vocabulary", "lexis"],
+    listening: ["listening", "listening comprehension", "audio comprehension"],
+    reading: ["reading", "reading comprehension", "text comprehension"],
+  };
+  const terms = aliases[section] ?? [section];
+  return terms.some((term) => topicName.includes(term) || exerciseType.includes(term));
+}
+
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -31,12 +47,16 @@ function normalizeCourseSections(value: unknown): unknown {
 
 export async function GET(request: NextRequest) {
   try {
-    const { env } = await resolveCloudflareEnv();
     const level = (new URL(request.url).searchParams.get("level") || "A1")
       .trim()
       .toUpperCase()
       .slice(0, 8);
 
+    if (level === "B2") {
+      const lessons = B2_COURSE.units.map((unit) => ({ id: `b2-${String(unit.id).padStart(2, "0")}`, number: unit.id, unit: unit.id, title: unit.title, objective: unit.title, estimated_minutes: 30, content: { objective: unit.title, sections: ["grammar", "vocabulary", "listening", "reading"].map((type) => ({ type, title: type === "grammar" ? "Gramática" : type === "vocabulary" ? "Vocabulario" : type === "listening" ? "Comprensión auditiva" : "Comprensión lectora", body: unit.exercises.filter((exercise) => isB2ExerciseInSection(exercise, type)).length + " ejercicios", exercise_count: unit.exercises.filter((exercise) => isB2ExerciseInSection(exercise, type)).length })), reviewEnabled: true } }));
+      return NextResponse.json({ course: { id: "ingles-b2", title: "Inglés avanzado B2", level: "B2", description: "Curso B2", lesson_count: lessons.length }, lessons });
+    }
+    const { env } = await resolveCloudflareEnv();
     const result = await env.DB.prepare(
       `SELECT
          c.id AS course_id,

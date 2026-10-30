@@ -5,6 +5,22 @@ import { getSessionUser } from "@/lib/learning/auth";
 import { resolveCloudflareEnv } from "@/lib/db/client";
 import { getA1LegacyUnit, type A1LegacyItem as LegacyItem, type A1LegacyUnit as LegacyUnit } from "@/lib/learning/a1-legacy-units";
 import { getLegacyAdvancedUnit, getLegacyAdvancedItem, getLegacyAdvancedSection, type LegacyAdvancedItem } from "@/lib/learning/legacy-advanced-units";
+import { B2_COURSE } from "@/lib/course/b2";
+
+function isB2ExerciseInSection(exercise: { topicName?: unknown; type?: unknown }, section: string): boolean {
+  const normalize = (value: unknown) => String(value ?? "").trim().toLowerCase().replace(/[^a-z]+/g, " ");
+  const topicName = normalize(exercise.topicName);
+  const exerciseType = normalize(exercise.type);
+  const aliases: Record<string, string[]> = {
+    grammar: ["grammar"],
+    vocabulary: ["vocabulary", "lexis"],
+    listening: ["listening", "listening comprehension", "audio comprehension"],
+    reading: ["reading", "reading comprehension", "text comprehension"],
+  };
+  const terms = aliases[section] ?? [section];
+  return terms.some((term) => topicName.includes(term) || exerciseType.includes(term));
+}
+
 
 const sectionNames = new Set(["grammar", "vocabulary", "listening", "reading", "production"]);
 
@@ -170,7 +186,23 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
   if (!sectionNames.has(section)) return NextResponse.json({ error: "Sección no válida." }, { status: 400 });
 
 
-  const advancedMatch = /^(b1|b2|c1|c2)-(\d{2})$/.exec(lessonId);
+  const b2Match = /^b2-(\d{2,3})$/.exec(lessonId);
+  if (b2Match) {
+    const unitNumber = Number(b2Match[1]);
+    const unit = B2_COURSE.units.find((candidate) => candidate.id === unitNumber);
+    if (!unit) return NextResponse.json({ error: "Unidad B2 no disponible." }, { status: 404 });
+    const selected = unit.exercises.filter((exercise) => isB2ExerciseInSection(exercise, section));
+    const exercises = selected.flatMap((exercise, index) => {
+      const question = exercise.content?.questions?.[0];
+      if (!question) return [];
+      const options = Array.isArray(question.options) ? question.options.map((option: string) => plainEnglish(option)) : [];
+      const type = options.length ? "multiple_choice" : exercise.type === "fill-blank" ? "fill_blank" : "free_text";
+      const transcript = exercise.transcript ? plainEnglish(exercise.transcript) : null;
+      return [{ id: exercise.id, number: index + 1, type, prompt: plainEnglish(question.question ?? exercise.content?.instructions ?? ""), options, audioText: section === "listening" ? transcript : null, passageText: section === "reading" ? transcript : null }];
+    });
+    return NextResponse.json({ exercises });
+  }
+  const advancedMatch = /^(b1|b2|c1|c2)-(\d{2,3})$/.exec(lessonId);
   if (advancedMatch) {
     const normalizedExercises = await getNormalizedD1Exercises(lessonId, section);
     if (normalizedExercises) return NextResponse.json({ exercises: normalizedExercises });
@@ -273,6 +305,22 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
     return NextResponse.json({ error: "Respuesta no válida." }, { status: 400 });
   }
 
+  const b2Match = /^b2-(\d{2})$/.exec(lessonId);
+  if (b2Match) {
+    const unit = B2_COURSE.units.find((candidate) => candidate.id === Number(b2Match[1]));
+    const exercise = unit?.exercises.find((candidate) => candidate.id === payload.exerciseId);
+    const question = exercise?.content?.questions?.[0];
+    if (!question) return NextResponse.json({ error: "Ejercicio B2 no encontrado." }, { status: 404 });
+    const normalize = (value: string) => value.trim().replace(/\\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, "");
+    const expectedValues = Array.isArray(question.acceptableAnswers) ? question.acceptableAnswers.map(String) : [];
+    if (question.correctAnswer !== undefined) {
+      if (typeof question.correctAnswer === "number" && Array.isArray(question.options)) expectedValues.push(plainEnglish(String(question.options[question.correctAnswer] ?? "")));
+      else expectedValues.push(plainEnglish(String(question.correctAnswer)));
+    }
+    const correct = expectedValues.some((expected) => normalize(expected) === normalize(payload.answer as string));
+    const explanation = plainText(question.explanation ?? (expectedValues[0] ? "Respuesta correcta: " + expectedValues[0] : ""));
+    return NextResponse.json({ correct, explanation, authenticated: false });
+  }
   const a1Match = /^a1-(\d{2})$/.exec(lessonId);
   if (a1Match) {
     const unitNumber = Number(a1Match[1]);
