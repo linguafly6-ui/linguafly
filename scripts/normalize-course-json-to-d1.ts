@@ -20,9 +20,17 @@ const LEVELS = [
 
 const argIndex = process.argv.findIndex((arg) => arg === "--sql-out-dir");
 if (argIndex < 0 || !process.argv[argIndex + 1]) {
-  console.error("Usage: normalize-course-json-to-d1.ts --sql-out-dir <directory>");
+  console.error("Usage: normalize-course-json-to-d1.ts --sql-out-dir <directory> [--level B1|B2|C1|C2]");
   process.exit(1);
 }
+const levelArgIndex = process.argv.findIndex((arg) => arg === "--level");
+const requestedLevel = levelArgIndex >= 0 ? process.argv[levelArgIndex + 1]?.toUpperCase() : undefined;
+if (requestedLevel && !LEVELS.some((level) => level.level === requestedLevel)) {
+  throw new Error(`Unsupported --level value: ${requestedLevel}. Use B1, B2, C1 or C2.`);
+}
+const SELECTED_LEVELS = requestedLevel
+  ? LEVELS.filter((level) => level.level === requestedLevel)
+  : LEVELS;
 const OUT = path.resolve(process.argv[argIndex + 1]);
 const RESET_TEST_PROGRESS = process.argv.includes("--reset-test-progress");
 
@@ -138,7 +146,7 @@ function distinctPrompt(prompt: string, section: string, seen: Map<string, numbe
 function main() {
   const statements: string[] = [];
   const summary: Record<string, { units: number; exercises: number; bySection: Record<string, number> }> = {};
-  for (const levelConfig of LEVELS) {
+  for (const levelConfig of SELECTED_LEVELS) {
     const dir = path.join(SOURCE_ROOT, levelConfig.folder);
     if (!fs.existsSync(dir)) throw new Error(`Missing canonical course folder: ${levelConfig.folder}`);
     const files = fs.readdirSync(dir).map((name) => {
