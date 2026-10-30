@@ -171,6 +171,26 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
   if (!sectionNames.has(section)) return NextResponse.json({ error: "Sección no válida." }, { status: 400 });
 
 
+  const b2Match = /^b2-(\d{2})$/.exec(lessonId);
+  if (b2Match) {
+    const unitNumber = Number(b2Match[1]);
+    const unit = B2_COURSE.units.find((candidate) => candidate.id === unitNumber);
+    if (!unit) return NextResponse.json({ error: "Unidad B2 no disponible." }, { status: 404 });
+    const selected = unit.exercises.filter((exercise) => {
+      const category = String(exercise.topicName ?? "").toLowerCase();
+      const exerciseType = String(exercise.type ?? "").toLowerCase();
+      return category === section || (section === "reading" && exerciseType.includes("reading")) || (section === "listening" && exerciseType.includes("listening"));
+    });
+    const exercises = selected.flatMap((exercise, index) => {
+      const question = exercise.content?.questions?.[0];
+      if (!question) return [];
+      const options = Array.isArray(question.options) ? question.options.map((option: string) => plainEnglish(option)) : [];
+      const type = options.length ? "multiple_choice" : exercise.type === "fill-blank" ? "fill_blank" : "free_text";
+      const transcript = exercise.transcript ? plainEnglish(exercise.transcript) : null;
+      return [{ id: exercise.id, number: index + 1, type, prompt: plainEnglish(question.question ?? exercise.content?.instructions ?? ""), options, audioText: section === "listening" ? transcript : null, passageText: section === "reading" ? transcript : null }];
+    });
+    return NextResponse.json({ exercises });
+  }
   const advancedMatch = /^(b1|b2|c1|c2)-(\d{2})$/.exec(lessonId);
   if (advancedMatch) {
     const normalizedExercises = await getNormalizedD1Exercises(lessonId, section);
