@@ -120,6 +120,8 @@ jobs:
           rm -rf "$SEED_DIR"
           mkdir -p "$SEED_DIR"
           npx tsx scripts/normalize-course-json-to-d1.ts --sql-out-dir "$SEED_DIR"
+          # Preserve all existing learner progress. Normalize only B1 for this content restoration.
+          npx tsx scripts/normalize-course-json-to-d1.ts --sql-out-dir "$SEED_DIR" --levels B1
           shopt -s nullglob
           files=("$SEED_DIR"/batch-*.sql)
           if [ ${#files[@]} -eq 0 ]; then
