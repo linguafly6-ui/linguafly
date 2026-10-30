@@ -6,6 +6,7 @@ import { resolveCloudflareEnv } from "@/lib/db/client";
 import { getA1LegacyUnit, type A1LegacyItem as LegacyItem, type A1LegacyUnit as LegacyUnit } from "@/lib/learning/a1-legacy-units";
 import { getLegacyAdvancedUnit, getLegacyAdvancedItem, getLegacyAdvancedSection, type LegacyAdvancedItem } from "@/lib/learning/legacy-advanced-units";
 import { C1_COURSE } from "@/lib/course/c1";
+import { C2_COURSE } from "@/lib/course/c2";
 
 const sectionNames = new Set(["grammar", "vocabulary", "listening", "reading", "production"]);
 
@@ -57,6 +58,28 @@ function advancedPrompt(item: LegacyAdvancedItem): string {
   return [item.question_en, item.stimulus_en, item.prompt_es].map(advancedPlainText).find(Boolean) ?? "";
 }
 
+
+function getC2CatalogExercise(lessonId: string, exerciseId: string) {
+  const match = /^c2-(\\d{2})$/.exec(lessonId);
+  if (!match) return null;
+  const unit = C2_COURSE.units.find((candidate) => candidate.id === Number(match[1]));
+  return unit?.exercises.find((exercise) => exercise.id === exerciseId) ?? null;
+}
+
+function c2ExerciseSection(exercise: { topicName?: string }): string | null {
+  const section = (exercise.topicName ?? "").toLowerCase();
+  return ["grammar", "vocabulary", "listening", "reading"].includes(section) ? section : null;
+}
+
+function c2Question(exercise: { content: any }) {
+  return exercise.content?.questions?.[0] ?? null;
+}
+
+function c2Options(question: any): string[] {
+  return Array.isArray(question?.options) ? question.options.map((option: unknown) =>
+    typeof option === "string" ? plainEnglish(option) : String(option ?? "")
+  ) : [];
+}
 
 function getC1CatalogExercise(lessonId: string, exerciseId: string) {
   const match = /^c1-(\d{2})$/.exec(lessonId);
