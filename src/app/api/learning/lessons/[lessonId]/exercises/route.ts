@@ -309,6 +309,22 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
     return NextResponse.json({ error: "Respuesta no válida." }, { status: 400 });
   }
 
+  const b2Match = /^b2-(\d{2})$/.exec(lessonId);
+  if (b2Match) {
+    const unit = B2_COURSE.units.find((candidate) => candidate.id === Number(b2Match[1]));
+    const exercise = unit?.exercises.find((candidate) => candidate.id === payload.exerciseId);
+    const question = exercise?.content?.questions?.[0];
+    if (!question) return NextResponse.json({ error: "Ejercicio B2 no encontrado." }, { status: 404 });
+    const normalize = (value: string) => value.trim().replace(/\\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, "");
+    const expectedValues = Array.isArray(question.acceptableAnswers) ? question.acceptableAnswers.map(String) : [];
+    if (question.correctAnswer !== undefined) {
+      if (typeof question.correctAnswer === "number" && Array.isArray(question.options)) expectedValues.push(plainEnglish(String(question.options[question.correctAnswer] ?? "")));
+      else expectedValues.push(plainEnglish(String(question.correctAnswer)));
+    }
+    const correct = expectedValues.some((expected) => normalize(expected) === normalize(payload.answer as string));
+    const explanation = plainText(question.explanation ?? (expectedValues[0] ? "Respuesta correcta: " + expectedValues[0] : ""));
+    return NextResponse.json({ correct, explanation, authenticated: false });
+  }
   const a1Match = /^a1-(\d{2})$/.exec(lessonId);
   if (a1Match) {
     const unitNumber = Number(a1Match[1]);
