@@ -61,6 +61,7 @@ function validateExerciseId(id: string, file: string): void {
 }
 function sectionFor(item: Interaction, blockTitle: string): string {
   const mastery = String(item.mastery_tag ?? "").toLowerCase();
+  if (mastery.startsWith("production:")) return "ignored";
   for (const section of REQUIRED_B1_SECTIONS) {
     if (mastery.startsWith(section + ":")) return section;
   }
@@ -68,7 +69,7 @@ function sectionFor(item: Interaction, blockTitle: string): string {
   if (/listening|audio|listen/.test(text)) return "listening";
   if (/reading|comprehension|read/.test(text)) return "reading";
   if (/vocab|idiom|word-formation|word formation|collocation/.test(text)) return "vocabulary";
-  if (/production|speaking|writing|communication/.test(text)) return "production";
+  if (/production|speaking|writing/.test(text)) return "ignored";
   return "grammar";
 }
 function promptFor(item: Interaction): string {
@@ -139,7 +140,7 @@ function distinctPrompt(prompt: string, section: string, seen: Map<string, numbe
   return count === 1 ? prompt : `${prompt} (Actividad ${count})`;
 }
 
-const REQUIRED_B1_SECTIONS = ["grammar", "vocabulary", "listening", "reading", "production"] as const;
+const REQUIRED_B1_SECTIONS = ["grammar", "vocabulary", "listening", "reading"] as const;
 
 function englishBilingualText(value: string): string {
   return value.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, (_whole, left: string, right: string) => {
@@ -222,28 +223,9 @@ function generatedSection(unit: Unit, n: number, section: typeof REQUIRED_B1_SEC
     vocabulary: "Vocabulary in context: " + topic,
     listening: "Listening: " + topic,
     reading: "Reading: " + topic,
-    production: "Production: " + topic
   };
   if (section === "reading") return { block_id: "AUTO_READING", title: titles.reading, duration_minutes: 20, content: generatedReading(unit, n) };
   if (section === "listening") return { block_id: "AUTO_LISTENING", title: titles.listening, duration_minutes: 15, content: generatedListening(unit, n) };
-  if (section === "production") {
-    const prompts = [
-      "Write an email to a friend explaining your experience with " + topic.toLowerCase() + ". Include two details and ask a question.",
-      "Describe a problem related to " + topic.toLowerCase() + " and suggest two practical solutions.",
-      "Give your opinion about " + topic.toLowerCase() + ". Support it with reasons and an example.",
-      "Compare two possible choices connected with " + topic.toLowerCase() + ". Explain which one you would recommend.",
-      "Imagine you are discussing " + topic.toLowerCase() + " in a group. Write a short response agreeing or disagreeing politely and explain why."
-    ];
-    return {
-      block_id: "AUTO_PRODUCTION", title: titles.production, duration_minutes: 25,
-      content: prompts.map((prompt, i) => ({
-        interaction_id: "B1_U" + n + "_AUTO_PRODUCTION_Q" + (i + 1),
-        type: "open_ended", prompt_es: prompt, question_en: prompt, correct_answer: "",
-        explanation: "Assessment: clear organisation, relevant vocabulary for the topic, accurate B1 grammar, linking words, and a clear response to every part of the task.",
-        mastery_tag: "production:b1-" + slug, concept_tags: ["production", "writing", "speaking", "b1", slug]
-      }))
-    };
-  }
   const tasks: [string, string[], string][] = section === "grammar"
     ? [
       ["Choose the correct form: If people plan carefully, they ___ better decisions.", ["make", "makes", "making", "made"], "o1"],
@@ -284,6 +266,11 @@ function countSectionExercises(items: Interaction[]): number {
 
 function ensureB1Sections(unit: Unit, n: number, file: string): void {
   if (unit.course.level?.toUpperCase() !== "B1") return;
+  // Production/writing/speaking is not part of the B1 web course curriculum.
+  // Remove those source activities before building public lesson content or exercises.
+  unit.blocks = unit.blocks
+    .map((block) => ({ ...block, content: block.content.filter((item) => sectionFor(item, block.title) !== "ignored") }))
+    .filter((block) => block.content.length > 0);
   for (const section of REQUIRED_B1_SECTIONS) {
     const items = unit.blocks
       .filter((block) => block.content.some((item) => sectionFor(item, block.title) === section))
@@ -293,8 +280,6 @@ function ensureB1Sections(unit: Unit, n: number, file: string): void {
       ? items.some((item) => Boolean(item.main_text || item.transcript)) && items.filter((item) => item.options?.length).length >= 5
       : section === "listening"
       ? items.some((item) => Boolean(item.transcript)) && items.filter((item) => item.options?.length).length >= 5
-      : section === "production"
-      ? items.some((item) => /open.?ended|free.?response|essay|writing_task|speaking_task/i.test(item.type))
       : true;
     if (exerciseCount < 5 || !hasRequiredText) {
       unit.blocks.push(generatedSection(unit, n, section));
@@ -386,6 +371,7 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
             throw new Error(`Missing interaction_id in ${levelConfig.folder}/${file.name}`);
           }
           const section = sectionFor(item, block.title);
+          if (section === "ignored") continue;
           const sourceMeta = { blockId: block.block_id ?? "", blockTitle: block.title, masteryTag: item.mastery_tag ?? "", conceptTags: item.concept_tags ?? [] };
           const baseOptions = optionTexts(item.options ?? []);
           const audioText = englishBilingualText(String(item.transcript || (section === "listening" ? item.main_text || item.stimulus_en || "" : section === "reading" ? item.main_text || item.transcript || item.stimulus_en || "" : "")));
