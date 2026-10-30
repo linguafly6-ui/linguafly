@@ -7,6 +7,16 @@ import { getA1LegacyUnit, type A1LegacyItem as LegacyItem, type A1LegacyUnit as 
 import { getLegacyAdvancedUnit, getLegacyAdvancedItem, getLegacyAdvancedSection, type LegacyAdvancedItem } from "@/lib/learning/legacy-advanced-units";
 import { B2_COURSE } from "@/lib/course/b2";
 
+function isB2ExerciseInSection(exercise: { topicName?: unknown; type?: unknown }, section: string): boolean {
+  const topicName = String(exercise.topicName ?? "").trim().toLowerCase();
+  const exerciseType = String(exercise.type ?? "").trim().toLowerCase();
+  if (topicName === section) return true;
+  if (section === "reading") return exerciseType.includes("reading");
+  if (section === "listening") return exerciseType.includes("listening");
+  return false;
+}
+
+
 const sectionNames = new Set(["grammar", "vocabulary", "listening", "reading", "production"]);
 
 function bilingualPart(value: string, preferred: "english" | "spanish"): string {
@@ -176,11 +186,7 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
     const unitNumber = Number(b2Match[1]);
     const unit = B2_COURSE.units.find((candidate) => candidate.id === unitNumber);
     if (!unit) return NextResponse.json({ error: "Unidad B2 no disponible." }, { status: 404 });
-    const selected = unit.exercises.filter((exercise) => {
-      const category = String(exercise.topicName ?? "").toLowerCase();
-      const exerciseType = String(exercise.type ?? "").toLowerCase();
-      return category === section || (section === "reading" && exerciseType.includes("reading")) || (section === "listening" && exerciseType.includes("listening"));
-    });
+    const selected = unit.exercises.filter((exercise) => isB2ExerciseInSection(exercise, section));
     const exercises = selected.flatMap((exercise, index) => {
       const question = exercise.content?.questions?.[0];
       if (!question) return [];
