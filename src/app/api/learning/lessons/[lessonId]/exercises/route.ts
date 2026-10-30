@@ -321,8 +321,8 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
     if (question.correctAnswer !== undefined) {
       if (typeof question.correctAnswer === "number" && Array.isArray(question.options)) expectedValues.push(plainEnglish(String(question.options[question.correctAnswer] ?? "")));
       else if (typeof question.correctAnswer === "string" && Array.isArray(question.options)) {
-        const matchingOption = question.options.find((option: unknown) => typeof option === "object" && option !== null && "id" in option && String((option as {id:unknown}).id) === question.correctAnswer);
-        if (matchingOption && "text" in matchingOption) expectedValues.push(plainEnglish(String((matchingOption as {text:unknown}).text)));
+        const matchingOption = question.options.find((option) => typeof option !== "string" && option.id === question.correctAnswer);
+        if (matchingOption) expectedValues.push(plainEnglish(matchingOption.text));
         else expectedValues.push(plainEnglish(question.correctAnswer));
       } else expectedValues.push(plainEnglish(String(question.correctAnswer)));
     }
