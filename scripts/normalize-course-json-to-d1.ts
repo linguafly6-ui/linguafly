@@ -3,7 +3,7 @@
  * learning_lessons and learning_exercises. A1/A2 are intentionally excluded:
  * their curated D1 exercise IDs and learner history require a separate mapping.
  *
- * Usage: npx tsx scripts/normalize-course-json-to-d1.ts --sql-out-dir /tmp/d1-normalized-seed [--reset-test-progress]
+ * Usage: npx tsx scripts/normalize-course-json-to-d1.ts --sql-out-dir /tmp/d1-normalized-seed [--levels B1,B2] [--reset-test-progress]
  * This generates idempotent SQL; it does not connect to D1.
  */
 import fs from "node:fs";
@@ -26,6 +26,12 @@ if (argIndex < 0 || !process.argv[argIndex + 1]) {
 }
 const OUT = path.resolve(process.argv[argIndex + 1]);
 const RESET_TEST_PROGRESS = process.argv.includes("--reset-test-progress");
+const levelsArgIndex = process.argv.findIndex((arg) => arg === "--levels");
+const requestedLevels = levelsArgIndex >= 0 ? (process.argv[levelsArgIndex + 1] ?? "").split(",").map((level) => level.trim().toUpperCase()).filter(Boolean) : null;
+if (requestedLevels && (!requestedLevels.length || requestedLevels.some((level) => !LEVELS.some((config) => config.level === level)))) {
+  throw new Error("--levels must contain one or more of: B1, B2, C1, C2");
+}
+const SELECTED_LEVELS = requestedLevels ? LEVELS.filter((config) => requestedLevels.includes(config.level)) : LEVELS;
 
 type Option = { id?: string; text?: string };
 type Interaction = {
@@ -139,7 +145,7 @@ function distinctPrompt(prompt: string, section: string, seen: Map<string, numbe
 function main() {
   const statements: string[] = [];
   const summary: Record<string, { units: number; exercises: number; bySection: Record<string, number> }> = {};
-  for (const levelConfig of LEVELS) {
+  for (const levelConfig of SELECTED_LEVELS) {
     const dir = path.join(SOURCE_ROOT, levelConfig.folder);
     if (!fs.existsSync(dir)) throw new Error(`Missing canonical course folder: ${levelConfig.folder}`);
     const files = fs.readdirSync(dir).map((name) => {
