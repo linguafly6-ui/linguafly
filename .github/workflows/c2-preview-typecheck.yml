@@ -1,0 +1,32 @@
+name: C2 preview TypeScript validation
+
+on:
+  push:
+    branches:
+      - review/c2-course-100-units
+    paths:
+      - "src/app/api/courses/c2/**"
+      - "src/app/api/learning/lessons/**"
+      - "src/lib/course/load-course-unit-data.ts"
+      - "src/lib/services/premium-course-service.server.ts"
+      - ".github/workflows/c2-preview-typecheck.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Type-check application
+        run: npm run type-check
