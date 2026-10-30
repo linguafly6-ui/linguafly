@@ -70,20 +70,20 @@ function sectionFor(item: Interaction, blockTitle: string): string {
 }
 function promptFor(item: Interaction): string {
   if (/fill.?blanks?/i.test(item.type) && typeof item.main_text === "string") {
-    return [item.prompt_es, item.main_text].filter((value) => typeof value === "string" && value.trim()).join("\n\n");
+    return englishBilingualText([item.prompt_es, item.main_text].filter((value) => typeof value === "string" && value.trim()).join("\n\n"));
   }
   return englishBilingualText([item.question_en, item.stimulus_en, item.prompt_es]
     .find((value) => typeof value === "string" && value.trim())?.trim() ?? "");
 }
 function expectedText(answer: unknown, options: Option[]): string {
   if (typeof answer === "string") {
-    return options.find((option) => option.id === answer)?.text ?? answer;
+    return englishBilingualText(options.find((option) => option.id === answer)?.text ?? answer);
   }
   if (Array.isArray(answer)) {
-    return answer.map((part) => {
+    return englishBilingualText(answer.map((part) => {
       const found = options.find((option) => option.id === String(part));
       return found?.text ?? String(part);
-    }).join(" ");
+    }).join(" "));
   }
   if (typeof answer === "boolean") return answer ? "True" : "False";
   return answer == null ? "" : String(answer);
@@ -319,12 +319,13 @@ description = excluded.description, published = 1, updated_at = strftime('%Y-%m-
         learningOutcomes: unit.learning_outcomes ?? [],
         masteryTags: unit.mastery_tags ?? [],
         sections: unit.blocks.map((block) => ({
-          type: sectionFor(block.content[0] ?? ({} as Interaction), block.title),
+          type: "learn",
+          sectionType: sectionFor(block.content[0] ?? ({} as Interaction), block.title),
           title: block.title,
-          body: block.content.map((item) => [item.question_en, item.stimulus_en, item.prompt_es, item.main_text]
+          body: block.content.map((item) => [item.question_en, item.stimulus_en, item.prompt_es, item.main_text, item.transcript]
             .filter((value) => typeof value === "string" && value.trim()).map((value) => englishBilingualText(String(value))).join(" · ")).join("\n"),
-          ...(block.content.some((item) => item.type.toLowerCase().includes("listening"))
-            ? { audioText: block.content.map((item) => item.transcript ?? item.stimulus_en ?? "").filter(Boolean).join("\n") } : {}),
+          ...(block.content.some((item) => sectionFor(item, block.title) === "listening")
+            ? { audioText: block.content.map((item) => item.transcript || item.main_text || item.stimulus_en || "").filter(Boolean).map(englishBilingualText).join("\n") } : {}),
         })),
         reviewEnabled: true,
         source: { courseKey: levelConfig.folder, unitId: unit.course.unit_id, file: path.relative(ROOT, absolute).split(path.sep).join("/") },
