@@ -303,8 +303,8 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
     const normalize = (value: string) => value.trim().replace(/\\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, "");
     const expectedValues = Array.isArray(question.acceptableAnswers) ? question.acceptableAnswers.map(String) : [];
     if (question.correctAnswer !== undefined) {
-      if (typeof question.correctAnswer === "number" && Array.isArray(question.options)) expectedValues.push(String(question.options[question.correctAnswer] ?? ""));
-      else expectedValues.push(String(question.correctAnswer));
+      if (typeof question.correctAnswer === "number" && Array.isArray(question.options)) expectedValues.push(plainEnglish(String(question.options[question.correctAnswer] ?? "")));
+      else expectedValues.push(plainEnglish(String(question.correctAnswer)));
     }
     const correct = expectedValues.some((expected) => normalize(expected) === normalize(payload.answer as string));
     const explanation = plainText(question.explanation ?? (expectedValues[0] ? "Respuesta correcta: " + expectedValues[0] : ""));
