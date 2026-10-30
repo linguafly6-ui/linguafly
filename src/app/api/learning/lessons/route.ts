@@ -6,6 +6,16 @@ import { getLegacyAdvancedUnit, getLegacyAdvancedSection } from "@/lib/learning/
 import { a2Units } from "@/lib/learning/a2-units";
 import { B2_COURSE } from "@/lib/course/b2";
 
+function isB2ExerciseInSection(exercise: { topicName?: unknown; type?: unknown }, section: string): boolean {
+  const topicName = String(exercise.topicName ?? "").trim().toLowerCase();
+  const exerciseType = String(exercise.type ?? "").trim().toLowerCase();
+  if (topicName === section) return true;
+  if (section === "reading") return exerciseType.includes("reading");
+  if (section === "listening") return exerciseType.includes("listening");
+  return false;
+}
+
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -38,7 +48,7 @@ export async function GET(request: NextRequest) {
       .slice(0, 8);
 
     if (level === "B2") {
-      const lessons = B2_COURSE.units.map((unit) => ({ id: `b2-${String(unit.id).padStart(2, "0")}`, number: unit.id, unit: unit.id, title: unit.title, objective: unit.title, estimated_minutes: 30, content: { objective: unit.title, sections: ["grammar", "vocabulary", "listening", "reading"].map((type) => ({ type, title: type === "grammar" ? "Gramática" : type === "vocabulary" ? "Vocabulario" : type === "listening" ? "Comprensión auditiva" : "Comprensión lectora", body: unit.exercises.filter((exercise) => String(exercise.topicName ?? "").toLowerCase() === type).length + " ejercicios", exercise_count: unit.exercises.filter((exercise) => String(exercise.topicName ?? "").toLowerCase() === type).length })).filter((section) => section.exercise_count > 0), reviewEnabled: true } }));
+      const lessons = B2_COURSE.units.map((unit) => ({ id: `b2-${String(unit.id).padStart(2, "0")}`, number: unit.id, unit: unit.id, title: unit.title, objective: unit.title, estimated_minutes: 30, content: { objective: unit.title, sections: ["grammar", "vocabulary", "listening", "reading"].map((type) => ({ type, title: type === "grammar" ? "Gramática" : type === "vocabulary" ? "Vocabulario" : type === "listening" ? "Comprensión auditiva" : "Comprensión lectora", body: unit.exercises.filter((exercise) => isB2ExerciseInSection(exercise, type)).length + " ejercicios", exercise_count: unit.exercises.filter((exercise) => String(exercise.topicName ?? "").toLowerCase() === type).length })).filter((section) => section.exercise_count > 0), reviewEnabled: true } }));
       return NextResponse.json({ course: { id: "ingles-b2", title: "Inglés avanzado B2", level: "B2", description: "Curso B2", lesson_count: lessons.length }, lessons });
     }
     const { env } = await resolveCloudflareEnv();
