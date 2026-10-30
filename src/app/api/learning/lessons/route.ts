@@ -3,6 +3,7 @@ import { resolveCloudflareEnv } from "@/lib/db/client";
 import a1LearningSections from "@/content/cursos/ingles-a1/aprender-sections.json";
 import a2LearningSections from "@/content/cursos/ingles-a2/aprender-sections.json";
 import { getLegacyAdvancedUnit, getLegacyAdvancedSection } from "@/lib/learning/legacy-advanced-units";
+import { B1_COURSE } from "@/lib/course/b1";
 import { a2Units } from "@/lib/learning/a2-units";
 
 export const runtime = "nodejs";
@@ -31,56 +32,32 @@ function normalizeCourseSections(value: unknown): unknown {
 
 
 function buildStaticB1Lessons(): CourseResponse {
-  const lessons: Lesson[] = Array.from({ length: 60 }, (_, index) => {
-    const unitNumber = index + 1;
-    const unit = getLegacyAdvancedUnit("b1", unitNumber);
-    const objective = unit?.learning_outcomes?.join(" · ")
-      || `Practicar inglés B1 en la unidad ${unitNumber}.`;
+  const lessons: Lesson[] = B1_COURSE.units.map((unit) => {
+    const objective = `Practicar inglés B1: ${unit.title}.`;
     const sectionTypes = ["grammar", "vocabulary", "listening", "reading"] as const;
     const titles: Record<(typeof sectionTypes)[number], string> = {
-      grammar: "Gramática",
-      vocabulary: "Vocabulario",
-      listening: "Comprensión auditiva",
-      reading: "Comprensión lectora",
+      grammar: "Gramática", vocabulary: "Vocabulario",
+      listening: "Comprensión auditiva", reading: "Comprensión lectora",
     };
     const sections = sectionTypes.map((type) => {
-      const items = (unit?.blocks ?? []).flatMap((block) => block.content
-        .filter((item) => getLegacyAdvancedSection(item, block.title) === type)
-        .map((item) => ({ item, blockTitle: block.title })));
-      const firstItem = items[0]?.item;
-      const body = items.map(({ item, blockTitle }) => [
-        blockTitle, item.prompt_es, item.stimulus_en, item.question_en,
-        item.main_text, item.transcript,
-      ].filter(Boolean).join(" · ")).join("\\n");
+      const items = unit.exercises.filter((exercise) => exercise.topicName.toLowerCase() === type);
+      const body = items.map((exercise) => exercise.content?.questions?.[0]?.question).filter(Boolean).join("\\n");
+      const first = items[0];
       return {
-        type,
-        title: titles[type],
-        body: body || (type === "listening" ? "Comprensión auditiva: escucha y comprende el inglés en contexto." : `${titles[type]}: contenido de la unidad.`),
-        ...(type === "grammar" ? { example: firstItem?.stimulus_en ?? "" } : {}),
-        ...(type === "listening" ? {
-          audioText: typeof firstItem?.transcript === "string" ? firstItem.transcript : firstItem?.stimulus_en ?? "",
-          ...(typeof firstItem?.transcript === "string" ? { transcript: firstItem.transcript } : {}),
-        } : {}),
+        type, title: titles[type], body: body || titles[type],
+        ...(type === "grammar" ? { example: first?.content?.questions?.[0]?.question ?? "" } : {}),
+        ...(type === "listening" && first?.transcript ? { audioText: first.transcript, transcript: first.transcript } : {}),
       };
     });
     return {
-      id: `b1-${String(unitNumber).padStart(2, "0")}`,
-      number: unitNumber,
-      unit: unitNumber,
-      title: unit?.course?.unit_title || `Unidad ${unitNumber} · Inglés B1`,
-      objective,
-      estimated_minutes: unit?.course?.total_duration_minutes || 15,
+      id: `b1-${String(unit.id).padStart(2, "0")}`, number: unit.id, unit: unit.id,
+      title: unit.title, objective, estimated_minutes: 30,
       content: { objective, sections, reviewEnabled: true },
     };
   });
   return {
-    course: {
-      id: "english-b1",
-      title: "English B1: Independent User",
-      level: "B1",
-      description: "Curso B1 con contenido original, gramática, vocabulario, comprensión auditiva y lectura.",
-      lesson_count: lessons.length,
-    },
+    course: { id: "english-b1", title: "English B1: Independent User", level: "B1",
+      description: "Curso B1 con gramática, vocabulario, comprensión auditiva y lectura.", lesson_count: lessons.length },
     lessons,
   };
 }
