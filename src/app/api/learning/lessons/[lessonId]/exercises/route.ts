@@ -5,6 +5,7 @@ import { getSessionUser } from "@/lib/learning/auth";
 import { resolveCloudflareEnv } from "@/lib/db/client";
 import { getA1LegacyUnit, type A1LegacyItem as LegacyItem, type A1LegacyUnit as LegacyUnit } from "@/lib/learning/a1-legacy-units";
 import { getLegacyAdvancedUnit, getLegacyAdvancedItem, getLegacyAdvancedSection, type LegacyAdvancedItem } from "@/lib/learning/legacy-advanced-units";
+import { B1_COURSE } from "@/lib/course/b1";
 
 const sectionNames = new Set(["grammar", "vocabulary", "listening", "reading", "production"]);
 
@@ -111,6 +112,33 @@ function getPrompt(item: LegacyItem): string {
   return `${stimulus} ${question} ${instruction}`.trim();
 }
 
+function getB1Exercise(lessonId: string, exerciseId: string) {
+  const match = /^b1-(\\d{2})$/.exec(lessonId);
+  if (!match) return null;
+  const unit = B1_COURSE.units.find((item) => item.id === Number(match[1]));
+  return unit?.exercises.find((exercise) => exercise.id === exerciseId) ?? null;
+}
+function b1ExpectedAnswer(exercise: (typeof B1_COURSE.units)[number]["exercises"][number]): string {
+  const question = exercise.content?.questions?.[0];
+  const answer = question?.correctAnswer;
+  const options = Array.isArray(question?.options) ? question.options as string[] : [];
+  if (typeof answer === "number") return options[answer] ?? String(answer);
+  if (typeof answer === "boolean") return answer ? "True" : "False";
+  return answer == null ? "" : String(answer);
+}
+function b1Exercise(exercise: (typeof B1_COURSE.units)[number]["exercises"][number], index: number) {
+  const question = exercise.content?.questions?.[0];
+  const options = Array.isArray(question?.options) ? question.options as string[] : [];
+  return {
+    id: exercise.id, number: index + 1,
+    type: options.length ? "multiple_choice" : "free_text",
+    prompt: plainEnglish(typeof question?.question === "string" ? question.question : ""),
+    options: options.map((option) => plainEnglish(option)),
+    audioText: exercise.topicName === "Listening" ? exercise.transcript ?? null : null,
+    passageText: exercise.topicName === "Reading" ? exercise.transcript ?? null : null,
+  };
+}
+
 function getA2Question(lessonId: string, exerciseId: string) {
   const match = /^a2-(\d{2})$/.exec(lessonId);
   if (!match) return null;
@@ -169,6 +197,14 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
   const section = request.nextUrl.searchParams.get("section") ?? "grammar";
   if (!sectionNames.has(section)) return NextResponse.json({ error: "Sección no válida." }, { status: 400 });
 
+
+  const b1Match = /^b1-(\\d{2})$/.exec(lessonId);
+  if (b1Match) {
+    const unit = B1_COURSE.units.find((item) => item.id === Number(b1Match[1]));
+    if (!unit) return NextResponse.json({ error: "Unidad B1 no disponible." }, { status: 404 });
+    const selected = unit.exercises.filter((exercise) => exercise.topicName.toLowerCase() === section);
+    return NextResponse.json({ exercises: selected.map((exercise, index) => b1Exercise(exercise, index)) });
+  }
 
   const advancedMatch = /^(b1|b2|c1|c2)-(\d{2})$/.exec(lessonId);
   if (advancedMatch) {
@@ -310,6 +346,41 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
     return NextResponse.json({ correct, explanation, review, authenticated: Boolean(user) });
   }
 
+
+  if (/^b1-\\d{2}$/.test(lessonId)) {
+    const exercise = getB1Exercise(lessonId, payload.exerciseId);
+    if (!exercise) return NextResponse.json({ error: "Ejercicio B1 no encontrado." }, { status: 404 });
+    const expected = b1ExpectedAnswer(exercise);
+    const question = exercise.content?.questions?.[0];
+    const acceptable = [expected, ...(Array.isArray(question?.acceptableAnswers) ? question.acceptableAnswers : [])]
+      .map((value) => String(value).trim().replace(/\\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, ""));
+    const submitted = payload.answer.trim().replace(/\\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, "");
+    const correct = Boolean(expected) && acceptable.includes(submitted);
+    const explanation = plainText(typeof question?.explanation === "string" ? question.explanation : "") || `Respuesta correcta: ${expected}`;
+    let authenticated = false;
+    let review: ReturnType<typeof scheduleNextReview> | null = null;
+    try {
+      const { env, user } = await getSessionUser(request);
+      authenticated = Boolean(user);
+      if (user) {
+        const previousRow = await env.DB.prepare("SELECT progress_json FROM learning_progress WHERE user_id = ? AND lesson_id = ?")
+          .bind(user.id, lessonId).first<{ progress_json: string | null }>();
+        let progress: Record<string, unknown> = {};
+        try { if (previousRow?.progress_json) progress = JSON.parse(previousRow.progress_json); } catch { progress = {}; }
+        const previousReview = (progress[payload.exerciseId] as { review?: ReviewState } | undefined)?.review
+          ?? { intervalDays: 0, easeFactor: 2.5, repetitions: 0, lapses: 0 };
+        review = scheduleNextReview(previousReview, correct ? 4 : 1);
+        progress[payload.exerciseId] = { answer: payload.answer, feedback: { correct, explanation }, review };
+        await env.DB.prepare(`INSERT INTO learning_progress (user_id, lesson_id, progress_json, updated_at)
+          VALUES (?, ?, ?, CURRENT_TIMESTAMP)
+          ON CONFLICT(user_id, lesson_id) DO UPDATE SET progress_json = excluded.progress_json, updated_at = CURRENT_TIMESTAMP`)
+          .bind(user.id, lessonId, JSON.stringify(progress)).run();
+      }
+    } catch (error) {
+      console.warn("[learning/exercises] B1 graded from static source; progress persistence unavailable:", error);
+    }
+    return NextResponse.json({ correct, explanation, review, authenticated });
+  }
 
   if (/^(b1|b2|c1|c2)-\d{2}$/.test(lessonId)) {
     // Prefer the normalized D1 record. If the unit has not yet been imported,
