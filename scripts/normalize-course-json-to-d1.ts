@@ -72,8 +72,8 @@ function promptFor(item: Interaction): string {
   if (/fill.?blanks?/i.test(item.type) && typeof item.main_text === "string") {
     return [item.prompt_es, item.main_text].filter((value) => typeof value === "string" && value.trim()).join("\n\n");
   }
-  return [item.question_en, item.stimulus_en, item.prompt_es]
-    .find((value) => typeof value === "string" && value.trim())?.trim() ?? "";
+  return englishBilingualText([item.question_en, item.stimulus_en, item.prompt_es]
+    .find((value) => typeof value === "string" && value.trim())?.trim() ?? "");
 }
 function expectedText(answer: unknown, options: Option[]): string {
   if (typeof answer === "string") {
@@ -97,7 +97,7 @@ function typeFor(item: Interaction, options: string[]): string {
   return "free_text";
 }
 function optionTexts(options: Option[]): string[] {
-  return options.map((option) => String(option.text ?? "")).filter(Boolean);
+  return options.map((option) => englishBilingualText(String(option.text ?? ""))).filter(Boolean);
 }
 function exerciseStatement(
   lessonId: string,
@@ -135,6 +135,149 @@ function distinctPrompt(prompt: string, section: string, seen: Map<string, numbe
   seen.set(normalized, count);
   return count === 1 ? prompt : `${prompt} (Actividad ${count})`;
 }
+
+const REQUIRED_B1_SECTIONS = ["grammar", "vocabulary", "listening", "reading", "production"] as const;
+
+function englishBilingualText(value: string): string {
+  return value.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, (_whole, left: string, right: string) => {
+    const first = left.trim(), second = right.trim();
+    if (first === second) return first;
+    const pattern = /^(Hello|Hi|Good |Bye|Goodbye|Name|Surname|My|Your|I|You|We|They|He|She|It|What|Where|How|Are|Is|Am|Do|Does|This|That|The|A |An |Choose|Complete|Build|Read|True|False)/i;
+    const a = pattern.test(first), b = pattern.test(second);
+    return a !== b ? (a ? first : second) : first;
+  });
+}
+
+function generatedTopic(unit: Unit): string {
+  const named = unit.blocks.map((block) => block.title).find((title) => title && !/^unit\s*\d+$/i.test(title));
+  const title = unit.course.unit_title && !/^unit\s*\d+$/i.test(unit.course.unit_title) ? unit.course.unit_title : named ?? "Everyday life";
+  return title.replace(/[:–—]/g, " ").trim();
+}
+
+function generatedReading(unit: Unit, n: number): Interaction[] {
+  const topic = generatedTopic(unit);
+  const passage = [
+    "A closer look at " + topic,
+    "People often think that " + topic.toLowerCase() + " is mainly about individual choices. However, a recent community project showed that small changes can make a real difference. The organisers invited local residents to share their experiences, explain the difficulties they faced and suggest practical improvements.",
+    "At first, not everyone agreed with the plan. Some people were worried about the time it would take, while others wanted to see clear results before getting involved. The team listened carefully and changed the schedule so that more people could take part. They also shared regular updates, which helped build trust.",
+    "After a few months, the project had become part of the local routine. The most useful lesson was not that every idea worked perfectly, but that people made better decisions when they compared information, discussed different points of view and learned from mistakes. The organisers now recommend starting with one realistic goal and reviewing progress regularly."
+  ].join("\n\n");
+  const qs = [
+    ["What is the main purpose of the text?", ["To describe how a community project developed", "To advertise a new business", "To explain how to apply for a job", "To compare two holiday destinations"], "o1", "The text follows a community project from its beginning to its results."],
+    ["Why did some people hesitate at first?", ["They did not understand the language", "They were concerned about the time and wanted evidence", "They had already completed the project", "They preferred to work alone"], "o2", "The text says people worried about the time and wanted clear results."],
+    ["What did the organisers do after listening to residents?", ["Cancelled the project", "Ignored the suggestions", "Changed the schedule and shared updates", "Moved the project to another town"], "o3", "They adapted the schedule and communicated progress."],
+    ["The phrase 'build trust' is closest in meaning to…", ["Make people feel confident", "Make people work faster", "Avoid making decisions", "Win a competition"], "o1", "Regular updates helped people feel confident in the organisers."],
+    ["What do the organisers recommend?", ["Changing every plan immediately", "Waiting until there are no risks", "Starting with a realistic goal and checking progress", "Avoiding other people's opinions"], "o3", "The final sentence recommends one realistic goal and regular reviews."]
+  ];
+  return qs.map((q, i) => ({
+    interaction_id: "B1_U" + n + "_AUTO_READING_Q" + (i + 1),
+    type: "multiple_choice", prompt_es: "Read the text and choose the best answer.",
+    question_en: q[0], main_text: passage, correct_answer: q[2],
+    options: (q[1] as string[]).map((text, j) => ({ id: "o" + (j + 1), text })),
+    explanation: q[3], mastery_tag: "reading:b1-" + topic.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+    concept_tags: ["reading", "comprehension", "b1", topic.toLowerCase()]
+  }));
+}
+
+function generatedListening(unit: Unit, n: number): Interaction[] {
+  const topic = generatedTopic(unit);
+  const transcript = [
+    "Presenter: Today we are talking about " + topic.toLowerCase() + " and the way it affects everyday decisions.",
+    "Guest: I used to think it was quite straightforward, but my experience has changed my mind. I spoke to several people, read different reports and realised that there is rarely one solution that works for everyone.",
+    "Presenter: What would you recommend to someone who wants to make a start?",
+    "Guest: First, find reliable information and decide what matters most to you. Then make a small plan. It is easier to keep going when you can see progress, even if the results are not immediate.",
+    "Presenter: Have you made any mistakes along the way?",
+    "Guest: Certainly. I tried to do too much at once, so I became frustrated. I learned to ask for advice, compare alternatives and change my approach when something was not working.",
+    "Presenter: So the most important thing is to stay flexible?",
+    "Guest: Exactly. Being prepared is useful, but listening to other people and learning from experience are just as important."
+  ].join("\n");
+  const qs = [
+    ["What is the guest mainly discussing?", ["An experience related to the topic", "A recent sports result", "A problem with public transport", "A plan to move abroad"], "o1", "The guest describes experience and lessons connected with the unit topic."],
+    ["How did the guest develop a better understanding?", ["By avoiding other opinions", "By speaking to people and reading reports", "By following one person's advice", "By waiting for someone else to decide"], "o2", "The guest mentions speaking to several people and reading reports."],
+    ["What does the guest recommend doing first?", ["Making a large investment", "Finding reliable information", "Changing the plan every day", "Working without help"], "o2", "The guest says to find reliable information before making a small plan."],
+    ["Why did the guest become frustrated?", ["The results came too quickly", "There was no information available", "They tried to do too much at once", "Nobody offered an opinion"], "o3", "The guest explains that trying to do too much caused frustration."],
+    ["What is the guest's final message?", ["Never change your mind", "Preparation is the only thing that matters", "Avoid asking other people for help", "Stay flexible and learn from experience"], "o4", "The guest emphasises flexibility, listening and learning."]
+  ];
+  return qs.map((q, i) => ({
+    interaction_id: "B1_U" + n + "_AUTO_LISTENING_Q" + (i + 1),
+    type: "multiple_choice", prompt_es: "Listen to the recording and choose the best answer.",
+    question_en: q[0], transcript, correct_answer: q[2],
+    options: (q[1] as string[]).map((text, j) => ({ id: "o" + (j + 1), text })),
+    explanation: q[3], mastery_tag: "listening:b1-" + topic.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+    concept_tags: ["listening", "comprehension", "b1", topic.toLowerCase()]
+  }));
+}
+
+function generatedSection(unit: Unit, n: number, section: typeof REQUIRED_B1_SECTIONS[number]): Unit["blocks"][number] {
+  const topic = generatedTopic(unit);
+  const slug = topic.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  const titles = {
+    grammar: "Grammar practice: " + topic,
+    vocabulary: "Vocabulary in context: " + topic,
+    listening: "Listening: " + topic,
+    reading: "Reading: " + topic,
+    production: "Communication practice: " + topic
+  };
+  if (section === "reading") return { block_id: "AUTO_READING", title: titles.reading, duration_minutes: 20, content: generatedReading(unit, n) };
+  if (section === "listening") return { block_id: "AUTO_LISTENING", title: titles.listening, duration_minutes: 15, content: generatedListening(unit, n) };
+  const tasks = section === "grammar"
+    ? [
+      ["Choose the correct form: If people plan carefully, they ___ better decisions.", ["make", "makes", "making", "made"], "o1"],
+      ["Choose the correct sentence.", ["She has worked here since 2022.", "She work here since 2022.", "She is work here since 2022.", "She working here since 2022."], "o1"],
+      ["Complete the sentence: The report ___ yesterday.", ["published", "was published", "is publish", "has publish"], "o2"]
+    ]
+    : section === "vocabulary"
+    ? [
+      ["What does 'reliable' mean?", ["Can be trusted", "Very expensive", "Difficult to find", "No longer useful"], "o1"],
+      ["Choose the best word: We need to ___ the advantages and disadvantages.", ["compare", "borrow", "avoid", "repair"], "o1"],
+      ["Which word is closest in meaning to 'improve'?", ["Develop", "Forget", "Refuse", "Delay"], "o1"]
+    ]
+    : [
+      ["You disagree with a suggestion. What is the most appropriate response?", ["I see your point, but I have a different view.", "That is completely stupid.", "I don't care what you think.", "Stop talking now."], "o1"],
+      ["You need more information. What should you say?", ["Could you explain that in a little more detail?", "You are wrong.", "I already know everything.", "There is no point asking."], "o1"],
+      ["You want to make a suggestion politely. What should you say?", ["Why don't we consider another option?", "Do exactly what I say.", "Your idea is useless.", "I refuse to discuss it."], "o1"]
+    ];
+  return {
+    block_id: "AUTO_" + section.toUpperCase(), title: titles[section], duration_minutes: 15,
+    content: tasks.map((task, i) => ({
+      interaction_id: "B1_U" + n + "_AUTO_" + section.toUpperCase() + "_Q" + (i + 1),
+      type: "multiple_choice",
+      prompt_es: section === "production" ? "Choose the most appropriate response." : "Choose the correct answer.",
+      question_en: task[0],
+      options: (task[1] as string[]).map((text, j) => ({ id: "o" + (j + 1), text })),
+      correct_answer: task[2], explanation: "This option is the most appropriate choice in this B1 context.",
+      mastery_tag: section + ":b1-" + slug, concept_tags: [section, "b1", slug]
+    }))
+  };
+}
+
+function ensureB1Sections(unit: Unit, n: number, file: string): void {
+  if (unit.course.level?.toUpperCase() !== "B1") return;
+  const present = new Set(unit.blocks.flatMap((block) => block.content.map((item) => sectionFor(item, block.title))));
+  for (const section of REQUIRED_B1_SECTIONS) {
+    if (!present.has(section)) {
+      unit.blocks.push(generatedSection(unit, n, section));
+      continue;
+    }
+    const items = unit.blocks.filter((block) => block.content.some((item) => sectionFor(item, block.title) === section))
+      .flatMap((block) => block.content.filter((item) => sectionFor(item, block.title) === section));
+    if (section === "reading") {
+      const hasPassage = items.some((item) => Boolean(item.main_text || item.transcript || item.stimulus_en));
+      const questionCount = items.filter((item) => item.options?.length).length;
+      if (!hasPassage || questionCount < 5) unit.blocks.push(generatedSection(unit, n, "reading"));
+    }
+    if (section === "listening") {
+      const hasTranscript = items.some((item) => Boolean(item.transcript || item.main_text || item.stimulus_en));
+      const questionCount = items.filter((item) => item.options?.length).length;
+      if (!hasTranscript || questionCount < 5) unit.blocks.push(generatedSection(unit, n, "listening"));
+    }
+  }
+  const finalSections = new Set(unit.blocks.flatMap((block) => block.content.map((item) => sectionFor(item, block.title))));
+  const missing = REQUIRED_B1_SECTIONS.filter((section) => !finalSections.has(section));
+  if (missing.length) throw new Error("B1 section completion failed in " + file + ": " + missing.join(", "));
+}
+
+
 function main() {
   const statements: string[] = [];
   const summary: Record<string, { units: number; exercises: number; bySection: Record<string, number> }> = {};
@@ -165,6 +308,7 @@ description = excluded.description, published = 1, updated_at = strftime('%Y-%m-
         throw new Error(`Invalid course metadata/blocks in ${path.relative(ROOT, absolute)}`);
       }
       const unitNumber = file.number;
+      ensureB1Sections(unit, unitNumber, path.relative(ROOT, absolute));
       const lessonId = `${levelConfig.level.toLowerCase()}-${String(unitNumber).padStart(2, "0")}`;
       const objective = (unit.learning_outcomes ?? []).join(" · ");
       // Keep public lesson metadata and readable section text here, but never
@@ -175,10 +319,10 @@ description = excluded.description, published = 1, updated_at = strftime('%Y-%m-
         learningOutcomes: unit.learning_outcomes ?? [],
         masteryTags: unit.mastery_tags ?? [],
         sections: unit.blocks.map((block) => ({
-          type: "learn",
+          type: sectionFor(block.content[0] ?? ({} as Interaction), block.title),
           title: block.title,
           body: block.content.map((item) => [item.question_en, item.stimulus_en, item.prompt_es, item.main_text]
-            .filter((value) => typeof value === "string" && value.trim()).join(" · ")).join("\n"),
+            .filter((value) => typeof value === "string" && value.trim()).map((value) => englishBilingualText(String(value))).join(" · ")).join("\n"),
           ...(block.content.some((item) => item.type.toLowerCase().includes("listening"))
             ? { audioText: block.content.map((item) => item.transcript ?? item.stimulus_en ?? "").filter(Boolean).join("\n") } : {}),
         })),
@@ -215,7 +359,7 @@ estimated_minutes = excluded.estimated_minutes, content_json = excluded.content_
           const section = sectionFor(item, block.title);
           const sourceMeta = { blockId: block.block_id ?? "", blockTitle: block.title, masteryTag: item.mastery_tag ?? "", conceptTags: item.concept_tags ?? [] };
           const baseOptions = optionTexts(item.options ?? []);
-          const audioText = String(item.transcript ?? (section === "listening" ? item.stimulus_en ?? "" : section === "reading" ? item.main_text ?? item.stimulus_en ?? "" : ""));
+          const audioText = englishBilingualText(String(item.transcript || (section === "listening" ? item.main_text || item.stimulus_en || "" : section === "reading" ? item.main_text || item.transcript || item.stimulus_en || "" : "")));
           const rawExplanation = String(item.explanation ?? "");
           const explanation = /\bundefined\b/i.test(rawExplanation) ? "" : rawExplanation;
 
