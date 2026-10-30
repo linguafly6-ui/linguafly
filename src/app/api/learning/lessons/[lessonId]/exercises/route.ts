@@ -202,10 +202,15 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
 
   const c2Match = /^c2-(\\d{2})$/.exec(lessonId);
   if (c2Match) {
-    const exercises = await getNormalizedD1Exercises(lessonId, section);
-    return NextResponse.json({ exercises: exercises ?? [] }, {
-      headers: { "Cache-Control": "no-store" },
-    });
+    try {
+      const exercises = await getNormalizedD1Exercises(lessonId, section);
+      return NextResponse.json({ exercises: exercises ?? [] }, {
+        headers: { "Cache-Control": "no-store" },
+      });
+    } catch (error) {
+      console.error("[learning/exercises] C2 D1 read failed:", error);
+      return NextResponse.json({ error: "No se pudieron cargar los ejercicios C2 desde D1." }, { status: 500 });
+    }
   }
 
   const c1Match = /^c1-(\d{2})$/.exec(lessonId);
