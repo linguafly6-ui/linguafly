@@ -1,6 +1,6 @@
 /**
- * One-time bridge that fills missing C2 units in the D1 JSON mirror from the
- * authored C2 catalog. Existing D1 unit rows are never overwritten.
+ * Synchronizes all C2 units in the D1 JSON mirror from the authored C2 catalog.
+ * Existing C2 rows are updated so Preview cannot retain stale lesson content.
  *
  * Usage:
  *   npx tsx scripts/sync-c2-catalog-to-d1.ts --sql-out-dir /tmp/c2-catalog-seed
@@ -146,7 +146,13 @@ function main() {
     "  (" + sqlString(record.courseKey) + ", " + sqlString(record.level) + ", " + record.unitNumber + ",\n" +
     "   " + sqlString(record.unitId) + ", " + sqlString(record.title) + ", " + sqlString(record.sourcePath) + ",\n" +
     "   " + sqlString(record.hash) + ", " + sqlString(record.content) + ", strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))\n" +
-    "ON CONFLICT(course_key, unit_number) DO NOTHING;"
+    "ON CONFLICT(course_key, unit_number) DO UPDATE SET\n" +
+    "  unit_id = excluded.unit_id,\n" +
+    "  title = excluded.title,\n" +
+    "  source_path = excluded.source_path,\n" +
+    "  content_hash = excluded.content_hash,\n" +
+    "  content_json = excluded.content_json,\n" +
+    "  updated_at = excluded.updated_at;";
   );
 
   for (let start = 0; start < statements.length; start += 10) {
@@ -154,7 +160,7 @@ function main() {
     fs.writeFileSync(path.join(OUT, filename), statements.slice(start, start + 10).join("\n"));
   }
 
-  console.log("[c2-catalog-sync] Prepared " + records.length + " C2 unit rows; existing D1 units will be preserved.");
+  console.log("[c2-catalog-sync] Prepared " + records.length + " canonical C2 unit rows for insert/update.");
   console.log("[c2-catalog-sync] Generated " + Math.ceil(records.length / 10) + " SQL batches in " + OUT);
 }
 
