@@ -27,6 +27,21 @@ type CourseUnitJson = {
 };
 
 function sectionFor(item: CourseInteraction, blockTitle: string): string {
+  // C2 catalog IDs are authoritative: l1 grammar, l2 vocabulary/context,
+  // l3 reading, l4 listening, l5 writing, l6 speaking.
+  const lessonMatch = /^c2-u\\d+-l([1-6])-\\d+$/i.exec(String(item.interaction_id ?? ""));
+  if (lessonMatch) {
+    const lessonSections: Record<string, string> = {
+      "1": "grammar",
+      "2": "vocabulary",
+      "3": "reading",
+      "4": "listening",
+      "5": "writing",
+      "6": "speaking",
+    };
+    return lessonSections[lessonMatch[1]];
+  }
+
   const tags = Array.isArray(item.concept_tags) ? item.concept_tags.join(" ") : "";
   const source = [tags, item.mastery_tag, blockTitle, item.type].join(" ").toLowerCase();
   if (/listening|audio|listen/.test(source)) return "listening";
