@@ -102,7 +102,18 @@ export default function ExerciseRenderer({ exercise, vocabulary, onComplete }: E
   const hadAnyIncorrectRef = useRef(false);
 
   const exerciseContent = exercise.content || exercise;
-  const questions = exerciseContent.questions || [];
+  // Algunos ejercicios normalizados llegan con prompt/options en la raíz,
+  // mientras que los ejercicios legacy usan content.questions[].
+  const questions = Array.isArray(exerciseContent.questions)
+    ? exerciseContent.questions
+    : Array.isArray(exerciseContent.options)
+      ? [{
+          question: exerciseContent.question || exerciseContent.prompt || exerciseContent.text || '',
+          options: exerciseContent.options,
+          correctAnswer: exerciseContent.correctAnswer ?? exerciseContent.answer,
+          explanation: exerciseContent.explanation,
+        }]
+      : [];
   const expandWordPairs = shouldExpandWordPairsForExercise(exercise.id);
 
   const longFormText =
@@ -717,7 +728,7 @@ export default function ExerciseRenderer({ exercise, vocabulary, onComplete }: E
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-300">
       <div className="bg-white rounded-2xl shadow-lg shadow-slate-200/60 border border-slate-100 overflow-visible">
-        <div className="p-4 md:p-6 space-y-4">
+        <div className="p-6 md:p-10 space-y-6">
           <div className="pb-4 overflow-visible">
             <div className="flex flex-wrap items-center gap-2 mb-2">
               <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border ${typeTheme.badge}`} aria-hidden>
