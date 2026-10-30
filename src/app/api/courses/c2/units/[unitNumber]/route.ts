@@ -142,7 +142,7 @@ export async function GET(
   context: { params: Promise<{ unitNumber: string }> }
 ) {
   const { unitNumber } = await context.params;
-  if (!/^\\d{1,3}$/.test(unitNumber)) {
+  if (!/^\d{1,3}$/.test(unitNumber)) {
     return NextResponse.json({ error: "Número de unidad no válido." }, { status: 400 });
   }
 
