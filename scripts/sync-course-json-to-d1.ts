@@ -19,6 +19,10 @@ if (outputArg < 0 || !process.argv[outputArg + 1]) {
   process.exit(1);
 }
 const OUT = path.resolve(process.argv[outputArg + 1]);
+const levelsArg = process.argv.findIndex((arg) => arg === "--levels");
+const selectedLevels = levelsArg >= 0 && process.argv[levelsArg + 1]
+  ? new Set(process.argv[levelsArg + 1].split(",").map((level) => level.trim().toUpperCase()).filter(Boolean))
+  : null;
 
 function sqlString(value: string): string {
   return "'" + value.replace(/'/g, "''") + "'";
@@ -42,6 +46,12 @@ function main() {
   }> = [];
 
   for (const courseKey of courseDirs) {
+    if (selectedLevels) {
+      const firstFile = fs.readdirSync(path.join(SOURCE_ROOT, courseKey)).find((file) => unitNumberFromFile(file) !== null);
+      if (!firstFile) continue;
+      const sample = JSON.parse(fs.readFileSync(path.join(SOURCE_ROOT, courseKey, firstFile), "utf8"));
+      if (!selectedLevels.has(String(sample.course?.level ?? "").toUpperCase())) continue;
+    }
     const dir = path.join(SOURCE_ROOT, courseKey);
     const files = fs.readdirSync(dir)
       .filter((file) => unitNumberFromFile(file) !== null)
@@ -117,7 +127,7 @@ ON CONFLICT(course_key, unit_number) DO UPDATE SET
     counts[record.courseKey] = (counts[record.courseKey] ?? 0) + 1;
     return counts;
   }, {});
-  console.log(`[course-json-sync] Validated ${records.length} unit files across ${courseDirs.length} course folders.`);
+  console.log(`[course-json-sync] Validated ${records.length} unit files across ${Object.keys(byCourse).length} selected course folders.`);
   console.log(`[course-json-sync] Generated ${Math.ceil(records.length / 10)} batched idempotent SQL files in ${OUT}.`);
   console.log(JSON.stringify(byCourse, null, 2));
 }
