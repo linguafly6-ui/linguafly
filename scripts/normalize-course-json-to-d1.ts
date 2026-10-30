@@ -269,6 +269,7 @@ function ensureB1Sections(unit: Unit, n: number, file: string): void {
   // Production/writing/speaking is not part of the B1 web course curriculum.
   // Remove those source activities before building public lesson content or exercises.
   unit.blocks = unit.blocks
+    .filter((block) => !/production|speaking|writing/i.test(block.title))
     .map((block) => ({ ...block, content: block.content.filter((item) => sectionFor(item, block.title) !== "ignored") }))
     .filter((block) => block.content.length > 0);
   for (const section of REQUIRED_B1_SECTIONS) {
