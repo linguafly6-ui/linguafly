@@ -75,5 +75,39 @@
       "database_id": "476f34d4-5622-4a56-923e-c4fb571578c2",
       "migrations_dir": "migrations/d1"
     }
-  ]
+  ],
+  // Configuración aislada para Cloudflare Preview. No usar la D1 de producción.
+  "previews": {
+    "d1_databases": [
+      {
+        "binding": "DB",
+        "database_name": "linguafly-preview",
+        "database_id": "b159641b-1910-49ec-b2ed-fbfae2440377",
+        "migrations_dir": "migrations/d1"
+      }
+    ],
+    // Deshabilitado en Preview: no se autoriza el envío de correos desde pruebas.
+    "send_email": [
+      {
+        "name": "EMAIL",
+        "allowed_sender_addresses": []
+      }
+    ],
+    "ratelimits": [
+      {
+        "name": "AI_RATE_LIMITER",
+        "namespace_id": "610154782",
+        "simple": {
+          "limit": 30,
+          "period": 60
+        }
+      }
+    ],
+    "ai": {
+      "binding": "AI"
+    },
+    "images": {
+      "binding": "IMAGES"
+    }
+  }
 }

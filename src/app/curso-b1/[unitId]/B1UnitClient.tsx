@@ -256,7 +256,7 @@ function B1UnitContent() {
           </button>
         </div>
       </nav>
-      <main className="max-w-4xl mx-auto p-4 py-8">
+      <main className="max-w-6xl mx-auto p-4 md:p-8 py-8">
         <div className="mb-8 h-2 bg-slate-200 rounded-full overflow-hidden">
           <div className="h-full bg-emerald-500 transition-all duration-500" style={{ width: `${((exerciseInLesson) / exercisesInThisLesson) * 100}%` }} />
         </div>

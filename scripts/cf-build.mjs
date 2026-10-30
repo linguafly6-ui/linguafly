@@ -104,6 +104,13 @@ const EXCLUDED_APP_DIRS = [
 // Shared files that are replaced with a lightweight, article-only version
 // during the Cloudflare build. `swapped` is the file that normally lives in
 // git; `cf` is the Cloudflare-only replacement (also tracked in git).
+// Preview builds can opt in to the B1 unit pages without changing production builds.
+// Keep the default Cloudflare Worker lean; only the dedicated Preview command sets this flag.
+const INCLUDE_B1_IN_PREVIEW = process.env.CF_INCLUDE_B1 === '1';
+const ACTIVE_EXCLUDED_APP_DIRS = INCLUDE_B1_IN_PREVIEW
+  ? EXCLUDED_APP_DIRS.filter((dir) => dir !== 'curso-b1')
+  : EXCLUDED_APP_DIRS;
+
 const SWAPPED_FILES = [
   {
     swapped: path.join('src', 'components', 'blog', 'BlogExerciseMapBanner.tsx'),
@@ -112,7 +119,7 @@ const SWAPPED_FILES = [
 ];
 
 function moveExcludedDirs() {
-  for (const relDir of EXCLUDED_APP_DIRS) {
+  for (const relDir of ACTIVE_EXCLUDED_APP_DIRS) {
     const src = path.join(APP_DIR, relDir);
     if (!fs.existsSync(src)) continue;
     const dest = path.join(BACKUP_DIR, 'app', relDir);
@@ -196,7 +203,7 @@ function main() {
 
   generateArticleCanonicals();
   prune();
-  console.warn(`[cf-build] Pruned ${EXCLUDED_APP_DIRS.length} excluded app directories for the Cloudflare build.`);
+  console.warn(`[cf-build] Pruned ${ACTIVE_EXCLUDED_APP_DIRS.length} excluded app directories for the Cloudflare build. B1 included: ${INCLUDE_B1_IN_PREVIEW}.`);
 
   let exitCode = 1;
   try {

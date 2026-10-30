@@ -1,19 +1,11 @@
 /**
- * Agrupa ejercicios de una unidad en 5 franjas pedagógicas fijas:
- * gramática, vocabulario/contexto, reading, listening, writing.
- * (Speaking eliminado del curriculum.)
- * Detecta por id (C1: -g/-v/-r/-l/-w; resto: -l1- … -l6-), luego topicName y type.
+ * Organiza B1 en cuatro secciones: Grammar, Vocabulary, Reading y Listening.
+ * Writing y Speaking quedan fuera del recorrido B1.
  */
 
 import type { Exercise } from '@/lib/exercise-generator';
 
-export const SIX_LESSON_KEYS = [
-  'grammar',
-  'vocabulary',
-  'reading',
-  'listening',
-  'writing',
-] as const;
+export const SIX_LESSON_KEYS = ['grammar', 'vocabulary', 'reading', 'listening'] as const;
 
 export type SixLessonKey = (typeof SIX_LESSON_KEYS)[number];
 
@@ -26,7 +18,6 @@ export const SIX_LESSON_LABEL_ES: Record<SixLessonKey, string> = {
   vocabulary: 'Vocabulario / contexto',
   reading: 'Reading',
   listening: 'Listening',
-  writing: 'Writing',
 };
 
 /** Etiquetas UI para curso C1: 5 lecciones fijas (ids `c1-uN-g|v|r|l|w`…). */
@@ -35,25 +26,18 @@ export const SIX_LESSON_LABEL_ES_C1: Record<SixLessonKey, string> = {
   vocabulary: 'Vocabulario',
   reading: 'Comprensión lectora',
   listening: 'Listening',
-  writing: 'Expresión escrita',
 };
 
 export interface SixLessonLayout {
   /** Ejercicios reordenados por franja (0→4) y, al final, cola no clasificada. */
   orderedExercises: Exercise[];
-  lessonCounts: [number, number, number, number, number];
-  lessonStarts: [number, number, number, number, number];
-  /** Ítems que no encajaron en heurística (p. ej. IA); van al final de writing. */
+  lessonCounts: [number, number, number, number];
+  lessonStarts: [number, number, number, number];
+  /** Ítems no clasificados; se omiten para no contaminar las cuatro secciones. */
   tailCount: number;
 }
 
-const SLOT_BY_C1_LETTER: Record<string, number> = {
-  g: 0,
-  v: 1,
-  r: 2,
-  l: 3,
-  w: 4,
-};
+const SLOT_BY_C1_LETTER: Record<string, number> = { g: 0, v: 1, r: 2, l: 3 };
 
 function isSpeakingExercise(ex: Exercise): boolean {
   const id = (ex.id ?? '').trim();
@@ -77,8 +61,8 @@ function detectLessonSlot(ex: Exercise): number | null {
   if (isSpeakingExercise(ex)) return null;
 
   const id = (ex.id ?? '').trim();
-  if (/^c1-u\d+-[gvrwl]\d+$/i.test(id)) {
-    const m = id.match(/^c1-u\d+-([gvrwl])\d+$/i);
+  if (/^c1-u\d+-[gvrlw]\d+$/i.test(id)) {
+    const m = id.match(/^c1-u\d+-([gvrlw])\d+$/i);
     if (m) return SLOT_BY_C1_LETTER[m[1].toLowerCase()] ?? null;
   }
 
@@ -87,8 +71,7 @@ function detectLessonSlot(ex: Exercise): number | null {
   if (mL) {
     const n = parseInt(mL[1], 10);
     if (n >= 1 && n <= 4) return n - 1;
-    // A1–B2: l5 era speaking (filtrado), l6 writing. C2: l5 writing, l6 speaking (filtrado).
-    if (n === 5 || n === 6) return 4;
+    return null;
   }
 
   const tn = (ex.topicName || '').trim().toLowerCase();
@@ -96,17 +79,17 @@ function detectLessonSlot(ex: Exercise): number | null {
   if (tn === 'vocabulary' || tn === 'grammar_context' || tn === 'grammar context') return 1;
   if (tn === 'reading') return 2;
   if (tn === 'listening') return 3;
-  if (tn === 'writing') return 4;
+  if (tn === 'writing') return null;
 
   const ty = (ex.type || '').toLowerCase();
   if (ty.includes('reading')) return 2;
   if (ty.includes('listening')) return 3;
-  if (ty === 'writing' || ty.includes('writing')) return 4;
+  if (ty === 'writing' || ty.includes('writing')) return null;
   return null;
 }
 
 export function buildSixLessonLayout(exercises: Exercise[]): SixLessonLayout {
-  const buckets: Exercise[][] = [[], [], [], [], []];
+  const buckets: Exercise[][] = [[], [], [], []];
   const tail: Exercise[] = [];
 
   for (const ex of exercises) {
@@ -119,9 +102,7 @@ export function buildSixLessonLayout(exercises: Exercise[]): SixLessonLayout {
     }
   }
 
-  if (tail.length) {
-    buckets[PEDAGOGICAL_LESSON_COUNT - 1].push(...tail);
-  }
+  // Los ejercicios sin sección identificable no se mezclan con Listening.
 
   for (let i = 0; i < PEDAGOGICAL_LESSON_COUNT; i++) {
     buckets[i].sort((a, b) => {
@@ -132,15 +113,9 @@ export function buildSixLessonLayout(exercises: Exercise[]): SixLessonLayout {
     });
   }
 
-  const lessonCounts = buckets.map((b) => b.length) as [
-    number,
-    number,
-    number,
-    number,
-    number,
-  ];
+  const lessonCounts = buckets.map((b) => b.length) as [number, number, number, number];
 
-  const lessonStarts: [number, number, number, number, number] = [0, 0, 0, 0, 0];
+  const lessonStarts: [number, number, number, number] = [0, 0, 0, 0];
   let acc = 0;
   for (let i = 0; i < PEDAGOGICAL_LESSON_COUNT; i++) {
     lessonStarts[i] = acc;
@@ -169,7 +144,7 @@ export function getSixLessonSlotAtGlobalIndex(layout: SixLessonLayout, globalInd
 
 export interface SixLessonNavState {
   lessonSlot: number;
-  /** 1–5 para el usuario */
+  /** 1–4 para el usuario */
   lessonNumber: number;
   lessonLabelEs: string;
   exerciseInLesson: number;

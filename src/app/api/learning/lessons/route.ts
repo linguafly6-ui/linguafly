@@ -3,6 +3,7 @@ import { resolveCloudflareEnv } from "@/lib/db/client";
 import a1LearningSections from "@/content/cursos/ingles-a1/aprender-sections.json";
 import a2LearningSections from "@/content/cursos/ingles-a2/aprender-sections.json";
 import { getLegacyAdvancedUnit, getLegacyAdvancedSection } from "@/lib/learning/legacy-advanced-units";
+import { B1_COURSE } from "@/lib/course/b1";
 import { a2Units } from "@/lib/learning/a2-units";
 import { B2_COURSE } from "@/lib/course/b2";
 
@@ -45,12 +46,54 @@ function normalizeCourseSections(value: unknown): unknown {
   return { ...content, sections };
 }
 
+
+function buildStaticB1Lessons(): CourseResponse {
+  const lessons: Lesson[] = B1_COURSE.units.map((unit) => {
+    const objective = `Practicar inglés B1: ${unit.title}.`;
+    const sectionTypes = ["grammar", "vocabulary", "listening", "reading"] as const;
+    const titles: Record<(typeof sectionTypes)[number], string> = {
+      grammar: "Gramática", vocabulary: "Vocabulario",
+      listening: "Comprensión auditiva", reading: "Comprensión lectora",
+    };
+    const sections = sectionTypes.map((type) => {
+      const items = unit.exercises.filter((exercise) => exercise.topicName.toLowerCase() === type);
+      const body = items.map((exercise) => exercise.content?.questions?.[0]?.question).filter(Boolean).join("\\n");
+      const first = items[0];
+      return {
+        type, title: titles[type], body: body || titles[type],
+        ...(type === "grammar" ? { example: first?.content?.questions?.[0]?.question ?? "" } : {}),
+        ...(type === "listening" && first?.transcript ? { audioText: first.transcript, transcript: first.transcript } : {}),
+      };
+    });
+    return {
+      id: `b1-${String(unit.id).padStart(2, "0")}`, number: unit.id, unit: unit.id,
+      title: unit.title, objective, estimated_minutes: 30,
+      content: { objective, sections, reviewEnabled: true },
+    };
+  });
+  return {
+    course: { id: "english-b1", title: "English B1: Independent User", level: "B1",
+      description: "Curso B1 con gramática, vocabulario, comprensión auditiva y lectura.", lesson_count: lessons.length },
+    lessons,
+  };
+}
+
 export async function GET(request: NextRequest) {
+  const level = (new URL(request.url).searchParams.get("level") || "A1")
+    .trim()
+    .toUpperCase()
+    .slice(0, 8);
+
+  // B1 lesson outlines are bundled with the Worker so Preview can serve the
+  // course without depending on a pre-seeded D1 database.
+  if (level === "B1") {
+    return NextResponse.json(buildStaticB1Lessons(), {
+      headers: { "Cache-Control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600" },
+    });
+  }
+
   try {
-    const level = (new URL(request.url).searchParams.get("level") || "A1")
-      .trim()
-      .toUpperCase()
-      .slice(0, 8);
+    const { env } = await resolveCloudflareEnv();
 
     if (level === "B2") {
       const lessons = B2_COURSE.units.map((unit) => ({ id: `b2-${String(unit.id).padStart(2, "0")}`, number: unit.id, unit: unit.id, title: unit.title, objective: unit.title, estimated_minutes: 30, content: { objective: unit.title, sections: ["grammar", "vocabulary", "listening", "reading"].map((type) => ({ type, title: type === "grammar" ? "Gramática" : type === "vocabulary" ? "Vocabulario" : type === "listening" ? "Comprensión auditiva" : "Comprensión lectora", body: unit.exercises.filter((exercise) => isB2ExerciseInSection(exercise, type)).length + " ejercicios", exercise_count: unit.exercises.filter((exercise) => isB2ExerciseInSection(exercise, type)).length })), reviewEnabled: true } }));
@@ -151,7 +194,7 @@ export async function GET(request: NextRequest) {
                 const firstItem = items[0]?.item;
                 return {
                   type, title: titles[type],
-                  body: items.map(({ item, blockTitle }) => [blockTitle, item.prompt_es, item.stimulus_en, item.question_en].filter(Boolean).join(" · ")).join("\\n") || (type === "listening" ? "Comprensión auditiva" : ""),
+                  body: items.map(({ item, blockTitle }) => [blockTitle, item.prompt_es, item.stimulus_en, item.question_en, item.main_text, item.transcript].filter(Boolean).join(" · ")).join("\\n") || (type === "listening" ? "Comprensión auditiva" : ""),
                   example: type === "grammar" ? firstItem?.stimulus_en ?? "" : "",
                   audioText: type === "listening" ? (typeof firstItem?.transcript === "string" ? firstItem.transcript : firstItem?.stimulus_en ?? "") : undefined,
                   transcript: type === "listening" && typeof firstItem?.transcript === "string" ? firstItem.transcript : undefined,
