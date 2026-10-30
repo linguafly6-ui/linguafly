@@ -3,7 +3,7 @@
  * learning_lessons and learning_exercises. A1/A2 are intentionally excluded:
  * their curated D1 exercise IDs and learner history require a separate mapping.
  *
- * Usage: npx tsx scripts/normalize-course-json-to-d1.ts --sql-out-dir /tmp/d1-normalized-seed [--reset-test-progress]
+ * Usage: npx tsx scripts/normalize-course-json-to-d1.ts --sql-out-dir /tmp/d1-normalized-seed
  * This generates idempotent SQL; it does not connect to D1.
  */
 import fs from "node:fs";
