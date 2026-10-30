@@ -134,8 +134,8 @@ function b1Exercise(exercise: (typeof B1_COURSE.units)[number]["exercises"][numb
     type: options.length ? "multiple_choice" : "free_text",
     prompt: plainEnglish(typeof question?.question === "string" ? question.question : ""),
     options: options.map((option) => plainEnglish(option)),
-    audioText: exercise.topicName === "Listening" ? exercise.transcript ?? null : null,
-    passageText: exercise.topicName === "Reading" ? exercise.transcript ?? null : null,
+    audioText: exercise.topicName === "Listening" && exercise.transcript ? plainEnglish(exercise.transcript) : null,
+    passageText: exercise.topicName === "Reading" && exercise.transcript ? plainEnglish(exercise.transcript) : null,
   };
 }
 
