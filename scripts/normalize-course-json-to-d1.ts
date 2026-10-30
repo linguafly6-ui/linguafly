@@ -128,15 +128,20 @@ function exerciseStatement(
   // Avoid INSERT ... ON CONFLICT: D1 has a BEFORE INSERT duplicate-prompt
   // trigger that fires even for a conflicting ID. UPDATE then insert-if-missing
   // makes reruns safe without bypassing the duplicate-prompt guard.
+  // Reuse the existing (lesson_id, exercise_number) slot. D1 enforces a
+  // UNIQUE constraint on that pair, so an ID-only upsert can fail when a
+  // lesson already contains legacy exercises with different IDs.
   return `UPDATE learning_exercises SET
-  lesson_id = ${sqlString(lessonId)}, exercise_number = ${number}, exercise_type = ${sqlString(type)},
-  prompt = ${sqlString(prompt)}, options_json = ${sqlString(json(options))},
-  answer_json = ${sqlString(json({ correct, source }))}, explanation = ${sqlString(explanation)},
-  section_type = ${sqlString(section)}, audio_text = ${audioText ? sqlString(audioText) : "NULL"}
-WHERE id = ${sqlString(id)};
+  exercise_type = ${sqlString(type)}, prompt = ${sqlString(prompt)},
+  options_json = ${sqlString(json(options))}, answer_json = ${sqlString(json({ correct, source }))},
+  explanation = ${sqlString(explanation)}, section_type = ${sqlString(section)},
+  audio_text = ${audioText ? sqlString(audioText) : "NULL"}
+WHERE lesson_id = ${sqlString(lessonId)} AND exercise_number = ${number};
 INSERT INTO learning_exercises
   (id, lesson_id, exercise_number, exercise_type, prompt, options_json, answer_json, explanation, ai_generated, section_type, audio_text)
-SELECT ${values.slice(1, -1)} WHERE NOT EXISTS (SELECT 1 FROM learning_exercises WHERE id = ${sqlString(id)});`;
+SELECT ${values.slice(1, -1)}
+WHERE NOT EXISTS (SELECT 1 FROM learning_exercises WHERE id = ${sqlString(id)})
+  AND NOT EXISTS (SELECT 1 FROM learning_exercises WHERE lesson_id = ${sqlString(lessonId)} AND exercise_number = ${number});`;
 }
 
 function distinctPrompt(prompt: string, section: string, seen: Map<string, number>): string {
