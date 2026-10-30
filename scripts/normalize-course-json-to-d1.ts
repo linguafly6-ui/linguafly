@@ -289,6 +289,8 @@ function ensureB1Sections(unit: Unit, n: number, file: string): void {
       ? items.some((item) => Boolean(item.main_text || item.transcript)) && items.filter((item) => item.options?.length).length >= 5
       : section === "listening"
       ? items.some((item) => Boolean(item.transcript)) && items.filter((item) => item.options?.length).length >= 5
+      : section === "production"
+      ? items.some((item) => /open.?ended|free.?response|essay|writing_task|speaking_task/i.test(item.type))
       : true;
     if (exerciseCount < 5 || !hasRequiredText) {
       unit.blocks.push(generatedSection(unit, n, section));
