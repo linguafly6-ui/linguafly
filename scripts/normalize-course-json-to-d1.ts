@@ -148,8 +148,11 @@ function englishBilingualText(value: string): string {
 }
 
 function generatedTopic(unit: Unit): string {
-  const named = unit.blocks.map((block) => block.title).find((title) => title && !/^unit\s*\d+$/i.test(title));
-  const title = unit.course.unit_title && !/^unit\s*\d+$/i.test(unit.course.unit_title) ? unit.course.unit_title : named ?? "Everyday life";
+  const grammarTitles = /relative clauses|conditionals|passive voice|reported speech|past continuous|present perfect|articles and reviews|word formation/i;
+  const named = unit.blocks.map((block) => block.title)
+    .find((title) => title && !/^unit\s*\d+$/i.test(title) && !grammarTitles.test(title));
+  const title = named ?? (unit.course.unit_title && !/^unit\s*\d+$/i.test(unit.course.unit_title)
+    ? unit.course.unit_title : "Everyday decisions and communication");
   return title.replace(/[:–—]/g, " ").trim();
 }
 
@@ -250,29 +253,36 @@ function generatedSection(unit: Unit, n: number, section: typeof REQUIRED_B1_SEC
   };
 }
 
+function countSectionExercises(items: Interaction[]): number {
+  return items.reduce((total, item) => {
+    if (Array.isArray(item.correct_answer) && item.correct_answer.length > 1) return total + item.correct_answer.length;
+    if (Array.isArray(item.gaps) && item.gaps.length > 0) return total + item.gaps.length;
+    if (Array.isArray(item.pairs) && item.pairs.length > 0) return total + item.pairs.length;
+    return total + 1;
+  }, 0);
+}
+
 function ensureB1Sections(unit: Unit, n: number, file: string): void {
   if (unit.course.level?.toUpperCase() !== "B1") return;
-  const present = new Set(unit.blocks.flatMap((block) => block.content.map((item) => sectionFor(item, block.title))));
   for (const section of REQUIRED_B1_SECTIONS) {
-    if (!present.has(section)) {
-      unit.blocks.push(generatedSection(unit, n, section));
-      continue;
-    }
-    const items = unit.blocks.filter((block) => block.content.some((item) => sectionFor(item, block.title) === section))
+    const items = unit.blocks
+      .filter((block) => block.content.some((item) => sectionFor(item, block.title) === section))
       .flatMap((block) => block.content.filter((item) => sectionFor(item, block.title) === section));
-    if (section === "reading") {
-      const hasPassage = items.some((item) => Boolean(item.main_text || item.transcript));
-      const questionCount = items.filter((item) => item.options?.length).length;
-      if (!hasPassage || questionCount < 5) unit.blocks.push(generatedSection(unit, n, "reading"));
-    }
-    if (section === "listening") {
-      const hasTranscript = items.some((item) => Boolean(item.transcript));
-      const questionCount = items.filter((item) => item.options?.length).length;
-      if (!hasTranscript || questionCount < 5) unit.blocks.push(generatedSection(unit, n, "listening"));
+    const exerciseCount = countSectionExercises(items);
+    const hasRequiredText = section === "reading"
+      ? items.some((item) => Boolean(item.main_text || item.transcript)) && items.filter((item) => item.options?.length).length >= 5
+      : section === "listening"
+      ? items.some((item) => Boolean(item.transcript)) && items.filter((item) => item.options?.length).length >= 5
+      : true;
+    if (exerciseCount < 5 || !hasRequiredText) {
+      unit.blocks.push(generatedSection(unit, n, section));
     }
   }
-  const finalSections = new Set(unit.blocks.flatMap((block) => block.content.map((item) => sectionFor(item, block.title))));
-  const missing = REQUIRED_B1_SECTIONS.filter((section) => !finalSections.has(section));
+  const finalItems = unit.blocks.flatMap((block) => block.content.map((item) => ({ item, section: sectionFor(item, block.title) })));
+  const missing = REQUIRED_B1_SECTIONS.filter((section) => {
+    const items = finalItems.filter((entry) => entry.section === section).map((entry) => entry.item);
+    return countSectionExercises(items) < 5;
+  });
   if (missing.length) throw new Error("B1 section completion failed in " + file + ": " + missing.join(", "));
 }
 
@@ -289,6 +299,13 @@ function main() {
     }).filter((item): item is { name: string; number: number } => item !== null)
       .sort((a, b) => a.number - b.number);
     if (!files.length) throw new Error(`No unitN.json files found in ${levelConfig.folder}`);
+    if (levelConfig.level === "B1") {
+      const numbers = new Set(files.map((file) => file.number));
+      const missingUnits = Array.from({ length: 60 }, (_, index) => index + 1).filter((number) => !numbers.has(number));
+      if (files.length !== 60 || missingUnits.length) {
+        throw new Error("B1 source audit requires exactly units 1–60; missing: " + (missingUnits.join(", ") || "none") + "; found " + files.length);
+      }
+    }
 
     summary[levelConfig.level] = { units: files.length, exercises: 0, bySection: {} };
     statements.push(`INSERT INTO learning_courses (id, title, level, description, published)
