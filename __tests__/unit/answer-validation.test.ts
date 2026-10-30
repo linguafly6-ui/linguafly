@@ -339,3 +339,21 @@ describe("Normalized D1 answer grading contract", () => {
     expect(grade("Never have I seen it", "Never have I seen it")).toBe(true);
   });
 });
+
+
+describe("A2 learning answer normalization", () => {
+  const normalize = (value: string) => value.normalize("NFKC").trim().replace(/\\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, "");
+  const grade = (answer: string, options: string[], submitted: string) =>
+    normalize(submitted) === normalize(answer) ||
+    options.some((option) => normalize(option) === normalize(answer) && normalize(submitted) === normalize(option));
+
+  it("accepts the correct option text when case differs", () => {
+    expect(grade("did", ["did", "does", "do"], "DID")).toBe(true);
+  });
+  it("accepts answers with surrounding whitespace", () => {
+    expect(grade("went", ["went", "goes", "go"], "  went  ")).toBe(true);
+  });
+  it("rejects a distractor", () => {
+    expect(grade("went", ["went", "goes", "go"], "go")).toBe(false);
+  });
+});
