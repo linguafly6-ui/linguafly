@@ -70,7 +70,8 @@
     "d1:migrate": "wrangler d1 migrations apply blog --remote",
     "d1:migrate:local": "wrangler d1 migrations apply blog --local",
     "bulk-import": "npx tsx scripts/bulk-import-articles.ts",
-    "report:commercial-visibility": "node scripts/report-commercial-visibility.mjs"
+    "report:commercial-visibility": "node scripts/report-commercial-visibility.mjs",
+    "cf:build:preview": "CF_INCLUDE_B1=1 node scripts/cf-build.mjs build"
   },
   "dependencies": {
     "@opennextjs/cloudflare": "^1.20.13",
