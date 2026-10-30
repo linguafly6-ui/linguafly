@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
             const section = /listening|audio|listen/.test(classifier) ? "listening"
               : /reading|comprehension|read/.test(classifier) ? "reading"
               : /vocab|idiom|collocation|word.?formation/.test(classifier) ? "vocabulary"
-              : /writing|speaking|production/.test(classifier) ? "writing" : "grammar";
+              : /writing/.test(classifier) ? "writing" : /speaking|production/.test(classifier) ? "production" : "grammar";
             const prompt = [item.stimulus_en, item.question_en, item.prompt_es]
               .filter((value: unknown) => typeof value === "string" && value.trim()).join(" · ");
             if (prompt) groups.set(section, [...(groups.get(section) ?? []), prompt]);
