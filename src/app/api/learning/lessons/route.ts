@@ -4,6 +4,7 @@ import a1LearningSections from "@/content/cursos/ingles-a1/aprender-sections.jso
 import a2LearningSections from "@/content/cursos/ingles-a2/aprender-sections.json";
 import { getLegacyAdvancedUnit, getLegacyAdvancedSection } from "@/lib/learning/legacy-advanced-units";
 import { a2Units } from "@/lib/learning/a2-units";
+import { C1_COURSE } from "@/lib/course/c1";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -70,6 +71,46 @@ export async function GET(request: NextRequest) {
 
     const rows = result.results || [];
     const first = rows[0];
+
+    // C1 catalog fallback: the authored TypeScript course is the source of truth
+    // until its lessons are deliberately imported and published in the Preview D1.
+    if (level === "C1" && rows.length === 0) {
+      const lessons = C1_COURSE.units.map((unit) => {
+        const grouped = new Map<string, typeof unit.exercises>();
+        for (const type of ["Grammar", "Vocabulary", "Listening", "Reading"]) {
+          grouped.set(type, unit.exercises.filter((exercise) => exercise.topicName?.toLowerCase() === type.toLowerCase()));
+        }
+        const labels: Record<string, string> = {
+          Grammar: "Gramática", Vocabulary: "Vocabulario",
+          Listening: "Comprensión auditiva", Reading: "Comprensión lectora",
+        };
+        const sections = [...grouped.entries()].map(([type, exercises]) => ({
+          type: type.toLowerCase(),
+          title: labels[type],
+          body: exercises.map((exercise) => {
+            const question = (exercise.content as any)?.questions?.[0];
+            return typeof question?.question === "string" ? question.question : "";
+          }).filter(Boolean).join("\\n"),
+        }));
+        return {
+          id: `c1-${String(unit.id).padStart(2, "0")}`,
+          number: unit.id,
+          unit: unit.id,
+          title: unit.title.replace(/\\[\\[([^\\]|]+)\\|([^\\]]+)\\]\\]/g, "$2"),
+          objective: `Unidad C1: ${unit.title.replace(/\\[\\[([^\\]|]+)\\|([^\\]]+)\\]\\]/g, "$1")}`,
+          estimated_minutes: 45,
+          content: { sections, reviewEnabled: true },
+        };
+      });
+      return NextResponse.json({
+        course: {
+          id: "ingles-c1", title: "Inglés avanzado", level: "C1",
+          description: "Curso C1 organizado en gramática, vocabulario, comprensión auditiva y comprensión lectora.",
+          lesson_count: lessons.length,
+        },
+        lessons,
+      }, { headers: { "Cache-Control": "no-store" } });
+    }
 
     // Keep A2 usable when its database publication rows are missing.
     if (level === "A2" && rows.length === 0) {
