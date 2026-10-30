@@ -316,11 +316,15 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
     const exercise = unit?.exercises.find((candidate) => candidate.id === payload.exerciseId);
     const question = exercise?.content?.questions?.[0];
     if (!question) return NextResponse.json({ error: "Ejercicio B2 no encontrado." }, { status: 404 });
-    const normalize = (value: string) => value.trim().replace(/\\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, "");
+    const normalize = (value: string) => value.normalize("NFKC").trim().replace(/\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, "");
     const expectedValues = Array.isArray(question.acceptableAnswers) ? question.acceptableAnswers.map(String) : [];
     if (question.correctAnswer !== undefined) {
       if (typeof question.correctAnswer === "number" && Array.isArray(question.options)) expectedValues.push(plainEnglish(String(question.options[question.correctAnswer] ?? "")));
-      else expectedValues.push(plainEnglish(String(question.correctAnswer)));
+      else if (typeof question.correctAnswer === "string" && Array.isArray(question.options)) {
+        const matchingOption = question.options.find((option: unknown) => typeof option === "object" && option !== null && "id" in option && String((option as {id:unknown}).id) === question.correctAnswer);
+        if (matchingOption && "text" in matchingOption) expectedValues.push(plainEnglish(String((matchingOption as {text:unknown}).text)));
+        else expectedValues.push(plainEnglish(question.correctAnswer));
+      } else expectedValues.push(plainEnglish(String(question.correctAnswer)));
     }
     const correct = expectedValues.some((expected) => normalize(expected) === normalize(payload.answer as string));
     const explanation = plainText(question.explanation ?? (expectedValues[0] ? "Respuesta correcta: " + expectedValues[0] : ""));
