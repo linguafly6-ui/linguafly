@@ -122,7 +122,17 @@ function exerciseStatement(
   source: unknown,
   audioText: string
 ): string {
-  const values = `(${sqlString(id)}, ${sqlString(lessonId)}, ${number}, ${sqlString(type)}, ${sqlString(prompt)},
+  // The database also guards against duplicate prompts within a lesson section.
+  // Keep source wording unless another exercise already uses it; in that case add
+  // the stable exercise ID so legacy prompts cannot abort an otherwise safe import.
+  const uniquePrompt = `CASE WHEN EXISTS (
+    SELECT 1 FROM learning_exercises existing
+    WHERE existing.lesson_id = ${sqlString(lessonId)}
+      AND existing.section_type = ${sqlString(section)}
+      AND lower(trim(existing.prompt)) = lower(trim(${sqlString(prompt)}))
+      AND existing.exercise_number <> ${number}
+  ) THEN ${sqlString(prompt + " (" + id + ")")} ELSE ${sqlString(prompt)} END`;
+  const values = `(${sqlString(id)}, ${sqlString(lessonId)}, ${number}, ${sqlString(type)}, ${uniquePrompt},
    ${sqlString(json(options))}, ${sqlString(json({ correct, source }))}, ${sqlString(explanation)}, 0,
    ${sqlString(section)}, ${audioText ? sqlString(audioText) : "NULL"})`;
   // Avoid INSERT ... ON CONFLICT: D1 has a BEFORE INSERT duplicate-prompt
@@ -132,7 +142,7 @@ function exerciseStatement(
   // UNIQUE constraint on that pair, so an ID-only upsert can fail when a
   // lesson already contains legacy exercises with different IDs.
   return `UPDATE learning_exercises SET
-  exercise_type = ${sqlString(type)}, prompt = ${sqlString(prompt)},
+  exercise_type = ${sqlString(type)}, prompt = ${uniquePrompt},
   options_json = ${sqlString(json(options))}, answer_json = ${sqlString(json({ correct, source }))},
   explanation = ${sqlString(explanation)}, section_type = ${sqlString(section)},
   audio_text = ${audioText ? sqlString(audioText) : "NULL"}
