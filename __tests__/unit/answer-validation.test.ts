@@ -308,3 +308,34 @@ describe('Answer Validation - acceptableAnswers', () => {
     });
   });
 });
+
+
+describe("Normalized D1 answer grading contract", () => {
+  const normalize = (value: string) => value.trim().replace(/\\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, "");
+  const grade = (answerData: unknown, submitted: string) => {
+    const record = typeof answerData === "object" && answerData !== null && !Array.isArray(answerData)
+      ? answerData as { correct?: unknown; acceptableAnswers?: unknown; acceptable_answers?: unknown; alternatives?: unknown }
+      : null;
+    const expected = record?.correct !== undefined ? record.correct : answerData;
+    const alternatives = record
+      ? [record.acceptableAnswers, record.acceptable_answers, record.alternatives]
+          .flatMap((value) => Array.isArray(value) ? value : value == null ? [] : [value])
+      : [];
+    return [expected, ...alternatives]
+      .filter((value) => value !== null && value !== undefined && String(value).trim() !== "")
+      .some((value) => normalize(String(value)) === normalize(submitted));
+  };
+
+  it("accepts the answer inside the normalized {correct, source} envelope", () => {
+    expect(grade({ correct: "would have gone", source: {} }, "Would have gone.")).toBe(true);
+  });
+  it("accepts a stored acceptable alternative", () => {
+    expect(grade({ correct: "had been working", acceptableAnswers: ["had worked"] }, "had worked")).toBe(true);
+  });
+  it("does not treat source metadata as an accepted answer", () => {
+    expect(grade({ correct: "had been working", source: { explanation: "metadata" } }, "source")).toBe(false);
+  });
+  it("supports a plain legacy answer value", () => {
+    expect(grade("Never have I seen it", "Never have I seen it")).toBe(true);
+  });
+});
