@@ -8,12 +8,17 @@ import { getLegacyAdvancedUnit, getLegacyAdvancedItem, getLegacyAdvancedSection,
 import { B2_COURSE } from "@/lib/course/b2";
 
 function isB2ExerciseInSection(exercise: { topicName?: unknown; type?: unknown }, section: string): boolean {
-  const topicName = String(exercise.topicName ?? "").trim().toLowerCase();
-  const exerciseType = String(exercise.type ?? "").trim().toLowerCase();
-  if (topicName === section) return true;
-  if (section === "reading") return exerciseType.includes("reading");
-  if (section === "listening") return exerciseType.includes("listening");
-  return false;
+  const normalize = (value: unknown) => String(value ?? "").trim().toLowerCase().replace(/[^a-z]+/g, " ");
+  const topicName = normalize(exercise.topicName);
+  const exerciseType = normalize(exercise.type);
+  const aliases: Record<string, string[]> = {
+    grammar: ["grammar"],
+    vocabulary: ["vocabulary", "lexis"],
+    listening: ["listening", "listening comprehension", "audio comprehension"],
+    reading: ["reading", "reading comprehension", "text comprehension"],
+  };
+  const terms = aliases[section] ?? [section];
+  return terms.some((term) => topicName.includes(term) || exerciseType.includes(term));
 }
 
 
