@@ -5,8 +5,21 @@ import { getSessionUser } from "@/lib/learning/auth";
 import { resolveCloudflareEnv } from "@/lib/db/client";
 import { getA1LegacyUnit, type A1LegacyItem as LegacyItem, type A1LegacyUnit as LegacyUnit } from "@/lib/learning/a1-legacy-units";
 import { getLegacyAdvancedUnit, getLegacyAdvancedItem, getLegacyAdvancedSection, type LegacyAdvancedItem } from "@/lib/learning/legacy-advanced-units";
+import { B2_COURSE } from "@/lib/course/b2";
 
 const sectionNames = new Set(["grammar", "vocabulary", "listening", "reading", "production"]);
+
+function isB2ExerciseInSection(exercise: { topicName?: unknown; type?: unknown }, section: string): boolean {
+  const normalize = (value: unknown) => String(value ?? "").trim().toLowerCase().replace(/[^a-z]+/g, " ");
+  const topicName = normalize(exercise.topicName);
+  const exerciseType = normalize(exercise.type);
+  const aliases: Record<string, string[]> = {
+    grammar: ["grammar"], vocabulary: ["vocabulary", "lexis"],
+    listening: ["listening", "listening comprehension", "audio comprehension"],
+    reading: ["reading", "reading comprehension", "text comprehension"],
+  };
+  return (aliases[section] ?? [section]).some((term) => topicName.includes(term) || exerciseType.includes(term));
+}
 
 function bilingualPart(value: string, preferred: "english" | "spanish"): string {
   const [left, right] = value.split("|", 2);
@@ -170,6 +183,21 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
   if (!sectionNames.has(section)) return NextResponse.json({ error: "Sección no válida." }, { status: 400 });
 
 
+  const b2Match = /^b2-(\d{2,3})$/.exec(lessonId);
+  if (b2Match) {
+    const unit = B2_COURSE.units.find((candidate) => candidate.id === Number(b2Match[1]));
+    if (!unit) return NextResponse.json({ error: "Unidad B2 no disponible." }, { status: 404 });
+    const selected = unit.exercises.filter((exercise) => isB2ExerciseInSection(exercise, section));
+    const exercises = selected.flatMap((exercise, index) => {
+      const question = exercise.content?.questions?.[0];
+      if (!question) return [];
+      const options = Array.isArray(question.options) ? question.options.map((option: string) => plainEnglish(option)) : [];
+      const transcript = exercise.transcript ? plainEnglish(exercise.transcript) : null;
+      return [{ id: exercise.id, number: index + 1, type: options.length ? "multiple_choice" : exercise.type === "fill-blank" ? "fill_blank" : "free_text", prompt: plainEnglish(question.question ?? exercise.content?.instructions ?? ""), options, audioText: section === "listening" ? transcript : null, passageText: section === "reading" ? transcript : null }];
+    });
+    return NextResponse.json({ exercises });
+  }
+
   const advancedMatch = /^(b1|b2|c1|c2)-(\d{2})$/.exec(lessonId);
   if (advancedMatch) {
     const normalizedExercises = await getNormalizedD1Exercises(lessonId, section);
@@ -271,6 +299,37 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
   const payload = await request.json().catch(() => null) as { exerciseId?: string; answer?: unknown } | null;
   if (!payload?.exerciseId || typeof payload.answer !== "string" || payload.answer.length > 500) {
     return NextResponse.json({ error: "Respuesta no válida." }, { status: 400 });
+  }
+
+  const b2GradeMatch = /^b2-(\d{2,3})$/.exec(lessonId);
+  if (b2GradeMatch) {
+    const unit = B2_COURSE.units.find((candidate) => candidate.id === Number(b2GradeMatch[1]));
+    const exercise = unit?.exercises.find((candidate) => candidate.id === payload.exerciseId);
+    const question = exercise?.content?.questions?.[0];
+    if (!question) return NextResponse.json({ error: "Ejercicio B2 no encontrado." }, { status: 404 });
+    const expectedValues = Array.isArray(question.acceptableAnswers) ? question.acceptableAnswers.map(String) : [];
+    if (question.correctAnswer !== undefined) {
+      if (typeof question.correctAnswer === "number" && Array.isArray(question.options)) expectedValues.push(plainEnglish(String(question.options[question.correctAnswer] ?? "")));
+      else expectedValues.push(plainEnglish(String(question.correctAnswer)));
+    }
+    const normalize = (value: string) => value.trim().replace(/\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, "");
+    const correct = expectedValues.some((expected) => normalize(expected) === normalize(payload.answer as string));
+    const explanation = plainText(question.explanation ?? (expectedValues[0] ? "Respuesta correcta: " + expectedValues[0] : ""));
+    const { env, user } = await getSessionUser(request);
+    const now = new Date().toISOString();
+    let review: ReturnType<typeof scheduleNextReview> | null = null;
+    if (user) {
+      const previousRow = await env.DB.prepare("SELECT progress_json FROM learning_progress WHERE user_id = ? AND lesson_id = ?").bind(user.id, lessonId).first<{ progress_json: string | null }>();
+      let progress: Record<string, unknown> = {};
+      try { if (previousRow?.progress_json) progress = JSON.parse(previousRow.progress_json); } catch { progress = {}; }
+      const previousReview = (progress[payload.exerciseId] as { review?: ReviewState } | undefined)?.review ?? { intervalDays: 0, easeFactor: 2.5, repetitions: 0, lapses: 0 };
+      review = scheduleNextReview(previousReview, correct ? 4 : 1, now);
+      progress[payload.exerciseId] = { ...(progress[payload.exerciseId] as Record<string, unknown> | undefined), answer: payload.answer, feedback: { correct, explanation }, review };
+      await env.DB.prepare(`INSERT INTO learning_progress (user_id, lesson_id, progress_json, updated_at)
+        VALUES (?, ?, ?, CURRENT_TIMESTAMP)
+        ON CONFLICT(user_id, lesson_id) DO UPDATE SET progress_json = excluded.progress_json, updated_at = CURRENT_TIMESTAMP`).bind(user.id, lessonId, JSON.stringify(progress)).run();
+    }
+    return NextResponse.json({ correct, explanation, review, authenticated: Boolean(user) });
   }
 
   const a1Match = /^a1-(\d{2})$/.exec(lessonId);
