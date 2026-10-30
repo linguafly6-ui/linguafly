@@ -152,7 +152,7 @@ function main() {
     "  source_path = excluded.source_path,\n" +
     "  content_hash = excluded.content_hash,\n" +
     "  content_json = excluded.content_json,\n" +
-    "  updated_at = excluded.updated_at;";
+    "  updated_at = excluded.updated_at;"
   );
 
   for (let start = 0; start < statements.length; start += 10) {
