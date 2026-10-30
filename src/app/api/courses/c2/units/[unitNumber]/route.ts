@@ -32,7 +32,8 @@ function sectionFor(item: CourseInteraction, blockTitle: string): string {
   if (/listening|audio|listen/.test(source)) return "listening";
   if (/reading|comprehension|read/.test(source)) return "reading";
   if (/vocab|idiom|collocation|word.?formation/.test(source)) return "vocabulary";
-  if (/writing|speaking|production/.test(source)) return "writing";
+  if (/speaking/.test(source)) return "speaking";
+  if (/writing|production/.test(source)) return "writing";
   return "grammar";
 }
 
