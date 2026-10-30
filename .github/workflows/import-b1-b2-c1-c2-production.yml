@@ -1,0 +1,122 @@
+name: Import B1-B2-C1-C2 courses into production D1
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_import:
+        description: "Confirm import of B1, B2, C1 and C2 into production D1 blog"
+        required: true
+        type: choice
+        options:
+          - "I CONFIRM B1 B2 C1 C2 PRODUCTION IMPORT"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: import-b1-b2-c1-c2-production-d1
+  cancel-in-progress: false
+
+jobs:
+  import-courses:
+    if: ${{ inputs.confirm_import == 'I CONFIRM B1 B2 C1 C2 PRODUCTION IMPORT' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout selected branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate production database and required tables
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CI: "true"
+        run: |
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo "::error::Missing CLOUDFLARE_API_TOKEN"; exit 1; }
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "::error::Missing CLOUDFLARE_ACCOUNT_ID"; exit 1; }
+          npx wrangler d1 execute blog --remote --command "SELECT name FROM sqlite_master WHERE type='table' AND name IN ('learning_courses','learning_lessons','learning_exercises','learning_course_json_units');" --yes
+
+      - name: Apply additive course JSON migration
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CI: "true"
+        run: npx wrangler d1 migrations apply blog --remote
+
+      - name: Generate only B1-B2-C1-C2 course JSON batches
+        run: |
+          rm -rf /tmp/course-json-production
+          mkdir -p /tmp/course-json-production
+          npx tsx scripts/sync-course-json-to-d1.ts --levels B1,B2,C1,C2 --sql-out-dir /tmp/course-json-production
+          shopt -s nullglob
+          files=(/tmp/course-json-production/batch-*.sql)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "::error::No selected course JSON batches were generated."
+            exit 1
+          fi
+          for file in "${files[@]}"; do
+            npx wrangler d1 execute blog --remote --file="$file" --yes
+          done
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CI: "true"
+
+      - name: Update the canonical C2 catalog mirror
+        run: |
+          rm -rf /tmp/c2-catalog-production
+          mkdir -p /tmp/c2-catalog-production
+          npx tsx scripts/sync-c2-catalog-to-d1.ts --sql-out-dir /tmp/c2-catalog-production
+          shopt -s nullglob
+          files=(/tmp/c2-catalog-production/batch-*.sql)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "::error::No C2 catalog batches were generated."
+            exit 1
+          fi
+          for file in "${files[@]}"; do
+            npx wrangler d1 execute blog --remote --file="$file" --yes
+          done
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CI: "true"
+
+      - name: Normalize B1-B2-C1-C2 without resetting learner progress
+        run: |
+          rm -rf /tmp/course-normalized-production
+          mkdir -p /tmp/course-normalized-production
+          npx tsx scripts/normalize-course-json-to-d1.ts --sql-out-dir /tmp/course-normalized-production
+          shopt -s nullglob
+          files=(/tmp/course-normalized-production/batch-*.sql)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "::error::No normalized course batches were generated."
+            exit 1
+          fi
+          for file in "${files[@]}"; do
+            npx wrangler d1 execute blog --remote --file="$file" --yes
+          done
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CI: "true"
+
+      - name: Verify published course counts and exercise distribution
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CI: "true"
+        run: |
+          npx wrangler d1 execute blog --remote --command "SELECT c.level, COUNT(DISTINCT l.id) AS units, COUNT(e.id) AS exercises FROM learning_courses c JOIN learning_lessons l ON l.course_id = c.id LEFT JOIN learning_exercises e ON e.lesson_id = l.id WHERE c.id IN ('english-b1','english-b2','english-c1','english-c2') GROUP BY c.level ORDER BY c.level;" --yes
+          npx wrangler d1 execute blog --remote --command "SELECT l.course_id, e.section_type, COUNT(*) AS exercises FROM learning_exercises e JOIN learning_lessons l ON l.id = e.lesson_id WHERE l.course_id IN ('english-b1','english-b2','english-c1','english-c2') GROUP BY l.course_id, e.section_type ORDER BY l.course_id, e.section_type;" --yes
+          npx wrangler d1 execute blog --remote --command "SELECT level, COUNT(*) AS json_units FROM learning_course_json_units WHERE course_key IN ('ingles-b1','ingles-b2','ingles-c1','ingles-c2') GROUP BY level ORDER BY level;" --yes
