@@ -221,8 +221,7 @@ async function getC2D1Unit(lessonId: string): Promise<C2D1Unit | null> {
   if (!match) return null;
   const { env } = await resolveCloudflareEnv();
   const row = await env.DB.prepare(
-    \`SELECT content_json FROM learning_course_json_units
-     WHERE course_key = ? AND level = ? AND unit_number = ? LIMIT 1\`
+    "SELECT content_json FROM learning_course_json_units WHERE course_key = ? AND level = ? AND unit_number = ? LIMIT 1"
   ).bind("ingles-c2", "C2", Number(match[1])).first<{ content_json: string }>();
   if (!row) return null;
   const unit = JSON.parse(row.content_json) as C2D1Unit;
@@ -242,10 +241,10 @@ function getC2D1Section(item: C2D1Interaction, blockTitle: string): string {
 function c2BlankPrompt(mainText: string, blankNumber: number): string {
   const sentences = mainText.split(/(?<=[.!?])\s+/);
   const sentence = sentences.find((part) =>
-    new RegExp("\\\\(" + blankNumber + "\\\\)|\\\\[" + blankNumber + "\\\\]|\\\\b" + blankNumber + "\\\\b").test(part)
+    new RegExp("\\(" + blankNumber + "\\)|\\[" + blankNumber + "\\]|\\b" + blankNumber + "\\b").test(part)
   ) ?? mainText;
   return sentence.replace(
-    new RegExp("\\\\(?" + blankNumber + "\\\\)?\\\\s*(?:_+|\\\\(\\\\s*" + blankNumber + "\\\\s*\\\\)_+)", "g"),
+    new RegExp("\\(?" + blankNumber + "\\)?\\s*(?:_+|\\(\\s*" + blankNumber + "\\s*\\)_+)", "g"),
     "_____"
   ).trim();
 }
@@ -254,22 +253,23 @@ function getC2D1PracticeExercises(unit: C2D1Unit, section: string) {
   const items = (unit.blocks ?? []).flatMap((block) =>
     (block.content ?? [])
       .filter((item) => getC2D1Section(item, String(block.title ?? "")) === section)
-      .map((item) => ({ item, blockTitle: String(block.title ?? "") }))
   );
-  return items.flatMap(({ item }, itemIndex) => {
-    const id = String(item.interaction_id ?? \`c2-item-\${itemIndex + 1}\`);
+
+  return items.flatMap((item, itemIndex) => {
+    const id = String(item.interaction_id ?? ("c2-item-" + (itemIndex + 1)));
     const type = String(item.type ?? "").toLowerCase();
     const prompt = [item.stimulus_en, item.question_en, item.prompt_es]
       .filter((value) => typeof value === "string" && value.trim())
-      .map((value) => plainEnglish(String(value))).join("\\n");
+      .map((value) => plainEnglish(String(value))).join("\n");
     const passage = typeof item.main_text === "string" ? plainEnglish(item.main_text)
       : typeof item.transcript === "string" ? plainEnglish(item.transcript) : null;
 
-    if (/matching|match/i.test(type) && Array.isArray(item.pairs)) {
-      const options = item.pairs.map((pair) => plainEnglish(pair.right));
-      return item.pairs.map((pair, pairIndex) => ({
+    const pairs = item.pairs;
+    if (/matching|match/i.test(type) && Array.isArray(pairs)) {
+      const options = pairs.map((pair) => plainEnglish(pair.right));
+      return pairs.map((pair, pairIndex) => ({
         id: id + "__match_" + (pair.id || String(pairIndex + 1)),
-        number: itemIndex * item.pairs!.length + pairIndex + 1,
+        number: itemIndex * pairs.length + pairIndex + 1,
         type: "multiple_choice",
         prompt: plainEnglish(pair.left),
         options,
@@ -278,12 +278,11 @@ function getC2D1PracticeExercises(unit: C2D1Unit, section: string) {
       }));
     }
 
-    if (Array.isArray(item.gaps) && item.gaps.length) {
-      const answers = item.correct_answer && typeof item.correct_answer === "object"
-        ? item.correct_answer as Record<string, unknown> : {};
-      return item.gaps.map((gap, gapIndex) => ({
+    const gaps = item.gaps;
+    if (Array.isArray(gaps) && gaps.length) {
+      return gaps.map((gap, gapIndex) => ({
         id: id + "__gap_" + gap.id,
-        number: itemIndex * item.gaps!.length + gapIndex + 1,
+        number: itemIndex * gaps.length + gapIndex + 1,
         type: "multiple_choice",
         prompt: c2BlankPrompt(String(item.main_text ?? prompt), Number(gap.id)) || prompt,
         options: (gap.options ?? []).map((option) => plainEnglish(String(option.text ?? ""))),
@@ -292,10 +291,11 @@ function getC2D1PracticeExercises(unit: C2D1Unit, section: string) {
       }));
     }
 
-    if (/cloze|fill.?blanks?/i.test(type) && Array.isArray(item.correct_answer) && item.correct_answer.length) {
-      return item.correct_answer.map((_answer, answerIndex) => ({
+    const correctAnswers = item.correct_answer;
+    if (/cloze|fill.?blanks?/i.test(type) && Array.isArray(correctAnswers) && correctAnswers.length) {
+      return correctAnswers.map((_answer, answerIndex) => ({
         id: id + "__gap_" + String(answerIndex + 1),
-        number: itemIndex * item.correct_answer!.length + answerIndex + 1,
+        number: itemIndex * correctAnswers.length + answerIndex + 1,
         type: "free_text",
         prompt: c2BlankPrompt(String(item.main_text ?? prompt), answerIndex + 1) || prompt,
         options: [],
