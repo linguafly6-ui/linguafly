@@ -13,7 +13,16 @@ export async function loadCourseUnitData(
   unitNumber: string | number
 ): Promise<CourseUnitPayload> {
   const n = String(unitNumber);
-  const url = `/course-data/${courseFolder}/unit-${n}.json`;
+
+  // C2 exercises are authored in the TypeScript catalog. The old static URL
+  // /course-data/c2/unit-N.json is not present in the repository, so the C2
+  // course page was receiving a 404 before the renderer could show any content.
+  // Serve the canonical catalog through the API instead of relying on missing
+  // generated public assets.
+  const isC2 = courseFolder.toLowerCase() === "c2";
+  const url = isC2
+    ? `/api/courses/c2/units/${encodeURIComponent(n)}`
+    : `/course-data/${courseFolder}/unit-${n}.json`;
   const res = await fetch(url);
   if (!res.ok) {
     throw new Error(`No se pudo cargar ${url} (${res.status})`);
