@@ -547,7 +547,13 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
     const found = getA2Question(lessonId, payload.exerciseId);
     if (!found) return NextResponse.json({ error: "Ejercicio A2 no encontrado." }, { status: 404 });
     const { unit, question } = found;
-    const correct = payload.answer === question.answer;
+    const normalize = (value: string) => value
+      .normalize("NFKC")
+      .trim()
+      .replace(/\s+/g, " ")
+      .toLocaleLowerCase("en")
+      .replace(/[.!?]+$/, "");
+    const correct = normalize(payload.answer) === normalize(question.answer);
     const { env, user } = await getSessionUser(request);
     const now = new Date().toISOString();
     const existingProgress = user ? await env.DB.prepare(
