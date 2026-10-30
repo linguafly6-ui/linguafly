@@ -546,13 +546,15 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
   if (/^a2-\d{2}$/.test(lessonId)) {
     const found = getA2Question(lessonId, payload.exerciseId);
     if (!found) return NextResponse.json({ error: "Ejercicio A2 no encontrado." }, { status: 404 });
-    const { unit, question } = found;
+    const { question } = found;
     const normalize = (value: string) => value
       .normalize("NFKC")
       .trim()
       .replace(/\s+/g, " ")
       .toLocaleLowerCase("en")
       .replace(/[.!?]+$/, "");
+    // The A2 interaction submits option text; accept the stored answer key
+    // and the matching canonical option text.
     const correct = normalize(payload.answer) === normalize(question.answer)
       || question.options.some((option) => normalize(option) === normalize(question.answer)
         && normalize(payload.answer) === normalize(option));
