@@ -553,7 +553,9 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
       .replace(/\s+/g, " ")
       .toLocaleLowerCase("en")
       .replace(/[.!?]+$/, "");
-    const correct = normalize(payload.answer) === normalize(question.answer);
+    const correct = normalize(payload.answer) === normalize(question.answer)
+      || question.options.some((option) => normalize(option) === normalize(question.answer)
+        && normalize(payload.answer) === normalize(option));
     const { env, user } = await getSessionUser(request);
     const now = new Date().toISOString();
     const existingProgress = user ? await env.DB.prepare(
