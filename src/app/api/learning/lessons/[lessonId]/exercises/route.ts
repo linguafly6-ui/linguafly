@@ -493,7 +493,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
     const specialMatch = /^(.*)__(gap|match)_([^_]+)$/.exec(payload.exerciseId);
     const item = getLegacyAdvancedItem(lessonId, specialMatch ? specialMatch[1] : payload.exerciseId);
     if (!item) return NextResponse.json({ error: "Ejercicio no encontrado." }, { status: 404 });
-    let expected = advancedExpectedAnswer(item);
+    let expected: string[] = [];
     if (specialMatch?.[2] === "gap") {
       const gapId = specialMatch[3];
       const gapItem = item as LegacyAdvancedItem & {
@@ -503,14 +503,22 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
       const gap = gapItem.gaps?.find((candidate) => candidate.id === gapId);
       const correctOptionId = gapItem.correct_answer && typeof gapItem.correct_answer === "object"
         ? gapItem.correct_answer[gapId] : undefined;
-      expected = gap?.options.find((option) => option.id === correctOptionId)?.text ?? "";
+      const correctOption = gap?.options.find((option) => option.id === correctOptionId);
+      expected = correctOption ? [correctOption.text] : [];
     } else if (specialMatch?.[2] === "match") {
       const pairId = specialMatch[3];
       const pairs = (item as LegacyAdvancedItem & { pairs?: { id?: string; left: string; right: string }[] }).pairs ?? [];
-      expected = pairs.find((pair, index) => (pair.id || String(index + 1)) === pairId)?.right ?? "";
+      const correctPair = pairs.find((pair, index) => (pair.id || String(index + 1)) === pairId);
+      expected = correctPair ? [correctPair.right] : [];
+    } else {
+      const correct = advancedExpectedAnswer(item);
+      expected = correct ? [correct] : [];
+      const acceptable = (item as LegacyAdvancedItem & { acceptable_answers?: unknown; acceptableAnswers?: unknown }).acceptable_answers
+        ?? (item as LegacyAdvancedItem & { acceptableAnswers?: unknown }).acceptableAnswers;
+      expected.push(...(Array.isArray(acceptable) ? acceptable.map(String) : acceptable == null ? [] : [String(acceptable)]));
     }
-    const normalize = (value: string) => value.trim().replace(/\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, "");
-    const correct = Boolean(expected) && normalize(payload.answer) === normalize(expected);
+    const normalize = (value: string) => value.trim().replace(/\\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, "");
+    const correct = expected.filter(Boolean).some((candidate) => normalize(payload.answer) === normalize(candidate));
     const explanation = advancedPlainText(item.explanation) || (expected ? "Respuesta correcta: " + expected : "Revisa la explicación del ejercicio.");
     const { env, user } = await getSessionUser(request);
     const previousRow = user
