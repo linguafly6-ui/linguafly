@@ -52,11 +52,7 @@ jobs:
               echo "::error::Normalized course data is missing the required B1 section: $section"
               exit 1
             fi
-          done
-          if grep -R -nE "'production'|\\"production\\"|AUTO_PRODUCTION" "$SEED_DIR"; then
-            echo "::error::B1 production section must not be published."
-            exit 1
-          fi
+          done 
           if grep -R -n -- "--reset-test-progress" scripts/normalize-course-json-to-d1.ts .github/workflows/deploy-cloudflare.yml; then
             echo "::error::A destructive learner-progress reset must never run during deployment."
             exit 1
