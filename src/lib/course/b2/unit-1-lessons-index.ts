@@ -1,5 +1,5 @@
 /**
- * Índice de las 5 lecciones de la Unidad 1 (B2).
+ * Índice de las 4 secciones de la Unidad 1 (B2).
  */
 
 import { Exercise } from '@/lib/exercise-generator';
@@ -14,15 +14,13 @@ export const UNIT_1_LESSONS = {
   vocabulary: UNIT_1_LESSON_2_VOCABULARY,
   reading: UNIT_1_LESSON_3_READING,
   listening: UNIT_1_LESSON_4_LISTENING,
-  writing: UNIT_1_LESSON_6_WRITING,
 } as const;
 
 export const UNIT_1_ALL_LESSONS: Exercise[][] = [
-  UNIT_1_LESSON_1_GRAMMAR,
-  UNIT_1_LESSON_2_VOCABULARY,
+  UNIT_1_LESSON_1_GRAMMAR.slice(0, 15),
+  UNIT_1_LESSON_2_VOCABULARY.slice(0, 15),
   UNIT_1_LESSON_3_READING,
   UNIT_1_LESSON_4_LISTENING,
-  UNIT_1_LESSON_6_WRITING,
 ];
 
 export const UNIT_1_ALL_EXERCISES: Exercise[] = UNIT_1_ALL_LESSONS.flat();
