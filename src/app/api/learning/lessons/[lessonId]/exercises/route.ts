@@ -410,8 +410,16 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
       if (row) {
         let answerData: unknown = {};
         try { answerData = JSON.parse(String(row.answer_json ?? "{}")); } catch { answerData = {}; }
-        const expected = typeof answerData === "object" && answerData !== null && "correct" in answerData
-          ? String((answerData as { correct: unknown }).correct ?? "") : String(answerData ?? "");
+        const answerRecord = typeof answerData === "object" && answerData !== null && !Array.isArray(answerData)
+          ? answerData as { correct?: unknown; acceptableAnswers?: unknown; acceptable_answers?: unknown; alternatives?: unknown }
+          : null;
+        const expected = answerRecord?.correct !== undefined ? answerRecord.correct : answerData;
+        const alternatives = answerRecord
+          ? [answerRecord.acceptableAnswers, answerRecord.acceptable_answers, answerRecord.alternatives]
+              .flatMap((value) => Array.isArray(value) ? value : value == null ? [] : [value])
+          : [];
+        const acceptedAnswers = [expected, ...alternatives]
+          .filter((value) => value !== null && value !== undefined && String(value).trim() !== "");
         let submitted = payload.answer;
         if (row.exercise_type === "sentence_building") {
           try {
@@ -420,7 +428,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
           } catch { /* submitted as plain text */ }
         }
         const normalize = (value: string) => value.trim().replace(/\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, "");
-        const correct = Boolean(expected) && normalize(submitted) === normalize(expected);
+        const correct = acceptedAnswers.some((candidate) => normalize(String(candidate)) === normalize(submitted));
         const explanation = String(row.explanation ?? "");
         const now = new Date().toISOString();
         let review: ReturnType<typeof scheduleNextReview> | null = null;
