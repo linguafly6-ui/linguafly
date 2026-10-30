@@ -92,12 +92,24 @@ export async function GET(request: NextRequest) {
             return typeof question?.question === "string" ? question.question : "";
           }).filter(Boolean).join("\\n"),
         }));
+        const titleParts = unit.title.split("[[").map((part) => {
+          const end = part.indexOf("]]");
+          if (end < 0) return part;
+          const choices = part.slice(0, end).split("|");
+          return (choices[1] ?? choices[0]) + part.slice(end + 2);
+        });
+        const displayTitle = titleParts.join("");
+        const objectiveTitle = unit.title.split("[[").map((part) => {
+          const end = part.indexOf("]]");
+          if (end < 0) return part;
+          return part.slice(0, end).split("|")[0] + part.slice(end + 2);
+        }).join("");
         return {
           id: `c1-${String(unit.id).padStart(2, "0")}`,
           number: unit.id,
           unit: unit.id,
-          title: unit.title.replace(/\\[\\[([^\\]|]+)\\|([^\\]]+)\\]\\]/g, "$2"),
-          objective: `Unidad C1: ${unit.title.replace(/\\[\\[([^\\]|]+)\\|([^\\]]+)\\]\\]/g, "$1")}`,
+          title: displayTitle,
+          objective: `Unidad C1: ${objectiveTitle}`,
           estimated_minutes: 45,
           content: { sections, reviewEnabled: true },
         };
