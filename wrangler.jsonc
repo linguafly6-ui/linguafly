@@ -54,5 +54,20 @@
       "database_id": "476f34d4-5622-4a56-923e-c4fb571578c2",
       "migrations_dir": "migrations/d1"
     }
-  ]
+  ],
+  // Configuración aislada para Worker Previews (ramas no productivas).
+  // No cambiar el D1 de producción definido arriba.
+  "previews": {
+    "vars": {
+      "ENVIRONMENT": "preview"
+    },
+    "d1_databases": [
+      {
+        "binding": "DB",
+        "database_name": "linguafly preview",
+        "database_id": "b159641b-1910-49ec-b2ed-fbfae2440377",
+        "migrations_dir": "migrations/d1"
+      }
+    ]
+  }
 }
