@@ -32,12 +32,64 @@ function normalizeCourseSections(value: unknown): unknown {
 
 export async function GET(request: NextRequest) {
   try {
-    const { env } = await resolveCloudflareEnv();
     const level = (new URL(request.url).searchParams.get("level") || "A1")
       .trim()
       .toUpperCase()
       .slice(0, 8);
 
+    // C1 is served from its authored catalog in this review branch. Do not let
+    // stale/partial D1 publication rows shadow the complete catalog fallback.
+    if (level === "C1") {
+      const lessons = C1_COURSE.units.map((unit) => {
+        const grouped = new Map<string, typeof unit.exercises>();
+        for (const type of ["Grammar", "Vocabulary", "Listening", "Reading"]) {
+          grouped.set(type, unit.exercises.filter((exercise) => exercise.topicName?.toLowerCase() === type.toLowerCase()));
+        }
+        const labels: Record<string, string> = {
+          Grammar: "Gramática", Vocabulary: "Vocabulario",
+          Listening: "Comprensión auditiva", Reading: "Comprensión lectora",
+        };
+        const sections = [...grouped.entries()].map(([type, exercises]) => ({
+          type: type.toLowerCase(),
+          title: labels[type],
+          body: exercises.map((exercise) => {
+            const question = (exercise.content as any)?.questions?.[0];
+            return typeof question?.question === "string" ? question.question : "";
+          }).filter(Boolean).join("\n"),
+        }));
+        const titleParts = unit.title.split("[[").map((part) => {
+          const end = part.indexOf("]]");
+          if (end < 0) return part;
+          const choices = part.slice(0, end).split("|");
+          return (choices[1] ?? choices[0]) + part.slice(end + 2);
+        });
+        const displayTitle = titleParts.join("");
+        const objectiveTitle = unit.title.split("[[").map((part) => {
+          const end = part.indexOf("]]");
+          if (end < 0) return part;
+          return part.slice(0, end).split("|")[0] + part.slice(end + 2);
+        }).join("");
+        return {
+          id: `c1-${String(unit.id).padStart(2, "0")}`,
+          number: unit.id,
+          unit: unit.id,
+          title: displayTitle,
+          objective: `Unidad C1: ${objectiveTitle}`,
+          estimated_minutes: 45,
+          content: { sections, reviewEnabled: true },
+        };
+      });
+      return NextResponse.json({
+        course: {
+          id: "ingles-c1", title: "Inglés avanzado", level: "C1",
+          description: "Curso C1 organizado en gramática, vocabulario, comprensión auditiva y comprensión lectora.",
+          lesson_count: lessons.length,
+        },
+        lessons,
+      }, { headers: { "Cache-Control": "no-store" } });
+    }
+
+    const { env } = await resolveCloudflareEnv();
     const result = await env.DB.prepare(
       `SELECT
          c.id AS course_id,
@@ -71,58 +123,6 @@ export async function GET(request: NextRequest) {
 
     const rows = result.results || [];
     const first = rows[0];
-
-    // C1 catalog fallback: the authored TypeScript course is the source of truth
-    // until its lessons are deliberately imported and published in the Preview D1.
-    if (level === "C1" && rows.length === 0) {
-      const lessons = C1_COURSE.units.map((unit) => {
-        const grouped = new Map<string, typeof unit.exercises>();
-        for (const type of ["Grammar", "Vocabulary", "Listening", "Reading"]) {
-          grouped.set(type, unit.exercises.filter((exercise) => exercise.topicName?.toLowerCase() === type.toLowerCase()));
-        }
-        const labels: Record<string, string> = {
-          Grammar: "Gramática", Vocabulary: "Vocabulario",
-          Listening: "Comprensión auditiva", Reading: "Comprensión lectora",
-        };
-        const sections = [...grouped.entries()].map(([type, exercises]) => ({
-          type: type.toLowerCase(),
-          title: labels[type],
-          body: exercises.map((exercise) => {
-            const question = (exercise.content as any)?.questions?.[0];
-            return typeof question?.question === "string" ? question.question : "";
-          }).filter(Boolean).join("\\n"),
-        }));
-        const titleParts = unit.title.split("[[").map((part) => {
-          const end = part.indexOf("]]");
-          if (end < 0) return part;
-          const choices = part.slice(0, end).split("|");
-          return (choices[1] ?? choices[0]) + part.slice(end + 2);
-        });
-        const displayTitle = titleParts.join("");
-        const objectiveTitle = unit.title.split("[[").map((part) => {
-          const end = part.indexOf("]]");
-          if (end < 0) return part;
-          return part.slice(0, end).split("|")[0] + part.slice(end + 2);
-        }).join("");
-        return {
-          id: `c1-${String(unit.id).padStart(2, "0")}`,
-          number: unit.id,
-          unit: unit.id,
-          title: displayTitle,
-          objective: `Unidad C1: ${objectiveTitle}`,
-          estimated_minutes: 45,
-          content: { sections, reviewEnabled: true },
-        };
-      });
-      return NextResponse.json({
-        course: {
-          id: "ingles-c1", title: "Inglés avanzado", level: "C1",
-          description: "Curso C1 organizado en gramática, vocabulario, comprensión auditiva y comprensión lectora.",
-          lesson_count: lessons.length,
-        },
-        lessons,
-      }, { headers: { "Cache-Control": "no-store" } });
-    }
 
     // Keep A2 usable when its database publication rows are missing.
     if (level === "A2" && rows.length === 0) {
@@ -184,7 +184,7 @@ export async function GET(request: NextRequest) {
                 const firstItem = items[0]?.item;
                 return {
                   type, title: titles[type],
-                  body: items.map(({ item, blockTitle }) => [blockTitle, item.prompt_es, item.stimulus_en, item.question_en].filter(Boolean).join(" · ")).join("\\n") || (type === "listening" ? "Comprensión auditiva" : ""),
+                  body: items.map(({ item, blockTitle }) => [blockTitle, item.prompt_es, item.stimulus_en, item.question_en].filter(Boolean).join(" · ")).join("\n") || (type === "listening" ? "Comprensión auditiva" : ""),
                   example: type === "grammar" ? firstItem?.stimulus_en ?? "" : "",
                   audioText: type === "listening" ? (typeof firstItem?.transcript === "string" ? firstItem.transcript : firstItem?.stimulus_en ?? "") : undefined,
                   transcript: type === "listening" && typeof firstItem?.transcript === "string" ? firstItem.transcript : undefined,
