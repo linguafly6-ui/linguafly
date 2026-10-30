@@ -366,10 +366,10 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
   const c2Match = /^c2-(\\d{2})$/.exec(lessonId);
   if (c2Match) {
     try {
-      const exercises = await getNormalizedD1Exercises(lessonId, section);
-      return NextResponse.json({ exercises: exercises ?? [] }, {
-        headers: { "Cache-Control": "no-store" },
-      });
+      const unit = await getC2D1Unit(lessonId);
+      if (!unit) return NextResponse.json({ error: "Unidad C2 no encontrada en D1." }, { status: 404 });
+      const exercises = getC2D1PracticeExercises(unit, section);
+      return NextResponse.json({ exercises }, { headers: { "Cache-Control": "no-store" } });
     } catch (error) {
       console.error("[learning/exercises] C2 D1 read failed:", error);
       return NextResponse.json({ error: "No se pudieron cargar los ejercicios C2 desde D1." }, { status: 500 });
@@ -538,6 +538,24 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
   }
 
 
+
+  const c2MatchForGrading = /^c2-(\d{2})$/.exec(lessonId);
+  if (c2MatchForGrading) {
+    try {
+      const unit = await getC2D1Unit(lessonId);
+      if (!unit) return NextResponse.json({ error: "Unidad C2 no encontrada en D1." }, { status: 404 });
+      const special = /^(.*)__(gap|match)_([^_]+)$/.exec(payload.exerciseId);
+      const interactionId = special ? special[1] : payload.exerciseId;
+      const item = (unit.blocks ?? []).flatMap((block) => block.content ?? [])
+        .find((candidate) => candidate.interaction_id === interactionId);
+      if (!item) return NextResponse.json({ error: "Ejercicio C2 no encontrado en D1." }, { status: 404 });
+      const result = gradeC2D1Interaction(item, payload.exerciseId, payload.answer);
+      return NextResponse.json({ ...result, review: null, authenticated: false });
+    } catch (error) {
+      console.error("[learning/exercises] C2 D1 grading failed:", error);
+      return NextResponse.json({ error: "No se pudo corregir el ejercicio C2 desde D1." }, { status: 500 });
+    }
+  }
 
   const c1MatchForGrading = /^c1-(\d{2})$/.exec(lessonId);
   if (c1MatchForGrading) {
