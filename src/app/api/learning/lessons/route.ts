@@ -93,14 +93,13 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const { env } = await resolveCloudflareEnv();
-
     if (level === "B2") {
       const lessons = B2_COURSE.units.map((unit) => ({ id: `b2-${String(unit.id).padStart(2, "0")}`, number: unit.id, unit: unit.id, title: unit.title, objective: unit.title, estimated_minutes: 30, content: { objective: unit.title, sections: ["grammar", "vocabulary", "listening", "reading"].map((type) => ({ type, title: type === "grammar" ? "Gramática" : type === "vocabulary" ? "Vocabulario" : type === "listening" ? "Comprensión auditiva" : "Comprensión lectora", body: unit.exercises.filter((exercise) => isB2ExerciseInSection(exercise, type)).length + " ejercicios", exercise_count: unit.exercises.filter((exercise) => isB2ExerciseInSection(exercise, type)).length })), reviewEnabled: true } }));
       return NextResponse.json({ course: { id: "ingles-b2", title: "Inglés avanzado B2", level: "B2", description: "Curso B2", lesson_count: lessons.length }, lessons });
     }
     const { env } = await resolveCloudflareEnv();
-    const result = await env.DB.prepare(
+    const courseDb = env.COURSE_DB ?? env.DB;
+    const result = await courseDb.prepare(
       `SELECT
          c.id AS course_id,
          c.title AS course_title,
