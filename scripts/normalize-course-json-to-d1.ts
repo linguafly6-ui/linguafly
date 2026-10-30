@@ -218,36 +218,52 @@ function generatedSection(unit: Unit, n: number, section: typeof REQUIRED_B1_SEC
     vocabulary: "Vocabulary in context: " + topic,
     listening: "Listening: " + topic,
     reading: "Reading: " + topic,
-    production: "Communication practice: " + topic
+    production: "Production: " + topic
   };
   if (section === "reading") return { block_id: "AUTO_READING", title: titles.reading, duration_minutes: 20, content: generatedReading(unit, n) };
   if (section === "listening") return { block_id: "AUTO_LISTENING", title: titles.listening, duration_minutes: 15, content: generatedListening(unit, n) };
+  if (section === "production") {
+    const prompts = [
+      "Write an email to a friend explaining your experience with " + topic.toLowerCase() + ". Include two details and ask a question.",
+      "Describe a problem related to " + topic.toLowerCase() + " and suggest two practical solutions.",
+      "Give your opinion about " + topic.toLowerCase() + ". Support it with reasons and an example.",
+      "Compare two possible choices connected with " + topic.toLowerCase() + ". Explain which one you would recommend.",
+      "Imagine you are discussing " + topic.toLowerCase() + " in a group. Write a short response agreeing or disagreeing politely and explain why."
+    ];
+    return {
+      block_id: "AUTO_PRODUCTION", title: titles.production, duration_minutes: 25,
+      content: prompts.map((prompt, i) => ({
+        interaction_id: "B1_U" + n + "_AUTO_PRODUCTION_Q" + (i + 1),
+        type: "open_ended", prompt_es: prompt, question_en: prompt, correct_answer: "",
+        explanation: "Assessment: clear organisation, relevant vocabulary for the topic, accurate B1 grammar, linking words, and a clear response to every part of the task.",
+        mastery_tag: "production:b1-" + slug, concept_tags: ["production", "writing", "speaking", "b1", slug]
+      }))
+    };
+  }
   const tasks: [string, string[], string][] = section === "grammar"
     ? [
       ["Choose the correct form: If people plan carefully, they ___ better decisions.", ["make", "makes", "making", "made"], "o1"],
       ["Choose the correct sentence.", ["She has worked here since 2022.", "She work here since 2022.", "She is work here since 2022.", "She working here since 2022."], "o1"],
-      ["Complete the sentence: The report ___ yesterday.", ["published", "was published", "is publish", "has publish"], "o2"]
-    ]
-    : section === "vocabulary"
-    ? [
-      ["What does 'reliable' mean?", ["Can be trusted", "Very expensive", "Difficult to find", "No longer useful"], "o1"],
-      ["Choose the best word: We need to ___ the advantages and disadvantages.", ["compare", "borrow", "avoid", "repair"], "o1"],
-      ["Which word is closest in meaning to 'improve'?", ["Develop", "Forget", "Refuse", "Delay"], "o1"]
+      ["Complete the sentence: The report ___ yesterday.", ["published", "was published", "is publish", "has publish"], "o2"],
+      ["Choose the correct option: I ___ dinner when the phone rang.", ["cooked", "was cooking", "have cooked", "am cooking"], "o2"],
+      ["Choose the correct relative pronoun: The colleague ___ helped me was very kind.", ["who", "where", "when", "whose"], "o1"]
     ]
     : [
-      ["You disagree with a suggestion. What is the most appropriate response?", ["I see your point, but I have a different view.", "That is completely stupid.", "I don't care what you think.", "Stop talking now."], "o1"],
-      ["You need more information. What should you say?", ["Could you explain that in a little more detail?", "You are wrong.", "I already know everything.", "There is no point asking."], "o1"],
-      ["You want to make a suggestion politely. What should you say?", ["Why don't we consider another option?", "Do exactly what I say.", "Your idea is useless.", "I refuse to discuss it."], "o1"]
+      ["What does 'reliable' mean?", ["Can be trusted", "Very expensive", "Difficult to find", "No longer useful"], "o1"],
+      ["Choose the best word: We need to ___ the advantages and disadvantages.", ["compare", "borrow", "avoid", "repair"], "o1"],
+      ["Which word is closest in meaning to 'improve'?", ["Develop", "Forget", "Refuse", "Delay"], "o1"],
+      ["Choose the best collocation: ___ a decision.", ["Do", "Make", "Take up", "Put"], "o2"],
+      ["Which phrase means 'to find information'?", ["Look up", "Give away", "Turn down", "Run out"], "o1"]
     ];
   return {
     block_id: "AUTO_" + section.toUpperCase(), title: titles[section], duration_minutes: 15,
     content: tasks.map((task, i) => ({
       interaction_id: "B1_U" + n + "_AUTO_" + section.toUpperCase() + "_Q" + (i + 1),
       type: "multiple_choice",
-      prompt_es: section === "production" ? "Choose the most appropriate response." : "Choose the correct answer.",
+      prompt_es: "Choose the correct answer.",
       question_en: task[0],
-      options: (task[1] as string[]).map((text, j) => ({ id: "o" + (j + 1), text })),
-      correct_answer: task[2], explanation: "This option is the most appropriate choice in this B1 context.",
+      options: task[1].map((text, j) => ({ id: "o" + (j + 1), text })),
+      correct_answer: task[2], explanation: "This option is the correct answer in this B1 context.",
       mastery_tag: section + ":b1-" + slug, concept_tags: [section, "b1", slug]
     }))
   };
