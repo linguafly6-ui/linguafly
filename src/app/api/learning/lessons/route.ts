@@ -44,7 +44,6 @@ function normalizeCourseSections(value: unknown): unknown {
 
 export async function GET(request: NextRequest) {
   try {
-    const { env } = await resolveCloudflareEnv();
     const level = (new URL(request.url).searchParams.get("level") || "A1")
       .trim()
       .toUpperCase()
@@ -62,6 +61,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ course: { id: "ingles-b2", title: "Inglés avanzado B2", level: "B2", description: "Curso B2", lesson_count: lessons.length }, lessons }, { headers: { "Cache-Control": "no-store" } });
     }
 
+    const { env } = await resolveCloudflareEnv();
     const result = await env.DB.prepare(
       `SELECT
          c.id AS course_id,
