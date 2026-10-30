@@ -63,7 +63,7 @@ jobs:
           CI: true
 
       - name: Verify C2 unit count in preview D1
-        run: npx wrangler d1 execute linguafly-preview --remote --command="SELECT level, COUNT(*) AS units FROM learning_course_json_units GROUP BY level ORDER BY level" --json
+        run: npx wrangler d1 execute linguafly-preview --remote --command="SELECT 'json_mirror' AS source, COUNT(*) AS records FROM learning_course_json_units WHERE course_key = 'ingles-c2' AND level = 'C2' UNION ALL SELECT 'learning_lessons', COUNT(*) FROM learning_lessons WHERE course_id = 'english-c2' UNION ALL SELECT 'learning_exercises', COUNT(DISTINCT lesson_id) FROM learning_exercises WHERE lesson_id LIKE 'c2-%'" --json
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
