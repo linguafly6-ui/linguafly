@@ -88,7 +88,7 @@ export async function GET(request: NextRequest) {
         COUNT(CASE WHEN e.status = 'published' THEN e.id END) AS exercise_count
       FROM sections s
       LEFT JOIN exercises e ON e.section_id = s.id
-      WHERE s.unit_id = ? AND s.status = 'published'
+      WHERE s.unit_id = ? AND s.status = 'published' AND EXISTS (SELECT 1 FROM units u JOIN courses c ON c.id = u.course_id WHERE u.id = s.unit_id AND u.status = 'published' AND c.status = 'published')
       GROUP BY s.id
       ORDER BY s.position
     `).bind(unit.id as string).all();
@@ -97,7 +97,7 @@ export async function GET(request: NextRequest) {
       SELECT e.id, e.section_id, e.exercise_code, e.title, e.instructions, e.content_json, e.position
       FROM exercises e
       JOIN sections s ON s.id = e.section_id
-      WHERE s.unit_id = ? AND s.status = 'published' AND e.status = 'published'
+      WHERE s.unit_id = ? AND s.status = 'published' AND e.status = 'published' AND EXISTS (SELECT 1 FROM units u JOIN courses c ON c.id = u.course_id WHERE u.id = s.unit_id AND u.status = 'published' AND c.status = 'published')
       ORDER BY s.position, e.position
     `).bind(unit.id as string).all();
 
