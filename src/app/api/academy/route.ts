@@ -25,8 +25,8 @@ export async function GET(request: NextRequest) {
       const result = await db.prepare(`
         SELECT c.id, c.cefr_level, c.title, c.description, c.status,
           COUNT(DISTINCT u.id) AS unit_count,
-          COUNT(DISTINCT CASE WHEN e.id IS NOT NULL THEN u.id END) AS units_with_practice,
-          COUNT(DISTINCT e.id) AS exercise_count
+          COUNT(DISTINCT CASE WHEN e.id IS NOT NULL AND e.status = 'published' AND s.status = 'published' AND u.status = 'published' THEN u.id END) AS units_with_practice,
+          COUNT(DISTINCT CASE WHEN e.status = 'published' THEN e.id END) AS exercise_count
         FROM courses c
         LEFT JOIN units u ON u.course_id = c.id
         LEFT JOIN sections s ON s.unit_id = u.id
@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
       const result = await db.prepare(`
         SELECT u.id, u.unit_number, u.title, u.learning_objectives_json, u.status,
           COUNT(DISTINCT s.id) AS section_count,
-          COUNT(DISTINCT e.id) AS exercise_count
+          COUNT(DISTINCT CASE WHEN e.status = 'published' AND s.status = 'published' AND u.status = 'published' THEN e.id END) AS exercise_count
         FROM units u
         LEFT JOIN sections s ON s.unit_id = u.id
         LEFT JOIN exercises e ON e.section_id = s.id
@@ -84,11 +84,11 @@ export async function GET(request: NextRequest) {
     if (!unit) return NextResponse.json({ error: "Unidad no encontrada" }, { status: 404 });
 
     const sectionsResult = await db.prepare(`
-      SELECT s.id, s.section_type, s.position, s.title, s.instructions, s.status,
-        COUNT(e.id) AS exercise_count
+      SELECT s.id, s.section_type, s.position, s.title, s.status,
+        COUNT(CASE WHEN e.status = 'published' THEN e.id END) AS exercise_count
       FROM sections s
       LEFT JOIN exercises e ON e.section_id = s.id
-      WHERE s.unit_id = ?
+      WHERE s.unit_id = ? AND s.status = 'published'
       GROUP BY s.id
       ORDER BY s.position
     `).bind(unit.id as string).all();
@@ -97,7 +97,7 @@ export async function GET(request: NextRequest) {
       SELECT e.id, e.section_id, e.exercise_code, e.title, e.instructions, e.content_json, e.position
       FROM exercises e
       JOIN sections s ON s.id = e.section_id
-      WHERE s.unit_id = ?
+      WHERE s.unit_id = ? AND s.status = 'published' AND e.status = 'published'
       ORDER BY s.position, e.position
     `).bind(unit.id as string).all();
 
