@@ -8,6 +8,7 @@ export const dynamic = "force-dynamic";
 export async function GET(request: NextRequest) {
   try {
     const { env, user } = await getSessionUser(request);
+    if (!env.COURSE_DB) throw new Error("COURSE_DB binding is not configured.");
     if (!user) return NextResponse.json({ authenticated: false, completed: [], exercises: {}, writing: {} }, { headers: { "Cache-Control": "no-store" } });
 
     const rows = await env.COURSE_DB!.prepare(
