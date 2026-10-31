@@ -8,7 +8,7 @@ import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Clock3, Headphones, Laye
 type Course = { id: string; cefr_level: string; title: string; description?: string; unit_count: number; units_with_practice: number; exercise_count: number };
 type Unit = { id: string; unit_number: number; title: string; status: string; section_count: number; exercise_count: number; has_practice: boolean; learning_objectives: string[] };
 type Section = { id: string; section_type: string; title: string; exercise_count: number };
-type Exercise = { id: string; section_id: string; title: string; instructions: string; content: { prompt?: string; explanation_es?: string }; options: { key: string; content: string }[] };
+type Exercise = { id: string; section_id: string; title: string; instructions: string; content: { prompt?: string; explanation_es?: string; transcript?: string; audioMode?: string }; options: { key: string; content: string }[] };
 type Grade = { correct: boolean; correctOptionKey: string; feedback: string; explanation?: string | null };
 
 const levelNames: Record<string, string> = {
@@ -53,6 +53,18 @@ export default function AcademyClient({ mode }: { mode: "catalog" | "level" | "u
       .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
   }, [endpoint]);
+
+  function playListeningAudio(transcript: string) {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+      setError("La reproducción de audio no está disponible en este navegador.");
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(transcript);
+    utterance.lang = "en-GB";
+    utterance.rate = 0.92;
+    window.speechSynthesis.speak(utterance);
+  }
 
   async function checkAnswer(exerciseId: string) {
     const optionKey = answers[exerciseId];
@@ -142,6 +154,7 @@ export default function AcademyClient({ mode }: { mode: "catalog" | "level" | "u
             return <div key={exercise.id} className="mt-5 rounded-xl border border-slate-100 bg-slate-50 p-4">
               <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Práctica</p>
               <p className="mt-2 font-semibold leading-6 text-slate-900">{exercise.content?.prompt || exercise.title}</p>
+              {section.section_type === "listening" && exercise.content?.transcript && <button type="button" onClick={() => playListeningAudio(exercise.content.transcript!)} className="mt-3 inline-flex items-center gap-2 rounded-full bg-indigo-700 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-800">▶ Escuchar audio en inglés</button>}
               <div className="mt-4 grid gap-2 sm:grid-cols-2">
                 {exercise.options.map((option) => <button key={option.key} type="button" disabled={!!grade} onClick={() => setAnswers((current) => ({...current,[exercise.id]:option.key}))} className={`rounded-xl border px-4 py-3 text-left text-sm font-medium transition ${grade?.correctOptionKey === option.key ? "border-emerald-400 bg-emerald-50 text-emerald-900" : answers[exercise.id] === option.key ? "border-indigo-500 bg-indigo-50 text-indigo-900" : "border-slate-200 bg-white text-slate-700 hover:border-indigo-300"}`}>{option.key}. {option.content}</button>)}
               </div>
