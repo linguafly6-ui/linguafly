@@ -76,15 +76,15 @@
           "type": "fill_blanks",
           "prompt_es": "Fill in the gaps with the correct form of the word in parentheses.\n\nBase words: (1) SIGNIFICANT, (2) HARM, (3) RECYCLE, (4) EDUCATE, (5) IMPORTANT",
           "mastery_tag": "vocabulary:b1-environment",
-          "main_text": "The effects of climate change are (1)___ (significant) on our planet. We see this in the increasing levels of pollution that are (2)___ (harm) to both humans and wildlife. One way to combat this issue is through proper (3)___ (recycle) of materials. Many communities now have (4)___ (educate) programs to teach people how to reduce waste. Understanding the (5)___ (important) of protecting our environment is crucial for future generations.",
+          "main_text": "Climate change has (1)___ (SIGNIFICANT) effects on our planet. We see this in the increasing levels of pollution that are (2)___ (harm) to both humans and wildlife. One way to combat this issue is through proper (3)___ (recycle) of materials. Many communities now have (4)___ (educate) programs to teach people how to reduce waste. Understanding the (5)___ (important) of protecting our environment is crucial for future generations.",
           "correct_answer": [
-            "SIGNIFICANCE",
+            "SIGNIFICANT",
             "HARMFUL",
             "RECYCLING",
             "EDUCATIONAL",
             "IMPORTANCE"
           ],
-          "explanation": "(1) undefined\n(2) undefined\n(3) undefined\n(4) undefined\n(5) undefined",
+          "explanation": "(1) 'Significant' es un adjetivo que describe la importancia de los efectos. (2) 'Harmful' es el adjetivo que significa perjudicial. (3) 'Recycling' es el sustantivo que nombra el proceso de reciclar. (4) 'Educational' describe los programas destinados a enseñar. (5) 'Importance' es el sustantivo derivado de 'important'.",
           "complexity": 2,
           "concept_tags": [
             "vocabulary",

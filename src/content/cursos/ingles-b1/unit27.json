@@ -374,7 +374,7 @@
           "type": "fill_blanks",
           "prompt_es": "Complete the sentences using the correct form of reported speech.",
           "mastery_tag": "grammar:b1-reported-speech",
-          "main_text": "She said, \"I am going to the party.\" → She said that she ___ to the party.",
+          "main_text": "She said, \"I am going to the party.\" → She said that she ___ to the party.\n\nHe said, \"I will finish the report.\" → He said that he ___ the report.\n\nMaria said, \"I am tired.\" → Maria said that she ___ tired.\n\nJohn said, \"I have seen that film.\" → John said that he ___ that film.\n\nThey said, \"We like this city.\" → They said that they ___ that city.",
           "correct_answer": [
             "was going",
             "would finish",
@@ -382,7 +382,7 @@
             "had seen",
             "liked"
           ],
-          "explanation": "(1) En el discurso indirecto, hay un cambio de tiempo verbal. 'Am going' se convierte en 'was going'.\n(2) El tiempo 'will' cambia a 'would' en el discurso indirecto.\n(3) El tiempo verbal cambia y se usa 'was' para hacer la pregunta indirecta.\n(4) El tiempo perfecto 'have seen' cambia a 'had seen' en el discurso indirecto.\n(5) En el discurso indirecto, se utiliza el pasado simple 'liked' en lugar del presente 'like'.",
+          "explanation": "(1) 'Am going' cambia a 'was going'. (2) 'Will' cambia a 'would'. (3) 'Am' cambia a 'was'. (4) 'Have seen' cambia a 'had seen'. (5) 'Like' cambia a 'liked' en el estilo indirecto.",
           "complexity": 2,
           "concept_tags": [
             "grammar",

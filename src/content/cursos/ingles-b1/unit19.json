@@ -202,7 +202,7 @@
           "type": "fill_blanks",
           "prompt_es": "Complete the sentences by changing the form of the words in parentheses.\n\nBase words: (1) POLLUTE, (2) SOLVE, (3) ACT, (4) CHANGE, (5) SUSTAIN",
           "mastery_tag": "vocabulary:b1-environment",
-          "main_text": "The (1)___ (POLLUTE) of our planet is a serious problem. We need to find (2)___ (SOLVE) for these environmental issues. Recycling is an important (3)___ (ACT) that everyone should practice. Climate change is causing serious (4)___ (CHANGE) in weather patterns. It's essential to promote (5)___ (SUSTAIN) habits to protect our nature.",
+          "main_text": "The (1)___ (POLLUTE) of our planet is a serious problem. We need to find (2)___ (SOLVE) for these environmental issues. Recycling is an important (3)___ (ACT) that everyone should take. Climate change is causing serious (4)___ (CHANGE) in weather patterns. It's essential to promote (5)___ (SUSTAIN) habits to protect our nature.",
           "correct_answer": [
             "POLLUTION",
             "SOLUTIONS",

@@ -48,15 +48,15 @@
           "type": "cloze",
           "prompt_es": "Read the passage and choose the correct option for each blank.",
           "mastery_tag": "reading:b1-articles-reviews",
-          "main_text": "In today's digital age, many people turn to online reviews before making a purchase. These reviews can greatly influence our decisions. However, not all reviews are reliable. Some may be (1)___ or biased, while others provide honest opinions. It is essential to consider the (2)___ of the reviewer. Trusted sources usually have experience with the product or service. Additionally, a review should include specific details about the (3)___ and its performance. This way, potential buyers can form a well-rounded opinion. When reading a review, look for balanced (4)___ that discuss both pros and cons. Finally, don’t forget to check the date of the review, as products may change over (5)___ time.",
+          "main_text": "In today's digital age, many people turn to online reviews before making a purchase. These reviews can greatly influence our decisions. However, not all reviews are reliable. Some may be (1)___ or biased, while others provide honest opinions. It is essential to consider the (2)___ of the reviewer. Trusted sources usually have experience with the product or service. Additionally, a review should include specific details about the (3)___ and its performance. This way, potential buyers can form a well-rounded opinion. When reading a review, look for balanced (4)___ that discuss both pros and cons. Finally, don’t forget to check the date of the review, as products may change over (5)___ .",
           "correct_answer": [
             "fake",
             "reputation",
             "product",
             "opinions",
-            "long"
+            "time"
           ],
-          "explanation": "(1) La respuesta correcta es 'fake' porque se refiere a los comentarios que no son genuinos.\n(2) La respuesta correcta es 'reputation' porque un buen revisor tendrá una buena reputación.\n(3) La respuesta correcta es 'product' porque se refiere a lo que se está evaluando.\n(4) La respuesta correcta es 'opinions' porque se está hablando de la forma en que se presenta la revisión.\n(5) La respuesta correcta es 'long' porque se refiere al tiempo en general.",
+          "explanation": "(1) La respuesta correcta es 'fake' porque se refiere a los comentarios que no son genuinos.\n(2) La respuesta correcta es 'reputation' porque un buen revisor tendrá una buena reputación.\n(3) La respuesta correcta es 'product' porque se refiere a lo que se está evaluando.\n(4) La respuesta correcta es 'opinions' porque se está hablando de la forma en que se presenta la revisión.\n(5) 'Over time' significa que algo puede cambiar a medida que pasa el tiempo.",
           "complexity": 2,
           "concept_tags": [
             "reading",
