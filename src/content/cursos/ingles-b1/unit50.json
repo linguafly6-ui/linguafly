@@ -4,10 +4,14 @@
     "target_language": "en",
     "level": "B1",
     "unit_id": "U50",
-    "unit_title": "Unit 50",
+    "unit_title": "Reported Speech, Conditionals and Education",
     "total_duration_minutes": 600
   },
-  "learning_outcomes": [],
+  "learning_outcomes": [
+    "Report statements and questions using common B1 structures.",
+    "Use first and second conditionals to discuss possible and hypothetical situations.",
+    "Discuss education and learning using relevant B1 vocabulary."
+  ],
   "mastery_tags": [],
   "blocks": [
     {
