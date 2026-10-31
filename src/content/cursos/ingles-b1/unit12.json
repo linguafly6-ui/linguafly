@@ -4,10 +4,14 @@
     "target_language": "en",
     "level": "B1",
     "unit_id": "U12",
-    "unit_title": "Unit 12",
+    "unit_title": "Reviews, Conditionals and Present Perfect Continuous",
     "total_duration_minutes": 600
   },
-  "learning_outcomes": [],
+  "learning_outcomes": [
+    "Identify opinions and supporting details in short reviews.",
+    "Use first and second conditionals to describe possible and hypothetical results.",
+    "Use the present perfect continuous to describe ongoing activities and recent situations."
+  ],
   "mastery_tags": [],
   "blocks": [
     {
