@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
       const result = await db.prepare(`
         SELECT c.id, c.cefr_level, c.title, c.description, c.status,
           COUNT(DISTINCT u.id) AS unit_count,
-          COUNT(DISTINCT CASE WHEN e.id IS NOT NULL AND e.status = 'published' AND s.status = 'published' AND u.status = 'published' THEN u.id END) AS units_with_practice,
+          COUNT(DISTINCT CASE WHEN e.id IS NOT NULL AND e.status = 'published' AND s.status = 'published' AND u.status = 'published' AND c.status = 'published' THEN u.id END) AS units_with_practice,
           COUNT(DISTINCT CASE WHEN e.status = 'published' AND s.status = 'published' AND u.status = 'published' AND c.status = 'published' THEN e.id END) AS exercise_count
         FROM courses c
         LEFT JOIN units u ON u.course_id = c.id
