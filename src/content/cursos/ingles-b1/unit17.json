@@ -4,10 +4,14 @@
     "target_language": "en",
     "level": "B1",
     "unit_id": "U17",
-    "unit_title": "Unit 17",
+    "unit_title": "Education, the Environment and Narratives",
     "total_duration_minutes": 600
   },
-  "learning_outcomes": [],
+  "learning_outcomes": [
+    "Use vocabulary related to education and learning.",
+    "Discuss environmental issues and everyday ways to protect nature.",
+    "Understand and complete short narratives using context clues and sequencing."
+  ],
   "mastery_tags": [],
   "blocks": [
     {
