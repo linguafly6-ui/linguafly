@@ -11,6 +11,7 @@ type Exercise = {
   options: string[];
   audioText?: string | null;
   passageText?: string | null;
+  vocabularyEntry?: { word: string; meaning: string; definition: string; example: string } | null;
 };
 
 type Feedback = { correct: boolean | null; explanation: string };
@@ -158,8 +159,6 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
 
   const answeredCorrectly = exercises.filter((exercise) => feedback[exercise.id]?.correct).length;
   const title = sectionTitles[sectionType] ?? "Práctica";
-  const readingPassage = sectionType === "reading" ? exercises.find((exercise) => exercise.passageText)?.passageText : null;
-
   return (
     <section className="mt-4 flex min-h-[calc(100dvh-2rem)] w-full flex-col rounded-3xl border border-[#ded8ca] bg-[#fbf9f4] p-4 sm:mt-6 sm:min-h-[calc(100dvh-3rem)] sm:p-8">
       <div className="flex flex-wrap items-end justify-between gap-3">
@@ -173,8 +172,7 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
       {loading && <p className="mt-6 rounded-xl bg-[#f0ece3] p-4 text-sm text-[#65665b]">Cargando ejercicios…</p>}
       {error && <p role="alert" className="mt-5 rounded-xl border border-[#e4c6b9] bg-[#fff2ec] p-4 text-sm text-[#8f432c]">{error}</p>}
       {!loading && !error && exercises.length === 0 && <p className="mt-6 rounded-xl bg-[#f0ece3] p-4 text-sm leading-6 text-[#65665b]">Todavía no hay ejercicios publicados para esta lección. Estamos preparando el contenido.</p>}
-      {readingPassage && <div className="mt-6 rounded-2xl border border-[#e5dfd3] bg-[#f5f1e8] p-5"><p className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-[#a15b40]">Texto de lectura</p><p className="mt-2 whitespace-pre-line text-sm leading-7 text-[#56584f]">{readingPassage}</p></div>}
-      {exercises.length > 0 && !loading && !error && <div className="mt-5 h-1.5 overflow-hidden rounded-full bg-[#e9e3d7]" aria-label="Progreso del ejercicio">
+       {exercises.length > 0 && !loading && !error && <div className="mt-5 h-1.5 overflow-hidden rounded-full bg-[#e9e3d7]" aria-label="Progreso del ejercicio">
         <div className="h-full rounded-full bg-[#b75d3b] transition-all duration-300" style={{ width: (((currentExerciseIndex + 1) / exercises.length) * 100) + "%" }} />
       </div>}
       <div className="flex flex-1 flex-col">
@@ -183,7 +181,9 @@ export function ExercisePanel({ lessonId, sectionType }: { lessonId: string; sec
           const result = feedback[exercise.id];
           return <article key={exercise.id} className="my-4 flex flex-1 flex-col justify-center rounded-2xl border border-[#e5dfd3] bg-white/70 p-5 sm:my-6 sm:p-8">
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#898779]">{title} · Pregunta {currentExerciseIndex + 1} de {exercises.length}</p>
-            <h4 className="mt-2 text-base font-bold leading-6 text-[#30352d]">{exercise.prompt}</h4>
+            {sectionType === "reading" && exercise.passageText && <div className="mt-4 rounded-2xl border border-[#e5dfd3] bg-[#f5f1e8] p-5"><p className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-[#a15b40]">Texto completo de lectura</p><p className="mt-2 whitespace-pre-line text-sm leading-7 text-[#56584f]">{exercise.passageText}</p></div>}
+            {sectionType === "vocabulary" && exercise.vocabularyEntry?.word && <div className="mt-4 rounded-2xl border border-[#d9e5d2] bg-[#f0f5ec] p-5"><p className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-[#52704a]">Aprende esta palabra</p><p className="mt-1 text-xl font-extrabold text-[#30352d]">{exercise.vocabularyEntry.word}</p><p className="mt-1 text-sm font-semibold text-[#52704a]">{exercise.vocabularyEntry.meaning}</p><p className="mt-2 text-sm leading-6 text-[#56584f]">{exercise.vocabularyEntry.definition}</p><p className="mt-3 text-sm italic leading-6 text-[#56584f]">“{exercise.vocabularyEntry.example}”</p></div>}
+            <h4 className="mt-4 text-base font-bold leading-6 text-[#30352d]">{exercise.prompt}</h4>
             {sectionType === "listening" && exercise.audioText && <button type="button" disabled={Boolean(playingAudioId && playingAudioId !== exercise.id)} onClick={() => playExerciseAudio(exercise)} aria-live="polite" className="mt-3 rounded-xl bg-[#252a24] px-4 py-2.5 text-sm font-bold text-white disabled:cursor-wait disabled:opacity-60">{playingAudioId === exercise.id ? "♫ Reproduciendo…" : "▶ Escuchar"}</button>}
             {exercise.type === "free_text" || exercise.type === "fill_blank" ? <label className="mt-4 block"><span className="sr-only">Tu respuesta en inglés</span><input type="text" value={answers[exercise.id] ?? ""} onChange={(event) => void chooseAnswer(exercise.id, event.target.value)} maxLength={500} disabled={Boolean(result) || Boolean(submitting)} placeholder="Escribe tu respuesta en inglés…" className="w-full rounded-xl border border-[#ded8ca] bg-[#fbf9f4] px-4 py-3 text-sm text-[#30352d] outline-none focus:border-[#b75d3b]" /></label> : null}
             {exercise.type === "sentence_building" && <div className="mt-4 rounded-xl bg-[#f0ece3] p-3"><p className="text-xs font-bold uppercase tracking-wide text-[#65665b]">Tu frase</p><p className="mt-1 min-h-6 text-sm font-semibold text-[#30352d]">{(sentenceWords[exercise.id] ?? []).join(" ") || "Selecciona las palabras en orden."}</p><button type="button" disabled={Boolean(result) || !(sentenceWords[exercise.id]?.length)} onClick={() => { setSentenceWords((current) => ({ ...current, [exercise.id]: [] })); void chooseAnswer(exercise.id, ""); }} className="mt-2 text-xs font-bold text-[#8f432c] disabled:opacity-40">Borrar frase</button></div>}
