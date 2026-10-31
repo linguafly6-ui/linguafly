@@ -66,6 +66,15 @@ En B1 hay 65 ejercicios de Reading; 30 no tienen un campo `passage` compartido. 
 ### P1 — Repetición y feedback
 - Se detectaron seis prompts repetidos en B1: dos de Grammar, tres de Listening y uno de Vocabulary.
 - El filtro cuantitativo detecta 22 explicaciones de menos de 50 caracteres en B1 (1 Grammar, 10 Vocabulary, 11 Reading). Esto es una señal de revisión, no una sentencia automática: hay que comprobar si explican la regla o la evidencia y no se limitan a señalar la respuesta.
+- El campo `editorialReview` aparece en muchos registros, pero su contenido es una etiqueta genérica como “CEFR B1 language; one unambiguous correct answer.” No demuestra que haya existido revisión humana y no debe tratarse como aprobación editorial.
+
+### P1 — Ambigüedad lingüística detectada en muestra real
+En los cinco ítems de relative clauses de B1 Unidad 2 que se pasaron a borrador en la intervención anterior, la revisión de enunciados, opciones y clave detecta al menos tres respuestas múltiples:
+- “She is the teacher ___ helps me…” admite tanto `who` como `that`, pero solo se marca `who`.
+- “I visited the museum ___ has many ancient artifacts” admite `which` y `that`, pero solo se marca `which`.
+- “Do you remember the day ___ we met…” admite `when` y también `that` (en una defining relative clause), pero solo se marca `when`.
+
+Esto incumple la regla de respuesta única defendible. Hay que reformular el contexto para evaluar una distinción concreta o aceptar todas las respuestas correctas. No basta con que la clave apunte a una opción.
 
 ### P2 — Datos técnicos completos no garantizan calidad
 Los 629 ejercicios tienen título, instrucciones, contenido no vacío y una clave registrada; las opciones MC inspeccionadas tienen al menos dos opciones distintas y claves estructuralmente válidas. Esto solo confirma integridad básica. No valida que la pregunta evalúe el objetivo, que la clave sea lingüísticamente correcta, que los distractores sean plausibles ni que el feedback enseñe.
@@ -132,4 +141,4 @@ GROUP BY c.id ORDER BY c.sort_order;
 ```
 
 ---
-**Estado:** auditoría inicial cuantitativa y revisión muestral completadas. Pendiente auditoría lingüística individual de los 629 ítems y reconciliación con los archivos fuente del currículo antes de editar contenido en producción.
+**Estado:** auditoría cuantitativa de las 400 unidades y revisión muestral lingüística completadas. Pendiente auditoría lingüística individual de los 629 registros (teniendo en cuenta que los grupos `-gapN` son varios registros de un mismo ejercicio) y reconciliación con los archivos fuente del currículo antes de editar contenido en producción.
