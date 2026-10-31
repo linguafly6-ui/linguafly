@@ -8,8 +8,32 @@ import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Clock3, Headphones, Laye
 type Course = { id: string; cefr_level: string; title: string; description?: string; unit_count: number; units_with_practice: number; exercise_count: number };
 type Unit = { id: string; unit_number: number; title: string; status: string; section_count: number; exercise_count: number; has_practice: boolean; learning_objectives: string[] };
 type Section = { id: string; section_type: string; title: string; exercise_count: number };
-type Exercise = { id: string; section_id: string; title: string; instructions: string; content: { prompt?: string; explanation_es?: string; transcript?: string; audioMode?: string }; options: { key: string; content: string }[] };
-type Grade = { correct: boolean; correctOptionKey: string; feedback: string; explanation?: string | null };
+type ExerciseGap = {
+  id: string;
+  label: string;
+  options: { key: string; content: string }[];
+};
+type Exercise = {
+  id: string;
+  section_id: string;
+  title: string;
+  instructions: string;
+  type?: "multiple_choice" | "multiple_choice_cloze";
+  content: { prompt?: string; passage?: string; explanation_es?: string; transcript?: string; audioMode?: string };
+  options: { key: string; content: string }[];
+  gaps?: ExerciseGap[];
+};
+type GapGrade = { id: string; selectedOptionKey: string; correctOptionKey: string; correct: boolean };
+type Grade = {
+  type?: "single" | "multiple_choice_cloze";
+  correct: boolean;
+  correctOptionKey?: string;
+  gapResults?: GapGrade[];
+  correctCount?: number;
+  totalGaps?: number;
+  feedback: string;
+  explanation?: string | null;
+};
 
 const levelNames: Record<string, string> = {
   A2: "Elemental", B1: "Intermedio", B2: "Intermedio alto", C1: "Avanzado",
@@ -29,6 +53,7 @@ export default function AcademyClient({ mode }: { mode: "catalog" | "level" | "u
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [gapAnswers, setGapAnswers] = useState<Record<string, Record<string, string>>>({});
   const [grades, setGrades] = useState<Record<string, Grade>>({});
   const [grading, setGrading] = useState<string | null>(null);
 
@@ -66,15 +91,22 @@ export default function AcademyClient({ mode }: { mode: "catalog" | "level" | "u
     window.speechSynthesis.speak(utterance);
   }
 
-  async function checkAnswer(exerciseId: string) {
+  async function checkAnswer(exercise: Exercise) {
+    const exerciseId = exercise.id;
+    const isCloze = exercise.type === "multiple_choice_cloze";
     const optionKey = answers[exerciseId];
-    if (!optionKey) return;
+    const selectedGapAnswers = gapAnswers[exerciseId] || {};
+    if (isCloze) {
+      if (!exercise.gaps?.length || exercise.gaps.some((gap) => !selectedGapAnswers[gap.id])) return;
+    } else if (!optionKey) return;
     setGrading(exerciseId);
     try {
       const response = await fetch("/api/academy/grade", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ exerciseId, optionKey }),
+        body: JSON.stringify(isCloze
+          ? { exerciseId, gapAnswers: selectedGapAnswers }
+          : { exerciseId, optionKey }),
       });
       const result = await response.json() as Grade;
       if (!response.ok) throw new Error(result.error || "No se pudo corregir");
@@ -151,14 +183,36 @@ export default function AcademyClient({ mode }: { mode: "catalog" | "level" | "u
           {section.section_type === "listening" && sectionExercises.length === 0 && <p className="mt-3 rounded-xl bg-amber-50 p-3 text-sm text-amber-800">El audio y sus actividades todavía no están publicados.</p>}
           {sectionExercises.map((exercise) => {
             const grade = grades[exercise.id];
+            const isCloze = exercise.type === "multiple_choice_cloze";
+            const selectedGapAnswers = gapAnswers[exercise.id] || {};
+            const allGapsAnswered = Boolean(exercise.gaps?.length) && exercise.gaps.every((gap) => Boolean(selectedGapAnswers[gap.id]));
+            const gapResult = (gapId: string) => grade?.gapResults?.find((item) => item.id === gapId);
             return <div key={exercise.id} className="mt-5 rounded-xl border border-slate-100 bg-slate-50 p-4">
               <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Práctica</p>
-              <p className="mt-2 font-semibold leading-6 text-slate-900">{exercise.content?.prompt || exercise.title}</p>
+              <p className="mt-2 font-semibold leading-6 text-slate-900">{exercise.instructions || exercise.content?.prompt || exercise.title}</p>
               {section.section_type === "listening" && exercise.content?.transcript && <button type="button" onClick={() => playListeningAudio(exercise.content.transcript!)} className="mt-3 inline-flex items-center gap-2 rounded-full bg-indigo-700 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-800">▶ Escuchar audio en inglés</button>}
-              <div className="mt-4 grid gap-2 sm:grid-cols-2">
+              {isCloze ? <>
+                <p className="mt-4 whitespace-pre-line leading-8 text-slate-800">{exercise.content?.passage || exercise.content?.prompt || exercise.title}</p>
+                <div className="mt-5 space-y-4">
+                  {(exercise.gaps || []).map((gap) => {
+                    const result = gapResult(gap.id);
+                    return <fieldset key={gap.id} className="rounded-xl border border-slate-200 bg-white p-3" disabled={!!grade}>
+                      <legend className="px-1 text-sm font-bold text-slate-800">Hueco {gap.label}</legend>
+                      <div className="grid gap-2 sm:grid-cols-2">
+                        {gap.options.map((option) => <button key={option.key} type="button" disabled={!!grade} aria-pressed={selectedGapAnswers[gap.id] === option.key} onClick={() => setGapAnswers((current) => ({...current,[exercise.id]:{...(current[exercise.id] || {}),[gap.id]:option.key}}))} className={`rounded-lg border px-3 py-2 text-left text-sm transition ${result?.correctOptionKey === option.key ? "border-emerald-400 bg-emerald-50 text-emerald-900" : selectedGapAnswers[gap.id] === option.key ? "border-indigo-500 bg-indigo-50 text-indigo-900" : "border-slate-200 bg-white text-slate-700 hover:border-indigo-300"}`}>{option.key}. {option.content}</button>)}
+                      </div>
+                      {result && <p className={`mt-2 text-xs font-semibold ${result.correct ? "text-emerald-700" : "text-rose-700"}`}>{result.correct ? "Correcto" : `Incorrecto · Respuesta: ${result.correctOptionKey}`}</p>}
+                    </fieldset>;
+                  })}
+                </div>
+              </> : <div className="mt-4 grid gap-2 sm:grid-cols-2">
                 {exercise.options.map((option) => <button key={option.key} type="button" disabled={!!grade} onClick={() => setAnswers((current) => ({...current,[exercise.id]:option.key}))} className={`rounded-xl border px-4 py-3 text-left text-sm font-medium transition ${grade?.correctOptionKey === option.key ? "border-emerald-400 bg-emerald-50 text-emerald-900" : answers[exercise.id] === option.key ? "border-indigo-500 bg-indigo-50 text-indigo-900" : "border-slate-200 bg-white text-slate-700 hover:border-indigo-300"}`}>{option.key}. {option.content}</button>)}
-              </div>
-              {!grade ? <button type="button" disabled={!answers[exercise.id] || grading === exercise.id} onClick={() => checkAnswer(exercise.id)} className="mt-4 rounded-xl bg-indigo-700 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-indigo-800 disabled:cursor-not-allowed disabled:opacity-40">{grading === exercise.id ? "Corrigiendo…" : "Comprobar respuesta"}</button> : <div className={`mt-4 rounded-xl p-4 text-sm ${grade.correct ? "bg-emerald-50 text-emerald-900" : "bg-rose-50 text-rose-900"}`}><p className="font-bold">{grade.correct ? "¡Correcto!" : "Sigue practicando"}</p><p className="mt-1">{grade.feedback}</p>{grade.explanation && <p className="mt-2">{grade.explanation}</p>}</div>}
+              </div>}
+              {!grade ? <button type="button" disabled={(isCloze ? !allGapsAnswered : !answers[exercise.id]) || grading === exercise.id} onClick={() => checkAnswer(exercise)} className="mt-4 rounded-xl bg-indigo-700 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-indigo-800 disabled:cursor-not-allowed disabled:opacity-40">{grading === exercise.id ? "Corrigiendo…" : "Corregir todos los huecos"}</button> : <div className={`mt-4 rounded-xl p-4 text-sm ${grade.correct ? "bg-emerald-50 text-emerald-900" : "bg-rose-50 text-rose-900"}`}>
+                <p className="font-bold">{grade.correct ? "¡Todos los huecos son correctos!" : `${grade.correctCount ?? 0} de ${grade.totalGaps ?? 0} respuestas correctas`}</p>
+                <p className="mt-1">{grade.feedback}</p>
+                {grade.explanation && <p className="mt-2 whitespace-pre-line">{grade.explanation}</p>}
+              </div>}
             </div>;
           })}
         </section>;

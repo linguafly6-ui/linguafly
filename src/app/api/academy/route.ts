@@ -114,17 +114,122 @@ export async function GET(request: NextRequest) {
       options = (optionResult.results || []) as Array<Record<string, unknown>>;
     }
 
-    const safeExercises = exercises.map((exercise) => ({
+    const optionMap = new Map<string, Array<{ key: string; content: string }>>();
+    for (const option of options) {
+      const exerciseId = String(option.exercise_id);
+      const current = optionMap.get(exerciseId) || [];
+      current.push({ key: String(option.option_key), content: String(option.content) });
+      optionMap.set(exerciseId, current);
+    }
+
+    const answerKeyResult = ids.length
+      ? await db.prepare(
+          `SELECT exercise_id, answer_config_json FROM exercise_answer_keys WHERE exercise_id IN (${ids.map(() => "?").join(",")})`
+        ).bind(...ids).all()
+      : { results: [] };
+    const answerKeyMap = new Map<string, { correctOptionKeys?: string[] }>();
+    for (const row of (answerKeyResult.results || []) as Array<Record<string, unknown>>) {
+      answerKeyMap.set(String(row.exercise_id), parseJson(row.answer_config_json as string, {}));
+    }
+
+    // A cloze group is one learner-facing task, backed by the existing per-gap
+    // records. Keep the underlying IDs intact so existing references/progress
+    // are not rewritten. Incomplete groups remain hidden until editorially fixed.
+    const clozeGroups = new Map<string, Array<Record<string, unknown>>>();
+    const nonClozeExercises: Array<Record<string, unknown>> = [];
+    for (const exercise of exercises) {
+      const code = String(exercise.exercise_code || "");
+      const match = /^(.*)-gap(\d+)$/.exec(code);
+      if (!match) {
+        nonClozeExercises.push(exercise);
+        continue;
+      }
+      const group = clozeGroups.get(match[1]) || [];
+      group.push(exercise);
+      clozeGroups.set(match[1], group);
+    }
+
+    const safeExercises: Array<Record<string, unknown>> = nonClozeExercises.map((exercise) => ({
       id: exercise.id,
       section_id: exercise.section_id,
       exercise_code: exercise.exercise_code,
       title: exercise.title,
       instructions: exercise.instructions,
       position: exercise.position,
+      type: "multiple_choice",
       content: parseJson(exercise.content_json as string, {} as Record<string, unknown>),
-      options: options
-        .filter((option) => option.exercise_id === exercise.id)
-        .map((option) => ({ key: option.option_key, content: option.content })),
+      options: optionMap.get(String(exercise.id)) || [],
+    }));
+
+    const gapMarkerCount = (source: string, gapNumber: number): number => {
+      const escaped = String(gapNumber);
+      const patterns = [
+        new RegExp(`\\(\\s*${escaped}\\s*\\)`, "g"),
+        new RegExp(`\\[\\s*${escaped}\\s*\\]`, "g"),
+        new RegExp(`\\[GAP\\s*${escaped}\\]`, "gi"),
+      ];
+      return patterns.reduce((count, pattern) => count + [...source.matchAll(pattern)].length, 0);
+    };
+
+    for (const [groupId, rows] of clozeGroups) {
+      const ordered = rows.slice().sort((a, b) => Number(a.position) - Number(b.position));
+      const gapNumbers = ordered.map((row) => Number(/-gap(\d+)$/.exec(String(row.exercise_code))?.[1]));
+      const expectedNumbers = Array.from({ length: ordered.length }, (_value, index) => index + 1);
+      const firstContent = parseJson(ordered[0].content_json as string, {} as Record<string, unknown>);
+      const passage = typeof firstContent.passage === "string" ? firstContent.passage : "";
+      const gapOptions = ordered.map((row, index) => {
+        const rowOptions = optionMap.get(String(row.id)) || [];
+        const correctKeys = answerKeyMap.get(String(row.id))?.correctOptionKeys || [];
+        const correctKey = correctKeys[0];
+        const validKeys = new Set(rowOptions.map((option) => option.key));
+        const validOptions = rowOptions.length >= 3 && rowOptions.length <= 4
+          && rowOptions.every((option) => /^[A-D]$/.test(option.key)
+            && option.content.trim().length > 0
+            && !/^(?:o\d+|option\\s*\d+|placeholder)$/i.test(option.content.trim()))
+          && validKeys.size === rowOptions.length;
+        const markerCount = gapMarkerCount(passage, index + 1);
+        const rowContent = parseJson(row.content_json as string, {} as Record<string, unknown>);
+        const samePassage = rowContent.passage === passage;
+        const validAnswer = typeof correctKey === "string" && validKeys.has(correctKey);
+        return {
+          id: String(index + 1),
+          label: String(index + 1),
+          options: rowOptions,
+          isEditoriallyComplete: validOptions && validAnswer && samePassage && markerCount > 0,
+        };
+      });
+
+      const consistentGroup = ordered.length >= 2
+        && gapNumbers.every((number, index) => number === expectedNumbers[index])
+        && ordered.every((row) => row.section_id === ordered[0].section_id
+          && row.title === ordered[0].title
+          && row.instructions === ordered[0].instructions);
+      if (!consistentGroup || gapOptions.some((gap) => !gap.isEditoriallyComplete)) continue;
+
+      const gaps = gapOptions.map(({ isEditoriallyComplete: _complete, ...gap }) => gap);
+      const position = Math.min(...ordered.map((row) => Number(row.position)));
+      const sectionId = String(ordered[0].section_id);
+      safeExercises.push({
+        id: groupId,
+        section_id: sectionId,
+        exercise_code: groupId,
+        title: ordered[0].title,
+        instructions: ordered[0].instructions,
+        position,
+        type: "multiple_choice_cloze",
+        content: {
+          prompt: ordered[0].instructions,
+          passage,
+          explanation_es: firstContent.explanation_es || null,
+        },
+        gaps,
+      });
+    }
+
+    safeExercises.sort((a, b) => Number(a.position) - Number(b.position));
+    const safeSections = ((sectionsResult.results || []) as Array<Record<string, unknown>>).map((section) => ({
+      ...section,
+      exercise_count: safeExercises.filter((exercise) => exercise.section_id === section.id).length,
     }));
 
     return NextResponse.json({
@@ -133,7 +238,7 @@ export async function GET(request: NextRequest) {
         ...unit,
         learning_objectives: parseJson(unit.learning_objectives_json as string, [] as string[]),
       },
-      sections: sectionsResult.results || [],
+      sections: safeSections,
       exercises: safeExercises,
     }, { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
