@@ -18,6 +18,7 @@ interface AudioPlayerProps {
 
 export function AudioPlayer({ audioUrl, ttsText, transcript, className = '', unitId }: AudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const speechRef = useRef<SpeechSynthesisUtterance | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -32,11 +33,57 @@ export function AudioPlayer({ audioUrl, ttsText, transcript, className = '', uni
   useEffect(() => {
     return () => {
       if (blobUrl) URL.revokeObjectURL(blobUrl);
+      if (speechRef.current && typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+        speechRef.current = null;
+      }
     };
   }, [blobUrl]);
 
   const togglePlayPause = useCallback(async () => {
     if (!audioRef.current) return;
+
+    // Listening sin archivo: usar la voz integrada del navegador (Web Speech API).
+    if (!audioUrl && ttsText) {
+      const synth = typeof window !== 'undefined' ? window.speechSynthesis : undefined;
+      if (!synth || typeof SpeechSynthesisUtterance === 'undefined') {
+        setTtsError(true);
+        return;
+      }
+      if (isPlaying) {
+        synth.pause();
+        setIsPlaying(false);
+        trackAudioPlayback('pause', unitId);
+        return;
+      }
+      if (synth.paused && speechRef.current) {
+        synth.resume();
+        setIsPlaying(true);
+        trackAudioPlayback('play', unitId);
+        return;
+      }
+      synth.cancel();
+      const utterance = new SpeechSynthesisUtterance(stripMarkup(ttsText));
+      utterance.lang = 'en-GB';
+      utterance.rate = playbackRate;
+      const englishVoice = synth.getVoices().find((voice) => /^en(-|_)/i.test(voice.lang));
+      if (englishVoice) utterance.voice = englishVoice;
+      utterance.onend = () => {
+        speechRef.current = null;
+        setIsPlaying(false);
+      };
+      utterance.onerror = () => {
+        speechRef.current = null;
+        setIsPlaying(false);
+        setTtsError(true);
+      };
+      speechRef.current = utterance;
+      setTtsError(false);
+      synth.speak(utterance);
+      setIsPlaying(true);
+      trackAudioPlayback('play', unitId);
+      return;
+    }
 
     if (!audioUrl && ttsText && !blobUrl && !isGenerating) {
       setIsGenerating(true);
@@ -91,6 +138,7 @@ export function AudioPlayer({ audioUrl, ttsText, transcript, className = '', uni
   const handleSpeedChange = (speed: number) => {
     if (!audioRef.current) return;
     audioRef.current.playbackRate = speed;
+    if (speechRef.current) speechRef.current.rate = speed;
     setPlaybackRate(speed);
     trackAudioPlayback('speed_change', unitId, speed);
   };
