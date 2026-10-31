@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
       const submitted = body.gapAnswers as Record<string, unknown>;
       const entries = Object.entries(submitted);
       if (entries.length < 2 || entries.length > 20
-        || entries.some(([gapId, key]) => !/^\\d{1,2}$/.test(gapId)
+        || entries.some(([gapId, key]) => !/^\d{1,2}$/.test(gapId)
           || typeof key !== "string" || !/^[A-D]$/.test(key))) {
         return NextResponse.json({ error: "Respuestas de huecos no válidas" }, { status: 400 });
       }
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
 
       const sortedRows = rows.map((row) => ({
         ...row,
-        gapNumber: Number(/-gap(\\d+)$/.exec(String(row.exercise_code))?.[1] || 0),
+        gapNumber: Number(/-gap(\d+)$/.exec(String(row.exercise_code))?.[1] || 0),
       })).sort((a, b) => a.gapNumber - b.gapNumber);
 
       const expectedGapNumbers = Array.from({ length: sortedRows.length }, (_value, index) => index + 1);
