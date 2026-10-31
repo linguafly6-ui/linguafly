@@ -460,7 +460,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
     try {
       const stored = await getB1Unit31D1Answer(payload.exerciseId);
       if (!stored) return NextResponse.json({ error: "Ejercicio B1 no encontrado en COURSE_DB." }, { status: 404 });
-      const normalize = (value: string) => value.normalize("NFKC").trim().replace(/\\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, "");
+      const normalize = (value: string) => value.normalize("NFKC").trim().replace(/\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, "");
       const correct = stored.expected.some((expected) => normalize(expected) === normalize(payload.answer as string));
       const expected = stored.expected[0] ?? "";
       const explanation = stored.explanation || `Respuesta correcta: ${expected}`;
