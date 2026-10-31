@@ -75,7 +75,7 @@ export async function storeLearningMedia(
     throw new Error("Invalid language code");
   }
   const storageKey = `learning/${language}/${input.mediaType}/${id}.${extension}`;
-  const safeFileName = input.fileName.replace(/[\\/\\\\\u0000-\u001f]/g, "_").slice(0, 180);
+  const safeFileName = input.fileName.replaceAll("\\", "_").replace(/[\/\u0000-\u001f]/g, "_").slice(0, 180);
 
   await env.MEDIA_BUCKET.put(storageKey, bytes, {
     httpMetadata: { contentType: mimeType },
