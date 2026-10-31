@@ -22,6 +22,21 @@ export async function loadCourseUnitData(
   if (!Array.isArray(data.exercises)) {
     throw new Error(`JSON inválido en ${url}`);
   }
+
+  // B1 unit 31 reading is sourced from the normalized Learning D1 database.
+  if (courseFolder === "b1" && n === "31") {
+    const readingResponse = await fetch("/api/learning/lessons/b1-31/exercises?section=reading", { cache: "no-store" });
+    if (!readingResponse.ok) {
+      throw new Error(`No se pudo cargar la lectura B1-31 desde Learning D1 (${readingResponse.status})`);
+    }
+    const readingData = await readingResponse.json() as { exercises?: unknown[] };
+    const readingExercises = Array.isArray(readingData.exercises) ? readingData.exercises : [];
+    if (!readingExercises.length) throw new Error("Learning D1 no devolvió ejercicios de lectura para B1-31.");
+    const nonReading = data.exercises.filter((exercise: any) =>
+      String(exercise?.topicName ?? exercise?.topic ?? "").toLowerCase() !== "reading"
+    );
+    data.exercises = [...nonReading, ...readingExercises];
+  }
   return data;
 }
 
