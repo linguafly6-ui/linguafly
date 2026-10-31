@@ -127,7 +127,7 @@ export async function GET(request: NextRequest) {
   try {
 
     const { env } = await resolveCloudflareEnv();
-    const courseDb = env.DB;
+    const courseDb = env.COURSE_DB;
     const result = await courseDb.prepare(
       `SELECT
          c.id AS course_id,
