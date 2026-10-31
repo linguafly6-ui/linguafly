@@ -187,29 +187,34 @@ async function getB1Unit31D1Exercises(section: string) {
      FROM exercise_options WHERE exercise_id IN (${placeholders})
      ORDER BY exercise_id, position`
   ).bind(...ids).all<Record<string, unknown>>();
-  const optionsByExercise = new Map<string, string[]>();
+  const optionsByExercise = new Map<string, { key: string; text: string }[]>();
   for (const option of optionRows.results ?? []) {
     const id = String(option.exercise_id);
-    optionsByExercise.set(id, [...(optionsByExercise.get(id) ?? []), String(option.content)]);
+    optionsByExercise.set(id, [...(optionsByExercise.get(id) ?? []), { key: String(option.option_key), text: String(option.content) }]);
   }
   return items.map((row) => {
     let content: Record<string, unknown> = {};
+    let answerConfig: Record<string, unknown> = {};
     try { content = JSON.parse(String(row.content_json ?? "{}")); } catch { content = {}; }
+    try { answerConfig = JSON.parse(String(row.answer_config_json ?? "{}")); } catch { answerConfig = {}; }
+    const optionItems = optionsByExercise.get(String(row.id)) ?? [];
+    const options = optionItems.map((option) => option.text);
+    const correctKeys = Array.isArray(answerConfig.correctOptionKeys) ? answerConfig.correctOptionKeys.map(String) : [];
+    const correctAnswer = optionItems.findIndex((option) => correctKeys.includes(option.key));
+    const transcript = typeof content.transcript === "string" ? content.transcript : "";
+    const prompt = String(content.prompt ?? "");
+    const explanation = String(content.explanation_es ?? row.correct_feedback ?? "");
+    const isReading = section === "reading";
     return {
-      id: String(row.id),
-      number: Number(row.position),
-      type: "multiple_choice",
-      prompt: String(content.prompt ?? ""),
-      options: optionsByExercise.get(String(row.id)) ?? [],
-      audioText: section === "listening" && typeof content.transcript === "string" ? content.transcript : null,
-      passageText: section === "reading" && typeof content.transcript === "string" ? content.transcript : null,
-      vocabularyEntry: section === "vocabulary" ? {
-        word: String(content.vocabularyWord ?? ""),
-        meaning: String(content.meaning_es ?? ""),
-        definition: String(content.definition_en ?? ""),
-        example: String(content.example ?? "")
-      } : null,
-      explanation: String(content.explanation_es ?? row.correct_feedback ?? ""),
+      id: String(row.id), number: Number(row.position),
+      type: isReading ? "reading" : "multiple_choice",
+      topic: "The Natural World",
+      topicName: isReading ? "Reading" : section === "vocabulary" ? "Vocabulary" : section,
+      prompt, options, transcript: isReading ? transcript : null, passageText: isReading ? transcript : null,
+      content: isReading ? { text: transcript, questions: [{ id: String(row.id) + "-question", question: prompt, options, correctAnswer: correctAnswer >= 0 ? correctAnswer : 0, explanation }] } : undefined,
+      audioText: section === "listening" && transcript ? transcript : null,
+      vocabularyEntry: section === "vocabulary" ? { word: String(content.vocabularyWord ?? ""), meaning: String(content.meaning_es ?? ""), definition: String(content.definition_en ?? ""), example: String(content.example ?? "") } : null,
+      explanation,
     };
   });
 }
