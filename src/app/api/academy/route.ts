@@ -20,7 +20,8 @@ export async function GET(request: NextRequest) {
 
   try {
     const { env } = await resolveCloudflareEnv();
-    const db = env.COURSE_DB ?? env.DB;
+    const db = env.COURSE_DB;
+    if (!db) throw new Error("COURSE_DB binding is not configured; refusing to query the default DB.");
 
     if (!rawLevel) {
       const result = await db.prepare(`
