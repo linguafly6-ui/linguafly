@@ -139,7 +139,7 @@ export async function GET(request: NextRequest) {
     const nonClozeExercises: Array<Record<string, unknown>> = [];
     for (const exercise of exercises) {
       const code = String(exercise.exercise_code || "");
-      const match = /^(.*)-gap(\\d+)$/.exec(code);
+      const match = /^(.*)-gap(\d+)$/.exec(code);
       if (!match) {
         nonClozeExercises.push(exercise);
         continue;
@@ -164,16 +164,16 @@ export async function GET(request: NextRequest) {
     const gapMarkerCount = (source: string, gapNumber: number): number => {
       const escaped = String(gapNumber);
       const patterns = [
-        new RegExp(`\\\\(\\\\s*${escaped}\\\\s*\\\\)`, "g"),
-        new RegExp(`\\\\[\\\\s*${escaped}\\\\s*\\\\]`, "g"),
-        new RegExp(`\\\\[GAP\\\\s*${escaped}\\\\]`, "gi"),
+        new RegExp(`\\(\\s*${escaped}\\s*\\)`, "g"),
+        new RegExp(`\\[\\s*${escaped}\\s*\\]`, "g"),
+        new RegExp(`\\[GAP\\s*${escaped}\\]`, "gi"),
       ];
       return patterns.reduce((count, pattern) => count + [...source.matchAll(pattern)].length, 0);
     };
 
     for (const [groupId, rows] of clozeGroups) {
       const ordered = rows.slice().sort((a, b) => Number(a.position) - Number(b.position));
-      const gapNumbers = ordered.map((row) => Number(/-gap(\\d+)$/.exec(String(row.exercise_code))?.[1]));
+      const gapNumbers = ordered.map((row) => Number(/-gap(\d+)$/.exec(String(row.exercise_code))?.[1]));
       const expectedNumbers = Array.from({ length: ordered.length }, (_value, index) => index + 1);
       const firstContent = parseJson(ordered[0].content_json as string, {} as Record<string, unknown>);
       const passage = typeof firstContent.passage === "string" ? firstContent.passage : "";
@@ -185,7 +185,7 @@ export async function GET(request: NextRequest) {
         const validOptions = rowOptions.length >= 3 && rowOptions.length <= 4
           && rowOptions.every((option) => /^[A-D]$/.test(option.key)
             && option.content.trim().length > 0
-            && !/^(?:o\\d+|option\\s*\\d+|placeholder)$/i.test(option.content.trim()))
+            && !/^(?:o\d+|option\\s*\d+|placeholder)$/i.test(option.content.trim()))
           && validKeys.size === rowOptions.length;
         const markerCount = gapMarkerCount(passage, index + 1);
         const rowContent = parseJson(row.content_json as string, {} as Record<string, unknown>);
