@@ -29,6 +29,8 @@ export interface CloudflareEnv {
   DB: D1Database;
   /** Read-only course content database; learner data remains in DB. */
   COURSE_DB?: D1Database;
+  /** Dedicated database for courses, exercises, vocabulary and learner progress. */
+  LEARNING_DB?: D1Database;
   EMAIL?: CloudflareEmailBinding;
   EMAIL_TEST_TOKEN?: string;
   CACHE?: KVNamespace;
