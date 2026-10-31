@@ -45,8 +45,7 @@
       }
     }
   ],
-  // D1 (SQLite) — origen de verdad del contenido público.
-  // Migraciones: wrangler d1 migrations apply blog --remote
+  // Legacy blog DB and preview course DB remain unchanged.
   "d1_databases": [
     {
       "binding": "DB",
@@ -58,9 +57,15 @@
       "binding": "COURSE_DB",
       "database_name": "linguafly-preview",
       "database_id": "b159641b-1910-49ec-b2ed-fbfae2440377"
+    },
+    {
+      "binding": "LEARNING_DB",
+      "database_name": "linguafly-learning",
+      "database_id": "0982f4a2-ce92-410a-9e72-e5a34c461612",
+      "migrations_dir": "migrations/learning"
     }
   ],
-  // Configuración aislada para Cloudflare Preview. No usar la D1 de producción.
+  // Preview has a separate, empty learning database; never points to production learning data.
   "previews": {
     "d1_databases": [
       {
@@ -73,6 +78,12 @@
         "binding": "COURSE_DB",
         "database_name": "linguafly-preview",
         "database_id": "b159641b-1910-49ec-b2ed-fbfae2440377"
+      },
+      {
+        "binding": "LEARNING_DB",
+        "database_name": "linguafly-learning-preview",
+        "database_id": "7e4e332b-6b37-4b4c-905f-390e1ef0f79a",
+        "migrations_dir": "migrations/learning"
       }
     ],
     // Deshabilitado en Preview: no se autoriza el envío de correos desde pruebas.
