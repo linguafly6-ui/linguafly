@@ -21,10 +21,10 @@ export async function POST(request: NextRequest) {
     const db = env.COURSE_DB ?? env.DB;
     const [key, exercise] = await Promise.all([
       db.prepare(
-        "SELECT answer_config_json, correct_feedback, incorrect_feedback FROM exercise_answer_keys WHERE exercise_id = ? LIMIT 1"
+        `SELECT k.answer_config_json, k.correct_feedback, k.incorrect_feedback FROM exercise_answer_keys k JOIN exercises e ON e.id = k.exercise_id JOIN sections s ON s.id = e.section_id JOIN units u ON u.id = s.unit_id JOIN courses c ON c.id = u.course_id WHERE k.exercise_id = ? AND e.status = 'published' AND s.status = 'published' AND u.status = 'published' AND c.status = 'published' LIMIT 1`
       ).bind(exerciseId).first() as Promise<Record<string, unknown> | null>,
       db.prepare(
-        "SELECT content_json FROM exercises WHERE id = ? AND status = 'published' LIMIT 1"
+        `SELECT e.content_json FROM exercises e JOIN sections s ON s.id = e.section_id JOIN units u ON u.id = s.unit_id JOIN courses c ON c.id = u.course_id WHERE e.id = ? AND e.status = 'published' AND s.status = 'published' AND u.status = 'published' AND c.status = 'published' LIMIT 1`
       ).bind(exerciseId).first() as Promise<Record<string, unknown> | null>,
     ]);
 
