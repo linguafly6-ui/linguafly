@@ -58,6 +58,12 @@ Los 629 ejercicios usan `single-choice`. No hay variedad de interacción registr
 ### P1 — Reading usa microtextos incrustados en preguntas
 En B1 hay 65 ejercicios de Reading; 30 no tienen un campo `passage` compartido. En los ejemplos revisados, el texto aparece incrustado dentro de cada pregunta (“Lee: …”). Eso puede servir para lectura de una frase, pero no equivale a una tarea de comprensión de un texto con preguntas de gist, detalle, propósito, actitud, referencia o inferencia. Deben agruparse preguntas alrededor de un mismo texto auténtico/editorial con evidencia localizable.
 
+### P1 — Reading no está en la lengua objetivo en A2 y es demasiado fragmentario en B2/C1
+- En los cinco ítems de Reading de A2 Unidad 1, los textos y preguntas están en español (por ejemplo, “Ella trabaja desde casa…”). Por tanto, no evalúan comprensión lectora en inglés, aunque la sección y el nivel sean de inglés A2.
+- En la muestra de B2 y C1 Unidad 1, los ítems de Reading son frases aisladas de una línea, seguidas de una pregunta. En C1 esto no permite evaluar comprensión de textos largos y complejos, cohesión, progresión temática o postura global, que son parte del objetivo de nivel.
+- Estos casos necesitan textos en inglés adecuados al nivel, con varias preguntas ligadas al mismo texto y evidencia identificable. No basta con cambiar la lengua de la frase o alargar la pregunta.
+
+
 ### P1 — Objetivos y competencias no trazan la enseñanza real
 - A2, B2 y C1 tienen un único objetivo genérico por unidad, repetido por fases (“core concepts”, “controlled use”, etc.), no resultados observables específicos.
 - Las 16 competencias (cuatro por nivel: grammar, vocabulary, reading, listening) están en estado `draft`, pero cada una está asignada a las 100 unidades del nivel. La matriz de asignación es idéntica para todas las unidades y no prueba que el contenido enseñe esas competencias.
