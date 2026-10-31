@@ -164,6 +164,78 @@ async function getA1Items(lessonId: string) {
   return unit.blocks.flatMap((block) => block.content).filter((item) => getLegacySection(item) !== null);
 }
 
+async function getB1UnitD1Exercises(unitNumber: number, section: string) {
+  if (unitNumber === 31) {
+    const exercises = await getB1Unit31D1Exercises(section);
+    if (!exercises) return null;
+    const { env } = await resolveCloudflareEnv();
+    const unit = await env.COURSE_DB!.prepare(
+      "SELECT title FROM units WHERE id = ? LIMIT 1"
+    ).bind("b1-unit-031").first<{ title: string }>();
+    return { title: unit?.title ?? "Unidad 31", exercises };
+  }
+
+  const { env } = await resolveCloudflareEnv();
+  if (!env.COURSE_DB) throw new Error("COURSE_DB binding is not configured.");
+  const row = await env.COURSE_DB.prepare(
+    "SELECT title, content_json FROM learning_course_json_units WHERE course_key = 'ingles-b1' AND level = 'B1' AND unit_number = ? LIMIT 1"
+  ).bind(unitNumber).first<{ title: string; content_json: string }>();
+  if (!row) return null;
+
+  const unit = JSON.parse(row.content_json) as {
+    blocks?: { title?: string; content?: LegacyAdvancedItem[] }[];
+  };
+  const selected = (unit.blocks ?? []).flatMap((block) => (block.content ?? [])
+    .filter((item) => getLegacyAdvancedSection(item, block.title ?? "") === section)
+    .map((item) => ({ item, blockTitle: block.title ?? "" })));
+
+  const exercises = selected.flatMap(({ item, blockTitle }, index) => {
+    const topicName = section === "vocabulary" ? "Vocabulary" : section === "reading" ? "Reading"
+      : section === "listening" ? "Listening" : "Grammar";
+    const gaps = (item as LegacyAdvancedItem & {
+      gaps?: { id: string; options: { id: string; text: string }[] }[];
+      main_text?: string;
+    }).gaps;
+    const pairs = (item as LegacyAdvancedItem & { pairs?: { id?: string; left: string; right: string }[] }).pairs;
+
+    if (/matching|match/i.test(item.type) && Array.isArray(pairs) && pairs.length) {
+      const matchingOptions = pairs.map((pair) => pair.right);
+      return pairs.map((pair, pairIndex) => ({
+        id: item.interaction_id + "__match_" + (pair.id || String(pairIndex + 1)),
+        number: index * pairs.length + pairIndex + 1,
+        type: "multiple_choice", topicName, topic: blockTitle,
+        prompt: pair.left, options: matchingOptions,
+      }));
+    }
+    if (/cloze/i.test(item.type) && Array.isArray(gaps) && gaps.length) {
+      const mainText = String((item as LegacyAdvancedItem & { main_text?: string }).main_text ?? "");
+      return gaps.map((gap, gapIndex) => {
+        const gapNumber = Number(gap.id) || gapIndex + 1;
+        const line = mainText.split("\n").map((part) => part.trim())
+          .find((part) => new RegExp("^" + gapNumber + "\\.").test(part)) || mainText;
+        const prompt = line.replace(/^\d+\.\s*/, "").replace(/\[GAP\s*\d+\]/gi, "_____").replace(/\(\d+\)/g, "").trim();
+        return {
+          id: item.interaction_id + "__gap_" + gap.id,
+          number: index * gaps.length + gapIndex + 1,
+          type: "multiple_choice", topicName, topic: blockTitle,
+          prompt: prompt || advancedPrompt(item), options: (gap.options ?? []).map((option) => option.text),
+        };
+      });
+    }
+    const options = (item.options ?? []).map((option) => option.text);
+    const type = options.length ? "multiple_choice"
+      : /fill.?blank|open.?cloze/i.test(item.type) ? "fill_blank" : "free_text";
+    return [{
+      id: item.interaction_id, number: index + 1, type, topicName, topic: blockTitle,
+      prompt: advancedPrompt(item), options,
+      audioText: section === "listening" && item.transcript ? item.transcript : null,
+      passageText: section === "reading" && item.transcript ? item.transcript : null,
+      transcript: section === "reading" && item.transcript ? item.transcript : null,
+    }];
+  });
+  return { title: row.title, exercises };
+}
+
 async function getB1Unit31D1Exercises(section: string) {
   const { env } = await resolveCloudflareEnv();
   if (!env.COURSE_DB) throw new Error("COURSE_DB binding is not configured.");
@@ -284,20 +356,14 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
 
   const b1Match = /^b1-(\d{2})$/.exec(lessonId);
   if (b1Match) {
-    if (Number(b1Match[1]) === 31) {
-      try {
-        const exercises = await getB1Unit31D1Exercises(section);
-        if (exercises) return NextResponse.json({ exercises });
-        return NextResponse.json({ error: "No hay ejercicios publicados en la base de datos para esta sección." }, { status: 404 });
-      } catch (error) {
-        console.error("[learning/exercises] B1 unit 31 D1 read failed:", error);
-        return NextResponse.json({ error: "No se pudo leer el contenido de B1, unidad 31 desde COURSE_DB." }, { status: 500 });
-      }
+    try {
+      const result = await getB1UnitD1Exercises(Number(b1Match[1]), section);
+      if (!result) return NextResponse.json({ error: "La unidad B1 no existe en COURSE_DB." }, { status: 404 });
+      return NextResponse.json(result);
+    } catch (error) {
+      console.error("[learning/exercises] B1 D1 read failed:", error);
+      return NextResponse.json({ error: "No se pudo leer el contenido de B1 desde COURSE_DB." }, { status: 500 });
     }
-    const unit = B1_COURSE.units.find((item) => item.id === Number(b1Match[1]));
-    if (!unit) return NextResponse.json({ error: "Unidad B1 no disponible." }, { status: 404 });
-    const selected = unit.exercises.filter((exercise) => exercise.topicName.toLowerCase() === section);
-    return NextResponse.json({ exercises: selected.map((exercise, index) => b1Exercise(exercise, index)) });
   }
 
   const advancedMatch = /^(b1|b2|c1|c2)-(\d{2})$/.exec(lessonId);
