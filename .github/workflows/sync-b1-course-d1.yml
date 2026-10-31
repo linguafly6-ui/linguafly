@@ -1,0 +1,37 @@
+name: Sync B1 course content to D1
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/course/b1/**'
+      - 'scripts/sync-b1-course-to-d1.ts'
+      - '.github/workflows/sync-b1-course-d1.yml'
+
+concurrency:
+  group: sync-b1-course-d1
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Sync canonical B1 course content to D1
+        run: npx tsx scripts/sync-b1-course-to-d1.ts
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CI: true
