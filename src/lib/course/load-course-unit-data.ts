@@ -53,14 +53,21 @@ export async function loadCourseUnitData(
 export async function loadCourseFinalTest(
   courseFolder: string
 ): Promise<CourseUnitPayload> {
+  if (courseFolder === "b1") {
+    const response = await fetch("/api/course/b1/test-final", { cache: "no-store" });
+    if (!response.ok) {
+      const data = await response.json().catch(() => ({})) as { error?: string };
+      throw new Error(data.error ?? "El test final B1 no está disponible en COURSE_DB.");
+    }
+    const data = await response.json() as CourseUnitPayload;
+    if (!Array.isArray(data.exercises)) throw new Error("Test final B1 inválido en COURSE_DB.");
+    return data;
+  }
+
   const url = `/course-data/${courseFolder}/test-final.json`;
   const res = await fetch(url);
-  if (!res.ok) {
-    throw new Error(`No se pudo cargar ${url} (${res.status})`);
-  }
+  if (!res.ok) throw new Error(`No se pudo cargar ${url} (${res.status})`);
   const data = (await res.json()) as CourseUnitPayload;
-  if (!Array.isArray(data.exercises)) {
-    throw new Error(`JSON inválido en ${url}`);
-  }
+  if (!Array.isArray(data.exercises)) throw new Error(`JSON inválido en ${url}`);
   return data;
 }
