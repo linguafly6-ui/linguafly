@@ -4,10 +4,14 @@
     "target_language": "en",
     "level": "B1",
     "unit_id": "U25",
-    "unit_title": "Unit 25",
+    "unit_title": "Stories, Technology and the Environment",
     "total_duration_minutes": 600
   },
-  "learning_outcomes": [],
+  "learning_outcomes": [
+    "Understand events and details in short narratives.",
+    "Use vocabulary related to technology and digital communication.",
+    "Discuss environmental issues using relevant B1 vocabulary."
+  ],
   "mastery_tags": [],
   "blocks": [
     {
