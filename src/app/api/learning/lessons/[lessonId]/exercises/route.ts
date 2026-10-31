@@ -167,7 +167,8 @@ async function getA1Items(lessonId: string) {
 async function getNormalizedD1Exercises(lessonId: string, section: string) {
   try {
     const { env } = await resolveCloudflareEnv();
-    const courseDb = env.COURSE_DB!;
+    const courseDb = env.COURSE_DB;
+    if (!courseDb) throw new Error("COURSE_DB binding is not configured; refusing to query blog.");
     const result = await courseDb.prepare(
       `SELECT id, exercise_number, exercise_type, prompt, options_json, section_type, audio_text
        FROM learning_exercises WHERE lesson_id = ? AND section_type = ? ORDER BY exercise_number ASC`
