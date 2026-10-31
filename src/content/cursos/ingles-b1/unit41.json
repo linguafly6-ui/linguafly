@@ -204,7 +204,7 @@
           "prompt_es": "Choose the correct relative pronoun to complete each sentence.",
           "mastery_tag": "grammar:b1-relative-clauses",
           "explanation": "Se debe usar 'where' porque estamos hablando de un lugar (el restaurante).",
-          "stimulus_en": "The restaurant ___ we went to last night was closed.",
+          "stimulus_en": "The restaurant ___ we ate last night was closed.",
           "options": [
             {
               "id": "o1",
