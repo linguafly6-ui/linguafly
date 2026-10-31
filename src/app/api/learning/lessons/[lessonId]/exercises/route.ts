@@ -236,6 +236,38 @@ async function getB1UnitD1Exercises(unitNumber: number, section: string) {
   return { title: row.title, exercises };
 }
 
+async function getB1CourseJsonAnswer(unitNumber: number, exerciseId: string) {
+  const { env } = await resolveCloudflareEnv();
+  if (!env.COURSE_DB) throw new Error("COURSE_DB binding is not configured.");
+  const row = await env.COURSE_DB.prepare(
+    "SELECT content_json FROM learning_course_json_units WHERE course_key = 'ingles-b1' AND level = 'B1' AND unit_number = ? LIMIT 1"
+  ).bind(unitNumber).first<{ content_json: string }>();
+  if (!row) return null;
+  const unit = JSON.parse(row.content_json) as { blocks?: { content?: LegacyAdvancedItem[] }[] };
+  const gapMatch = /^(.*)__gap_(.+)$/.exec(exerciseId);
+  const pairMatch = /^(.*)__match_(.+)$/.exec(exerciseId);
+  const parentId = gapMatch?.[1] ?? pairMatch?.[1] ?? exerciseId;
+  const item = (unit.blocks ?? []).flatMap((block) => block.content ?? [])
+    .find((candidate) => candidate.interaction_id === parentId);
+  if (!item) return null;
+
+  let expected = "";
+  if (gapMatch) {
+    const gapId = gapMatch[2];
+    const gaps = (item as LegacyAdvancedItem & { gaps?: { id: string; options: { id: string; text: string }[] }[] }).gaps ?? [];
+    const gap = gaps.find((candidate) => String(candidate.id) === gapId);
+    const answerMap = item.correct_answer as Record<string, unknown> | undefined;
+    const optionId = answerMap && typeof answerMap === "object" ? String(answerMap[gapId] ?? "") : "";
+    expected = gap?.options.find((option) => option.id === optionId)?.text ?? "";
+  } else if (pairMatch) {
+    const pairs = (item as LegacyAdvancedItem & { pairs?: { id?: string; left: string; right: string }[] }).pairs ?? [];
+    expected = pairs.find((pair, index) => String(pair.id || index + 1) === pairMatch[2])?.right ?? "";
+  } else {
+    expected = advancedExpectedAnswer(item);
+  }
+  return { expected: expected ? [expected] : [], explanation: advancedPlainText(item.explanation) };
+}
+
 async function getB1Unit31D1Exercises(section: string) {
   const { env } = await resolveCloudflareEnv();
   if (!env.COURSE_DB) throw new Error("COURSE_DB binding is not configured.");
@@ -527,10 +559,16 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
   }
 
 
-  if (lessonId === "b1-31") {
+  const b1Match = /^b1-(\d{2})$/.exec(lessonId);
+  if (b1Match) {
     try {
-      const stored = await getB1Unit31D1Answer(payload.exerciseId);
-      if (!stored) return NextResponse.json({ error: "Ejercicio B1 no encontrado en COURSE_DB." }, { status: 404 });
+      const unitNumber = Number(b1Match[1]);
+      const stored = unitNumber === 31
+        ? await getB1Unit31D1Answer(payload.exerciseId)
+        : await getB1CourseJsonAnswer(unitNumber, payload.exerciseId);
+      if (!stored || !stored.expected.length) {
+        return NextResponse.json({ error: "Ejercicio B1 no encontrado en COURSE_DB." }, { status: 404 });
+      }
       const normalize = (value: string) => value.normalize("NFKC").trim().replace(/\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, "");
       const correct = stored.expected.some((expected) => normalize(expected) === normalize(payload.answer as string));
       const expected = stored.expected[0] ?? "";
@@ -555,48 +593,13 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
             .bind(user.id, lessonId, JSON.stringify(progress)).run();
         }
       } catch (error) {
-        console.warn("[learning/exercises] B1 unit 31 grading succeeded; progress persistence unavailable:", error);
+        console.warn("[learning/exercises] B1 grading succeeded; progress persistence unavailable:", error);
       }
       return NextResponse.json({ correct, explanation, review, authenticated });
     } catch (error) {
-      console.error("[learning/exercises] B1 unit 31 D1 grading failed:", error);
+      console.error("[learning/exercises] B1 D1 grading failed:", error);
       return NextResponse.json({ error: "No se pudo corregir el ejercicio desde COURSE_DB." }, { status: 500 });
     }
-  }
-
-  if (/^b1-\d{2}$/.test(lessonId)) {
-    const exercise = getB1Exercise(lessonId, payload.exerciseId);
-    if (!exercise) return NextResponse.json({ error: "Ejercicio B1 no encontrado." }, { status: 404 });
-    const expected = b1ExpectedAnswer(exercise);
-    const question = exercise.content?.questions?.[0];
-    const acceptable = [expected, ...(Array.isArray(question?.acceptableAnswers) ? question.acceptableAnswers : [])]
-      .map((value) => String(value).trim().replace(/\\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, ""));
-    const submitted = payload.answer.trim().replace(/\\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, "");
-    const correct = Boolean(expected) && acceptable.includes(submitted);
-    const explanation = plainText(typeof question?.explanation === "string" ? question.explanation : "") || `Respuesta correcta: ${expected}`;
-    let authenticated = false;
-    let review: ReturnType<typeof scheduleNextReview> | null = null;
-    try {
-      const { env, user } = await getSessionUser(request);
-      authenticated = Boolean(user);
-      if (user) {
-        const previousRow = await env.COURSE_DB!.prepare("SELECT progress_json FROM learning_progress WHERE user_id = ? AND lesson_id = ?")
-          .bind(user.id, lessonId).first<{ progress_json: string | null }>();
-        let progress: Record<string, unknown> = {};
-        try { if (previousRow?.progress_json) progress = JSON.parse(previousRow.progress_json); } catch { progress = {}; }
-        const previousReview = (progress[payload.exerciseId] as { review?: ReviewState } | undefined)?.review
-          ?? { intervalDays: 0, easeFactor: 2.5, repetitions: 0, lapses: 0 };
-        review = scheduleNextReview(previousReview, correct ? 4 : 1);
-        progress[payload.exerciseId] = { answer: payload.answer, feedback: { correct, explanation }, review };
-        await env.COURSE_DB!.prepare(`INSERT INTO learning_progress (user_id, lesson_id, progress_json, updated_at)
-          VALUES (?, ?, ?, CURRENT_TIMESTAMP)
-          ON CONFLICT(user_id, lesson_id) DO UPDATE SET progress_json = excluded.progress_json, updated_at = CURRENT_TIMESTAMP`)
-          .bind(user.id, lessonId, JSON.stringify(progress)).run();
-      }
-    } catch (error) {
-      console.warn("[learning/exercises] B1 graded from static source; progress persistence unavailable:", error);
-    }
-    return NextResponse.json({ correct, explanation, review, authenticated });
   }
 
   if (/^(b1|b2|c1|c2)-\d{2}$/.test(lessonId)) {
