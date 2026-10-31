@@ -163,3 +163,21 @@ GROUP BY c.id ORDER BY c.sort_order;
 
 ---
 **Estado:** auditoría cuantitativa de las 400 unidades y revisión muestral lingüística completadas. Pendiente auditoría lingüística individual de los 629 registros (teniendo en cuenta que los grupos `-gapN` son varios registros de un mismo ejercicio) y reconciliación con los archivos fuente del currículo antes de editar contenido en producción.
+
+## 7. Saneamiento de la fuente B1 — 2026-10-31
+
+Tras la auditoría inicial se aplicaron correcciones en la fuente canónica del repositorio (src/content/cursos/ingles-b1/):
+
+- Se sustituyeron las cinco explicaciones literales undefined de la actividad de formación de palabras de la unidad 5 en una intervención anterior, y se corrigieron otras cinco explicaciones de la unidad 30 y cinco de la unidad 33 con feedback ligado a la forma y al contexto de cada respuesta.
+- En la unidad 2 se retiraron los distractores that que hacían válidas dos respuestas en tres preguntas de cláusulas relativas. Se releen las opciones publicadas y queda una única opción defendible por ítem.
+- Se corrigió la concordancia española «Los valores» en el feedback de la unidad 4.
+- Se reemplazaron los títulos genéricos Unit N y se añadieron objetivos de aprendizaje ligados a los temas de los bloques para las unidades 4–60. Las unidades 1–3 ya tenían título y objetivos específicos.
+- Se volvieron a leer los JSON de las unidades 1–60. La comprobación estructural no encuentra errores de parseo, textos de opción iguales a placeholders o1–o4, ni explicaciones que contengan undefined en esos archivos. Las unidades 1–60 tienen ahora título y tres objetivos de aprendizaje.
+
+### Pendiente que impide certificar el catálogo B1 completo
+
+- No existen archivos fuente unit61.json–unit100.json en la ruta auditada. No se han inventado unidades ni objetivos para cubrir ese hueco.
+- La corrección de los JSON no equivale a importar los cambios en D1. La importación de producción sigue pendiente de ejecutar mediante el workflow autorizado y de verificar después los registros en la base blog/destino correcto.
+- Los 55 ejercicios de Listening continúan sin audio asociado en la auditoría D1; 24 carecen además de transcripción. No se han fabricado audios ni se han etiquetado transcripciones como audio.
+- La estructura sigue siendo insuficiente para certificar las cuatro destrezas: persisten unidades y secciones sin ejercicios, predominio de opción múltiple y actividades de Reading fragmentarias. El saneamiento de títulos y objetivos no resuelve esas carencias.
+- Sigue pendiente la revisión lingüística individual de los 584 registros y la reconciliación registro a registro entre los JSON y D1. Por tanto, esta actualización acredita correcciones concretas en la fuente, no una certificación editorial integral ni una publicación sincronizada en producción.
