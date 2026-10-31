@@ -38,13 +38,17 @@ async function main() {
     if (!Array.isArray(unit.exercises) || unit.exercises.length < 60) {
       throw new Error(`B1 unit ${unit.id} has incomplete exercise data.`);
     }
-    return buildRow(
-      unit.id,
-      `U${unit.id}`,
-      unit.title,
-      `src/lib/course/b1/unit-${unit.id}-lessons-index.ts`,
-      unit.exercises,
-    );
+    const unitRowId = `b1-unit-${String(unit.id).padStart(3, "0")}`;
+    return [
+      buildRow(
+        unit.id,
+        `U${unit.id}`,
+        unit.title,
+        `src/lib/course/b1/unit-${unit.id}-lessons-index.ts`,
+        unit.exercises,
+      ),
+      `UPDATE units SET title=${sqlString(unit.title)} WHERE id=${sqlString(unitRowId)};`,
+    ].join("\\n");
   });
 
   if (!Array.isArray(FINAL_TEST_B1_EXERCISES) || FINAL_TEST_B1_EXERCISES.length === 0) {
