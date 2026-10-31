@@ -4,10 +4,14 @@
     "target_language": "en",
     "level": "B1",
     "unit_id": "U11",
-    "unit_title": "Unit 11",
+    "unit_title": "Interviews, Reported Speech and Technology",
     "total_duration_minutes": 600
   },
-  "learning_outcomes": [],
+  "learning_outcomes": [
+    "Understand and discuss common interview questions and answers.",
+    "Report statements and questions using appropriate changes in tense, pronouns and word order.",
+    "Use vocabulary related to everyday technology and digital communication."
+  ],
   "mastery_tags": [],
   "blocks": [
     {
