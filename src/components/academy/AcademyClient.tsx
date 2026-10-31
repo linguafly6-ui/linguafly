@@ -81,7 +81,7 @@ export default function AcademyClient({ mode }: { mode: "catalog" | "level" | "u
     const courses = (data?.courses || []) as Course[];
     return <main className="min-h-screen bg-slate-50 px-5 py-12"><div className="mx-auto max-w-6xl">
       <p className="text-sm font-bold uppercase tracking-[.18em] text-indigo-700">Linguafly · Learning</p>
-      <div className="mt-3 max-w-3xl"><h1 className="text-4xl font-black tracking-tight text-slate-950 md:text-5xl">Tu academia de inglés</h1><p className="mt-4 text-lg leading-8 text-slate-600">Aprende paso a paso con itinerarios por nivel, objetivos claros y práctica interactiva.</p></div>
+      <div className="mt-3 max-w-3xl"><h1 className="text-4xl font-black tracking-tight text-slate-950 md:text-5xl">Tu academia de inglés</h1><p className="mt-4 text-lg leading-8 text-slate-600">Aprende paso a paso con itinerarios por nivel y objetivos claros. Cada unidad indica si sus actividades ya están publicadas.</p></div>
       <div className="mt-10 grid gap-5 md:grid-cols-2">
         {courses.map((course) => <Link key={course.id} href={`/academia/${course.cefr_level.toLowerCase()}`} className="group rounded-3xl border border-slate-200 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:border-indigo-300 hover:shadow-lg">
           <div className="flex items-start justify-between"><span className="rounded-full bg-indigo-50 px-3 py-1 text-sm font-bold text-indigo-700">Nivel {course.cefr_level}</span><ArrowRight className="text-slate-400 transition group-hover:translate-x-1 group-hover:text-indigo-700" /></div>
