@@ -127,8 +127,10 @@ export default function AcademyClient({ mode }: { mode: "catalog" | "level" | "u
       <span className="text-xs font-bold uppercase tracking-[.18em] text-indigo-700">{course?.title} · Unidad {unit.unit_number}</span>
       <h1 className="mt-3 text-3xl font-black leading-tight text-slate-950">{unit.title}</h1>
       {(unit.learning_objectives || []).map((objective: string) => <p key={objective} className="mt-4 leading-7 text-slate-600">{objective}</p>)}
+      {unit.status !== "published" && <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-900"><b>Unidad en preparación editorial.</b> La estructura ya está creada, pero las lecciones y actividades todavía no se han aprobado para mostrarse al alumnado.</div>}
     </div>
     <div className="mt-7 space-y-4">
+      {sections.length === 0 && <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm leading-6 text-slate-600">Los bloques de gramática, vocabulario, lectura y escucha aparecerán aquí cuando su contenido esté publicado.</div>}
       {sections.map((section) => {
         const Icon = sectionIcons[section.section_type] || BookOpen;
         const sectionExercises = exercises.filter((exercise) => exercise.section_id === section.id);
