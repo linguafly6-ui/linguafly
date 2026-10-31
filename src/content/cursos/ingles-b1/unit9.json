@@ -4,10 +4,14 @@
     "target_language": "en",
     "level": "B1",
     "unit_id": "U9",
-    "unit_title": "Unit 9",
+    "unit_title": "Technology, Interviews and Short Narratives",
     "total_duration_minutes": 600
   },
-  "learning_outcomes": [],
+  "learning_outcomes": [
+    "Use vocabulary for digital communication and technology in context.",
+    "Complete common interview-related expressions and discuss preparation for interviews.",
+    "Understand and complete a short narrative using vocabulary appropriate to its context."
+  ],
   "mastery_tags": [],
   "blocks": [
     {
