@@ -211,7 +211,7 @@ async function getB1UnitD1Exercises(unitNumber: number, section: string) {
         id: item.interaction_id + "__match_" + (pair.id || String(pairIndex + 1)),
         number: index * pairs.length + pairIndex + 1,
         type: "multiple_choice", topicName, topic: blockTitle,
-        prompt: pair.left, options: matchingOptions,
+        prompt: pair.left, options: matchingOptions, correctAnswer: pair.right,
       }));
     }
     if (/cloze/i.test(item.type) && Array.isArray(gaps) && gaps.length) {
@@ -224,9 +224,17 @@ async function getB1UnitD1Exercises(unitNumber: number, section: string) {
         return {
           id: item.interaction_id + "__gap_" + gap.id,
           number: index * gaps.length + gapIndex + 1,
-          type: "multiple_choice", topicName, topic: blockTitle,
-          prompt: prompt || advancedPrompt(item), options: (gap.options ?? []).map((option) => option.text),
-        };
+          const answerMap = item.correct_answer as Record<string, unknown> | undefined;
+          const correctOptionId = answerMap && typeof answerMap === "object" ? String(answerMap[gap.id] ?? "") : "";
+          const correctAnswer = (gap.options ?? []).find((option) => option.id === correctOptionId)?.text ?? "";
+          return {
+            id: item.interaction_id + "__gap_" + gap.id,
+            number: index * gaps.length + gapIndex + 1,
+            type: "multiple_choice", topicName, topic: blockTitle,
+            prompt: prompt || advancedPrompt(item),
+            options: (gap.options ?? []).map((option) => option.text),
+            correctAnswer,
+          };
       });
     }
     const options = (item.options ?? []).map((option) => option.text);
@@ -235,6 +243,7 @@ async function getB1UnitD1Exercises(unitNumber: number, section: string) {
     return [{
       id: item.interaction_id, number: index + 1, type, topicName, topic: blockTitle,
       prompt: advancedPrompt(item), options,
+      correctAnswer: advancedExpectedAnswer(item),
       audioText: section === "listening" ? (item.transcript || blockPassage || null) : null,
       passageText: section === "reading" ? (item.main_text || item.transcript || blockPassage || null) : null,
       transcript: section === "reading" ? (item.main_text || item.transcript || blockPassage || null) : null,
