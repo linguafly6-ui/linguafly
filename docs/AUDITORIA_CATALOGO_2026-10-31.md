@@ -5,6 +5,7 @@
 Auditoría de solo lectura sobre la base D1 de aprendizaje de producción `linguafly-learning` (`COURSE_DB`). Se consultaron las tablas reales `courses`, `units`, `sections`, `exercises`, `exercise_type_registry`, `exercise_options`, `exercise_answer_keys`, `exercise_media`, `learning_media`, `competencies` y `unit_competencies`.
 
 No se han creado ejercicios ni se han cambiado estados durante esta auditoría. Los datos de progreso del alumnado no se han tocado.
+La tabla `courses` de esta base contiene solo A2, B1, B2 y C1; no hay registros A1 ni C2 en `linguafly-learning`. Por tanto, los hallazgos de este documento cubren las 400 unidades de esos cuatro niveles, no certifican el estado de posibles catálogos A1/C2 que vivan en otros sistemas.
 
 ## Criterio editorial aplicado
 
