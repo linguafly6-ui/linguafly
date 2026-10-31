@@ -167,7 +167,7 @@ async function getA1Items(lessonId: string) {
 async function getNormalizedD1Exercises(lessonId: string, section: string) {
   try {
     const { env } = await resolveCloudflareEnv();
-    const courseDb = env.DB;
+    const courseDb = env.COURSE_DB!;
     const result = await courseDb.prepare(
       `SELECT id, exercise_number, exercise_type, prompt, options_json, section_type, audio_text
        FROM learning_exercises WHERE lesson_id = ? AND section_type = ? ORDER BY exercise_number ASC`
@@ -288,7 +288,7 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
 
   try {
     const { env } = await resolveCloudflareEnv();
-    const result = await env.DB.prepare(
+    const result = await env.COURSE_DB!.prepare(
       `SELECT id, exercise_number, exercise_type, prompt, options_json, section_type, audio_text
        FROM learning_exercises WHERE lesson_id = ? AND section_type = ? ORDER BY exercise_number ASC`
     ).bind(lessonId, section).all<Record<string, unknown>>();
@@ -346,7 +346,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
     const { env, user } = await getSessionUser(request);
     const now = new Date().toISOString();
     const previousRow = user
-      ? await env.DB.prepare("SELECT progress_json FROM learning_progress WHERE user_id = ? AND lesson_id = ?").bind(user.id, lessonId).first<{ progress_json: string | null }>()
+      ? await env.COURSE_DB!.prepare("SELECT progress_json FROM learning_progress WHERE user_id = ? AND lesson_id = ?").bind(user.id, lessonId).first<{ progress_json: string | null }>()
       : null;
     let progress: Record<string, unknown> = {};
     try { if (previousRow?.progress_json) progress = JSON.parse(previousRow.progress_json); } catch { progress = {}; }
@@ -358,7 +358,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
         ...(progress[payload.exerciseId] as Record<string, unknown> | undefined),
         answer: payload.answer, feedback: { correct, explanation }, review
       };
-      await env.DB.prepare(
+      await env.COURSE_DB!.prepare(
         `INSERT INTO learning_progress (user_id, lesson_id, progress_json, updated_at)
          VALUES (?, ?, ?, CURRENT_TIMESTAMP)
          ON CONFLICT(user_id, lesson_id) DO UPDATE SET progress_json = excluded.progress_json, updated_at = CURRENT_TIMESTAMP`
@@ -384,7 +384,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
       const { env, user } = await getSessionUser(request);
       authenticated = Boolean(user);
       if (user) {
-        const previousRow = await env.DB.prepare("SELECT progress_json FROM learning_progress WHERE user_id = ? AND lesson_id = ?")
+        const previousRow = await env.COURSE_DB!.prepare("SELECT progress_json FROM learning_progress WHERE user_id = ? AND lesson_id = ?")
           .bind(user.id, lessonId).first<{ progress_json: string | null }>();
         let progress: Record<string, unknown> = {};
         try { if (previousRow?.progress_json) progress = JSON.parse(previousRow.progress_json); } catch { progress = {}; }
@@ -392,7 +392,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
           ?? { intervalDays: 0, easeFactor: 2.5, repetitions: 0, lapses: 0 };
         review = scheduleNextReview(previousReview, correct ? 4 : 1);
         progress[payload.exerciseId] = { answer: payload.answer, feedback: { correct, explanation }, review };
-        await env.DB.prepare(`INSERT INTO learning_progress (user_id, lesson_id, progress_json, updated_at)
+        await env.COURSE_DB!.prepare(`INSERT INTO learning_progress (user_id, lesson_id, progress_json, updated_at)
           VALUES (?, ?, ?, CURRENT_TIMESTAMP)
           ON CONFLICT(user_id, lesson_id) DO UPDATE SET progress_json = excluded.progress_json, updated_at = CURRENT_TIMESTAMP`)
           .bind(user.id, lessonId, JSON.stringify(progress)).run();
@@ -408,7 +408,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
     // retain the existing JSON-backed fallback without breaking the lesson.
     try {
       const { env, user } = await getSessionUser(request);
-      const row = await env.DB.prepare(
+      const row = await env.COURSE_DB!.prepare(
         "SELECT id, answer_json, explanation, exercise_type FROM learning_exercises WHERE id = ? AND lesson_id = ? LIMIT 1"
       ).bind(payload.exerciseId, lessonId).first<{ id: string; answer_json: string | null; explanation: string | null; exercise_type: string }>();
       if (row) {
@@ -437,13 +437,13 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
         const now = new Date().toISOString();
         let review: ReturnType<typeof scheduleNextReview> | null = null;
         if (user) {
-          const existing = await env.DB.prepare(
+          const existing = await env.COURSE_DB!.prepare(
             "SELECT review_json FROM learning_exercise_progress WHERE user_id = ? AND exercise_id = ? LIMIT 1"
           ).bind(user.id, payload.exerciseId).first<{ review_json: string | null }>();
           let previous: ReviewState = { intervalDays: 0, easeFactor: 2.5, repetitions: 0, lapses: 0 };
           try { if (existing?.review_json) previous = JSON.parse(existing.review_json) as ReviewState; } catch { /* use default */ }
           review = scheduleNextReview(previous, correct ? 4 : 1, now);
-          await env.DB.prepare(
+          await env.COURSE_DB!.prepare(
             `INSERT INTO learning_exercise_progress
               (user_id, lesson_id, exercise_id, answer_text, correct, explanation, review_json, updated_at)
              VALUES (?, ?, ?, ?, ?, ?, ?, ?)
@@ -454,11 +454,11 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
           ).bind(user.id, lessonId, payload.exerciseId, submitted, correct ? 1 : 0, explanation, JSON.stringify(review), now).run();
 
           const conceptKey = `exercise:${payload.exerciseId}`;
-          const priorItem = await env.DB.prepare(
+          const priorItem = await env.COURSE_DB!.prepare(
             "SELECT id FROM learning_review_items WHERE user_id = ? AND concept_key = ? LIMIT 1"
           ).bind(user.id, conceptKey).first<{ id: string }>();
           const reviewItemId = priorItem?.id ?? `review-${user.id}-${payload.exerciseId}`;
-          await env.DB.prepare(
+          await env.COURSE_DB!.prepare(
             `INSERT INTO learning_review_items
               (id, user_id, lesson_id, concept_key, due_at, interval_days, ease_factor, repetitions, lapses, last_quality, last_reviewed_at, created_at, updated_at)
              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -470,12 +470,12 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
           ).bind(reviewItemId, user.id, lessonId, conceptKey, review.dueAt, review.intervalDays,
             review.easeFactor, review.repetitions, review.lapses, review.quality, review.reviewedAt, now, now).run();
           const historyId = `review-history-${user.id}-${payload.exerciseId}-${Date.now()}`;
-          await env.DB.prepare(
+          await env.COURSE_DB!.prepare(
             `INSERT INTO learning_review_history
               (id, user_id, review_item_id, lesson_id, quality, was_correct, reviewed_at)
              VALUES (?, ?, ?, ?, ?, ?, ?)`
           ).bind(historyId, user.id, reviewItemId, lessonId, review.quality, correct ? 1 : 0, review.reviewedAt).run();
-          await env.DB.prepare(
+          await env.COURSE_DB!.prepare(
             `INSERT INTO learning_lesson_progress
               (user_id, lesson_id, status, attempts, correct_answers, total_answers, last_score, started_at, updated_at)
              VALUES (?, ?, 'in_progress', 1, ?, 1, ?, ?, ?)
@@ -526,7 +526,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
     const explanation = advancedPlainText(item.explanation) || (expected ? "Respuesta correcta: " + expected : "Revisa la explicación del ejercicio.");
     const { env, user } = await getSessionUser(request);
     const previousRow = user
-      ? await env.DB.prepare("SELECT progress_json FROM learning_progress WHERE user_id = ? AND lesson_id = ?").bind(user.id, lessonId).first<{ progress_json: string | null }>()
+      ? await env.COURSE_DB!.prepare("SELECT progress_json FROM learning_progress WHERE user_id = ? AND lesson_id = ?").bind(user.id, lessonId).first<{ progress_json: string | null }>()
       : null;
     let progress: Record<string, unknown> = {};
     try { if (previousRow?.progress_json) progress = JSON.parse(previousRow.progress_json); } catch { progress = {}; }
@@ -538,7 +538,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
         ...(progress[payload.exerciseId] as Record<string, unknown> | undefined),
         answer: payload.answer, feedback: { correct, explanation }, review
       };
-      await env.DB.prepare(
+      await env.COURSE_DB!.prepare(
         `INSERT INTO learning_progress (user_id, lesson_id, progress_json, updated_at)
          VALUES (?, ?, ?, CURRENT_TIMESTAMP)
          ON CONFLICT(user_id, lesson_id) DO UPDATE SET progress_json = excluded.progress_json, updated_at = CURRENT_TIMESTAMP`
@@ -564,7 +564,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
         && normalize(payload.answer) === normalize(option));
     const { env, user } = await getSessionUser(request);
     const now = new Date().toISOString();
-    const existingProgress = user ? await env.DB.prepare(
+    const existingProgress = user ? await env.COURSE_DB!.prepare(
       "SELECT review_json FROM learning_exercise_progress WHERE user_id = ? AND exercise_id = ? LIMIT 1"
     ).bind(user.id, payload.exerciseId).first<{ review_json: string | null }>() : null;
     let previous: ReviewState = { intervalDays: 0, easeFactor: 2.5, repetitions: 0, lapses: 0 };
@@ -572,7 +572,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
 try { if (existingProgress?.review_json) previous = JSON.parse(existingProgress.review_json) as ReviewState; } catch { /* default */ }
     const review = scheduleNextReview(previous, correct ? 4 : 1);
     if (user) {
-      await env.DB.prepare(
+      await env.COURSE_DB!.prepare(
         `INSERT INTO learning_exercise_progress (user_id, lesson_id, exercise_id, answer_text, correct, explanation, review_json, updated_at)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?)
          ON CONFLICT(user_id, exercise_id) DO UPDATE SET answer_text = excluded.answer_text, correct = excluded.correct, explanation = excluded.explanation, review_json = excluded.review_json, updated_at = excluded.updated_at`
@@ -583,7 +583,7 @@ try { if (existingProgress?.review_json) previous = JSON.parse(existingProgress.
 
   try {
     const { env } = await resolveCloudflareEnv();
-    const row = await env.DB.prepare(
+    const row = await env.COURSE_DB!.prepare(
       "SELECT id, answer_json, explanation FROM learning_exercises WHERE id = ? AND lesson_id = ? LIMIT 1"
     ).bind(payload.exerciseId, lessonId).first<{ id: string; answer_json: string | null; explanation: string | null }>();
     if (!row) return NextResponse.json({ error: "Ejercicio no encontrado." }, { status: 404 });
