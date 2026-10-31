@@ -8,7 +8,7 @@ import { Exercise } from '@/lib/exercise-generator';
 const LESSON_TITLE = '[[Reading|Comprensión lectora]]';
 const READING_TRANSCRIPT = `[[The|El]] [[park|parque]] [[that|que]] [[we|nosotros]] [[visited|visitamos]] [[last|el pasado]] [[summer|verano]] [[is|es]] [[home|hogar]] [[to|a]] [[many|muchos]] [[animals|animales]] [[that|que]] [[live|viven]] [[in the wild|en libertad]]. [[The|Los]] [[bears|osos]] [[that|que]] [[we|nosotros]] [[saw|vimos]] [[were|eran]] [[in|en]] [[the|el]] [[valley|valle]] [[which|que]] [[runs|recorre]] [[through|a través de]] [[the|el]] [[forest|bosque]]. [[The|Los]] [[eagles|águilas]] [[that|que]] [[fly|vuelan]] [[over|sobre]] [[the|las]] [[mountains|montañas]] [[are|son]] [[magnificent|magníficas]]. [[The|Los]] [[plants|plantas]] [[which|que]] [[grow|crecen]] [[in|en]] [[this|esta]] [[landscape|paisaje]] [[include|incluyen]] [[rare|raras]] [[wildflowers|flores silvestres]]. [[Anyone|Cualquiera]] [[who|que]] [[loves|ama]] [[wildlife|vida silvestre]] [[should|debería]] [[visit|visitar]] [[this|este]] [[place|lugar]].`;
 
-const INSTRUCTIONS = 'Lee el texto de abajo. Después responde las preguntas.';
+const INSTRUCTIONS = 'Lee el texto completo con atención. Puedes consultarlo mientras respondes las preguntas.';
 
 const QUESTIONS = [
   { question: '[[What|Qué]] [[does the text describe|describe el texto]]?', options: ['[[a city|una ciudad]]', '[[a park with wildlife|un parque con vida silvestre]]', '[[a museum|un museo]]'], correctAnswer: 1, explanation: '[[The text says|El texto dice]] "[[The park that we visited|el parque que visitamos]]" [[and|y]] "[[animals that live in the wild|animales que viven en libertad]]".' },
@@ -35,6 +35,24 @@ export const UNIT_31_LESSON_3_READING: Exercise[] = QUESTIONS.map((q, i) => ({
   topic: 'The Natural World',
   difficulty: 'easy',
   transcript: READING_TRANSCRIPT,
-  content: { title: LESSON_TITLE, instructions: INSTRUCTIONS, questions: [q] },
+  // ReadingRenderer reads the passage and questions from the exercise object itself.
+  text: READING_TRANSCRIPT,
+  title: LESSON_TITLE,
+  questions: [{
+    ...q,
+    id: `b1-u31-l3-r${i + 1}-q1`,
+    answerIndex: typeof q.correctAnswer === 'string' ? q.options.indexOf(q.correctAnswer) : q.correctAnswer,
+  }],
+  content: {
+    title: LESSON_TITLE,
+    instructions: INSTRUCTIONS,
+    text: READING_TRANSCRIPT,
+    transcript: READING_TRANSCRIPT,
+    questions: [{
+      ...q,
+      id: `b1-u31-l3-r${i + 1}-q1`,
+      answerIndex: typeof q.correctAnswer === 'string' ? q.options.indexOf(q.correctAnswer) : q.correctAnswer,
+    }]
+  },
   topicName: 'Reading',
 }));
