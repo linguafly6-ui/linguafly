@@ -22,7 +22,7 @@ const sectionIcons: Record<string, typeof BookOpen> = {
 };
 
 export default function AcademyClient({ mode }: { mode: "catalog" | "level" | "unit" }) {
-  const params = useParams<{ level?: string; unit?: string }>();
+  const params = useParams<{ level: string; unit: string }>();
   const level = (params.level || "").toUpperCase();
   const unitNumber = params.unit || "";
   const [data, setData] = useState<any>(null);
