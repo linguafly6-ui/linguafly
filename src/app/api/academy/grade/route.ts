@@ -18,7 +18,8 @@ export async function POST(request: NextRequest) {
 
   try {
     const { env } = await resolveCloudflareEnv();
-    const db = env.COURSE_DB ?? env.DB;
+    const db = env.COURSE_DB;
+    if (!db) throw new Error("COURSE_DB binding is not configured; refusing to query the default DB.");
     const [key, exercise] = await Promise.all([
       db.prepare(
         `SELECT k.answer_config_json, k.correct_feedback, k.incorrect_feedback FROM exercise_answer_keys k JOIN exercises e ON e.id = k.exercise_id JOIN sections s ON s.id = e.section_id JOIN units u ON u.id = s.unit_id JOIN courses c ON c.id = u.course_id WHERE k.exercise_id = ? AND e.status = 'published' AND s.status = 'published' AND u.status = 'published' AND c.status = 'published' LIMIT 1`
