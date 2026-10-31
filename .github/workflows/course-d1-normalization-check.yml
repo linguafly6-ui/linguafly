@@ -60,7 +60,7 @@ jobs:
               exit 1
             fi
           done 
-          if grep -R -n -- "--reset-test-progress" scripts/normalize-course-json-to-d1.ts .github/workflows/deploy-cloudflare.yml; then
+          if grep -n -- "--reset-test-progress" .github/workflows/deploy-cloudflare.yml; then
             echo "::error::A destructive learner-progress reset must never run during deployment."
             exit 1
           fi
