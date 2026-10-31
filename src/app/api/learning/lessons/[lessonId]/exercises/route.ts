@@ -266,7 +266,9 @@ async function getB1UnitD1Exercises(unitNumber: number, section: string) {
       },
       audioText: section === "listening" ? (item.transcript || blockPassage || null) : null,
       passageText: section === "reading" ? (item.main_text || item.transcript || blockPassage || null) : null,
-      transcript: section === "reading" ? (item.main_text || item.transcript || blockPassage || null) : null,
+      transcript: section === "reading"
+        ? (item.main_text || item.transcript || blockPassage || null)
+        : section === "listening" ? (item.transcript || blockPassage || null) : null,
     }];
   });
   return { title: row.title, exercises };
