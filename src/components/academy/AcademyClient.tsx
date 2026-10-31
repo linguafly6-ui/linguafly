@@ -3,11 +3,11 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Clock3, Headphones, Layers3, LockKeyhole, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Clock3, Headphones, Layers3 } from "lucide-react";
 
 type Course = { id: string; cefr_level: string; title: string; description?: string; unit_count: number; units_with_practice: number; exercise_count: number };
 type Unit = { id: string; unit_number: number; title: string; status: string; section_count: number; exercise_count: number; has_practice: boolean; learning_objectives: string[] };
-type Section = { id: string; section_type: string; title: string; instructions: string; exercise_count: number };
+type Section = { id: string; section_type: string; title: string; exercise_count: number };
 type Exercise = { id: string; section_id: string; title: string; instructions: string; content: { prompt?: string; explanation_es?: string }; options: { key: string; content: string }[] };
 type Grade = { correct: boolean; correctOptionKey: string; feedback: string; explanation?: string | null };
 
@@ -136,7 +136,6 @@ export default function AcademyClient({ mode }: { mode: "catalog" | "level" | "u
         const sectionExercises = exercises.filter((exercise) => exercise.section_id === section.id);
         return <section key={section.id} className="rounded-2xl border border-slate-200 bg-white p-6">
           <div className="flex items-center gap-3"><span className="rounded-xl bg-indigo-50 p-3 text-indigo-700"><Icon size={20}/></span><div><h2 className="font-extrabold text-slate-900">{sectionNames[section.section_type] || section.title}</h2><p className="text-xs text-slate-500">{sectionExercises.length} ejercicios</p></div></div>
-          <p className="mt-4 text-sm leading-6 text-slate-600">{section.instructions}</p>
           {section.section_type === "listening" && sectionExercises.length === 0 && <p className="mt-3 rounded-xl bg-amber-50 p-3 text-sm text-amber-800">El audio y sus actividades todavía no están publicados.</p>}
           {sectionExercises.map((exercise) => {
             const grade = grades[exercise.id];
