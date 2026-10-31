@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
         "SELECT answer_config_json, correct_feedback, incorrect_feedback FROM exercise_answer_keys WHERE exercise_id = ? LIMIT 1"
       ).bind(exerciseId).first() as Promise<Record<string, unknown> | null>,
       db.prepare(
-        "SELECT content_json FROM exercises WHERE id = ? LIMIT 1"
+        "SELECT content_json FROM exercises WHERE id = ? AND status = 'published' LIMIT 1"
       ).bind(exerciseId).first() as Promise<Record<string, unknown> | null>,
     ]);
 
