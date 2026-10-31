@@ -15,7 +15,8 @@ function parseJson<T>(value: string | null | undefined, fallback: T): T {
 export async function GET(request: NextRequest) {
   const params = new URL(request.url).searchParams;
   const rawLevel = (params.get("level") || "").toUpperCase();
-  const unitNumber = Number(params.get("unit") || 0);
+  const rawUnit = params.get("unit");
+  const unitNumber = rawUnit ? Number(rawUnit) : 0;
 
   try {
     const { env } = await resolveCloudflareEnv();
@@ -51,7 +52,7 @@ export async function GET(request: NextRequest) {
 
     if (!course) return NextResponse.json({ error: "Curso no encontrado" }, { status: 404 });
 
-    if (!unitNumber) {
+    if (!rawUnit) {
       const result = await db.prepare(`
         SELECT u.id, u.unit_number, u.title, u.learning_objectives_json, u.status,
           COUNT(DISTINCT s.id) AS section_count,
