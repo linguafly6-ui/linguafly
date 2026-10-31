@@ -23,6 +23,12 @@
   "images": {
     "binding": "IMAGES"
   },
+  "r2_buckets": [
+    {
+      "binding": "MEDIA_BUCKET",
+      "bucket_name": "linguafly-media"
+    }
+  ],
   // Cloudflare Email Service: enable the domain in the dashboard before deploying.
   "send_email": [
     {
