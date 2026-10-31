@@ -185,11 +185,18 @@ async function getB1UnitD1Exercises(unitNumber: number, section: string) {
   const unit = JSON.parse(row.content_json) as {
     blocks?: { title?: string; content?: LegacyAdvancedItem[] }[];
   };
-  const selected = (unit.blocks ?? []).flatMap((block) => (block.content ?? [])
-    .filter((item) => getLegacyAdvancedSection(item, block.title ?? "") === section)
-    .map((item) => ({ item, blockTitle: block.title ?? "" })));
+  const selected = (unit.blocks ?? []).flatMap((block) => {
+    const blockContent = block.content ?? [];
+    const blockPassage = blockContent.find((item) => typeof item.transcript === "string" && item.transcript.trim())
+      ?.transcript
+      ?? blockContent.find((item) => typeof item.main_text === "string" && item.main_text.trim())?.main_text
+      ?? "";
+    return blockContent
+      .filter((item) => getLegacyAdvancedSection(item, block.title ?? "") === section)
+      .map((item) => ({ item, blockTitle: block.title ?? "", blockPassage }));
+  });
 
-  const exercises = selected.flatMap(({ item, blockTitle }, index) => {
+  const exercises = selected.flatMap(({ item, blockTitle, blockPassage }, index) => {
     const topicName = section === "vocabulary" ? "Vocabulary" : section === "reading" ? "Reading"
       : section === "listening" ? "Listening" : "Grammar";
     const gaps = (item as LegacyAdvancedItem & {
@@ -228,9 +235,9 @@ async function getB1UnitD1Exercises(unitNumber: number, section: string) {
     return [{
       id: item.interaction_id, number: index + 1, type, topicName, topic: blockTitle,
       prompt: advancedPrompt(item), options,
-      audioText: section === "listening" && item.transcript ? item.transcript : null,
-      passageText: section === "reading" && item.transcript ? item.transcript : null,
-      transcript: section === "reading" && item.transcript ? item.transcript : null,
+      audioText: section === "listening" ? (item.transcript || blockPassage || null) : null,
+      passageText: section === "reading" ? (item.main_text || item.transcript || blockPassage || null) : null,
+      transcript: section === "reading" ? (item.main_text || item.transcript || blockPassage || null) : null,
     }];
   });
   return { title: row.title, exercises };
