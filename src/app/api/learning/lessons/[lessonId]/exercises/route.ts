@@ -183,8 +183,16 @@ async function getB1UnitD1Exercises(unitNumber: number, section: string) {
   if (!row) return null;
 
   const unit = JSON.parse(row.content_json) as {
+    exercises?: any[];
     blocks?: { title?: string; content?: LegacyAdvancedItem[] }[];
   };
+  if (Array.isArray(unit.exercises)) {
+    const exercises = unit.exercises
+      .filter((exercise) => String(exercise?.topicName ?? "").toLowerCase() === section)
+      .map((exercise, index) => ({ ...exercise, number: exercise.number ?? index + 1 }));
+    return { title: row.title, exercises };
+  }
+
   const selected = (unit.blocks ?? []).flatMap((block) => {
     const blockContent = block.content ?? [];
     const blockPassage = blockContent.find((item) => typeof item.transcript === "string" && item.transcript.trim())
@@ -281,7 +289,27 @@ async function getB1CourseJsonAnswer(unitNumber: number, exerciseId: string) {
     "SELECT content_json FROM learning_course_json_units WHERE course_key = 'ingles-b1' AND level = 'B1' AND unit_number = ? LIMIT 1"
   ).bind(unitNumber).first<{ content_json: string }>();
   if (!row) return null;
-  const unit = JSON.parse(row.content_json) as { blocks?: { content?: LegacyAdvancedItem[] }[] };
+  const unit = JSON.parse(row.content_json) as {
+    exercises?: any[];
+    blocks?: { content?: LegacyAdvancedItem[] }[];
+  };
+  if (Array.isArray(unit.exercises)) {
+    const exercise = unit.exercises.find((candidate) => String(candidate?.id) === exerciseId);
+    const question = exercise?.content?.questions?.[0];
+    if (!question) return null;
+    const options = Array.isArray(question.options) ? question.options : [];
+    const answer = question.correctAnswer ?? question.answer;
+    const expected = typeof answer === "number"
+      ? [options[answer]].map((option) => typeof option === "string" ? option : String(option?.text ?? "")).filter(Boolean)
+      : answer == null ? [] : [String(answer)];
+    const acceptable = Array.isArray(question.acceptableAnswers)
+      ? question.acceptableAnswers.map(String)
+      : question.acceptableAnswers == null ? [] : [String(question.acceptableAnswers)];
+    return {
+      expected: [...expected, ...acceptable],
+      explanation: advancedPlainText(question.explanation ?? exercise.explanation),
+    };
+  }
   const gapMatch = /^(.*)__gap_(.+)$/.exec(exerciseId);
   const pairMatch = /^(.*)__match_(.+)$/.exec(exerciseId);
   const parentId = gapMatch?.[1] ?? pairMatch?.[1] ?? exerciseId;
