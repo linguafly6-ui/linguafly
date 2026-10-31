@@ -1,13 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { validateExerciseListForApi } from '@/lib/validation/course-exercise-api';
 
-async function readCourseJson(request: NextRequest, rel: string) {
-  const res = await fetch(new URL(`/course-data/${rel}`, request.url));
-  if (!res.ok) {
-    throw new Error(`No se encontró course-data/${rel}`);
-  }
-  return res.json() as Promise<{ title?: string; exercises?: unknown[] }>;
-}
+const B1_SECTIONS = ['grammar', 'vocabulary', 'reading', 'listening'] as const;
 
 export async function GET(
   request: NextRequest,
@@ -17,31 +10,43 @@ export async function GET(
     const { unitId } = await params;
 
     if (unitId === 'test-final') {
-      const data = await readCourseJson(request, 'b1/test-final.json');
-      const exercises = Array.isArray(data.exercises) ? data.exercises : [];
-      const title = data.title ?? 'Test final B1';
-      const { exercises: validated, validation } = validateExerciseListForApi(exercises);
-      return NextResponse.json({ exercises: validated, title, validation });
+      return NextResponse.json(
+        { error: 'El test final B1 todavía no está almacenado en COURSE_DB.' },
+        { status: 404 }
+      );
     }
 
-    const unitNumber = unitId.replace('unit-', '');
-    const unitNum = parseInt(unitNumber, 10);
-    if (isNaN(unitNum) || unitNum < 1 || unitNum > 60) {
-      return NextResponse.json({ error: 'Unidad no encontrada' }, { status: 404 });
+    const unitNumber = Number(unitId.replace('unit-', ''));
+    if (!Number.isInteger(unitNumber) || unitNumber < 1 || unitNumber > 60) {
+      return NextResponse.json({ error: 'Unidad no encontrada en COURSE_DB.' }, { status: 404 });
     }
 
-    const data = await readCourseJson(request, `b1/unit-${unitNum}.json`);
-    const exercises = Array.isArray(data.exercises) ? data.exercises : [];
+    const lessonId = `b1-${String(unitNumber).padStart(2, '0')}`;
+    const sectionResults = await Promise.all(B1_SECTIONS.map(async (section) => {
+      const url = new URL(
+        `/api/learning/lessons/${lessonId}/exercises?section=${section}`,
+        request.url
+      );
+      const response = await fetch(url, { cache: 'no-store' });
+      if (!response.ok) throw new Error(`No se pudo cargar la sección ${section} desde COURSE_DB.`);
+      return response.json() as Promise<{ title?: string; exercises?: unknown[] }>;
+    }));
+
+    const exercises = sectionResults.flatMap((result) =>
+      Array.isArray(result.exercises) ? result.exercises : []
+    );
     if (!exercises.length) {
-      return NextResponse.json({ error: 'Unidad no encontrada' }, { status: 404 });
+      return NextResponse.json({ error: 'No hay ejercicios publicados para esta unidad en COURSE_DB.' }, { status: 404 });
     }
-    const title = data.title ?? `Unidad ${unitNum}`;
-    const { exercises: validated, validation } = validateExerciseListForApi(exercises);
-    return NextResponse.json({ exercises: validated, title, validation });
-  } catch (err) {
-    console.error('[API course/b1]', err);
+
+    return NextResponse.json({
+      title: sectionResults.find((result) => result.title)?.title ?? `Unidad ${unitNumber}`,
+      exercises,
+    });
+  } catch (error) {
+    console.error('[API course/b1] D1 read failed:', error);
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : 'Error al cargar la unidad' },
+      { error: error instanceof Error ? error.message : 'No se pudo cargar la unidad desde COURSE_DB.' },
       { status: 500 }
     );
   }
