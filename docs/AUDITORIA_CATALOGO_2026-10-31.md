@@ -93,7 +93,7 @@ En la muestra completa de las 30 actividades de B2 y C1 Unidad 1, aparecen distr
 B1 Unidad 3 (Technology and Innovation) y Unidad 6 tienen estado de unidad `draft`, pero contienen 10 ejercicios cada una con estado `published`. Esto rompe la coherencia de publicación: el estado de la unidad no representa la disponibilidad real de sus ejercicios. Hay que revisar cómo Academy consulta y filtra unidades y ejercicios antes de corregir estados en producción.
 
 ### P0 — Opciones corruptas y feedback literal “undefined” en B1
-- El recuento de opciones de B1 identifica 12 opciones sospechosas entre 2.286 filas; la muestra confirma placeholders como `o2`, `o3`, además de palabras ajenas al ejercicio como `MUSICAL` y `CREATION`. Están en los cinco huecos de Grammar de B1 Unidad 3, todos publicados.
+- El recuento de opciones de B1 identifica 12 opciones sospechosas entre 2.286 filas. Aparecen en B1 Unidades 3, 4, 14 y 59: placeholders `o2`/`o3`, palabras ajenas al ejercicio como `MUSICAL`/`CREATION` y distractores sin relación como `fake`/`long`. Están en ejercicios publicados, no solo en borradores.
 - Los cinco huecos de Reading de B1 Unidad 5 tienen explicaciones que contienen literalmente `(1) undefined` hasta `(5) undefined`. También presentan opciones de relleno como `o1`, `o2` y `o3`. Los cinco registros están publicados.
 - El control automático de “cuatro opciones” no detecta esto: las filas existen, pero el contenido no es una opción lingüística válida. Debe comprobarse el contenido semántico y prohibirse la publicación de placeholders.
 
