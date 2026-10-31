@@ -230,26 +230,23 @@ async function getB1UnitD1Exercises(unitNumber: number, section: string) {
         const line = mainText.split("\n").map((part) => part.trim())
           .find((part) => new RegExp("^" + gapNumber + "\\.").test(part)) || mainText;
         const prompt = line.replace(/^\d+\.\s*/, "").replace(/\[GAP\s*\d+\]/gi, "_____").replace(/\(\d+\)/g, "").trim();
+        const answerMap = item.correct_answer as Record<string, unknown> | undefined;
+        const correctOptionId = answerMap && typeof answerMap === "object" ? String(answerMap[gap.id] ?? "") : "";
+        const correctAnswer = (gap.options ?? []).find((option) => option.id === correctOptionId)?.text ?? "";
         return {
           id: item.interaction_id + "__gap_" + gap.id,
           number: index * gaps.length + gapIndex + 1,
-          const answerMap = item.correct_answer as Record<string, unknown> | undefined;
-          const correctOptionId = answerMap && typeof answerMap === "object" ? String(answerMap[gap.id] ?? "") : "";
-          const correctAnswer = (gap.options ?? []).find((option) => option.id === correctOptionId)?.text ?? "";
-          return {
-            id: item.interaction_id + "__gap_" + gap.id,
-            number: index * gaps.length + gapIndex + 1,
-            type: "multiple_choice", topicName, topic: blockTitle,
-            prompt: prompt || advancedPrompt(item),
+          type: "multiple_choice", topicName, topic: blockTitle,
+          prompt: prompt || advancedPrompt(item),
+          options: (gap.options ?? []).map((option) => option.text),
+          correctAnswer,
+          content: { questions: [{
+            question: prompt || advancedPrompt(item),
             options: (gap.options ?? []).map((option) => option.text),
             correctAnswer,
-            content: { questions: [{
-              question: prompt || advancedPrompt(item),
-              options: (gap.options ?? []).map((option) => option.text),
-              correctAnswer,
-              explanation: advancedPlainText(item.explanation),
-            }] },
-          };
+            explanation: advancedPlainText(item.explanation),
+          }] },
+        };
       });
     }
     const options = (item.options ?? []).map((option) => option.text);
