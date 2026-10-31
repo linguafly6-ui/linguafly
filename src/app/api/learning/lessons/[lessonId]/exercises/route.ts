@@ -355,6 +355,7 @@ async function getB1Unit31D1Exercises(section: string) {
       prompt, options, transcript: isReading ? transcript : null, passageText: isReading ? transcript : null,
       content: isReading ? { text: transcript, questions: [{ id: String(row.id) + "-question", question: prompt, options, correctAnswer: correctAnswer >= 0 ? correctAnswer : 0, explanation }] } : undefined,
       audioText: section === "listening" && transcript ? transcript : null,
+      transcript: section === "listening" && transcript ? transcript : null,
       vocabularyEntry: section === "vocabulary" ? { word: String(content.vocabularyWord ?? ""), meaning: String(content.meaning_es ?? ""), definition: String(content.definition_en ?? ""), example: String(content.example ?? "") } : null,
       explanation,
     };
