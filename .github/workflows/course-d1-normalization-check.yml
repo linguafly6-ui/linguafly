@@ -6,6 +6,13 @@ on:
     paths:
       - "scripts/normalize-course-json-to-d1.ts"
       - "src/app/api/learning/lessons/**"
+      - "src/app/api/academy/**"
+      - "src/app/academia/**"
+      - "src/components/academy/**"
+      - "src/components/sections/Navigation.tsx"
+      - "wrangler.jsonc"
+      - "src/cloudflare-env.d.ts"
+      - "scripts/cf-build.mjs"
       - "migrations/d1/**"
       - ".github/workflows/course-d1-normalization-check.yml"
   push:
