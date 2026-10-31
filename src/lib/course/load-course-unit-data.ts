@@ -5,14 +5,39 @@ export type CourseUnitPayload = {
 };
 
 /**
- * Carga unidad desde asset estático (public/course-data).
- * Evita meter el contenido del curso en el bundle del Worker.
+ * B1 content is served by COURSE_DB. Other levels keep their existing loader.
  */
 export async function loadCourseUnitData(
   courseFolder: string,
   unitNumber: string | number
 ): Promise<CourseUnitPayload> {
   const n = String(unitNumber);
+
+  if (courseFolder === "b1") {
+    const lessonId = `b1-${n.padStart(2, "0")}`;
+    const sections = ["grammar", "vocabulary", "reading", "listening"] as const;
+    const responses = await Promise.all(sections.map(async (section) => {
+      const response = await fetch(
+        `/api/learning/lessons/${lessonId}/exercises?section=${section}`,
+        { cache: "no-store" }
+      );
+      if (!response.ok) {
+        throw new Error(`No se pudo cargar B1 unidad ${n}, sección ${section} desde COURSE_DB (${response.status})`);
+      }
+      return response.json() as Promise<{ title?: string; exercises?: unknown[] }>;
+    }));
+
+    const exercises = responses.flatMap((result) => Array.isArray(result.exercises) ? result.exercises : []);
+    if (!exercises.length) {
+      throw new Error(`COURSE_DB no contiene ejercicios publicados para B1 unidad ${n}`);
+    }
+
+    return {
+      title: responses.find((result) => result.title)?.title ?? `Unidad ${n}`,
+      exercises,
+    };
+  }
+
   const url = `/course-data/${courseFolder}/unit-${n}.json`;
   const res = await fetch(url);
   if (!res.ok) {
@@ -21,21 +46,6 @@ export async function loadCourseUnitData(
   const data = (await res.json()) as CourseUnitPayload;
   if (!Array.isArray(data.exercises)) {
     throw new Error(`JSON inválido en ${url}`);
-  }
-
-  // B1 unit 31 reading is sourced from the normalized Learning D1 database.
-  if (courseFolder === "b1" && n === "31") {
-    const readingResponse = await fetch("/api/learning/lessons/b1-31/exercises?section=reading", { cache: "no-store" });
-    if (!readingResponse.ok) {
-      throw new Error(`No se pudo cargar la lectura B1-31 desde Learning D1 (${readingResponse.status})`);
-    }
-    const readingData = await readingResponse.json() as { exercises?: unknown[] };
-    const readingExercises = Array.isArray(readingData.exercises) ? readingData.exercises : [];
-    if (!readingExercises.length) throw new Error("Learning D1 no devolvió ejercicios de lectura para B1-31.");
-    const nonReading = data.exercises.filter((exercise: any) =>
-      String(exercise?.topicName ?? exercise?.topic ?? "").toLowerCase() !== "reading"
-    );
-    data.exercises = [...nonReading, ...readingExercises];
   }
   return data;
 }
