@@ -89,6 +89,14 @@ Esto incumple la regla de respuesta única defendible. Hay que reformular el con
 ### P1 — Distractores artificiales en B2/C1
 En la muestra completa de las 30 actividades de B2 y C1 Unidad 1, aparecen distractores manifiestamente mal formados, por ejemplo “we had hear”, “did not went” y “they had realises”. Aunque son incorrectos, no son distractores de calidad: el alumno puede descartarlos por errores superficiales sin demostrar que domina el contraste evaluado. La guía exige opciones plausibles y paralelas; deben sustituirse por errores típicos del nivel y del punto gramatical, sin crear ambigüedad.
 
+### P0 — Ejercicios publicados dentro de unidades en borrador
+B1 Unidad 3 (Technology and Innovation) y Unidad 6 tienen estado de unidad `draft`, pero contienen 10 ejercicios cada una con estado `published`. Esto rompe la coherencia de publicación: el estado de la unidad no representa la disponibilidad real de sus ejercicios. Hay que revisar cómo Academy consulta y filtra unidades y ejercicios antes de corregir estados en producción.
+
+### P0 — Opciones corruptas y feedback literal “undefined” en B1
+- El recuento de opciones de B1 identifica 12 opciones sospechosas entre 2.286 filas; la muestra confirma placeholders como `o2`, `o3`, además de palabras ajenas al ejercicio como `MUSICAL` y `CREATION`. Están en los cinco huecos de Grammar de B1 Unidad 3, todos publicados.
+- Los cinco huecos de Reading de B1 Unidad 5 tienen explicaciones que contienen literalmente `(1) undefined` hasta `(5) undefined`. También presentan opciones de relleno como `o1`, `o2` y `o3`. Los cinco registros están publicados.
+- El control automático de “cuatro opciones” no detecta esto: las filas existen, pero el contenido no es una opción lingüística válida. Debe comprobarse el contenido semántico y prohibirse la publicación de placeholders.
+
 ### P2 — Datos técnicos completos no garantizan calidad
 Los 629 ejercicios tienen título, instrucciones, contenido no vacío y una clave registrada; las opciones MC inspeccionadas tienen al menos dos opciones distintas y claves estructuralmente válidas. Esto solo confirma integridad básica. No valida que la pregunta evalúe el objetivo, que la clave sea lingüísticamente correcta, que los distractores sean plausibles ni que el feedback enseñe.
 
