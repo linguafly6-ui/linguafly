@@ -164,6 +164,82 @@ async function getA1Items(lessonId: string) {
   return unit.blocks.flatMap((block) => block.content).filter((item) => getLegacySection(item) !== null);
 }
 
+async function getB1Unit31D1Exercises(section: string) {
+  const { env } = await resolveCloudflareEnv();
+  if (!env.COURSE_DB) throw new Error("COURSE_DB binding is not configured.");
+  const sectionId = `b1-unit-031-${section}`;
+  const rows = await env.COURSE_DB.prepare(
+    `SELECT e.id, e.position, e.content_json, et.code AS type_code,
+            ak.answer_config_json, ak.correct_feedback, ak.incorrect_feedback
+     FROM exercises e
+     JOIN sections s ON s.id = e.section_id
+     JOIN exercise_type_registry et ON et.id = e.exercise_type_id
+     LEFT JOIN exercise_answer_keys ak ON ak.exercise_id = e.id
+     WHERE s.id = ? AND e.status = 'published'
+     ORDER BY e.position ASC`
+  ).bind(sectionId).all<Record<string, unknown>>();
+  const items = rows.results ?? [];
+  if (!items.length) return null;
+  const ids = items.map((item) => String(item.id));
+  const placeholders = ids.map(() => "?").join(",");
+  const optionRows = await env.COURSE_DB.prepare(
+    `SELECT exercise_id, option_key, content, position
+     FROM exercise_options WHERE exercise_id IN (${placeholders})
+     ORDER BY exercise_id, position`
+  ).bind(...ids).all<Record<string, unknown>>();
+  const optionsByExercise = new Map<string, string[]>();
+  for (const option of optionRows.results ?? []) {
+    const id = String(option.exercise_id);
+    optionsByExercise.set(id, [...(optionsByExercise.get(id) ?? []), String(option.content)]);
+  }
+  return items.map((row) => {
+    let content: Record<string, unknown> = {};
+    try { content = JSON.parse(String(row.content_json ?? "{}")); } catch { content = {}; }
+    return {
+      id: String(row.id),
+      number: Number(row.position),
+      type: "multiple_choice",
+      prompt: String(content.prompt ?? ""),
+      options: optionsByExercise.get(String(row.id)) ?? [],
+      audioText: section === "listening" && typeof content.transcript === "string" ? content.transcript : null,
+      passageText: section === "reading" && typeof content.transcript === "string" ? content.transcript : null,
+      vocabularyEntry: section === "vocabulary" ? {
+        word: String(content.vocabularyWord ?? ""),
+        meaning: String(content.meaning_es ?? ""),
+        definition: String(content.definition_en ?? ""),
+        example: String(content.example ?? "")
+      } : null,
+      explanation: String(content.explanation_es ?? row.correct_feedback ?? ""),
+    };
+  });
+}
+
+async function getB1Unit31D1Answer(exerciseId: string) {
+  const { env } = await resolveCloudflareEnv();
+  if (!env.COURSE_DB) throw new Error("COURSE_DB binding is not configured.");
+  const row = await env.COURSE_DB.prepare(
+    `SELECT e.content_json, ak.answer_config_json, ak.correct_feedback
+     FROM exercises e
+     JOIN sections s ON s.id = e.section_id
+     LEFT JOIN exercise_answer_keys ak ON ak.exercise_id = e.id
+     WHERE s.unit_id = 'b1-unit-031' AND e.id = ? AND e.status = 'published'`
+  ).bind(exerciseId).first<Record<string, unknown>>();
+  if (!row) return null;
+  let content: Record<string, unknown> = {};
+  let config: Record<string, unknown> = {};
+  try { content = JSON.parse(String(row.content_json ?? "{}")); } catch { content = {}; }
+  try { config = JSON.parse(String(row.answer_config_json ?? "{}")); } catch { config = {}; }
+  const keys = Array.isArray(config.correctOptionKeys) ? config.correctOptionKeys.map(String) : [];
+  const { results } = await env.COURSE_DB.prepare(
+    "SELECT option_key, content FROM exercise_options WHERE exercise_id = ? ORDER BY position"
+  ).bind(exerciseId).all<Record<string, unknown>>();
+  const correctOptions = (results ?? []).filter((option) => keys.includes(String(option.option_key))).map((option) => String(option.content));
+  return {
+    expected: correctOptions,
+    explanation: String(content.explanation_es ?? row.correct_feedback ?? ""),
+  };
+}
+
 async function getNormalizedD1Exercises(lessonId: string, section: string) {
   try {
     const { env } = await resolveCloudflareEnv();
@@ -203,6 +279,16 @@ export async function GET(request: NextRequest, context: { params: Promise<{ les
 
   const b1Match = /^b1-(\d{2})$/.exec(lessonId);
   if (b1Match) {
+    if (Number(b1Match[1]) === 31) {
+      try {
+        const exercises = await getB1Unit31D1Exercises(section);
+        if (exercises) return NextResponse.json({ exercises });
+        return NextResponse.json({ error: "No hay ejercicios publicados en la base de datos para esta sección." }, { status: 404 });
+      } catch (error) {
+        console.error("[learning/exercises] B1 unit 31 D1 read failed:", error);
+        return NextResponse.json({ error: "No se pudo leer el contenido de B1, unidad 31 desde COURSE_DB." }, { status: 500 });
+      }
+    }
     const unit = B1_COURSE.units.find((item) => item.id === Number(b1Match[1]));
     if (!unit) return NextResponse.json({ error: "Unidad B1 no disponible." }, { status: 404 });
     const selected = unit.exercises.filter((exercise) => exercise.topicName.toLowerCase() === section);
@@ -369,6 +455,43 @@ export async function POST(request: NextRequest, context: { params: Promise<{ le
     return NextResponse.json({ correct, explanation, review, authenticated: Boolean(user) });
   }
 
+
+  if (lessonId === "b1-31") {
+    try {
+      const stored = await getB1Unit31D1Answer(payload.exerciseId);
+      if (!stored) return NextResponse.json({ error: "Ejercicio B1 no encontrado en COURSE_DB." }, { status: 404 });
+      const normalize = (value: string) => value.normalize("NFKC").trim().replace(/\\s+/g, " ").toLocaleLowerCase("en").replace(/[.!?]+$/, "");
+      const correct = stored.expected.some((expected) => normalize(expected) === normalize(payload.answer as string));
+      const expected = stored.expected[0] ?? "";
+      const explanation = stored.explanation || `Respuesta correcta: ${expected}`;
+      let authenticated = false;
+      let review: ReturnType<typeof scheduleNextReview> | null = null;
+      try {
+        const { env, user } = await getSessionUser(request);
+        authenticated = Boolean(user);
+        if (user) {
+          const previousRow = await env.COURSE_DB!.prepare("SELECT progress_json FROM learning_progress WHERE user_id = ? AND lesson_id = ?")
+            .bind(user.id, lessonId).first<{ progress_json: string | null }>();
+          let progress: Record<string, unknown> = {};
+          try { if (previousRow?.progress_json) progress = JSON.parse(previousRow.progress_json); } catch { progress = {}; }
+          const previousReview = (progress[payload.exerciseId] as { review?: ReviewState } | undefined)?.review
+            ?? { intervalDays: 0, easeFactor: 2.5, repetitions: 0, lapses: 0 };
+          review = scheduleNextReview(previousReview, correct ? 4 : 1);
+          progress[payload.exerciseId] = { answer: payload.answer, feedback: { correct, explanation }, review };
+          await env.COURSE_DB!.prepare(`INSERT INTO learning_progress (user_id, lesson_id, progress_json, updated_at)
+            VALUES (?, ?, ?, CURRENT_TIMESTAMP)
+            ON CONFLICT(user_id, lesson_id) DO UPDATE SET progress_json = excluded.progress_json, updated_at = CURRENT_TIMESTAMP`)
+            .bind(user.id, lessonId, JSON.stringify(progress)).run();
+        }
+      } catch (error) {
+        console.warn("[learning/exercises] B1 unit 31 grading succeeded; progress persistence unavailable:", error);
+      }
+      return NextResponse.json({ correct, explanation, review, authenticated });
+    } catch (error) {
+      console.error("[learning/exercises] B1 unit 31 D1 grading failed:", error);
+      return NextResponse.json({ error: "No se pudo corregir el ejercicio desde COURSE_DB." }, { status: 500 });
+    }
+  }
 
   if (/^b1-\d{2}$/.test(lessonId)) {
     const exercise = getB1Exercise(lessonId, payload.exerciseId);
