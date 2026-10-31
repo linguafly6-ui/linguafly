@@ -4,10 +4,14 @@
     "target_language": "en",
     "level": "B1",
     "unit_id": "U4",
-    "unit_title": "Unit 4",
+    "unit_title": "Interviews, Reviews and the Passive Voice",
     "total_duration_minutes": 600
   },
-  "learning_outcomes": [],
+  "learning_outcomes": [
+    "Understand and discuss key information in job interviews, including company values, relevant skills and confident answers.",
+    "Identify reliable and balanced information in online product reviews.",
+    "Form and use the passive voice in present, past and future contexts."
+  ],
   "mastery_tags": [],
   "blocks": [
     {
@@ -28,7 +32,7 @@
             "confidence",
             "professionally"
           ],
-          "explanation": "(1) Las 'valores' de una empresa son importantes para entender su cultura y cómo encajar.\n(2) En una entrevista, dar buenas 'respuestas' es clave para comunicar tus habilidades.\n(3) Las 'habilidades' que tienes son relevantes para cualquier puesto de trabajo.\n(4) La 'confianza' es esencial para sentirte cómodo y seguro durante una entrevista.\n(5) Vestirse 'profesionalmente' es crucial para causar una buena impresión en una entrevista.",
+          "explanation": "(1) Los 'valores' de una empresa son importantes para entender su cultura y cómo encajar.\n(2) En una entrevista, dar buenas 'respuestas' es clave para comunicar tus habilidades.\n(3) Las 'habilidades' que tienes son relevantes para cualquier puesto de trabajo.\n(4) La 'confianza' es esencial para sentirte cómodo y seguro durante una entrevista.\n(5) Vestirse 'profesionalmente' es crucial para causar una buena impresión en una entrevista.",
           "complexity": 2,
           "concept_tags": [
             "listening",
