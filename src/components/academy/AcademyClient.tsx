@@ -19,7 +19,7 @@ type Exercise = {
   title: string;
   instructions: string;
   type?: "multiple_choice" | "multiple_choice_cloze";
-  content: { prompt?: string; passage?: string; explanation_es?: string; transcript?: string; audioMode?: string };
+  content: { prompt?: string; stimulus?: string; question?: string; passage?: string; explanation_es?: string; transcript?: string; audioMode?: string };
   options: { key: string; content: string }[];
   gaps?: ExerciseGap[];
 };
@@ -205,10 +205,13 @@ export default function AcademyClient({ mode }: { mode: "catalog" | "level" | "u
                     </fieldset>;
                   })}
                 </div>
-              </> : <div className="mt-4 grid gap-2 sm:grid-cols-2">
-                {exercise.options.map((option) => <button key={option.key} type="button" disabled={!!grade} onClick={() => setAnswers((current) => ({...current,[exercise.id]:option.key}))} className={`rounded-xl border px-4 py-3 text-left text-sm font-medium transition ${grade?.correctOptionKey === option.key ? "border-emerald-400 bg-emerald-50 text-emerald-900" : answers[exercise.id] === option.key ? "border-indigo-500 bg-indigo-50 text-indigo-900" : "border-slate-200 bg-white text-slate-700 hover:border-indigo-300"}`}>{option.key}. {option.content}</button>)}
-              </div>}
-              {!grade ? <button type="button" disabled={(isCloze ? !allGapsAnswered : !answers[exercise.id]) || grading === exercise.id} onClick={() => checkAnswer(exercise)} className="mt-4 rounded-xl bg-indigo-700 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-indigo-800 disabled:cursor-not-allowed disabled:opacity-40">{grading === exercise.id ? "Corrigiendo…" : "Corregir todos los huecos"}</button> : <div className={`mt-4 rounded-xl p-4 text-sm ${grade.correct ? "bg-emerald-50 text-emerald-900" : "bg-rose-50 text-rose-900"}`}>
+              </> : <>
+                {(exercise.content?.stimulus || exercise.content?.question || (exercise.content?.prompt && exercise.content.prompt !== exercise.instructions)) && <p className="mt-4 rounded-xl border border-indigo-100 bg-white px-4 py-3 text-base font-medium leading-7 text-slate-900">{exercise.content?.stimulus || exercise.content?.question || exercise.content?.prompt}</p>}
+                <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                  {exercise.options.map((option) => <button key={option.key} type="button" disabled={!!grade} onClick={() => setAnswers((current) => ({...current,[exercise.id]:option.key}))} className={`rounded-xl border px-4 py-3 text-left text-sm font-medium transition ${grade?.correctOptionKey === option.key ? "border-emerald-400 bg-emerald-50 text-emerald-900" : answers[exercise.id] === option.key ? "border-indigo-500 bg-indigo-50 text-indigo-900" : "border-slate-200 bg-white text-slate-700 hover:border-indigo-300"}`}>{option.key}. {option.content}</button>)}
+                </div>
+              </>}
+              {!grade ? <button type="button" disabled={(isCloze ? !allGapsAnswered : !answers[exercise.id]) || grading === exercise.id} onClick={() => checkAnswer(exercise)} className="mt-4 rounded-xl bg-indigo-700 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-indigo-800 disabled:cursor-not-allowed disabled:opacity-40">{grading === exercise.id ? "Corrigiendo…" : isCloze ? "Corregir todos los huecos" : "Comprobar respuesta"}</button> : <div className={`mt-4 rounded-xl p-4 text-sm ${grade.correct ? "bg-emerald-50 text-emerald-900" : "bg-rose-50 text-rose-900"}`}>
                 <p className="font-bold">{grade.correct ? "¡Todos los huecos son correctos!" : `${grade.correctCount ?? 0} de ${grade.totalGaps ?? 0} respuestas correctas`}</p>
                 <p className="mt-1">{grade.feedback}</p>
                 {grade.explanation && <p className="mt-2 whitespace-pre-line">{grade.explanation}</p>}
