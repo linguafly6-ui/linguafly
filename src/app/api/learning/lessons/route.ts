@@ -110,14 +110,90 @@ function buildStaticAdvancedLessons(level: (typeof ADVANCED_LEVELS)[number]): Co
   };
 }
 
+async function buildB1D1Lessons(): Promise<CourseResponse> {
+  const { env } = await resolveCloudflareEnv();
+  if (!env.COURSE_DB) throw new Error("COURSE_DB binding is not configured.");
+  const result = await env.COURSE_DB.prepare(
+    `SELECT unit_number, unit_id, title, content_json
+     FROM learning_course_json_units
+     WHERE course_key = 'ingles-b1' AND level = 'B1'
+     ORDER BY unit_number ASC`
+  ).all<{ unit_number: number; unit_id: string; title: string; content_json: string }>();
+
+  const sectionTypes = ["grammar", "vocabulary", "listening", "reading"] as const;
+  const titles: Record<(typeof sectionTypes)[number], string> = {
+    grammar: "Gramática",
+    vocabulary: "Vocabulario",
+    listening: "Comprensión auditiva",
+    reading: "Comprensión lectora",
+  };
+  const lessons: Lesson[] = (result.results ?? []).map((row) => {
+    const unit = JSON.parse(row.content_json) as {
+      course?: { unit_title?: string; total_duration_minutes?: number };
+      learning_outcomes?: string[];
+      blocks?: { title?: string; content?: any[] }[];
+    };
+    const blocks = unit.blocks ?? [];
+    const sections = sectionTypes.map((type) => {
+      const items = blocks.flatMap((block) => (block.content ?? [])
+        .filter((item) => getLegacyAdvancedSection(item, block.title ?? "") === type)
+        .map((item) => ({ item, blockTitle: block.title ?? "" })));
+      const firstItem = items[0]?.item;
+      const passage = items.map(({ item }) => item.transcript || item.main_text)
+        .find((value) => typeof value === "string" && value.trim()) ?? "";
+      return {
+        type,
+        title: titles[type],
+        body: items.map(({ item, blockTitle }) =>
+          [blockTitle, item.prompt_es, item.stimulus_en, item.question_en, item.main_text, item.transcript]
+            .filter(Boolean).join(" · ")
+        ).join("\\n") || (type === "listening" ? "Comprensión auditiva" : ""),
+        example: type === "grammar" ? firstItem?.stimulus_en ?? "" : "",
+        audioText: type === "listening" ? passage : undefined,
+        transcript: type === "listening" ? passage : undefined,
+      };
+    }).filter((section) => section.body);
+    const objective = unit.learning_outcomes?.join(" · ") || `Practicar inglés de nivel B1.`;
+    return {
+      id: `b1-${String(row.unit_number).padStart(2, "0")}`,
+      number: row.unit_number,
+      unit: row.unit_number,
+      title: unit.course?.unit_title || row.title,
+      objective,
+      estimated_minutes: unit.course?.total_duration_minutes ?? 30,
+      content: { objective, sections, reviewEnabled: true },
+    };
+  });
+
+  return {
+    course: {
+      id: "course-en-b1",
+      title: "English B1: Independent User",
+      level: "B1",
+      description: "Curso B1 con unidades y práctica por destreza.",
+      lesson_count: lessons.length,
+    },
+    lessons,
+  };
+}
+
 export async function GET(request: NextRequest) {
   const level = (new URL(request.url).searchParams.get("level") || "A1")
     .trim()
     .toUpperCase()
     .slice(0, 8);
 
-  // Serve the complete canonical unit catalogue independently of D1 publication.
-  // Exercise endpoints still prefer normalized D1 records and fall back to source JSON.
+  if (level === "B1") {
+    try {
+      const data = await buildB1D1Lessons();
+      return NextResponse.json(data, { headers: { "Cache-Control": "no-store" } });
+    } catch (error) {
+      console.error("[api/learning/lessons] B1 D1 catalogue read failed:", error);
+      return NextResponse.json({ error: "No se pudo cargar el catálogo B1 desde COURSE_DB." }, { status: 500 });
+    }
+  }
+
+  // Other advanced levels retain their existing source until their own migration.
   if ((ADVANCED_LEVELS as readonly string[]).includes(level)) {
     return NextResponse.json(buildStaticAdvancedLessons(level as (typeof ADVANCED_LEVELS)[number]), {
       headers: { "Cache-Control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600" },
