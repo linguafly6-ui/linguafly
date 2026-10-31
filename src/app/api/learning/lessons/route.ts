@@ -128,6 +128,7 @@ export async function GET(request: NextRequest) {
 
     const { env } = await resolveCloudflareEnv();
     const courseDb = env.COURSE_DB;
+    if (!courseDb) throw new Error("COURSE_DB binding is not configured; refusing to query blog.");
     const result = await courseDb.prepare(
       `SELECT
          c.id AS course_id,
