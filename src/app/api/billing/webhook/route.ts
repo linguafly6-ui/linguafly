@@ -137,7 +137,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Evento incompleto." }, { status: 400 });
     }
 
-    const alreadyProcessed = await env.DB.prepare("SELECT event_id FROM stripe_webhook_events WHERE event_id = ?").bind(event.id).first();
+    const alreadyProcessed = await env.COURSE_DB.prepare("SELECT event_id FROM stripe_webhook_events WHERE event_id = ?").bind(event.id).first();
     if (alreadyProcessed) return NextResponse.json({ received: true, duplicate: true });
 
     const obj = event.data.object;
@@ -196,7 +196,7 @@ export async function POST(request: NextRequest) {
     } else if (event.type === "checkout.session.completed" && obj.mode !== "payment") {
       // Checkout subscription status is confirmed again by subscription lifecycle events.
       if (email && subscriptionId) {
-        await env.DB.prepare(`
+        await env.COURSE_DB.prepare(`
           INSERT INTO linguafly_stripe_subscriptions
             (id, email, stripe_customer_id, stripe_subscription_id, stripe_checkout_session_id, plan, status, current_period_end, updated_at)
           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -213,12 +213,12 @@ export async function POST(request: NextRequest) {
     } else if (event.type.startsWith("customer.subscription.") && subscriptionId) {
       const subscription = obj;
       const subscriptionEmail = (subscription.metadata?.email || "").trim().toLowerCase();
-      const existing = await env.DB.prepare("SELECT email, plan FROM linguafly_stripe_subscriptions WHERE stripe_subscription_id = ?")
+      const existing = await env.COURSE_DB.prepare("SELECT email, plan FROM linguafly_stripe_subscriptions WHERE stripe_subscription_id = ?")
         .bind(subscriptionId).first<{ email: string; plan: string }>();
       const resolvedEmail = subscriptionEmail || existing?.email;
       const resolvedPlan = subscription.metadata?.plan === "annual" || existing?.plan === "annual" ? "annual" : "monthly";
       if (resolvedEmail) {
-        await env.DB.prepare(`
+        await env.COURSE_DB.prepare(`
           INSERT INTO linguafly_stripe_subscriptions
             (id, email, stripe_customer_id, stripe_subscription_id, plan, status, current_period_end, cancel_at_period_end, updated_at)
           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -234,7 +234,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    await env.DB.prepare("INSERT INTO stripe_webhook_events (event_id, event_type) VALUES (?, ?)").bind(event.id, event.type).run();
+    await env.COURSE_DB.prepare("INSERT INTO stripe_webhook_events (event_id, event_type) VALUES (?, ?)").bind(event.id, event.type).run();
     return NextResponse.json({ received: true });
   } catch (error) {
     console.error("[billing/webhook] failed:", error);
