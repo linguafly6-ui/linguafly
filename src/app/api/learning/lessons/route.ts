@@ -134,7 +134,30 @@ async function buildB1D1Lessons(): Promise<CourseResponse> {
       blocks?: { title?: string; content?: any[] }[];
     };
     const blocks = unit.blocks ?? [];
+    const canonicalExercises = Array.isArray((unit as { exercises?: unknown[] }).exercises)
+      ? (unit as { exercises: any[] }).exercises
+      : null;
     const sections = sectionTypes.map((type) => {
+      if (canonicalExercises) {
+        const items = canonicalExercises.filter((exercise) =>
+          String(exercise?.topicName ?? "").toLowerCase() === type
+        );
+        const firstItem = items[0];
+        const passage = items.find((item) => typeof item.transcript === "string" && item.transcript.trim())?.transcript ?? "";
+        const body = items.map((item) => {
+          const question = item.content?.questions?.[0]?.question ?? item.prompt ?? "";
+          return [item.topic, question, item.transcript].filter(Boolean).join(" · ");
+        }).join("\\n");
+        return {
+          type,
+          title: titles[type],
+          body: body || (type === "listening" ? "Comprensión auditiva" : ""),
+          example: type === "grammar" ? firstItem?.content?.questions?.[0]?.question ?? "" : "",
+          audioText: type === "listening" ? passage : undefined,
+          transcript: type === "listening" ? passage : undefined,
+        };
+      }
+
       const items = blocks.flatMap((block) => (block.content ?? [])
         .filter((item) => getLegacyAdvancedSection(item, block.title ?? "") === type)
         .map((item) => ({ item, blockTitle: block.title ?? "" })));
