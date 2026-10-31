@@ -69,6 +69,9 @@ En B1 hay 65 ejercicios de Reading; 30 no tienen un campo `passage` compartido. 
 - Las 16 competencias (cuatro por nivel: grammar, vocabulary, reading, listening) están en estado `draft`, pero cada una está asignada a las 100 unidades del nivel. La matriz de asignación es idéntica para todas las unidades y no prueba que el contenido enseñe esas competencias.
 - En B1, 47 unidades solo tienen un objetivo; en varias unidades publicadas los objetivos son marcadores genéricos de número de unidad.
 
+### P1 — Desajuste entre sección y subdestreza en B1
+Los metadatos de subdestreza de B1 no siempre coinciden con la sección en la que se sirve el ejercicio: en Grammar hay 15 registros etiquetados como `speaking` y 50 como `writing`; en Listening solo 40 de 55 tienen subdestreza `listening`; en Vocabulary 175 de 195 llevan etiqueta `vocabulary`; en Reading 45 de 65 llevan etiqueta `reading`. La unidad 3, por ejemplo, contiene preguntas sobre la historia de Clara etiquetadas `writing:b1-stories` dentro de Grammar. Hay que corregir el mapeo de sección y la clasificación curricular, no solo el texto visible.
+
 ### P1 — Repetición y feedback
 - Se detectaron seis prompts repetidos en B1: dos de Grammar, tres de Listening y uno de Vocabulary.
 - El filtro cuantitativo detecta 22 explicaciones de menos de 50 caracteres en B1 (1 Grammar, 10 Vocabulary, 11 Reading). Esto es una señal de revisión, no una sentencia automática: hay que comprobar si explican la regla o la evidencia y no se limitan a señalar la respuesta.
