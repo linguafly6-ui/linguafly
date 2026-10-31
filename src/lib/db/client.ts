@@ -36,6 +36,9 @@ export interface CloudflareEnv {
   CACHE?: KVNamespace;
   SEARCH_INDEX?: KVNamespace;
   ARTICLES_BUCKET?: R2Bucket;
+  /** Private R2 bucket for LinguaFly course audio, images and documents. */
+  MEDIA_BUCKET?: R2Bucket;
+  SUPPORT_ADMIN_KEY?: string;
   ANALYTICS?: AnalyticsEngineDataset;
   ARTICLES_API_KEY?: string;
   ENVIRONMENT?: string;
