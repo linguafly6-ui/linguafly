@@ -118,6 +118,8 @@ export default function ExerciseRenderer({ exercise, vocabulary, onComplete }: E
 
   const longFormText =
     (typeof exercise.transcript === 'string' && exercise.transcript) ||
+    (typeof exercise.passageText === 'string' && exercise.passageText) ||
+    (typeof exerciseContent.transcript === 'string' && exerciseContent.transcript) ||
     (typeof exerciseContent.text === 'string' && exerciseContent.text) ||
     (typeof exerciseContent.passage === 'string' && exerciseContent.passage) ||
     '';
