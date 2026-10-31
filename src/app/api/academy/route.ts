@@ -149,17 +149,51 @@ export async function GET(request: NextRequest) {
       clozeGroups.set(match[1], group);
     }
 
-    const safeExercises: Array<Record<string, unknown>> = nonClozeExercises.map((exercise) => ({
-      id: exercise.id,
-      section_id: exercise.section_id,
-      exercise_code: exercise.exercise_code,
-      title: exercise.title,
-      instructions: exercise.instructions,
-      position: exercise.position,
-      type: "multiple_choice",
-      content: parseJson(exercise.content_json as string, {} as Record<string, unknown>),
-      options: optionMap.get(String(exercise.id)) || [],
-    }));
+    // Editorial quality gate: instructions alone are not an exercise. A learner
+    // must be given an actual sentence, question, passage, dialogue or other
+    // task stimulus, plus usable options and a keyed answer. Generic directions
+    // such as "choose the correct option" must never be shown as the question.
+    const hasLearnerTask = (content: Record<string, unknown>, instructions: unknown, title: unknown): boolean => {
+      const normalize = (value: string) => value.toLocaleLowerCase().replace(/\\s+/g, " ").replace(/[.?!:]+$/g, "").trim();
+      const excluded = new Set([instructions, title].filter((value): value is string => typeof value === "string").map(normalize));
+      const textFields = ["prompt", "question", "passage", "sentence", "text", "transcript", "dialogue", "scenario", "task"];
+      const hasText = textFields.some((field) => {
+        const value = content[field];
+        if (typeof value !== "string" || value.trim().length < 12) return false;
+        const normalized = normalize(value);
+        if (excluded.has(normalized)) return false;
+        if (/^(choose|select|complete|fill in|read|listen)\\b.{0,100}(correct option|best answer|the sentence|the gap)/i.test(normalized)) return false;
+        return true;
+      });
+      const hasStructuredItems = ["items", "sentences", "questions"].some((field) =>
+        Array.isArray(content[field]) && (content[field] as unknown[]).length > 0
+      );
+      return hasText || hasStructuredItems;
+    };
+
+    const safeExercises: Array<Record<string, unknown>> = nonClozeExercises.flatMap((exercise) => {
+      const content = parseJson(exercise.content_json as string, {} as Record<string, unknown>);
+      const exerciseOptions = optionMap.get(String(exercise.id)) || [];
+      const correctKeys = answerKeyMap.get(String(exercise.id))?.correctOptionKeys || [];
+      const optionKeys = new Set(exerciseOptions.map((option) => option.key));
+      const validOptions = exerciseOptions.length >= 2
+        && exerciseOptions.length <= 4
+        && optionKeys.size === exerciseOptions.length
+        && exerciseOptions.every((option) => option.content.trim().length > 0 && !/^(?:o\\d+|option\\s*\\d+|placeholder)$/i.test(option.content.trim()));
+      const validAnswer = correctKeys.length === 1 && optionKeys.has(correctKeys[0]);
+      if (!hasLearnerTask(content, exercise.instructions, exercise.title) || !validOptions || !validAnswer) return [];
+      return [{
+        id: exercise.id,
+        section_id: exercise.section_id,
+        exercise_code: exercise.exercise_code,
+        title: exercise.title,
+        instructions: exercise.instructions,
+        position: exercise.position,
+        type: "multiple_choice",
+        content,
+        options: exerciseOptions,
+      }];
+    });
 
     const gapMarkerCount = (source: string, gapNumber: number): number => {
       const escaped = String(gapNumber);
