@@ -3,6 +3,7 @@
 // Runtime types generated with workerd@1.20260804.1 2026-08-12 global_fetch_strictly_public,nodejs_compat
 interface __BaseEnv_CloudflareEnv {
 	DB: D1Database;
+	COURSE_DB: D1Database;
 	IMAGES: ImagesBinding;
 	ASSETS: Fetcher;
 	WORKER_SELF_REFERENCE: Fetcher /* linguaflyapp1 */;

@@ -1,12 +1,9 @@
 #!/usr/bin/env node
 /**
- * Cloudflare/OpenNext build wrapper — public articles plus the interactive tutor.
- *
- * The Cloudflare Worker serves the article experience (including D1-backed
- * /api/articles/* routes and SEO basics) and /tutor-ia with its /api/tutor-avatar
- * endpoints. Most course/platform pages and unrelated AI/evaluation APIs remain
- * excluded because the complete Next.js route tree exceeds the Worker bundle
- * limit. This keeps the published speaking tutor and article site on one Worker.
+ * Cloudflare/OpenNext build wrapper — public articles, interactive tutor and
+ * the new D1-backed /academia experience. Legacy course routes remain excluded
+ * to keep the Worker bundle lean; /academia and /api/academy are intentionally
+ * included as the production learning entry point.
  *
  * This script temporarily moves excluded routes (and swaps a shared file for
  * an article-only version) out of src/app before building, then restores them
@@ -25,9 +22,8 @@ const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const APP_DIR = path.join(ROOT, 'src', 'app');
 const BACKUP_DIR = path.join(ROOT, '.cf-excluded');
 
-// Route directories (relative to src/app) not needed by the article/tutor
-// experience are excluded from the Cloudflare Worker build. These stay
-// in git untouched — they're only moved out of the way during `cf:build`.
+// Legacy route directories stay in git but are pruned for the Worker build.
+// The new /academia route is deliberately not listed here.
 const EXCLUDED_APP_DIRS = [
   'aplicaciones-para-aprender-ingles',
   'aprender-ingles',
@@ -70,7 +66,7 @@ const EXCLUDED_APP_DIRS = [
   // and rely on filesystem reads that don't work in Workers anyway.
   path.join('blog', 'ejercicios-relacionados'),
   path.join('blog', 'temas'),
-  // Non-article API routes (AI tutor/evaluation, course, translate, etc.)
+  // Non-article APIs and legacy course APIs. /api/academy remains included.
   path.join('api', 'ai-lab'),
   path.join('api', 'ai-tutor'),
   path.join('api', 'contact'),
@@ -101,11 +97,7 @@ const EXCLUDED_APP_DIRS = [
   path.join('api', 'vocabulario'),
 ];
 
-// Shared files that are replaced with a lightweight, article-only version
-// during the Cloudflare build. `swapped` is the file that normally lives in
-// git; `cf` is the Cloudflare-only replacement (also tracked in git).
 // Preview builds can opt in to the B1 unit pages without changing production builds.
-// Keep the default Cloudflare Worker lean; only the dedicated Preview command sets this flag.
 const INCLUDE_B1_IN_PREVIEW = process.env.CF_INCLUDE_B1 === '1';
 const ACTIVE_EXCLUDED_APP_DIRS = INCLUDE_B1_IN_PREVIEW
   ? EXCLUDED_APP_DIRS.filter((dir) => dir !== 'curso-b1')
@@ -166,8 +158,6 @@ function restoreSwappedFiles() {
 
 function prune() {
   if (fs.existsSync(BACKUP_DIR)) {
-    // A previous run left the tree pruned (e.g. crashed before restoring).
-    // Restore first so we start from a clean, full checkout.
     restoreExcludedDirs();
     restoreSwappedFiles();
     fs.rmSync(BACKUP_DIR, { recursive: true, force: true });
