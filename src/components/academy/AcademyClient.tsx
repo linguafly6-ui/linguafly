@@ -44,7 +44,7 @@ export default function AcademyClient({ mode }: { mode: "catalog" | "level" | "u
     setError("");
     fetch(endpoint, { cache: "no-store" })
       .then(async (response) => {
-        const payload = await response.json();
+        const payload: any = await response.json();
         if (!response.ok) throw new Error(payload.error || "No se pudo cargar el curso");
         return payload;
       })
@@ -64,7 +64,7 @@ export default function AcademyClient({ mode }: { mode: "catalog" | "level" | "u
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ exerciseId, optionKey }),
       });
-      const result = await response.json();
+      const result = await response.json() as Grade;
       if (!response.ok) throw new Error(result.error || "No se pudo corregir");
       setGrades((current) => ({ ...current, [exerciseId]: result }));
     } catch (reason) {
