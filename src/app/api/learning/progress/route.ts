@@ -10,14 +10,14 @@ export async function GET(request: NextRequest) {
     const { env, user } = await getSessionUser(request);
     if (!user) return NextResponse.json({ authenticated: false, completed: [], exercises: {}, writing: {} }, { headers: { "Cache-Control": "no-store" } });
 
-    const rows = await env.DB.prepare(
+    const rows = await env.COURSE_DB!.prepare(
       `SELECT lesson_id, status FROM learning_lesson_progress WHERE user_id = ? AND status = 'completed'`
     ).bind(user.id).all<{ lesson_id: string; status: string }>();
-    const exerciseRows = await env.DB.prepare(
+    const exerciseRows = await env.COURSE_DB!.prepare(
       `SELECT lesson_id, exercise_id, answer_text, correct, explanation, review_json
        FROM learning_exercise_progress WHERE user_id = ?`
     ).bind(user.id).all<{ lesson_id: string; exercise_id: string; answer_text: string; correct: number | null; explanation: string; review_json: string | null }>();
-    const writingRows = await env.DB.prepare(
+    const writingRows = await env.COURSE_DB!.prepare(
       "SELECT lesson_id, draft FROM learning_writing_drafts WHERE user_id = ?"
     ).bind(user.id).all<{ lesson_id: string; draft: string }>();
 
@@ -48,14 +48,14 @@ export async function POST(request: NextRequest) {
     if (!body || typeof body.lessonId !== "string" || !/^[a-zA-Z0-9_-]{1,80}$/.test(body.lessonId) || !["answer", "complete", "writing"].includes(String(body.action))) {
       return NextResponse.json({ error: "Invalid progress payload" }, { status: 400 });
     }
-    const lesson = await env.DB.prepare("SELECT id FROM learning_lessons WHERE id = ? AND published = 1 LIMIT 1").bind(body.lessonId).first<{ id: string }>();
+    const lesson = await env.COURSE_DB!.prepare("SELECT id FROM learning_lessons WHERE id = ? AND published = 1 LIMIT 1").bind(body.lessonId).first<{ id: string }>();
     if (!lesson) return NextResponse.json({ error: "Lesson not found" }, { status: 404 });
     const now = new Date().toISOString();
     if (body.action === "writing") {
       if (typeof body.draft !== "string" || body.draft.length > 5000) {
         return NextResponse.json({ error: "Invalid writing draft" }, { status: 400 });
       }
-      await env.DB.prepare(
+      await env.COURSE_DB!.prepare(
         `INSERT INTO learning_writing_drafts (user_id, lesson_id, draft, updated_at)
          VALUES (?, ?, ?, ?)
          ON CONFLICT(user_id, lesson_id) DO UPDATE SET draft = excluded.draft, updated_at = excluded.updated_at`
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ authenticated: true, saved: true }, { headers: { "Cache-Control": "no-store" } });
     }
     if (body.action === "complete") {
-      await env.DB.prepare(
+      await env.COURSE_DB!.prepare(
         `INSERT INTO learning_lesson_progress (user_id, lesson_id, status, started_at, completed_at, updated_at)
          VALUES (?, ?, 'completed', ?, ?, ?)
          ON CONFLICT(user_id, lesson_id) DO UPDATE SET status = 'completed', completed_at = COALESCE(learning_lesson_progress.completed_at, excluded.completed_at), updated_at = excluded.updated_at`
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
     if (typeof body.exerciseId !== "string" || !/^[a-zA-Z0-9_-]{1,100}$/.test(body.exerciseId) || typeof body.answer !== "string" || body.answer.length > 500) {
       return NextResponse.json({ error: "Invalid answer payload" }, { status: 400 });
     }
-    const exercise = await env.DB.prepare("SELECT id, options_json, exercise_type FROM learning_exercises WHERE id = ? AND lesson_id = ? LIMIT 1").bind(body.exerciseId, body.lessonId).first<{ id: string; options_json: string; exercise_type: string }>();
+    const exercise = await env.COURSE_DB!.prepare("SELECT id, options_json, exercise_type FROM learning_exercises WHERE id = ? AND lesson_id = ? LIMIT 1").bind(body.exerciseId, body.lessonId).first<{ id: string; options_json: string; exercise_type: string }>();
     if (!exercise) return NextResponse.json({ error: "Exercise not found" }, { status: 404 });
     let options: unknown;
     try { options = JSON.parse(exercise.options_json || "[]"); } catch { options = []; }
@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: "Answer is not a valid word order" }, { status: 400 });
       }
     }
-    await env.DB.prepare(
+    await env.COURSE_DB!.prepare(
       `INSERT INTO learning_exercise_progress (user_id, lesson_id, exercise_id, answer_text, updated_at)
        VALUES (?, ?, ?, ?, ?)
        ON CONFLICT(user_id, exercise_id) DO UPDATE SET answer_text = excluded.answer_text, updated_at = excluded.updated_at`
