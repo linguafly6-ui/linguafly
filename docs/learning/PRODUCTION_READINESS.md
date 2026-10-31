@@ -1,50 +1,52 @@
 # LinguaFly Learning production readiness
 
-## Dedicated database
+## Dedicated database and isolation
 
-- D1 database: `linguafly-learning`
-- Database UUID: `0982f4a2-ce92-410a-9e72-e5a34c461612`
-- The legacy `DB` binding must remain attached to `blog`.
-- The `COURSE_DB` preview binding must remain unchanged.
-- This database is the only target for learning content and progress.
+- Production D1: `linguafly-learning` (`0982f4a2-ce92-410a-9e72-e5a34c461612`).
+- Preview D1: `linguafly-learning-preview` (`7e4e332b-6b37-4b4c-905f-390e1ef0f79a`).
+- The legacy `DB` binding remains attached to `blog`; `COURSE_DB` remains unchanged.
+- Learning content and learner progress belong only in `LEARNING_DB`.
+- No production deploy or PR merge is authorised as part of this work.
 
-## Implementation status
+## Implemented on `feat/learning-db-integration`
 
-Completed in the current integration branch:
-- Dedicated `LEARNING_DB` binding for the production Worker and a separately provisioned, empty preview database.
-- Worker environment types and a dedicated learning database resolver.
-- Course uniqueness changed to `UNIQUE(language_code, cefr_level)`.
-- Published catalogue and unit-list read APIs.
-- Published unit exercise read API; answer-key table is never queried and answer-like fields are stripped from public content JSON.
-- Eight learner-progress tables and supporting indexes exist in the dedicated production D1; foreign-key check returned no violations.
+- Separate production and preview `LEARNING_DB` bindings and a dedicated database resolver.
+- Reproducible core baseline in `migrations/learning/0000_learning_core.sql` for academic, exercise, media, and lexical tables.
+- Progress schema in `migrations/learning/0001_learning_progress.sql` (eight tables and supporting indexes).
+- `0002_courses_language_uniqueness.sql` retained as a non-destructive no-op: the baseline already defines `UNIQUE(language_code, cefr_level)`.
+- Read-only published course, unit, and exercise APIs.
+- Exercise read API does not query `exercise_answer_keys`; public exercise JSON receives a defensive key-name filter.
+- Deterministic learner identity bridge from the existing authenticated legacy session to opaque learner records. It does not copy session tokens, token hashes, email, or subscription data.
 
-Still required before deployment:
-1. Complete the identity bridge. The current legacy session helper is tied to `DB`; do not copy session tokens or password material into the learning database.
-2. Implement server-side graders, attempt submission, progress updates, and spaced-repetition endpoints with schema validation, rate limits, CSRF/origin controls, idempotency, and audit logging.
-3. Establish a reproducible baseline migration for the academic, exercise, and lexicon schema. The current production core schema was provisioned separately; a fresh preview D1 must not be migrated until that baseline exists.
-4. Run type-check, tests, and a full isolated preview build. No production deploy or PR merge is authorised by this change.
-5. Seed editorial content only after the API and editorial review workflow are ready.
+## Database validation completed
 
-## Progress schema
+- Applied `0000_learning_core.sql` and `0001_learning_progress.sql` to the isolated preview D1.
+- Preview contains 37 tables, 19 indexes, and the `lexical_search_index` view.
+- Preview `PRAGMA foreign_key_check` returned zero violations.
+- Preview content tables are empty; no course, unit, vocabulary, or exercise content has been seeded.
+- The preview migration test did not modify production D1.
+- Individual preview schema columns for courses, exercise types, exercises, options, answer keys, and attempts have been inspected. A complete production-versus-preview DDL equivalence audit is still outstanding.
 
-Migration `migrations/learning/0001_learning_progress.sql` adds:
-- learners and linked identities
-- immutable learning attempts with idempotency
-- per-exercise and per-unit progress
-- competency evidence and progress
-- error events
-- spaced-repetition scheduling
+## Required before production use
 
-Apply it only to the dedicated learning database after the core content schema is present.
+1. Reconcile the exact DDL and migration history of production and preview, including Wrangler's D1 migration ledger. Do not assume manually applied SQL is recorded by Wrangler.
+2. Run type-check, unit/integration tests, and an isolated Worker preview build; record actual results.
+3. Add and test server-side grading for each supported strategy. Never accept correctness, score, learner ID, or answer keys from the client.
+4. Add authenticated, idempotent attempt submission; persist attempts and update exercise/unit/competency progress transactionally where possible.
+5. Add spaced-repetition scheduling with separate learner self-rating and correctness signals.
+6. Add request schema validation, origin/CSRF protection, rate limiting, audit events, and integration tests for authenticated flows.
+7. Configure and test R2 media storage before publishing audio or image-dependent exercises.
+8. Author and editorially review course content before loading or publishing it.
 
-## Current verified state (2026-10-31)
+## Content model target
 
-- Core academic, exercise, and lexicon schema exists in the dedicated D1.
-- Core content tables are empty.
-- Foreign-key check returned no violations.
-- Eight learning-progress tables are now present; a fresh foreign-key check returned no violations.
-- Production and preview Worker configurations declare separate `LEARNING_DB` bindings; preview has its own empty D1.
-- Read-only catalogue, unit, and exercise endpoints are committed on the integration branch but have not been deployed or functionally verified.
-- The core academic schema is not yet represented by a reproducible baseline migration, so the empty preview database must not be migrated until that gap is resolved.
-- Attempt grading, identity bridging, learner APIs, and content seeding remain incomplete.
-- Do not mark content as published until authored, reviewed, loaded, and verified.
+- English (British English) first; language-aware schema for later languages.
+- Six CEFR levels, A1–C2.
+- 100 units per level.
+- Four sections per unit: grammar, listening, vocabulary, and reading.
+- 15 exercises per section (60 per unit; 36,000 exercises across 600 units).
+- Spanish is the support language for learner-facing instructions and explanations: vocabulary prompts may be in English, but answer choices/definitions must be in Spanish when testing English word meaning. Apply consistently across levels.
+
+## Safety boundary
+
+Do not alter the legacy blog database, legacy public learning routes, middleware, or existing preview UI. Do not seed or publish placeholder content. Keep PR #36 in draft and do not merge or deploy until the required validation and runtime flows are complete.
