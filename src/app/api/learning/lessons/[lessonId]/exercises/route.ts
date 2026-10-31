@@ -212,6 +212,7 @@ async function getB1UnitD1Exercises(unitNumber: number, section: string) {
         number: index * pairs.length + pairIndex + 1,
         type: "multiple_choice", topicName, topic: blockTitle,
         prompt: pair.left, options: matchingOptions, correctAnswer: pair.right,
+        content: { questions: [{ question: pair.left, options: matchingOptions, correctAnswer: pair.right }] },
       }));
     }
     if (/cloze/i.test(item.type) && Array.isArray(gaps) && gaps.length) {
@@ -234,6 +235,12 @@ async function getB1UnitD1Exercises(unitNumber: number, section: string) {
             prompt: prompt || advancedPrompt(item),
             options: (gap.options ?? []).map((option) => option.text),
             correctAnswer,
+            content: { questions: [{
+              question: prompt || advancedPrompt(item),
+              options: (gap.options ?? []).map((option) => option.text),
+              correctAnswer,
+              explanation: advancedPlainText(item.explanation),
+            }] },
           };
       });
     }
@@ -243,7 +250,20 @@ async function getB1UnitD1Exercises(unitNumber: number, section: string) {
     return [{
       id: item.interaction_id, number: index + 1, type, topicName, topic: blockTitle,
       prompt: advancedPrompt(item), options,
-      correctAnswer: advancedExpectedAnswer(item),
+      correctAnswer: typeof item.correct_answer === "number" && item.options?.[item.correct_answer]
+        ? item.options[item.correct_answer].text
+        : advancedExpectedAnswer(item),
+      content: {
+        text: section === "reading" ? (item.main_text || item.transcript || blockPassage || "") : undefined,
+        questions: [{
+          question: advancedPrompt(item),
+          ...(options.length ? { options } : {}),
+          correctAnswer: typeof item.correct_answer === "number" && item.options?.[item.correct_answer]
+            ? item.options[item.correct_answer].text
+            : advancedExpectedAnswer(item),
+          explanation: advancedPlainText(item.explanation),
+        }],
+      },
       audioText: section === "listening" ? (item.transcript || blockPassage || null) : null,
       passageText: section === "reading" ? (item.main_text || item.transcript || blockPassage || null) : null,
       transcript: section === "reading" ? (item.main_text || item.transcript || blockPassage || null) : null,
