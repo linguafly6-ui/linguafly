@@ -4,10 +4,14 @@
     "target_language": "en",
     "level": "B1",
     "unit_id": "U38",
-    "unit_title": "Unit 38",
+    "unit_title": "Reviews, Opinions and Narratives",
     "total_duration_minutes": 600
   },
-  "learning_outcomes": [],
+  "learning_outcomes": [
+    "Identify opinions and supporting details in short reviews.",
+    "Express opinions and support them with reasons.",
+    "Understand the sequence and key details of short narratives."
+  ],
   "mastery_tags": [],
   "blocks": [
     {
