@@ -36,63 +36,14 @@ jobs:
       - name: Install
         run: npm ci
 
-      - name: Resolve the existing D1 database ID
-        # The ID in the repo can go stale if the D1 database is recreated.
-        # Resolve by exact database name in the configured Cloudflare account;
-        # never create a replacement database automatically (that could hide data loss).
-        run: |
-          npx wrangler d1 list --json > /tmp/d1-databases.json
-          node <<'NODE'
-          const fs = require('node:fs');
-          const wantedName = 'blog';
-          const raw = JSON.parse(fs.readFileSync('/tmp/d1-databases.json', 'utf8'));
-          const matches = [];
-          function walk(value) {
-            if (Array.isArray(value)) return value.forEach(walk);
-            if (!value || typeof value !== 'object') return;
-            const name = value.name ?? value.database_name;
-            const id = value.uuid ?? value.database_id;
-            if (name === wantedName && typeof id === 'string' && id.length > 0) {
-              matches.push(id);
-            }
-            Object.values(value).forEach(walk);
-          }
-          walk(raw);
-          const ids = [...new Set(matches)];
-          if (ids.length !== 1) {
-            console.error(ids.length === 0
-              ? '::error::No D1 database named blog was found in the configured Cloudflare account. Check CLOUDFLARE_ACCOUNT_ID, token permissions, and whether the database still exists. No database was created automatically.'
-              : '::error::More than one D1 database named blog was returned; refusing to choose one automatically.');
-            process.exit(1);
-          }
-          const actualId = ids[0];
-          for (const file of ['wrangler.jsonc', 'wrangler.toml']) {
-            let content = fs.readFileSync(file, 'utf8');
-            const pattern = file.endsWith('.jsonc')
-              ? /("database_name"\s*:\s*"blog"\s*,\s*"database_id"\s*:\s*")[^"]+(")/
-              : /(database_name\s*=\s*"blog"\s*\n\s*database_id\s*=\s*")[^"]+(")/;
-            if (!pattern.test(content)) {
-              console.error('::error::Could not locate the blog ID in ' + file);
-              process.exit(1);
-            }
-            content = content.replace(pattern, '$1' + actualId + '$2');
-            fs.writeFileSync(file, content);
-          }
-          console.log('Resolved blog ID from the configured Cloudflare account and updated the runner-local Wrangler configs.');
-          NODE
+      - name: Apply Learning D1 migrations
+        run: npx wrangler d1 migrations apply linguafly-learning --remote
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CI: true
 
-      - name: Apply D1 migrations
-        run: npx wrangler d1 migrations apply blog --remote
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          CI: true
-
-      - name: Sync source course JSON units into D1
+      - name: Sync source course JSON units into Learning D1
         run: |
           SEED_DIR=/tmp/d1-course-seed
           rm -rf "$SEED_DIR"
@@ -105,22 +56,20 @@ jobs:
             exit 1
           fi
           for f in "${files[@]}"; do
-            echo "Syncing course source $(basename "$f")"
-            npx wrangler d1 execute blog --remote --file="$f" --yes
+            echo "Syncing Learning source $(basename "$f")"
+            npx wrangler d1 execute linguafly-learning --remote --file="$f" --yes
           done
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CI: true
 
-      - name: Normalize B1-C2 course units into learning tables
+      - name: Normalize B1-C2 course units into Learning D1
         run: |
           SEED_DIR=/tmp/d1-normalized-seed
           rm -rf "$SEED_DIR"
           mkdir -p "$SEED_DIR"
           npx tsx scripts/normalize-course-json-to-d1.ts --sql-out-dir "$SEED_DIR"
-          # Preserve all existing learner progress. Normalize only B1 for this content restoration.
-          npx tsx scripts/normalize-course-json-to-d1.ts --sql-out-dir "$SEED_DIR" --levels B1
           shopt -s nullglob
           files=("$SEED_DIR"/batch-*.sql)
           if [ ${#files[@]} -eq 0 ]; then
@@ -128,38 +77,8 @@ jobs:
             exit 1
           fi
           for f in "${files[@]}"; do
-            echo "Normalizing course data $(basename "$f")"
-            npx wrangler d1 execute blog --remote --file="$f" --yes
-          done
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          CI: true
-
-      - name: Seed magazine and English-learning articles into D1
-        run: |
-          SEED_DIR=/tmp/d1-seed
-          HASHES=/tmp/d1-hashes.json
-          rm -rf "$SEED_DIR"
-          mkdir -p "$SEED_DIR"
-
-          if npx wrangler d1 execute blog --remote --json --command "SELECT category, slug, content_hash FROM articles" > "$HASHES"; then
-            echo "Incremental D1 sync using content_hash fingerprints."
-            npx tsx scripts/sync-articles-to-d1.ts --sql-out-dir "$SEED_DIR" --hashes-from "$HASHES"
-          else
-            echo "::warning::Could not read D1 hashes; falling back to a full upsert."
-            npx tsx scripts/sync-articles-to-d1.ts --sql-out-dir "$SEED_DIR" --full
-          fi
-
-          shopt -s nullglob
-          files=("$SEED_DIR"/*.sql)
-          if [ ${#files[@]} -eq 0 ]; then
-            echo "No article changes; skipping D1 seed."
-            exit 0
-          fi
-          for f in "${files[@]}"; do
-            echo "Seeding $(basename "$f")"
-            npx wrangler d1 execute blog --remote --file="$f" --yes
+            echo "Normalizing Learning data $(basename "$f")"
+            npx wrangler d1 execute linguafly-learning --remote --file="$f" --yes
           done
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
