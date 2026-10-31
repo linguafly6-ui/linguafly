@@ -161,35 +161,14 @@ export async function GET(request: NextRequest) {
       options: optionMap.get(String(exercise.id)) || [],
     }));
 
-    const gapMarkerCount = (text: string, gapNumber: number): number => {
-      const escaped = String(gapNumber).replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\    const safeExercises = exercises.map((exercise) => ({
-      id: exercise.id,
-      section_id: exercise.section_id,
-      exercise_code: exercise.exercise_code,
-      title: exercise.title,
-      instructions: exercise.instructions,
-      position: exercise.position,
-      content: parseJson(exercise.content_json as string, {} as Record<string, unknown>),
-      options: options
-        .filter((option) => option.exercise_id === exercise.id)
-        .map((option) => ({ key: option.option_key, content: option.content })),
-    }));
-
-    return NextResponse.json({
-      course,
-      unit: {
-        ...unit,
-        learning_objectives: parseJson(unit.learning_objectives_json as string, [] as string[]),
-      },
-      sections: sectionsResult.results || [],
-      exercises: safeExercises,
-    }, { headers: { "Cache-Control": "no-store" } });");
+    const gapMarkerCount = (source: string, gapNumber: number): number => {
+      const escaped = String(gapNumber);
       const patterns = [
         new RegExp(`\\\\(\\\\s*${escaped}\\\\s*\\\\)`, "g"),
         new RegExp(`\\\\[\\\\s*${escaped}\\\\s*\\\\]`, "g"),
         new RegExp(`\\\\[GAP\\\\s*${escaped}\\\\]`, "gi"),
       ];
-      return patterns.reduce((count, pattern) => count + [...text.matchAll(pattern)].length, 0);
+      return patterns.reduce((count, pattern) => count + [...source.matchAll(pattern)].length, 0);
     };
 
     for (const [groupId, rows] of clozeGroups) {
@@ -227,8 +206,6 @@ export async function GET(request: NextRequest) {
           && row.instructions === ordered[0].instructions);
       if (!consistentGroup || gapOptions.some((gap) => !gap.isEditoriallyComplete)) continue;
 
-      const { isEditoriallyComplete: _unused, ...publicGaps } = gapOptions[0];
-      void _unused;
       const gaps = gapOptions.map(({ isEditoriallyComplete: _complete, ...gap }) => gap);
       const position = Math.min(...ordered.map((row) => Number(row.position)));
       const sectionId = String(ordered[0].section_id);
