@@ -82,6 +82,9 @@ En los cinco ítems de relative clauses de B1 Unidad 2 que se pasaron a borrador
 
 Esto incumple la regla de respuesta única defendible. Hay que reformular el contexto para evaluar una distinción concreta o aceptar todas las respuestas correctas. No basta con que la clave apunte a una opción.
 
+### P1 — Distractores artificiales en B2/C1
+En la muestra completa de las 30 actividades de B2 y C1 Unidad 1, aparecen distractores manifiestamente mal formados, por ejemplo “we had hear”, “did not went” y “they had realises”. Aunque son incorrectos, no son distractores de calidad: el alumno puede descartarlos por errores superficiales sin demostrar que domina el contraste evaluado. La guía exige opciones plausibles y paralelas; deben sustituirse por errores típicos del nivel y del punto gramatical, sin crear ambigüedad.
+
 ### P2 — Datos técnicos completos no garantizan calidad
 Los 629 ejercicios tienen título, instrucciones, contenido no vacío y una clave registrada; las opciones MC inspeccionadas tienen al menos dos opciones distintas y claves estructuralmente válidas. Esto solo confirma integridad básica. No valida que la pregunta evalúe el objetivo, que la clave sea lingüísticamente correcta, que los distractores sean plausibles ni que el feedback enseñe.
 
