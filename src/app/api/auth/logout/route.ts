@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
     const rawToken = cookieValue(request.headers.get("cookie"), SESSION_COOKIE);
     if (rawToken && /^[a-f0-9]{64}$/.test(rawToken)) {
       const env = await getLearningEnv();
-      await env.DB.prepare("DELETE FROM learning_sessions WHERE token_hash = ?")
+      await env.COURSE_DB!.prepare("DELETE FROM learning_sessions WHERE token_hash = ?")
         .bind(await sha256(rawToken)).run();
     }
     const response = NextResponse.json({ ok: true }, { headers: { "Cache-Control": "no-store" } });
