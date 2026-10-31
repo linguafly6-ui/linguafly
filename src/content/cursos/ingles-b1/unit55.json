@@ -4,10 +4,14 @@
     "target_language": "en",
     "level": "B1",
     "unit_id": "U55",
-    "unit_title": "Unit 55",
+    "unit_title": "Entertainment and Short Narratives",
     "total_duration_minutes": 600
   },
-  "learning_outcomes": [],
+  "learning_outcomes": [
+    "Use vocabulary related to entertainment and cultural activities.",
+    "Understand events and details in short narratives.",
+    "Recognise sequence and key information in a short story."
+  ],
   "mastery_tags": [],
   "blocks": [
     {
