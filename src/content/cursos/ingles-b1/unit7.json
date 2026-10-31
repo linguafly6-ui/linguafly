@@ -4,10 +4,14 @@
     "target_language": "en",
     "level": "B1",
     "unit_id": "U7",
-    "unit_title": "Unit 7",
+    "unit_title": "Stories, the Passive Voice and Reviews",
     "total_duration_minutes": 600
   },
-  "learning_outcomes": [],
+  "learning_outcomes": [
+    "Understand and discuss events, characters and sequence in simple narratives.",
+    "Use the passive voice to describe actions and processes.",
+    "Identify opinions and supporting details in short reviews."
+  ],
   "mastery_tags": [],
   "blocks": [
     {
