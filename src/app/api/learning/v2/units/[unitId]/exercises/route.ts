@@ -15,6 +15,24 @@ function parseJson(value: unknown, fallback: unknown) {
   }
 }
 
+// Defence in depth: editorial prompt data must never expose answer-key fields.
+const PRIVATE_CONTENT_KEYS = new Set([
+  "answer", "answers", "answerkey", "answer_key", "correctanswer",
+  "correct_answer", "correctanswers", "correct_answers", "solution",
+  "solutions", "acceptedanswers", "acceptableanswers", "is_correct",
+  "iscorrect", "grading", "gradingconfig", "grading_config",
+]);
+
+function publicContent(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(publicContent);
+  if (!value || typeof value !== "object") return value;
+  return Object.fromEntries(
+    Object.entries(value as Record<string, unknown>)
+      .filter(([key]) => !PRIVATE_CONTENT_KEYS.has(key.toLowerCase().replace(/[^a-z0-9]/g, "")))
+      .map(([key, item]) => [key, publicContent(item)])
+  );
+}
+
 export async function GET(
   request: NextRequest,
   context: { params: Promise<{ unitId: string }> }
@@ -95,7 +113,7 @@ export async function GET(
           code: exercise.exercise_code,
           title: exercise.title,
           instructions: exercise.instructions,
-          content: parseJson(exercise.content_json, {}),
+          content: publicContent(parseJson(exercise.content_json, {})),
           position: exercise.position,
           points: exercise.points,
           type: {
@@ -109,7 +127,7 @@ export async function GET(
             return {
               key: option.option_key,
               content: option.content,
-              data: parseJson(option.content_json, {}),
+              data: publicContent(parseJson(option.content_json, {})),
               position: option.position,
             };
           }),
