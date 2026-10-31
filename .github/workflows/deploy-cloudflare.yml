@@ -13,6 +13,8 @@ name: Deploy Cloudflare Workers
 on:
   # Los pushes a main los despliega Cloudflare Workers Builds (integración Git).
   # Mantener este workflow manual evita dos despliegues del mismo commit.
+  push:
+    branches: [main]
   workflow_dispatch:
 
 concurrency:
