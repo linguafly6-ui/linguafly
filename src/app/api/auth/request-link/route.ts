@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "El servicio de correo no está disponible temporalmente." }, { status: 503, headers: { "Cache-Control": "no-store" } });
     }
 
-    const subscription = await env.DB.prepare(
+    const subscription = await env.COURSE_DB!.prepare(
       "SELECT status FROM linguafly_stripe_subscriptions WHERE email = ? AND status IN ('active', 'trialing') AND (current_period_end IS NULL OR current_period_end > ?) ORDER BY updated_at DESC LIMIT 1"
     ).bind(email, new Date().toISOString()).first<{ status: string }>();
     if (!subscription) {
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
     const nowIso = now.toISOString();
     const cooldownCutoff = new Date(now.getTime() - AUTH_EMAIL_COOLDOWN_SECONDS * 1000).toISOString();
     // Atomic per-address cooldown; never issue more than one link per minute per address.
-    const reservation = await env.DB.prepare(
+    const reservation = await env.COURSE_DB!.prepare(
       `INSERT INTO learning_auth_email_limits (email, last_sent_at)
        VALUES (?, ?)
        ON CONFLICT(email) DO UPDATE SET last_sent_at = excluded.last_sent_at
@@ -50,9 +50,9 @@ export async function POST(request: NextRequest) {
     const rawToken = randomToken();
     const tokenHash = await sha256(rawToken);
     const expiresAt = new Date(now.getTime() + MAGIC_LINK_TTL_MINUTES * 60 * 1000).toISOString();
-    await env.DB.prepare("DELETE FROM learning_auth_tokens WHERE email = ? OR expires_at <= ?")
+    await env.COURSE_DB!.prepare("DELETE FROM learning_auth_tokens WHERE email = ? OR expires_at <= ?")
       .bind(email, nowIso).run();
-    await env.DB.prepare(
+    await env.COURSE_DB!.prepare(
       "INSERT INTO learning_auth_tokens (token_hash, email, expires_at) VALUES (?, ?, ?)"
     ).bind(tokenHash, email, expiresAt).run();
 
@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
       });
     } catch (error) {
       console.error("[auth/request-link] email send failed:", error);
-      await env.DB.prepare("DELETE FROM learning_auth_tokens WHERE token_hash = ?").bind(tokenHash).run();
+      await env.COURSE_DB!.prepare("DELETE FROM learning_auth_tokens WHERE token_hash = ?").bind(tokenHash).run();
       return NextResponse.json({ error: "No se pudo enviar el correo. Inténtalo más tarde." }, { status: 502, headers: { "Cache-Control": "no-store" } });
     }
     return NextResponse.json(generic, { headers: { "Cache-Control": "no-store" } });
