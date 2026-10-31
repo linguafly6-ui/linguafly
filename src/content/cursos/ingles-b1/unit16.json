@@ -4,10 +4,14 @@
     "target_language": "en",
     "level": "B1",
     "unit_id": "U16",
-    "unit_title": "Unit 16",
+    "unit_title": "Reported Speech, Conditionals and the Passive Voice",
     "total_duration_minutes": 600
   },
-  "learning_outcomes": [],
+  "learning_outcomes": [
+    "Report statements and questions using common reported-speech patterns.",
+    "Use first and second conditionals to express real and hypothetical situations.",
+    "Form passive sentences in common B1 tenses."
+  ],
   "mastery_tags": [],
   "blocks": [
     {
